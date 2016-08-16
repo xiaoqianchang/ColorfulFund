@@ -12,7 +12,7 @@ import java.io.Serializable;
  * <p>
  * Created by Chang.Xiao on .
  */
-public class Login extends RegisterAcc implements Serializable {
+public class Login implements Serializable {
 
 	/**
 	 * session id
