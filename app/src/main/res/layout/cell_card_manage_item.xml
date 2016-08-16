@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fcfcfc"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_20">
+
+    <RelativeLayout
+        android:id="@+id/rl_video"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/id_img_card"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginRight="@dimen/padding_30"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_logo" />
+
+        <TextView
+            android:id="@+id/id_txt_bank_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/id_img_card"
+            android:text="招商银行（尾号1234）"
+            android:textSize="@dimen/font_size_16" />
+
+        <TextView
+            android:id="@+id/id_txt_single_quota"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/id_img_card"
+            android:layout_toRightOf="@id/id_img_card"
+            android:text="单笔限额30万"
+            android:textSize="@dimen/font_size_14" />
+
+        <TextView
+            android:id="@+id/id_txt_day_quota"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/id_img_card"
+            android:layout_marginLeft="@dimen/padding_20"
+            android:layout_toRightOf="@id/id_txt_single_quota"
+            android:text="日累积限额300万"
+            android:textSize="@dimen/font_size_14" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

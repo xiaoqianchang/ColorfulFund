@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/padding_26"
+        android:layout_marginTop="@dimen/padding_26"
+        android:orientation="vertical" >
+
+        <com.zritc.colorfulfund.ui.ZRTextView
+            android:id="@+id/dialog_title"
+            style="@style/ZRText.Large.LtBlack"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:singleLine="true" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/control_divider_height"
+        android:scaleType="fitXY"
+        android:src="@color/line_color2" />
+
+</LinearLayout>

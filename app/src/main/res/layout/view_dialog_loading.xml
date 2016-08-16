@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_margin="@dimen/padding_30"
+    android:background="@mipmap/bg_dialog_progress"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <ProgressBar
+        android:id="@+id/dialog_progress"
+        android:layout_width="@dimen/dialog_progressbar_size"
+        android:layout_height="@dimen/dialog_progressbar_size"
+        android:layout_marginLeft="@dimen/padding_20"
+        android:layout_marginRight="@dimen/padding_20"
+        android:layout_marginTop="@dimen/padding_20"
+        android:indeterminateDrawable="@anim/progressbar_loading" />
+
+    <!-- android:indeterminateDrawable="@mipmap/ic_spinner_dialog" -->
+
+    <com.zritc.colorfulfund.ui.ZRTextView
+        android:id="@+id/dialog_msg_title"
+        style="@style/ZRText.Medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="@dimen/padding_20"
+        android:gravity="center"
+        android:minEms="6" />
+
+</LinearLayout>

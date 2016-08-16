@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">多彩基金</string>
+
+    <string name="money">%1$s元</string>
+    <string name="working_days">%1$s个工作日</string>
+
+    <!-- common ui -->
+    <string name="label_begin_speech">请开始说话&#8230;</string>
+    <string name="label_nomatch_result">没有匹配结果</string>
+    <string name="label_no_result2">暂无数据，点我再刷刷看~</string>
+    <string name="label_no_result">暂无相关数据</string>
+    <string name="tip_reload">点击屏幕，重新加载</string>
+    <string name="tip_footer_load_more">查看更多</string>
+    <string name="tip_header_last_time">上次更新时间：</string>
+    <string name="tip_pull_to_refresh_release">松开后刷新</string>
+    <string name="tip_pull_to_refresh_down">下拉可以刷新</string>
+    <string name="tip_pull_to_refresh_up">上拉可以刷新</string>
+    <string name="tip_listview_more_loading">正在加载中</string>
+    <string name="tip_pull_to_refresh_time">最近更新于:</string>
+    <string name="ptr_last_updated">最近更新于: %1$s</string>
+    <string name="tip_no_more_msg">没有更多啦~</string>
+    <string name="tip_loading">正在加载</string>
+    <string name="tip_processing">正在请求服务器</string>
+    <string name="tip_location_loading">努力定位中，请稍等</string>
+    <string name="toast_exit">再按一下返回键退出程序</string>
+    <string name="btn_ok">确定</string>
+    <string name="btn_cancel">取消</string>
+    <string name="error_crash">抱歉，程序出现异常，即将退出</string>
+    <string name="error_network">网络不给力</string>
+    <string name="error_server">网络不给力</string>
+    <string name="error_key_time_out">服务器连接超时</string>
+    <string name="error_no_area">没有相关区域</string>
+    <string name="error_unrecognized">未知错误</string>
+    <string name="error_storage_not_enough">存储空间不足，请预留足够空间后重试</string>
+    <string name="error_download_file">文件下载失败</string>
+    <string name="error_upload_file">文件上传失败或上传超时</string>
+    <string name="error_locating_timeout">定位超时，建议按照以下方法检查手机设置\n1、打开“设置”-“位置服务”并把“GPS定位”保持开启\n2、打开“设置”-“移动网络”并把“数据流量”保持打开\n3、打开“设置”-“WLAN”并把“开启WIFI”保持打开\n4、室内请使用GPRS或WIFI定位\n5、设置完毕，点击屏幕重试</string>
+    <string name="error_locating_config">定位失败，建议按照以下方法检查手机设置\n1、打开“设置”-“位置服务”并把“GPS定位”保持开启\n2、打开“设置”-“移动网络”并把“数据流量”保持打开\n3、打开“设置”-“WLAN”并把“开启WIFI”保持打开\n4、室内请使用GPRS或WIFI定位\n5、设置完毕，点击屏幕重试</string>
+    <string name="error_download_url">无效的下载地址</string>
+    <string name="error_https_time">网络证书认证失败，请检查您的网络设置和时间设置</string>
+    <string name="label_openwifitext">网络连接不可用，是否进行设置？</string>
+    <string name="label_openphonewifi">设置</string>
+    <string name="default_json">{\"rid\": \"0\",\"sid\": \"0\",\"code\": \"1000\",\"msg\": \"%s\",\"optype\": \"File\",\"result\": {\"pageindex\": 1,\"totalcount\": 0,\"list\": []}}</string>
+    <string name="toast_opensoon">攻城狮正在努力Coding中</string>
+    <string name="toast_unsupport_emoj">不支持表情输入</string>
+    <string name="lable_resend">重新获取(%s)</string>
+
+    <!-- commom ui -->
+    <string name="btn_giveup">放弃</string>
+    <string name="btn_back">返回</string>
+    <string name="btn_search">搜索</string>
+    <string name="btn_del">删除</string>
+
+    <!-- guide ui -->
+    <string name="btn_guide_done">立即体验</string>
+
+    <!-- 登录 -->
+    <string name="user_name_hint">用户名</string>
+    <string name="user_password_hint">密码</string>
+    <string name="user_auth_code_hint">验证码</string>
+    <string name="user_login_text">登录</string>
+
+    <!-- 我的银行卡 -->
+    <string name="title_activity_card_manage">我的银行卡</string>
+    <string name="title_activity_add_bankcard">添加银行卡</string>
+
+    <!-- 基金申购 -->
+    <string name="title_activity_fund_apply_purchase">基金申购</string>
+
+    <!-- client update download -->
+    <string name="notification_download_app">开始下载%s</string>
+    <string name="toast_download_start">开始下载</string>
+    <string name="toast_download_success">%s下载已完成</string>
+    <string name="tip_download_install">下载完成，点击安装</string>
+
+    <!-- share sdk -->
+    <string name="error_share_not_installed">您尚未安装%s客户端！</string>
+    <string name="error_share_not_support">您安装的%s客户端不支持分享功能！</string>
+    <string name="error_share_unknown">分享失败！</string>
+    <string name="lable_shareto">分享到</string>
+    <string name="lable_shareto2">点击邀请您的好友参加会议</string>
+    <string name="lable_sms">短信</string>
+    <string name="lable_weixin">微信好友</string>
+    <string name="lable_pengyouquan">朋友圈</string>
+    <string name="lable_sina">微博</string>
+    <string name="lable_qq">QQ好友</string>
+    <string name="lable_mail">邮件</string>
+    <string name="share_back">感谢您的分享！</string>
+    <string name="share_failed">分享失败！</string>
+    <string name="toast_mail_unsupport">您安装的邮件客户端不支持发送功能！</string>
+
+    <!-- select pic -->
+    <string name="folder_all">所有照片</string>
+    <string name="preview">预览</string>
+    <string name="msg_no_camera">没有系统相机</string>
+    <string name="msg_amount_limit">已经达到最高选择数量</string>
+    <string name="action_done">完成</string>
+    <string name="photo_unit">张</string>
+    <string name="tip_take_photo">拍摄照片</string>
+    <string name="lable_viewpager_indicator">%1$d/%2$d</string>
+    <string name="btn_photo_album">从手机相册读取</string>
+    <string name="btn_photo_graph">拍照</string>
+
+</resources>

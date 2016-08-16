@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:widget="http://schemas.android.com/apk/res-auto"
+    android:layout_width="500dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_margin="@dimen/padding_40"
+    android:background="@mipmap/bg_dialog"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_30" >
+
+        <LinearLayout
+            android:id="@+id/view_date"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <com.zritc.colorfulfund.ui.TFNumberPicker
+                android:id="@+id/picker_year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/padding_30"
+                android:paddingRight="@dimen/padding_30" />
+
+            <com.zritc.colorfulfund.ui.TFNumberPicker
+                android:id="@+id/picker_month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/padding_30"
+                android:paddingRight="@dimen/padding_30" />
+
+            <com.zritc.colorfulfund.ui.TFNumberPicker
+                android:id="@+id/picker_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/padding_30"
+                android:paddingRight="@dimen/padding_30" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/img_divider"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_18"
+            android:scaleType="fitXY"
+            android:src="@mipmap/line_gray" />
+
+        <LinearLayout
+            android:id="@+id/view_time"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_18"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <com.zritc.colorfulfund.ui.TFNumberPicker
+                android:id="@+id/picker_hour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/padding_30"
+                android:paddingRight="@dimen/padding_30" />
+
+            <com.zritc.colorfulfund.ui.TFNumberPicker
+                android:id="@+id/picker_minute"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/padding_30"
+                android:paddingRight="@dimen/padding_30" />
+
+            <com.zritc.colorfulfund.ui.TFNumberPicker
+                android:id="@+id/picker_second"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/padding_30"
+                android:paddingRight="@dimen/padding_30" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/width_divider"
+        android:scaleType="fitXY"
+        android:src="@mipmap/line_gray_white" />
+
+    <LinearLayout
+        android:id="@+id/dialog_btn_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <com.zritc.colorfulfund.ui.ZRButton
+            android:id="@+id/btn_cancel"
+            widget:style="dialog_left"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            widget:text="btn_cancel" />
+
+        <ImageView
+            android:id="@+id/view_btn_divider"
+            android:layout_width="@dimen/width_divider"
+            android:layout_height="fill_parent"
+            android:scaleType="fitXY"
+            android:src="@color/line_color" />
+
+        <com.zritc.colorfulfund.ui.ZRButton
+            android:id="@+id/btn_ok"
+            widget:style="dialog_right"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            widget:text="btn_ok" />
+    </LinearLayout>
+
+</LinearLayout>

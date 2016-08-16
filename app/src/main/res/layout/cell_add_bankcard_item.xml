@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#fcfcfc"
+    android:visibility="gone">
+
+    <include layout="@layout/view_line" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_88"
+        android:background="#fcfcfc"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/id_txt_bank_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="添加银行卡"
+            android:textSize="@dimen/font_size_16" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/view_line" />
+
+</LinearLayout>

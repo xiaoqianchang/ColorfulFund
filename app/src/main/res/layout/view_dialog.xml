@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:widget="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_margin="@dimen/padding_40"
+    android:background="@mipmap/bg_dialog"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/dialog_title_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/view_dialog_title"
+        android:gravity="center" />
+
+    <LinearLayout
+        android:id="@+id/dlg_all_ll"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/padding_26"
+        android:orientation="vertical" >
+
+        <com.zritc.colorfulfund.ui.ZRTextView
+            android:id="@+id/dialog_msg_detail"
+            style="@style/ZRText.Large.LtBlack"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/image_line"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/width_divider"
+        android:scaleType="fitXY"
+        android:src="@mipmap/line_gray_white" />
+
+    <LinearLayout
+        android:id="@+id/dialog_btn_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <com.zritc.colorfulfund.ui.ZRButton
+            android:id="@+id/btn_ok"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            widget:text="btn_ok" />
+
+        <ImageView
+            android:id="@+id/view_btn_divider"
+            android:layout_width="@dimen/width_divider"
+            android:layout_height="fill_parent"
+            android:scaleType="fitXY"
+            android:src="@color/line_color" />
+
+        <com.zritc.colorfulfund.ui.ZRButton
+            android:id="@+id/btn_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            widget:text="btn_cancel" />
+    </LinearLayout>
+
+</LinearLayout>

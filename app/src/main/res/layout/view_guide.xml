@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:up="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/black" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/bg_tab_gray" >
+
+        <ImageView
+            android:id="@+id/img_guide"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_centerInParent="true"
+            android:scaleType="fitCenter"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/btn_done"
+            android:layout_width="@dimen/width_300"
+            android:layout_height="@dimen/height_82"
+            android:background="@mipmap/bg_white_button2"
+            android:layout_alignParentBottom="true"
+            android:textColor="@color/red"
+            android:visibility="gone"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/padding_149"
+            android:text="@string/btn_guide_done" />
+    </RelativeLayout>
+
+</RelativeLayout>

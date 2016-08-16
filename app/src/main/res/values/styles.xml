@@ -1,0 +1,589 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:actionBarSize">@dimen/nav_bar_height</item>
+
+        <item name="android:windowAnimationStyle">@style/ZRAnimation.Activity</item>
+        <item name="android:textColorPrimaryInverse">@android:color/primary_text_light</item>
+    </style>
+
+    <!-- Before -->
+    <style name="ZRAnimation.Activity" parent="@android:style/Animation">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_right_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_left_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_left_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_right_out</item>
+    </style>
+
+    <style name="AppTheme.Welcome" parent="AppTheme">
+        <item name="android:windowBackground">@mipmap/bg_welcome</item>
+    </style>
+
+    <style name="MspAppBaseTheme" parent="android:Theme.Light.NoTitleBar"></style>
+
+    <!-- Application theme. -->
+    <style name="MspAppTheme" parent="MspAppBaseTheme">
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="Shadow" bogus="1">
+
+        <!-- 设置背景 -->
+        <item name="android:windowBackground">@color/shadow_gray</item>
+        <!-- 设置底层可见 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- 设置跳转效果 -->
+        <item name="android:windowAnimationStyle">@+android:style/Animation.Translucent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
+
+    <style name="Transparent" bogus="1" parent="Shadow">
+
+        <!-- 设置背景 -->
+        <item name="android:windowBackground">@color/transparent</item>
+    </style>
+
+    <style name="ZRDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="ZRPopupDialogStyle" parent="@style/ZRDialog">
+        <item name="android:windowAnimationStyle">@style/ZRDialogAnimation</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="ZRDialogAnimation" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/push_up_in</item>
+        <item name="android:windowExitAnimation">@anim/push_up_out</item>
+    </style>
+
+    <style name="ZRDialog.Progress">
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+    <style name="ProgressBarStyle" parent="@android:style/Widget.ProgressBar.Horizontal" />
+
+    <style name="ZRButton.Blue" parent="@android:style/Widget.TextView">
+        <item name="textSize">@dimen/font_size_17</item>
+        <item name="textColor">@color/blue_btn_selector</item>
+        <item name="background_">@drawable/btn_blue</item>
+        <item name="paddingTop">@dimen/padding_24</item>
+        <item name="paddingBottom">@dimen/padding_24</item>
+        <item name="paddingLeft">@dimen/padding_10</item>
+        <item name="paddingRight">@dimen/padding_10</item>
+    </style>
+
+    <style name="ZRButton.Title" parent="@style/ZRButton.Blue">
+        <item name="textSize">@dimen/font_size_12</item>
+        <item name="textColor">@color/title_btn_selector</item>
+        <!-- item name="paddingLeft">@dimen/padding_10</item -->
+        <item name="paddingTop">@dimen/padding_10</item>
+        <!-- item name="paddingRight">@dimen/padding_10</item -->
+        <item name="paddingBottom">@dimen/padding_10</item>
+    </style>
+
+    <style name="ZRButton.Title.Left">
+        <item name="textSize">@dimen/font_size_14</item>
+        <item name="textColor">@color/gray</item>
+        <item name="background_">@drawable/bg_cell_selector</item>
+    </style>
+
+    <style name="ZRButton.Gray" parent="@style/ZRButton.Blue">
+        <item name="textColor">@color/gray_btn_selector</item>
+        <item name="background_">@drawable/btn_gray</item>
+    </style>
+
+    <style name="ZRButton.Gray.TextBlue" parent="@style/ZRButton.Blue">
+        <item name="textColor">@color/ltblack</item>
+        <item name="background_">@drawable/btn_gray</item>
+    </style>
+
+    <style name="ZRButton.Dialog" parent="@style/ZRButton.Blue">
+        <item name="textColor">@color/black</item>
+    </style>
+
+    <style name="ZRButton.Dialog.TextOrange">
+        <item name="textColor">@color/orange</item>
+        <item name="background_">@drawable/btn_dialog_single_gray</item>
+    </style>
+
+    <style name="ZRButton.Dialog.Single">
+        <item name="textColor">@color/blue_btn_selector</item>
+        <item name="background_">@drawable/btn_dialog_single_gray</item>
+    </style>
+
+    <style name="ZRButton.Dialog.Left">
+        <item name="textColor">@color/blue_btn_selector</item>
+        <item name="background_">@drawable/btn_dialog_left_gray</item>
+    </style>
+
+    <style name="ZRButton.Dialog.Right">
+        <item name="textColor">@color/blue_btn_selector</item>
+        <item name="background_">@drawable/btn_dialog_right_gray</item>
+    </style>
+
+    <style name="ZRButton.Dialog.Right.Important">
+        <item name="background_">@drawable/btn_dialog_right_important</item>
+    </style>
+
+    <style name="ZRButton.Dialog.Right.VeryImportant">
+        <item name="background_">@drawable/btn_dialog_right_very_important</item>
+    </style>
+
+    <style name="ZRText" parent="@android:style/Widget.TextView">
+        <item name="textColor">@color/white</item>
+        <item name="hintColor">@color/ltgray</item>
+        <item name="textSize">@dimen/font_size_15</item>
+    </style>
+
+    <style name="ZRText.Black">
+        <item name="textColor">@color/black</item>
+    </style>
+
+    <style name="ZRText.Gray">
+        <item name="textColor">@color/gray</item>
+    </style>
+
+    <style name="ZRText.LTGray">
+        <item name="textColor">@color/ltgray</item>
+    </style>
+
+    <style name="ZRText.Blue">
+        <item name="textColor">@color/blue</item>
+    </style>
+
+    <style name="ZRText.Larger">
+        <item name="textColor">@color/white</item>
+        <item name="textSize">@dimen/font_size_24</item>
+    </style>
+
+    <style name="ZRText.Larger.LtBlack">
+        <item name="textColor">@color/ltblack</item>
+        <item name="textSize">@dimen/font_size_20</item>
+    </style>
+
+    <style name="ZRText.Larger.Gray">
+        <item name="textColor">@color/gray</item>
+    </style>
+
+    <style name="ZRText.Large">
+        <item name="textColor">@color/white</item>
+        <item name="textSize">@dimen/font_size_16</item>
+    </style>
+
+    <style name="ZRText.Large.Black">
+        <item name="textColor">@color/black</item>
+    </style>
+
+    <style name="ZRText.Large.LtBlack">
+        <item name="textColor">@color/ltblack</item>
+    </style>
+
+    <style name="ZRText.Large.LTGray">
+        <item name="textColor">@color/ltgray</item>
+    </style>
+
+    <style name="ZRText.Large.Gray">
+        <item name="textColor">@color/gray</item>
+    </style>
+
+    <style name="ZRText.Large.LTGrey">
+        <item name="textColor">@color/ltgrey</item>
+    </style>
+
+    <style name="ZRText.Large.DialogBlue">
+        <item name="textColor">@color/bg_dialog_title_divider</item>
+    </style>
+
+    <style name="ZRText.Large.LtBlue">
+        <item name="textColor">@color/ltblue</item>
+    </style>
+
+    <style name="ZRText.Large.DBlue">
+        <item name="textColor">@color/dblue</item>
+    </style>
+
+    <style name="ZRText.Large.Orange">
+        <item name="textColor">@color/orange</item>
+    </style>
+
+    <style name="ZRText.Medium">
+        <item name="textColor">@color/white</item>
+        <item name="textSize">@dimen/font_size_14</item>
+    </style>
+
+    <style name="ZRText.Medium.Orange">
+        <item name="textColor">@color/orange</item>
+    </style>
+
+    <style name="ZRText.Medium.Black">
+        <item name="textColor">@color/black</item>
+    </style>
+
+    <style name="ZRText.Medium.LTBlack">
+        <item name="textColor">@color/ltblack</item>
+    </style>
+
+    <style name="ZRText.Medium.LTBlack.13">
+        <item name="textSize">@dimen/font_size_13</item>
+    </style>
+
+    <style name="ZRText.Medium.Red">
+        <item name="textColor">@color/red</item>
+    </style>
+
+    <style name="ZRText.Medium.Green">
+        <item name="textColor">@color/green</item>
+    </style>
+
+    <style name="ZRText.Medium.Gray">
+        <item name="textColor">@color/gray</item>
+    </style>
+
+    <style name="ZRText.Medium.DisableGray">
+        <item name="textColor">@color/disable_gray</item>
+    </style>
+
+    <style name="ZRText.Medium.Grey">
+        <item name="textColor">@color/grey</item>
+    </style>
+
+    <style name="ZRText.Medium.Grey.13">
+        <item name="textSize">@dimen/font_size_13</item>
+    </style>
+
+    <style name="ZRText.Medium.LTGray">
+        <item name="textColor">@color/ltgray</item>
+    </style>
+
+    <style name="ZRText.Medium.DBlue">
+        <item name="textColor">@color/dblue</item>
+    </style>
+
+    <style name="ZRText.Medium.DialogBlue">
+        <item name="textColor">@color/bg_dialog_title_divider</item>
+    </style>
+
+    <style name="ZRText.Small">
+        <item name="textSize">@dimen/font_size_11</item>
+    </style>
+
+    <style name="ZRText.Small.Orange">
+        <item name="textColor">@color/orange</item>
+    </style>
+
+    <style name="ZRText.Small.Black">
+        <item name="textColor">@color/black</item>
+    </style>
+
+    <style name="ZRText.Small.LTBlack">
+        <item name="textColor">@color/ltblack</item>
+    </style>
+
+    <style name="ZRText.Small.Blue">
+        <item name="textColor">@color/blue</item>
+    </style>
+
+    <style name="ZRText.Small.Gray">
+        <item name="textColor">@color/gray</item>
+    </style>
+
+    <style name="ZRText.Small.Grey">
+        <item name="textColor">@color/grey</item>
+    </style>
+
+    <style name="ZRText.Small.LTGrey">
+        <item name="textColor">@color/ltgrey</item>
+    </style>
+
+    <style name="ZRText.Small.LTGray">
+        <item name="textColor">@color/ltgray</item>
+    </style>
+
+    <style name="ZRText.Small.LTGray.9">
+        <item name="textSize">@dimen/font_size_9</item>
+    </style>
+
+    <style name="ZRText.Small.LTGray.13">
+        <item name="textSize">@dimen/font_size_13</item>
+    </style>
+
+    <style name="ZRText.Small.LTGray.14">
+        <item name="textSize">@dimen/font_size_14</item>
+    </style>
+
+    <style name="ZRText.Small.Red">
+        <item name="textColor">@color/red</item>
+    </style>
+
+    <style name="ZRText.Small.DialogBlue">
+        <item name="textColor">@color/bg_dialog_title_divider</item>
+    </style>
+
+    <style name="ZRText.Smaller">
+        <item name="textSize">@dimen/font_size_10</item>
+    </style>
+
+    <style name="ZRText.Title">
+        <item name="textColor">@color/white</item>
+        <item name="textSize">@dimen/font_size_22</item>
+    </style>
+
+    <style name="ZREdit" parent="@android:style/Widget.EditText">
+        <item name="textColor">@color/white</item>
+        <item name="textSize">@dimen/font_size_15</item>
+        <item name="hintColor">@color/gray</item>
+    </style>
+
+    <style name="ZREdit.Black">
+        <item name="textColor">@color/black</item>
+    </style>
+
+    <style name="ZREdit.Gray">
+        <item name="textColor">@color/gray</item>
+    </style>
+
+    <style name="ZREdit.Large">
+        <item name="textSize">@dimen/font_size_17</item>
+    </style>
+
+    <style name="ZREdit.Large.Black">
+        <item name="textColor">@color/black</item>
+    </style>
+
+    <style name="ZREdit.Medium">
+        <item name="textSize">@dimen/font_size_15</item>
+    </style>
+
+    <style name="ZREdit.Medium.Green">
+        <item name="textColor">@color/green</item>
+    </style>
+
+    <style name="ZREdit.Medium.Black">
+        <item name="textColor">@color/black</item>
+    </style>
+
+    <style name="ZREdit.Medium.LTBlack">
+        <item name="textColor">@color/ltblack</item>
+    </style>
+
+    <style name="ZREdit.Medium.Gray">
+        <item name="textColor">@color/gray</item>
+    </style>
+
+    <style name="ZREdit.Medium.LTGray">
+        <item name="textColor">@color/ltgray</item>
+    </style>
+
+    <style name="ZREdit.Medium.Grey">
+        <item name="textColor">@color/grey</item>
+    </style>
+
+    <style name="ZREdit.Small">
+        <item name="textSize">@dimen/font_size_12</item>
+    </style>
+
+    <style name="ZREdit.Small.Black">
+        <item name="textColor">@color/black</item>
+    </style>
+
+    <!-- login & register -->
+    <style name="login_input_style" parent="@style/ZREdit.Medium.LTGray">
+        <item name="android:paddingLeft">@dimen/padding_20</item>
+        <item name="android:background">@null</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">@dimen/font_size_15</item>
+        <item name="android:textColorHint">@color/ltgray</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/height_82</item>
+    </style>
+
+    <style name="small_input_style" parent="@style/login_input_style">
+        <item name="android:textSize">@dimen/font_size_12</item>
+    </style>
+
+    <style name="white_button_style">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:background">@drawable/btn_ltgrey</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/height_88</item>
+        <item name="android:textSize">@dimen/font_size_17</item>
+    </style>
+
+    <style name="white_button_210_style" parent="@style/white_button_style">
+        <item name="android:layout_width">@dimen/width_210</item>
+    </style>
+
+    <style name="white_button_480_style" parent="@style/white_button_style">
+        <item name="android:layout_width">@dimen/width_480</item>
+    </style>
+
+    <style name="black_button_style" parent="@style/white_button_style">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/btn_black</item>
+    </style>
+
+    <style name="disable_button_style" parent="@style/white_button_style">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/btn_ltgray</item>
+    </style>
+
+    <style name="grey_button_style" parent="@style/white_button_style">
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:background">@drawable/btn_ltgrey</item>
+    </style>
+
+    <style name="gray_button_style" parent="@style/white_button_style">
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:background">@drawable/btn_ltgrey</item>
+    </style>
+
+    <style name="blue_button_210_style" parent="@style/grey_button_style">
+        <item name="android:layout_width">@dimen/width_210</item>
+    </style>
+
+    <style name="blue_button_480_style" parent="@style/grey_button_style">
+        <item name="android:layout_width">@dimen/width_480</item>
+    </style>
+
+    <style name="ltblack_button_style" parent="@style/white_button_style">
+        <item name="android:background">@drawable/btn_ltblack</item>
+    </style>
+
+    <style name="orange_button_style" parent="@style/white_button_style">
+        <item name="android:textColor">@color/orange</item>
+        <item name="android:background">@drawable/btn_orange</item>
+    </style>
+
+    <style name="ltblack_button_orange_text_style" parent="@style/white_button_style">
+        <item name="android:textColor">@color/orange</item>
+        <item name="android:background">@drawable/btn_ltblack</item>
+    </style>
+
+    <style name="solid_orange_button_style" parent="@style/white_button_style">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/btn_orange2</item>
+    </style>
+
+    <style name="black_text_font_15_style">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/font_size_15</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="black_text_font_17_style" parent="@style/black_text_font_15_style">
+        <item name="android:textSize">@dimen/font_size_17</item>
+    </style>
+
+    <style name="ltgray_text_font_17_bold_style" parent="@style/ltgray_text_font_15_style">
+        <item name="android:textSize">@dimen/font_size_17</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ltblack_text_font_15_style" parent="@style/black_text_font_15_style">
+        <item name="android:textColor">@color/ltblack</item>
+        <item name="android:textColorHint">@color/ltgray</item>
+    </style>
+
+    <style name="ltgray_text_font_15_style" parent="@style/black_text_font_15_style">
+        <item name="android:textColor">@color/ltgray</item>
+    </style>
+
+    <style name="ltgray_text_font_17_style" parent="@style/ltgray_text_font_15_style">
+        <item name="android:textSize">@dimen/font_size_17</item>
+    </style>
+
+    <style name="grey_text_font_15_style" parent="@style/black_text_font_15_style">
+        <item name="android:textColor">@color/grey</item>
+    </style>
+
+    <style name="grey_text_font_17_style" parent="@style/black_text_font_15_style">
+        <item name="android:textSize">@dimen/font_size_17</item>
+    </style>
+
+    <style name="orange_text_font_12_style" parent="@style/black_text_font_15_style">
+        <item name="android:textColor">@color/orange</item>
+        <item name="android:textSize">@dimen/font_size_12</item>
+    </style>
+
+    <style name="orange_text_font_15_style" parent="@style/black_text_font_15_style">
+        <item name="android:textColor">@color/orange</item>
+    </style>
+
+    <style name="blue_text_font_15_style" parent="@style/black_text_font_15_style">
+        <item name="android:textColor">@color/blue</item>
+    </style>
+
+    <style name="dblue_text_font_15_style" parent="@style/blue_text_font_15_style">
+        <item name="android:textColor">@color/dblue</item>
+    </style>
+
+    <style name="blue_text_font_17_style" parent="@style/blue_text_font_15_style">
+        <item name="android:textSize">@dimen/font_size_17</item>
+    </style>
+
+    <style name="dblue_text_font_17_style" parent="@style/dblue_text_font_15_style">
+        <item name="android:textSize">@dimen/font_size_17</item>
+    </style>
+
+    <style name="dblue_text_font_18_style" parent="@style/dblue_text_font_15_style">
+        <item name="android:textSize">@dimen/font_size_18</item>
+    </style>
+
+    <!-- cell background style -->
+    <style name="style_cell_background">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/height_82</item>
+        <item name="android:background">@drawable/bg_cell_selector</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:clickable">true</item>
+        <item name="android:paddingLeft">@dimen/padding_30</item>
+        <item name="android:paddingRight">@dimen/padding_15</item>
+    </style>
+
+    <style name="style_no_press_cell_background" parent="@style/style_cell_background">
+        <item name="android:background">@color/white</item>
+        <item name="android:clickable">false</item>
+    </style>
+
+    <style name="ZRGridPasswordView" />
+
+    <style name="ZRGridPasswordView.TextView">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="ZRGridPasswordView.EditText" parent="ZRGridPasswordView.TextView">
+        <item name="android:cursorVisible">false</item>
+    </style>
+
+    <style name="ZRGridPasswordView.Divider">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginTop">1dp</item>
+        <item name="android:layout_marginBottom">1dp</item>
+    </style>
+</resources>

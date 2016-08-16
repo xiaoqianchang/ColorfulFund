@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:zrt="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/id_rootview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f1f1f1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/toolbar_layout" />
+
+        <include
+            layout="@layout/view_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_30" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_88"
+            android:background="#fcfcfc"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/padding_30"
+            android:paddingRight="@dimen/padding_30">
+
+            <TextView
+                android:id="@+id/id_txt_username"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="姓名"
+                android:textColor="@color/ltblack"
+                android:textSize="@dimen/font_size_15" />
+
+            <com.zritc.colorfulfund.ui.ZRItemTextInput
+                android:id="@+id/id_edt_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_20"
+                android:background="@null"
+                android:maxLength="6"
+                android:textSize="@dimen/font_size_15" />
+
+        </LinearLayout>
+
+        <include layout="@layout/view_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_88"
+            android:background="#fcfcfc"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/padding_30"
+            android:paddingRight="@dimen/padding_30">
+
+            <TextView
+                android:id="@+id/id_txt_iccard"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="身份证"
+                android:textColor="@color/ltblack"
+                android:textSize="@dimen/font_size_15" />
+
+            <com.zritc.colorfulfund.ui.ZRItemID
+                android:id="@+id/id_edt_iccard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_20"
+                android:background="@null"
+                android:textSize="@dimen/font_size_15" />
+
+        </LinearLayout>
+
+        <include layout="@layout/view_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_88"
+            android:background="#fcfcfc"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/padding_30"
+            android:paddingRight="@dimen/padding_30">
+
+            <TextView
+                android:id="@+id/id_txt_bank_card"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="卡号"
+                android:textColor="@color/ltblack"
+                android:textSize="@dimen/font_size_15" />
+
+            <com.zritc.colorfulfund.ui.ZRItemPan
+                android:id="@+id/id_edt_bank_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_20"
+                android:background="@null"
+                android:maxLength="19"
+                android:textSize="@dimen/font_size_15" />
+
+        </LinearLayout>
+
+        <include layout="@layout/view_line" />
+
+        <RelativeLayout
+            android:id="@+id/id_rl_bank_of_card"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_60"
+            android:background="#ffffff"
+            android:gravity="center_horizontal"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/id_img_bank_of_card"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/ic_logo" />
+
+            <TextView
+                android:id="@+id/id_txt_card_of_bank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/id_img_bank_of_card"
+                android:text="招商银行"
+                android:textSize="@dimen/font_size_14" />
+
+        </RelativeLayout>
+
+        <include
+            layout="@layout/view_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_30" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_88"
+            android:background="#fcfcfc"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/padding_30"
+            android:paddingRight="@dimen/padding_30">
+
+            <TextView
+                android:id="@+id/id_txt_mobile"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="手机号"
+                android:textColor="@color/ltblack"
+                android:textSize="@dimen/font_size_15" />
+
+            <com.zritc.colorfulfund.ui.ZRItemMobile
+                android:id="@+id/id_edt_mobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_20"
+                android:background="@null"
+                android:inputType="phone"
+                android:maxLength="11"
+                android:textSize="@dimen/font_size_15" />
+
+        </LinearLayout>
+
+        <include layout="@layout/view_line" />
+
+        <TextView
+            android:id="@+id/id_txt_card_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_30"
+            android:layout_marginRight="@dimen/padding_30"
+            android:layout_marginTop="@dimen/padding_20"
+            android:text="该卡单笔限额：30万 日累计限额：300万"
+            android:textSize="@dimen/font_size_14"
+            android:visibility="gone" />
+
+        <CheckBox
+            android:id="@+id/id_ck_agree_pro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_30"
+            android:layout_marginRight="@dimen/padding_30"
+            android:layout_marginTop="@dimen/padding_20"
+            android:checked="true"
+            android:text="同意基金交易服务协议"
+            android:textSize="@dimen/font_size_14" />
+
+        <TextView
+            android:id="@+id/id_txt_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_30"
+            android:layout_marginRight="@dimen/padding_30"
+            android:layout_marginTop="@dimen/padding_20"
+            android:gravity="center"
+            android:text="本交易由基金销售机构盈米财富管理公司提供基金销售资格证书：000000378"
+            android:textSize="@dimen/font_size_14" />
+
+        <Button
+            android:id="@+id/id_btn_next"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/padding_20"
+            android:text="下一步" />
+
+    </LinearLayout>
+</ScrollView>

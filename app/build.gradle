@@ -1,0 +1,83 @@
+apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
+
+    defaultConfig {
+        applicationId "com.zritc.colorfulfund"
+        minSdkVersion 14
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+    dexOptions {
+        incremental true
+    }
+    sourceSets {
+        main {
+            jni.srcDirs = ['src/main/jni', 'src/main/jni/']
+            jniLibs.srcDirs = ['libs']
+            java.srcDirs = ['src/main/java', 'src/main/java/com.zritc.colorfulfund']
+            assets.srcDirs = ['src/main/assets', 'src/main/assets/']
+        }
+    }
+    allprojects {
+        repositories {
+            mavenCentral()
+        }
+    }
+    productFlavors {
+        colorfulfund {}
+        productFlavors.all { flavor ->
+            flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+        }
+    }
+    useLibrary 'org.apache.http.legacy'
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:recyclerview-v7:23.1.1'
+    // RecyclerView
+    compile 'com.jakewharton:butterknife:7.0.1'
+    // ButterKnife标注
+    compile 'io.reactivex:rxandroid:1.1.0'
+    // RxAndroid
+    compile 'io.reactivex:rxjava:1.1.0'
+    // 推荐同时加载RxJava
+    compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.0.1'
+    compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    // Picasso网络图片加载
+    compile 'com.trello:rxlifecycle:0.4.0'
+    // RxLifecycle管理Rx的生命周期
+    compile 'com.trello:rxlifecycle-components:0.4.0'
+    // RxLifecycle组件
+    // RxBinding
+    compile 'com.jakewharton.rxbinding:rxbinding:0.3.0'
+    compile 'com.jakewharton.rxbinding:rxbinding-appcompat-v7:0.3.0'
+    compile 'com.jakewharton.rxbinding:rxbinding-design:0.3.0'
+    compile files('libs/umeng-analytics-v5.6.1.jar')
+    compile files('libs/weibosdkcore_release.jar')
+}

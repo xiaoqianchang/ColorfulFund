@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffffff"
+    android:orientation="vertical" >
+
+    <GridView
+        android:id="@+id/grid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:horizontalSpacing="@dimen/space_size"
+        android:numColumns="3"
+        android:paddingBottom="49dp"
+        android:verticalSpacing="@dimen/space_size" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="0.56dp"
+        android:scaleType="fitXY"
+        android:src="#ffdfdfdf" />
+
+    <RelativeLayout
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:clickable="true"
+        android:paddingLeft="17dp"
+        android:paddingRight="17dp" >
+
+        <Button
+            android:id="@+id/category_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:drawablePadding="5dp"
+            android:drawableRight="@mipmap/text_indicator"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:singleLine="true"
+            android:textColor="@color/folder_text_color"
+            android:textSize="16sp"
+            android:visibility="gone"
+            tools:text="所有图片" />
+
+        <TextView
+            android:id="@+id/text_preview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/bg_border"
+            android:paddingBottom="5dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="5dp"
+            android:text="@string/preview"
+            android:textColor="@color/default_text_color"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/text_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="已选 0/9"
+            android:textColor="#ff333333"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+</LinearLayout>

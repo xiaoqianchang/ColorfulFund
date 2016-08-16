@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center"
+    android:layout_margin="@dimen/padding_40"
+    android:background="@mipmap/bg_dialog"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/dialog_title_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/view_dialog_title" />
+
+    <com.zritc.colorfulfund.ui.ZRListView
+        android:id="@+id/list_selector"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:cacheColorHint="#00000000"
+        android:divider="@mipmap/line_cbd0d9"
+        android:footerDividersEnabled="true"
+        android:scrollbars="none" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/padding_30"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_dialog_bottom" />
+
+</LinearLayout>

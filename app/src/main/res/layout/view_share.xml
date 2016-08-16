@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:zrt="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.zritc.colorfulfund.ui.ZRTextView
+        android:id="@+id/text_share_title"
+        style="@style/ZRText.Medium.Grey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/padding_20"
+        android:gravity="left"
+        android:singleLine="false"
+        zrt:text="lable_shareto" />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_20"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/padding_20"
+            android:paddingRight="@dimen/padding_20">
+
+            <LinearLayout
+                android:id="@+id/btn_share_weixin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/size_share_icon"
+                    android:layout_height="@dimen/size_share_icon"
+                    android:src="@mipmap/ssdk_oks_logo_wechat" />
+
+                <com.zritc.colorfulfund.ui.ZRTextView
+                    style="@style/ZRText.Small.Grey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_15"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    zrt:text="lable_weixin" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn_share_pengyouquan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_20"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/size_share_icon"
+                    android:layout_height="@dimen/size_share_icon"
+                    android:src="@mipmap/ssdk_oks_logo_wechatmoments" />
+
+                <com.zritc.colorfulfund.ui.ZRTextView
+                    style="@style/ZRText.Small.Grey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_15"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    zrt:text="lable_pengyouquan" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/btn_share_sms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_20"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/size_share_icon"
+                    android:layout_height="@dimen/size_share_icon"
+                    android:src="@mipmap/ssdk_oks_logo_shortmessage" />
+
+                <com.zritc.colorfulfund.ui.ZRTextView
+                    style="@style/ZRText.Small.Grey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_15"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    zrt:text="lable_sms" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn_share_weibo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_20"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/size_share_icon"
+                    android:layout_height="@dimen/size_share_icon"
+                    android:src="@mipmap/ssdk_oks_logo_sinaweibo" />
+
+                <com.zritc.colorfulfund.ui.ZRTextView
+                    style="@style/ZRText.Small.Grey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_15"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    zrt:text="lable_sina" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn_share_qq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_20"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/size_share_icon"
+                    android:layout_height="@dimen/size_share_icon"
+                    android:src="@mipmap/ssdk_oks_logo_qq" />
+
+                <com.zritc.colorfulfund.ui.ZRTextView
+                    style="@style/ZRText.Small.Grey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_15"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    zrt:text="lable_qq" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn_share_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_20"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/size_share_icon"
+                    android:layout_height="@dimen/size_share_icon"
+                    android:src="@mipmap/ssdk_oks_logo_mail" />
+
+                <com.zritc.colorfulfund.ui.ZRTextView
+                    style="@style/ZRText.Small.Grey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_15"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    zrt:text="lable_mail" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+</LinearLayout>
