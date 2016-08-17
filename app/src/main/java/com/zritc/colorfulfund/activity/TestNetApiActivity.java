@@ -1,33 +1,26 @@
 package com.zritc.colorfulfund.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.zritc.colorfulfund.R;
-import com.zritc.colorfulfund.activity.CardManage.ZRActivityCardManage;
 import com.zritc.colorfulfund.base.ZRActivityBase;
 import com.zritc.colorfulfund.data.response.trade.BindPayment;
+import com.zritc.colorfulfund.data.response.trade.EstimateBuyFundFee;
 import com.zritc.colorfulfund.data.response.trade.PrepareBindPayment;
 import com.zritc.colorfulfund.data.response.trade.UnbindPayment;
 import com.zritc.colorfulfund.data.response.user.Login;
 import com.zritc.colorfulfund.data.response.user.PrepareRegisterAcc;
 import com.zritc.colorfulfund.data.response.user.RegisterAcc;
 import com.zritc.colorfulfund.data.response.user.SetTransPwd;
+import com.zritc.colorfulfund.http.ResponseCallBack;
 import com.zritc.colorfulfund.http.ZRNetManager;
 import com.zritc.colorfulfund.utils.ZRNetUtils;
-import com.zritc.colorfulfund.utils.ZRSystemUtils;
-import com.zritc.colorfulfund.utils.ZRToastFactory;
 
 import butterknife.Bind;
 import butterknife.OnClick;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class TestNetApiActivity extends ZRActivityBase {
 
@@ -45,6 +38,8 @@ public class TestNetApiActivity extends ZRActivityBase {
     Button unbindPayment; // 解绑
     @Bind(R.id.btn_setTransPwd)
     Button btnSetTransPwd; // 设置交易密码
+    @Bind(R.id.btn_estimateBuyFundFee)
+    Button btnEstimateBuyFundFee;
 
     @Bind(R.id.btn_group_redemption)
     Button btnGroupRedemption;
@@ -58,7 +53,7 @@ public class TestNetApiActivity extends ZRActivityBase {
     protected void initPresenter() {
     }
 
-    @OnClick({R.id.btn_prepareRegisterAcc, R.id.btn_registerAcc, R.id.btn_login, R.id.btn_prepare_bind_payment, R.id.btn_bind_payment, R.id.btn_unbind_payment, R.id.btn_setTransPwd, R.id.btn_group_redemption})
+    @OnClick({R.id.btn_prepareRegisterAcc, R.id.btn_registerAcc, R.id.btn_login, R.id.btn_prepare_bind_payment, R.id.btn_bind_payment, R.id.btn_unbind_payment, R.id.btn_setTransPwd, R.id.btn_group_redemption, R.id.btn_estimateBuyFundFee})
     public void onClick(View view) {
         String realName = "肖昌";
         String identityNo = "110101190001012837";
@@ -70,148 +65,114 @@ public class TestNetApiActivity extends ZRActivityBase {
         switch (view.getId()) {
             case R.id.btn_prepareRegisterAcc:
                 Call<PrepareRegisterAcc> prepareRegisterAccCall = ZRNetManager.getInstance().prepareRegisterAccCallbackByPost(phone);
-                prepareRegisterAccCall.enqueue(new Callback<PrepareRegisterAcc>() {
+                prepareRegisterAccCall.enqueue(new ResponseCallBack<PrepareRegisterAcc>(PrepareRegisterAcc.class) {
                     @Override
-                    public void onResponse(Call<PrepareRegisterAcc> call, Response<PrepareRegisterAcc> response) {
-                        try {
-                            PrepareRegisterAcc body = response.body();
-                            if (null != body) {
-                                Toast.makeText(mContext, body.msg, Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                    public void onSuccess(PrepareRegisterAcc prepareRegisterAcc) {
+                        showToast(prepareRegisterAcc.msg);
                     }
 
                     @Override
-                    public void onFailure(Call<PrepareRegisterAcc> call, Throwable t) {
-                        Toast.makeText(mContext, t.getMessage(), Toast.LENGTH_SHORT).show();
+                    public void onError(String code, String msg) {
+                        showToast(msg);
                     }
                 });
                 break;
             case R.id.btn_registerAcc:
                 Call<RegisterAcc> registerAccCall = ZRNetManager.getInstance().registerAccCallbackByPost(phone, password, vCode);
-                registerAccCall.enqueue(new Callback<RegisterAcc>() {
+                registerAccCall.enqueue(new ResponseCallBack<RegisterAcc>(RegisterAcc.class) {
                     @Override
-                    public void onResponse(Call<RegisterAcc> call, Response<RegisterAcc> response) {
-                        try {
-                            RegisterAcc body = response.body();
-                            if (null != body) {
-                                Toast.makeText(mContext, body.msg, Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                    public void onSuccess(RegisterAcc registerAcc) {
+                        showToast(registerAcc.msg);
                     }
 
                     @Override
-                    public void onFailure(Call<RegisterAcc> call, Throwable t) {
-                        Toast.makeText(mContext, t.getMessage(), Toast.LENGTH_SHORT).show();
+                    public void onError(String code, String msg) {
+                        showToast(msg);
                     }
                 });
                 break;
             case R.id.btn_login:
                 Call<Login> loginCall = ZRNetManager.getInstance().loginCallbackByPost(phone, password, ZRNetUtils.getLocalIpAddress());
-                loginCall.enqueue(new Callback<Login>() {
+                loginCall.enqueue(new ResponseCallBack<Login>(Login.class) {
                     @Override
-                    public void onResponse(Call<Login> call, Response<Login> response) {
-                        try {
-                            Login body = response.body();
-                            if (null != body) {
-                                Toast.makeText(mContext, body.msg, Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                    public void onSuccess(Login login) {
+                        Intent intent = new Intent(mContext, ZRActivityMain.class);
+                        mContext.startActivity(intent);
                     }
 
                     @Override
-                    public void onFailure(Call<Login> call, Throwable t) {
-                        Toast.makeText(mContext, t.getMessage(), Toast.LENGTH_SHORT).show();
+                    public void onError(String code, String msg) {
+                        showToast(msg);
                     }
                 });
                 break;
             case R.id.btn_prepare_bind_payment:
                 Call<PrepareBindPayment> prepareBindPaymentCall = ZRNetManager.getInstance().prepareBindPaymentCallbackByPost(realName, identityNo, paymentType, paymentNo, phone);
-                prepareBindPaymentCall.enqueue(new Callback<PrepareBindPayment>() {
+                prepareBindPaymentCall.enqueue(new ResponseCallBack<PrepareBindPayment>(PrepareBindPayment.class) {
                     @Override
-                    public void onResponse(Call<PrepareBindPayment> call, Response<PrepareBindPayment> response) {
-                        try {
-                            PrepareBindPayment body = response.body();
-                            if (null != body) {
-                                Toast.makeText(mContext, body.msg, Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                    public void onSuccess(PrepareBindPayment prepareBindPayment) {
+                        showToast(prepareBindPayment.msg);
                     }
 
                     @Override
-                    public void onFailure(Call<PrepareBindPayment> call, Throwable t) {
-                        Toast.makeText(mContext, t.getMessage(), Toast.LENGTH_SHORT).show();
+                    public void onError(String code, String msg) {
+                        showToast(msg);
                     }
                 });
                 break;
             case R.id.btn_bind_payment:
                 Call<BindPayment> bindPaymentCall = ZRNetManager.getInstance().bindPaymentCallbackByPost(realName, identityNo, paymentType, paymentNo, phone, vCode);
-                bindPaymentCall.enqueue(new Callback<BindPayment>() {
+                bindPaymentCall.enqueue(new ResponseCallBack<BindPayment>(BindPayment.class) {
                     @Override
-                    public void onResponse(Call<BindPayment> call, Response<BindPayment> response) {
-                        try {
-                            BindPayment body = response.body();
-                            if (null != body) {
-                                Toast.makeText(mContext, body.msg, Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                    public void onSuccess(BindPayment bindPayment) {
+                        showToast(bindPayment.msg);
                     }
 
                     @Override
-                    public void onFailure(Call<BindPayment> call, Throwable t) {
-                        Toast.makeText(mContext, t.getMessage(), Toast.LENGTH_SHORT).show();
+                    public void onError(String code, String msg) {
+                        showToast(msg);
                     }
                 });
                 break;
             case R.id.btn_unbind_payment:
                 Call<UnbindPayment> unbindPaymentCall = ZRNetManager.getInstance().unbindPaymentCallbackByPost(paymentNo);
-                unbindPaymentCall.enqueue(new Callback<UnbindPayment>() {
+                unbindPaymentCall.enqueue(new ResponseCallBack<UnbindPayment>(UnbindPayment.class) {
                     @Override
-                    public void onResponse(Call<UnbindPayment> call, Response<UnbindPayment> response) {
-                        try {
-                            UnbindPayment body = response.body();
-                            if (null != body) {
-                                Toast.makeText(mContext, body.msg, Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                    public void onSuccess(UnbindPayment unbindPayment) {
+                        showToast(unbindPayment.msg);
                     }
 
                     @Override
-                    public void onFailure(Call<UnbindPayment> call, Throwable t) {
-                        ZRToastFactory.getToast(mContext, t.getMessage()).show();
+                    public void onError(String code, String msg) {
+                        showToast(msg);
                     }
                 });
                 break;
             case R.id.btn_setTransPwd:
                 Call<SetTransPwd> setTransPwdCall = ZRNetManager.getInstance().setTransPwdCallbackByPost(password);
-                setTransPwdCall.enqueue(new Callback<SetTransPwd>() {
+                setTransPwdCall.enqueue(new ResponseCallBack<SetTransPwd>(SetTransPwd.class) {
                     @Override
-                    public void onResponse(Call<SetTransPwd> call, Response<SetTransPwd> response) {
-                        try {
-                            SetTransPwd body = response.body();
-                            if (null != body) {
-                                Toast.makeText(mContext, body.msg, Toast.LENGTH_SHORT).show();
+                    public void onSuccess(SetTransPwd setTransPwd) {
+                        showToast(setTransPwd.msg);
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
+
+                    @Override
+                    public void onError(String code, String msg) {
+                        showToast(msg);
                         }
+                });
+                break;
+            case R.id.btn_estimateBuyFundFee: // 估算申购费用
+                Call<EstimateBuyFundFee> estimateBuyFundFeeCall = ZRNetManager.getInstance().estimateBuyFundFeeCallbackByPost("2", "ZH000484", 25.00);
+                estimateBuyFundFeeCall.enqueue(new ResponseCallBack<EstimateBuyFundFee>(EstimateBuyFundFee.class) {
+                    @Override
+                    public void onSuccess(EstimateBuyFundFee estimateBuyFundFee) {
+                        showToast(estimateBuyFundFee.msg);
                     }
 
                     @Override
-                    public void onFailure(Call<SetTransPwd> call, Throwable t) {
-                        ZRToastFactory.getToast(mContext, t.getMessage()).show();
+                    public void onError(String code, String msg) {
+                        showToast(msg);
                     }
                 });
                 break;

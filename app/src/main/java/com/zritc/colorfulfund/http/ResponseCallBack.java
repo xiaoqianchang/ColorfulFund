@@ -8,6 +8,8 @@ import com.zritc.colorfulfund.exception.ServerException;
 import com.zritc.colorfulfund.utils.ZRErrors;
 import com.zritc.colorfulfund.utils.ZRNetUtils;
 
+import java.lang.reflect.Field;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -21,20 +23,39 @@ import retrofit2.Response;
  */
 public abstract class ResponseCallBack<T> implements Callback<T> {
 
+    private final Class<?> c;
+    private String code;
+    private String msg;
+
+    public ResponseCallBack(Class<?> c) {
+        this.c = c;
+    }
+
     @Override
     public void onResponse(Call<T> call, Response<T> response) {
         try {
             T body = response.body();
             if (null != body) {
+                // 获取code、msg
+                try {
+                    Field code = c.getField("code");
+                    Field msg = c.getField("msg");
+                    this.code = (String) code.get(body);
+                    this.msg = (String) msg.get(body);
+                } catch (NoSuchFieldException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
                 // 根据code判断
-                if (ZRErrors.SUCCESS.equals(((Login) body).code)) { // 1000
+                if (ZRErrors.SUCCESS.equals(code)) { // 1000
                     onSuccess(body);
                 } else {
-                    if (TextUtils.isEmpty(((Login) body).msg)) {
-                        String errorMsg = ZRErrors.getLocalErrorMsg(ZRApplication.applicationContext, ((Login) body).code);
-                        onError(((Login) body).code, errorMsg);
+                    if (TextUtils.isEmpty(msg)) {
+                        String errorMsg = ZRErrors.getLocalErrorMsg(ZRApplication.applicationContext, code);
+                        onError(code, errorMsg);
                     } else {
-                        onError(((Login) body).code, ((Login) body).msg);
+                        onError(code, msg);
                     }
                 }
             } else {

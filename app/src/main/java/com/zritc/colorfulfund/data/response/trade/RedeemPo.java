@@ -45,6 +45,16 @@ public class RedeemPo implements Serializable {
 	 */
 	public String optype = "";
     
+	/**
+	 * 预计确认日期
+	 */
+	public long expectedConfirmDate;
+
+	/**
+	 * 预计到账日
+	 */
+	public long expectedTransferIntoDate;
+    
     
 	@Override
 	public String toString() {
@@ -54,6 +64,8 @@ public class RedeemPo implements Serializable {
 				", code='" + code + '\'' +
 				", msg='" + msg + '\'' +
 				", optype='" + optype + '\'' +
+				", expectedConfirmDate=" + expectedConfirmDate +
+				", expectedTransferIntoDate=" + expectedTransferIntoDate +
 				'}';
 	}
     
@@ -83,6 +95,14 @@ public class RedeemPo implements Serializable {
 	    		Log.d("RedeemPo", "has no mapping for key " + "optype" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
 			this.optype = jsonObject.optString("optype");
+	    	if (jsonObject.isNull("expectedConfirmDate")) {
+	    		Log.d("RedeemPo", "has no mapping for key " + "expectedConfirmDate" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
+	    	}
+			this.expectedConfirmDate = jsonObject.optLong("expectedConfirmDate");
+	    	if (jsonObject.isNull("expectedTransferIntoDate")) {
+	    		Log.d("RedeemPo", "has no mapping for key " + "expectedTransferIntoDate" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
+	    	}
+			this.expectedTransferIntoDate = jsonObject.optLong("expectedTransferIntoDate");
     	
     	return this;
     }

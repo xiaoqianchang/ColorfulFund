@@ -45,6 +45,11 @@ public class BuyPo implements Serializable {
 	 */
 	public String optype = "";
     
+	/**
+	 * 预计确认日期
+	 */
+	public long orderExpectedConfirmDate;
+    
     
 	@Override
 	public String toString() {
@@ -54,6 +59,7 @@ public class BuyPo implements Serializable {
 				", code='" + code + '\'' +
 				", msg='" + msg + '\'' +
 				", optype='" + optype + '\'' +
+				", orderExpectedConfirmDate=" + orderExpectedConfirmDate +
 				'}';
 	}
     
@@ -83,6 +89,10 @@ public class BuyPo implements Serializable {
 	    		Log.d("BuyPo", "has no mapping for key " + "optype" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
 			this.optype = jsonObject.optString("optype");
+	    	if (jsonObject.isNull("orderExpectedConfirmDate")) {
+	    		Log.d("BuyPo", "has no mapping for key " + "orderExpectedConfirmDate" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
+	    	}
+			this.orderExpectedConfirmDate = jsonObject.optLong("orderExpectedConfirmDate");
     	
     	return this;
     }

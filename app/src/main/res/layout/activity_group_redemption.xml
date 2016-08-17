@@ -2,7 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"    android:background="#f1f1f1">
 
     <include layout="@layout/toolbar_layout"/>
 
@@ -16,22 +16,23 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:gravity="center_vertical"
-                android:text="购买产品组合"/>
+                android:text="购买产品组合"                android:textColor="@android:color/black"
+                android:textSize="@dimen/font_size_16"/>
 
             <include layout="@layout/view_line"/>
 
             <ListView
                 android:id="@+id/lv_product_group"
                 android:layout_width="match_parent"
-                android:layout_height="150dp">
+                android:layout_height="wrap_content">
 
             </ListView>
         </LinearLayout>
@@ -42,15 +43,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:gravity="center_vertical"
-                android:text="金额赎回"/>
+                android:text="金额赎回"                android:textColor="@android:color/black"
+                android:textSize="@dimen/font_size_16"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -61,12 +63,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="赎回费用："/>
+                    android:text="赎回费用："                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/font_size_15"/>
 
                 <TextView
                     android:id="@+id/tv_redemption_money"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/font_size_15"/>
 
             </LinearLayout>
 
@@ -74,7 +78,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -85,13 +89,13 @@
                     android:minWidth="50dp"
                     android:singleLine="true"
                     android:background="@null"
-                    android:textColor="@android:color/black"/>
+                    android:textColor="@android:color/black"                    android:textSize="@dimen/font_size_16"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="元"
-                    android:textColor="@android:color/black"/>
+                    android:textColor="@android:color/black"                    android:textSize="@dimen/font_size_16"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -108,7 +112,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="预计到账时常: "/>
+                android:text="预计到账时常: "                android:textColor="@android:color/black"
+                android:textSize="@dimen/font_size_14"/>
 
             <TextView
                 android:id="@+id/tv_working_days"
@@ -132,7 +137,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="全部赎回"/>
+                android:text="全部赎回"                android:textColor="@android:color/black"
+                android:textSize="@dimen/font_size_16"/>
         </LinearLayout>
         
         <Button
@@ -150,7 +156,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="平安银行全程提供资金安全保障"/>
+            android:text="平安银行全程提供资金安全保障"            android:textColor="@android:color/black"
+            android:textSize="@dimen/font_size_14"/>
     </LinearLayout>
 
 </RelativeLayout>

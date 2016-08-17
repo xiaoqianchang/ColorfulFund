@@ -3,6 +3,7 @@ package com.zritc.colorfulfund.http;
 import com.zritc.colorfulfund.data.response.trade.AdjustPo;
 import com.zritc.colorfulfund.data.response.trade.BindPayment;
 import com.zritc.colorfulfund.data.response.trade.BuyPo;
+import com.zritc.colorfulfund.data.response.trade.EstimateBuyFundFee;
 import com.zritc.colorfulfund.data.response.trade.GetUserBankCards4C;
 import com.zritc.colorfulfund.data.response.trade.PrepareBindPayment;
 import com.zritc.colorfulfund.data.response.trade.RedeemPo;
@@ -166,6 +167,18 @@ public final class ZRNetManager {
                 , @Field("password") String password
                 , @Field("vCode") String vCode
         );
+
+        @FormUrlEncoded
+        @POST
+        Call<EstimateBuyFundFee> estimateBuyFundFeeCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+                , @Field("tradeType") String tradeType
+                , @Field("fundCode") String fundCode
+                , @Field("amount") double amount
+        );
     }
 
     private static ZRNetManager netManager;
@@ -317,6 +330,18 @@ public final class ZRNetManager {
                 , loginName
                 , password
                 , vCode
+        );
+    }
+
+    public Call<EstimateBuyFundFee> estimateBuyFundFeeCallbackByPost(String tradeType, String fundCode, double amount) {
+        return api.estimateBuyFundFeeCallbackByPost(
+                "http://172.16.101.201:9006/trade/estimateBuyFundFee"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+                , tradeType
+                , fundCode
+                , amount
         );
     }
 

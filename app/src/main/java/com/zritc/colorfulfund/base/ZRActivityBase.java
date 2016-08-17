@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.common.ZRAppActivityManager;
 import com.zritc.colorfulfund.presenter.BasePresenter;
 import com.zritc.colorfulfund.ui.ZRDialog;
+import com.zritc.colorfulfund.utils.ZRToastFactory;
 
 import butterknife.ButterKnife;
 
@@ -104,6 +106,15 @@ public abstract class ZRActivityBase<T extends BasePresenter> extends AppCompatA
             mDialog.dismiss();
         }
         mDialog = null;
+    }
+
+    protected void showToast(String msg) {
+        if (!TextUtils.isEmpty(msg) && !isFinishing())
+            ZRToastFactory.getToast(this, msg).show();
+    }
+
+    protected void cancelToast() {
+        ZRToastFactory.cancelToast();
     }
 
     @Override

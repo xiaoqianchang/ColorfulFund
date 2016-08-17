@@ -3,7 +3,7 @@ package com.zritc.colorfulfund.presenter;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.zritc.colorfulfund.data.response.trade.RedeemPo;
+import com.zritc.colorfulfund.http.ResponseCallBack;
 import com.zritc.colorfulfund.http.ZRNetManager;
 import com.zritc.colorfulfund.iView.IGroupRedemptionView;
 
@@ -28,6 +28,11 @@ public class GroupRedemptionPresenter extends BasePresenter<IGroupRedemptionView
 
     }
 
+    /**
+     * 组合赎回
+     * @param poCode
+     * @param amount
+     */
     public void doGroupRedemption(String poCode, String amount) {
         iView.showProgress("开始赎回");
         Call<RedeemPo> redeemPoCall = ZRNetManager.getInstance().redeemPoCallbackByPost(poCode, amount);
@@ -49,6 +54,27 @@ public class GroupRedemptionPresenter extends BasePresenter<IGroupRedemptionView
             public void onFailure(Call<RedeemPo> call, Throwable t) {
                 iView.hideProgress();
                 Toast.makeText(mContext, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * 估算申购费用
+     * @param tradeType
+     * @param fundCode
+     * @param amount
+     */
+    public void doEstimateBuyFundFee(String tradeType, String fundCode, double amount) {
+        Call<EstimateBuyFundFee> estimateBuyFundFeeCall = ZRNetManager.getInstance().estimateBuyFundFeeCallbackByPost(tradeType, fundCode, amount);
+        estimateBuyFundFeeCall.enqueue(new ResponseCallBack<EstimateBuyFundFee>(EstimateBuyFundFee.class) {
+            @Override
+            public void onSuccess(EstimateBuyFundFee estimateBuyFundFee) {
+                showToast(estimateBuyFundFee.msg);
+            }
+
+            @Override
+            public void onError(String code, String msg) {
+                showToast(msg);
             }
         });
     }

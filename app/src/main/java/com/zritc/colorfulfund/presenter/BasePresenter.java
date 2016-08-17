@@ -1,8 +1,10 @@
 package com.zritc.colorfulfund.presenter;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.zritc.colorfulfund.iView.IBaseView;
+import com.zritc.colorfulfund.utils.ZRToastFactory;
 
 import rx.Subscription;
 
@@ -32,4 +34,13 @@ public abstract class BasePresenter<T extends IBaseView> {
      * Presenter释放资源
      */
     public abstract void release();
+
+    protected void showToast(String msg) {
+        if (!TextUtils.isEmpty(msg))
+            ZRToastFactory.getToast(mContext, msg).show();
+    }
+
+    protected void cancelToast() {
+        ZRToastFactory.cancelToast();
+    }
 }

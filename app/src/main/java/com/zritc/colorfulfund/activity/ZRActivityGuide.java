@@ -4,12 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.View;
 
 import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.base.ZRActivityBase;
 import com.zritc.colorfulfund.utils.ZRConstant;
 import com.zritc.colorfulfund.utils.ZRDeviceInfo;
 import com.zritc.colorfulfund.utils.ZRSharePreferenceKeeper;
+
+import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * ZRActivityGuide 引导页
@@ -37,6 +41,15 @@ public class ZRActivityGuide extends ZRActivityBase {
 
 	public void initView() {
 
+	}
+
+	@OnClick(R.id.ib_stepover)
+	public void onClick(View view) {
+		switch (view.getId()) {
+			case R.id.ib_stepover:
+				Intent intent = new Intent(this, ZRActivityMain.class);
+				break;
+		}
 	}
 
 

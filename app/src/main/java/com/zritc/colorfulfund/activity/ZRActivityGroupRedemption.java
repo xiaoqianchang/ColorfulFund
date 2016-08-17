@@ -98,6 +98,7 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
             public void afterTextChanged(Editable s) {
                 // 开始搜索计算、显示
                 calculate(s.toString().trim());
+                groupRedemptionPresenter.doEstimateBuyFundFee("2", "ZH000484", 25.00);
             }
 
             private void checkStr(CharSequence s, int start, int before) {
@@ -163,7 +164,7 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
         }
 
         redemptionCost = "123.00";
-        moneyStr = String.valueOf(totalMoney);
+        moneyStr = String.format("%.2f", totalMoney);
         workingDays = 2;
         isAllRedemption = true;
     }
