@@ -3,6 +3,8 @@ package com.zritc.colorfulfund.presenter;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.zritc.colorfulfund.data.response.trade.EstimateBuyFundFee;
+import com.zritc.colorfulfund.data.response.trade.RedeemPo;
 import com.zritc.colorfulfund.http.ResponseCallBack;
 import com.zritc.colorfulfund.http.ZRNetManager;
 import com.zritc.colorfulfund.iView.IGroupRedemptionView;

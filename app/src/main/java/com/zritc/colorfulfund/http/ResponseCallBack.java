@@ -3,7 +3,6 @@ package com.zritc.colorfulfund.http;
 import android.text.TextUtils;
 
 import com.zritc.colorfulfund.base.ZRApplication;
-import com.zritc.colorfulfund.data.response.user.Login;
 import com.zritc.colorfulfund.exception.ServerException;
 import com.zritc.colorfulfund.utils.ZRErrors;
 import com.zritc.colorfulfund.utils.ZRNetUtils;
@@ -15,7 +14,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * 网络响应封装
+ * 网络响应异常封装
  * <p>
  * Created by Chang.Xiao on 2016/8/16.
  *

@@ -1,4 +1,4 @@
-package com.zritc.colorfulfund.activity;
+package com.zritc.colorfulfund.activity.Fund;
 
 import android.content.Context;
 import android.text.Editable;
@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.zritc.colorfulfund.R;
+import com.zritc.colorfulfund.activity.ZRActivityToolBar;
 import com.zritc.colorfulfund.iView.IGroupRedemptionView;
 import com.zritc.colorfulfund.presenter.GroupRedemptionPresenter;
 import com.zritc.colorfulfund.ui.adapter.abslistview.CommonAdapter;
@@ -98,7 +99,7 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
             public void afterTextChanged(Editable s) {
                 // 开始搜索计算、显示
                 calculate(s.toString().trim());
-                groupRedemptionPresenter.doEstimateBuyFundFee("2", "ZH000484", 25.00);
+//                groupRedemptionPresenter.doEstimateBuyFundFee("2", "ZH000484", 25.00);
             }
 
             private void checkStr(CharSequence s, int start, int before) {

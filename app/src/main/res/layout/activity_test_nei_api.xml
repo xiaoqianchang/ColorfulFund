@@ -75,6 +75,14 @@
         android:textColor="@android:color/black"/>
 
     <Button
+        android:id="@+id/btn_single_redemption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="单个赎回"
+        android:textColor="@android:color/black"/>
+
+    <Button
         android:id="@+id/btn_group_redemption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

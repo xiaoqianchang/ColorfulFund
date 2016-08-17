@@ -48,6 +48,7 @@ public class ZRActivityGuide extends ZRActivityBase {
 		switch (view.getId()) {
 			case R.id.ib_stepover:
 				Intent intent = new Intent(this, ZRActivityMain.class);
+				startActivity(intent);
 				break;
 		}
 	}

@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.zritc.colorfulfund.R;
+import com.zritc.colorfulfund.activity.Fund.ZRActivityGroupRedemption;
+import com.zritc.colorfulfund.activity.Fund.ZRActivitySingleRedemption;
 import com.zritc.colorfulfund.base.ZRActivityBase;
 import com.zritc.colorfulfund.data.response.trade.BindPayment;
 import com.zritc.colorfulfund.data.response.trade.EstimateBuyFundFee;
@@ -53,7 +55,7 @@ public class TestNetApiActivity extends ZRActivityBase {
     protected void initPresenter() {
     }
 
-    @OnClick({R.id.btn_prepareRegisterAcc, R.id.btn_registerAcc, R.id.btn_login, R.id.btn_prepare_bind_payment, R.id.btn_bind_payment, R.id.btn_unbind_payment, R.id.btn_setTransPwd, R.id.btn_group_redemption, R.id.btn_estimateBuyFundFee})
+    @OnClick({R.id.btn_prepareRegisterAcc, R.id.btn_registerAcc, R.id.btn_login, R.id.btn_prepare_bind_payment, R.id.btn_bind_payment, R.id.btn_unbind_payment, R.id.btn_setTransPwd, R.id.btn_group_redemption, R.id.btn_single_redemption, R.id.btn_estimateBuyFundFee})
     public void onClick(View view) {
         String realName = "肖昌";
         String identityNo = "110101190001012837";
@@ -175,6 +177,9 @@ public class TestNetApiActivity extends ZRActivityBase {
                         showToast(msg);
                     }
                 });
+                break;
+            case R.id.btn_single_redemption: // 单个赎回
+                startActivity(new Intent(this, ZRActivitySingleRedemption.class));
                 break;
             case R.id.btn_group_redemption: // 组合赎回
                 Intent intent = new Intent(mContext, ZRActivityGroupRedemption.class);

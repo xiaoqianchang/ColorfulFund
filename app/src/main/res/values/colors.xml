@@ -5,6 +5,17 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="colorMarker1">#FF1C30B3</color>
+    <color name="colorMarker2">#FF616DB9</color>
+    <color name="colorMarker3">#FFAEB0B9</color>
+    <color name="colorMarker4">#FF16A152</color>
+    <color name="colorMarker5">#FF50CC1B</color>
+    <color name="colorMarker6">#FFB4CC1B</color>
+    <color name="colorMarker7">#FF93948B</color>
+    <color name="colorMarker8">#FFB95B17</color>
+    <color name="colorMarker9">#FFB91C17</color>
+    <color name="colorMarker10">#FFB9176D</color>
+
     <!-- base color 40000000 9000-->
     <color name="shadow_gray">#9000</color>
     <color name="shadow_gray2">#40000000</color>

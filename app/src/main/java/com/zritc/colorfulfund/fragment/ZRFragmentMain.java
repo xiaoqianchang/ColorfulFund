@@ -8,8 +8,7 @@ import android.view.ViewGroup;
 
 import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.activity.CardManage.ZRActivityCardManage;
-import com.zritc.colorfulfund.activity.Fund.ZRActivityMultiFundApplyPurchase;
-import com.zritc.colorfulfund.activity.ZRActivityGroupRedemption;
+import com.zritc.colorfulfund.activity.Fund.ZRActivityGroupRedemption;
 import com.zritc.colorfulfund.base.ZRFragmentBase;
 
 import butterknife.ButterKnife;
