@@ -4,7 +4,7 @@
     android:id="@+id/id_rootview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f1f1f1">
+    android:background="@color/app_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,7 +48,7 @@
 
         </LinearLayout>
 
-        <include layout="@layout/view_line" />
+        <include layout="@layout/view_tabline" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -78,7 +78,7 @@
 
         </LinearLayout>
 
-        <include layout="@layout/view_line" />
+        <include layout="@layout/view_tabline" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -109,33 +109,43 @@
 
         </LinearLayout>
 
-        <include layout="@layout/view_line" />
+        <include                         android:id="@+id/id_tab_line"
+            layout="@layout/view_tabline"
+            android:visibility="gone" />
 
-        <RelativeLayout
-            android:id="@+id/id_rl_bank_of_card"
+        <LinearLayout
+            android:id="@+id/id_ll_bank_card_type"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_60"
-            android:background="#ffffff"
-            android:gravity="center_horizontal"
+            android:layout_height="@dimen/height_88"
+            android:background="#fcfcfc"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/padding_30"
+            android:paddingRight="@dimen/padding_30"
             android:visibility="gone">
 
-            <ImageView
-                android:id="@+id/id_img_bank_of_card"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/ic_logo" />
+            <TextView
+                android:id="@+id/id_txt_bank_card_type"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="卡类型"
+                android:textColor="@color/ltblack"
+                android:textSize="@dimen/font_size_15" />
 
             <TextView
-                android:id="@+id/id_txt_card_of_bank"
-                android:layout_width="wrap_content"
+                android:id="@+id/id_txt_card_info"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/id_img_bank_of_card"
-                android:text="招商银行"
-                android:textSize="@dimen/font_size_14" />
+                android:layout_marginLeft="@dimen/padding_20"
+                android:textColor="@color/ltblack"
+                android:textSize="@dimen/font_size_15" />
+                                        </LinearLayout>
 
-        </RelativeLayout>
+        <include
+
+android:id="@+id/id_line"
+        layout="@layout/view_line" />
 
         <include
             layout="@layout/view_line"
@@ -175,46 +185,32 @@
 
         <include layout="@layout/view_line" />
 
-        <TextView
-            android:id="@+id/id_txt_card_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_30"
-            android:layout_marginRight="@dimen/padding_30"
-            android:layout_marginTop="@dimen/padding_20"
-            android:text="该卡单笔限额：30万 日累计限额：300万"
-            android:textSize="@dimen/font_size_14"
-            android:visibility="gone" />
-
-        <CheckBox
-            android:id="@+id/id_ck_agree_pro"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_30"
-            android:layout_marginRight="@dimen/padding_30"
-            android:layout_marginTop="@dimen/padding_20"
-            android:checked="true"
-            android:text="同意基金交易服务协议"
-            android:textSize="@dimen/font_size_14" />
-
-        <TextView
-            android:id="@+id/id_txt_tip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_30"
-            android:layout_marginRight="@dimen/padding_30"
-            android:layout_marginTop="@dimen/padding_20"
-            android:gravity="center"
-            android:text="本交易由基金销售机构盈米财富管理公司提供基金销售资格证书：000000378"
-            android:textSize="@dimen/font_size_14" />
-
         <Button
             android:id="@+id/id_btn_next"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_88"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/padding_20"
-            android:text="下一步" />
+            android:layout_marginLeft="@dimen/padding_30"
+            android:layout_marginRight="@dimen/padding_30"
+            android:layout_marginTop="@dimen/padding_54"
 
-    </LinearLayout>
+android:background="@drawable/btn_blue"
+        android:enabled="false"
+            android:text="同意协议并绑定"
+            android:textColor="@color/blue_btn_selector"
+            android:textSize="@dimen/font_size_15" />
+
+        <TextView
+            android:id="@+id/id_txt_trade_pro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_30"
+            android:layout_marginRight="@dimen/padding_30"
+            android:layout_marginTop="@dimen/padding_30"
+            android:gravity="right"
+            android:text="《基金交易服务协议》"
+            android:textColor="@color/ltblue"
+            android:textSize="@dimen/font_size_14" />
+
+        </LinearLayout>
 </ScrollView>

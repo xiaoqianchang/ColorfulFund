@@ -363,7 +363,9 @@
 
         <activity android:name=".activity.TestNetApiActivity">
         </activity>
-        <activity android:name=".activity.Fund.ZRActivityGroupRedemption">
+        <activity             android:name=".activity.Fund.ZRActivityGroupRedemption"            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden" >
         </activity>
         <activity android:name=".activity.Fund.ZRActivitySingleRedemption">
         </activity>

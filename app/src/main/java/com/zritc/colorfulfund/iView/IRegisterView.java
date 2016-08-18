@@ -1,5 +1,7 @@
 package com.zritc.colorfulfund.iView;
 
+import com.zritc.colorfulfund.data.response.user.Login;
+
 /**
  * $desc$
  * <p>
@@ -11,4 +13,10 @@ public interface IRegisterView extends IBaseView {
 
     void showProgress(CharSequence message);
     void hideProgress();
+    void sendAuthCodeSucess();
+    void sendAuthCodeFail(String msg);
+    void registerSuccess();
+    void registerFail(String msg);
+    void loginSuccess(Login login);
+    void loginFail(String message);
 }

@@ -4,6 +4,6 @@
     <item android:color="@color/white" android:state_pressed="true"/>
     <item android:color="@color/white" android:state_focused="true"/>
     <item android:color="@color/white" android:state_selected="true"/>
-    <item android:color="@color/white" android:state_enabled="false"/>
+    <item android:color="@color/gray" android:state_enabled="false"/>
     <item android:color="@color/white"/>
 </selector>

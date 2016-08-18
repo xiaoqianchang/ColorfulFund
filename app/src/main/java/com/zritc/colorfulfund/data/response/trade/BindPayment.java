@@ -10,11 +10,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
 /**
- * Net Response Bean
+ * Net Response Bean 绑定银行卡/开户
+ *
+ * package: 						com.zrt.dc.controllers.trade
+ * svcName(服务名): 					BindPayment
+ * svcCaption( 服务中文名，可用于注释): 	绑定银行卡/开户
+ * mode(http_get or http_post): 	HTTP_POST
+ * target(与init里的key相对应): 		http://172.16.101.201:9006/trade/bindPayment
+ * comments(服务详细备注，可用于注释): 		
  * <p>
  * Created by Chang.Xiao on .
  */

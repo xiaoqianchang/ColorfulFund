@@ -1,16 +1,11 @@
 package com.zritc.colorfulfund.presenter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.widget.Toast;
 
-import com.zritc.colorfulfund.activity.ZRActivityMain;
 import com.zritc.colorfulfund.data.response.user.Login;
 import com.zritc.colorfulfund.http.ResponseCallBack;
 import com.zritc.colorfulfund.http.ZRNetManager;
 import com.zritc.colorfulfund.iView.ILoginView;
-import com.zritc.colorfulfund.utils.ZRConstant;
-import com.zritc.colorfulfund.utils.ZRSharePreferenceKeeper;
 import com.zritc.colorfulfund.utils.ZRToastFactory;
 
 import retrofit2.Call;
@@ -38,17 +33,8 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
         loginCall.enqueue(new ResponseCallBack<Login>(Login.class) {
             @Override
             public void onSuccess(Login login) {
-                Toast.makeText(mContext, login.msg, Toast.LENGTH_SHORT).show();
-                        // 登录成功，保存状态
-                        ZRSharePreferenceKeeper.keepStringValue(mContext, ZRConstant.KEY_PHONE, loginName);
-                        ZRSharePreferenceKeeper.keepStringValue(mContext, ZRConstant.KEY_PASSWORD, password);
-                ZRSharePreferenceKeeper.keepStringValue(mContext, ZRConstant.KEY_SID, login.sid);
-                ZRSharePreferenceKeeper.keepStringValue(mContext, ZRConstant.KEY_RID, login.rid);
-
-                    Intent intent = new Intent(mContext, ZRActivityMain.class);
-                    mContext.startActivity(intent);
-
                 iView.hideProgress();
+                iView.loginSuccess(login);
             }
 
             @Override

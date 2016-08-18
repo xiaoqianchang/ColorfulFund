@@ -7,6 +7,6 @@
 
     <solid android:color="@color/ltblue" />
 
-    <!-- <corners android:radius="@dimen/padding_0" /> -->
+    <corners android:radius="8dp" />
 
 </shape>

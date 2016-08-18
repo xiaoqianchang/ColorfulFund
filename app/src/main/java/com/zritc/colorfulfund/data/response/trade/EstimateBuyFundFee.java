@@ -10,11 +10,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
 /**
- * Net Response Bean
+ * Net Response Bean 估算申购费用
+ *
+ * package: 						com.zrt.dc.controllers.trade
+ * svcName(服务名): 					EstimateBuyFundFee
+ * svcCaption( 服务中文名，可用于注释): 	估算申购费用
+ * mode(http_get or http_post): 	HTTP_POST
+ * target(与init里的key相对应): 		http://172.16.101.201:9006/trade/estimateBuyFundFee
+ * comments(服务详细备注，可用于注释): 		用户提供金额，估算申购单只基金或基金组合所需的费用
  * <p>
  * Created by Chang.Xiao on .
  */

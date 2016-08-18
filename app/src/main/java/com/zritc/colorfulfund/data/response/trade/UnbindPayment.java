@@ -10,11 +10,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
 /**
- * Net Response Bean
+ * Net Response Bean 解绑支付银行卡
+ *
+ * package: 						com.zrt.dc.controllers.trade
+ * svcName(服务名): 					UnbindPayment
+ * svcCaption( 服务中文名，可用于注释): 	解绑支付银行卡
+ * mode(http_get or http_post): 	HTTP_POST
+ * target(与init里的key相对应): 		http://172.16.101.201:9006/trade/unbindPayment
+ * comments(服务详细备注，可用于注释): 		注意这里只是解绑该用户的银行卡号，并不涉及用户已绑定的身份证号码
  * <p>
  * Created by Chang.Xiao on .
  */

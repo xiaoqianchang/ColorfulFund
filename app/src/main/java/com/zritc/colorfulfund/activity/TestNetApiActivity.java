@@ -10,6 +10,7 @@ import com.zritc.colorfulfund.activity.Fund.ZRActivitySingleRedemption;
 import com.zritc.colorfulfund.base.ZRActivityBase;
 import com.zritc.colorfulfund.data.response.trade.BindPayment;
 import com.zritc.colorfulfund.data.response.trade.EstimateBuyFundFee;
+import com.zritc.colorfulfund.data.response.trade.GetUserBankCards4C;
 import com.zritc.colorfulfund.data.response.trade.PrepareBindPayment;
 import com.zritc.colorfulfund.data.response.trade.UnbindPayment;
 import com.zritc.colorfulfund.data.response.user.Login;
@@ -55,7 +56,7 @@ public class TestNetApiActivity extends ZRActivityBase {
     protected void initPresenter() {
     }
 
-    @OnClick({R.id.btn_prepareRegisterAcc, R.id.btn_registerAcc, R.id.btn_login, R.id.btn_prepare_bind_payment, R.id.btn_bind_payment, R.id.btn_unbind_payment, R.id.btn_setTransPwd, R.id.btn_group_redemption, R.id.btn_single_redemption, R.id.btn_estimateBuyFundFee})
+    @OnClick({R.id.btn_prepareRegisterAcc, R.id.btn_registerAcc, R.id.btn_login, R.id.btn_prepare_bind_payment, R.id.btn_bind_payment, R.id.btn_unbind_payment, R.id.btn_setTransPwd, R.id.btn_group_redemption, R.id.btn_user_bank_cards4C, R.id.btn_single_redemption, R.id.btn_estimateBuyFundFee})
     public void onClick(View view) {
         String realName = "肖昌";
         String identityNo = "110101190001012837";
@@ -170,6 +171,20 @@ public class TestNetApiActivity extends ZRActivityBase {
                     @Override
                     public void onSuccess(EstimateBuyFundFee estimateBuyFundFee) {
                         showToast(estimateBuyFundFee.msg);
+                    }
+
+                    @Override
+                    public void onError(String code, String msg) {
+                        showToast(msg);
+                    }
+                });
+                break;
+            case R.id.btn_user_bank_cards4C:
+                Call<GetUserBankCards4C> userBankCards4CCallbackByPost = ZRNetManager.getInstance().getUserBankCards4CCallbackByPost();
+                userBankCards4CCallbackByPost.enqueue(new ResponseCallBack<GetUserBankCards4C>(GetUserBankCards4C.class) {
+                    @Override
+                    public void onSuccess(GetUserBankCards4C getUserBankCards4C) {
+                        showToast(getUserBankCards4C.msg);
                     }
 
                     @Override

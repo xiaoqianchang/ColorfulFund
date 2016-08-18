@@ -1,8 +1,8 @@
 package com.zritc.colorfulfund.activity.Fund;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
@@ -28,13 +28,13 @@ import butterknife.OnClick;
 public class ZRActivitySingleRedemption extends ZRActivityToolBar<SingleRedemptionPresenter> implements ISingleRedemptionView {
 
     @Bind(R.id.tv_cash)
-    TextView tv_cash; // 大成现金增利货币
+    TextView tvCash; // 大成现金增利货币
 
     @Bind(R.id.tv_redemption_fee)
     TextView tvRedemptionFee; // 赎回费用
 
     @Bind(R.id.edt_redemption_money)
-    EditText edt_redemption_money; // 谁会份额
+    EditText edtRedemptionMoney; // 赎回份额
 
     @Bind(R.id.tv_working_days)
     TextView tvWorkingDays;
@@ -63,13 +63,14 @@ public class ZRActivitySingleRedemption extends ZRActivityToolBar<SingleRedempti
 
     @Override
     public void initView() {
+        setTitleText("单支基金赎回");
         initData();
 
-        tv_cash.setText(String.format(getResources().getString(R.string.money), cash));
+        tvCash.setText(cash);
         tvRedemptionFee.setText(redemptionFee);
         tvWorkingDays.setText(String.format(getResources().getString(R.string.working_days), workingDays));
 
-        edt_redemption_money.addTextChangedListener(new TextWatcher() {
+        edtRedemptionMoney.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -87,13 +88,13 @@ public class ZRActivitySingleRedemption extends ZRActivityToolBar<SingleRedempti
             @Override
             public void afterTextChanged(Editable s) {
                 // 判断输入的金额是否大于持有的份额
-                if (Double.parseDouble(s.toString().trim()) > Double.parseDouble(tv_cash.getText().toString())) {
+                if (!TextUtils.isEmpty(s.toString().trim())) {
+                    if (Double.parseDouble(s.toString().trim()) > Double.parseDouble(tvCash.getText().toString())) {
                     showToast("您输入的份额大于可赎回份额。");
                 }
             }
+            }
         });
-
-        btnRedemption.setOnClickListener(v -> startActivity(new Intent(this, ZRActivityRedemptionResult.class)));
     }
 
     /**
@@ -105,7 +106,7 @@ public class ZRActivitySingleRedemption extends ZRActivityToolBar<SingleRedempti
         workingDays = "2";
     }
 
-    /*@OnClick(R.id.btn_redemption)
+    @OnClick(R.id.btn_redemption)
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_redemption:
@@ -113,7 +114,7 @@ public class ZRActivitySingleRedemption extends ZRActivityToolBar<SingleRedempti
                 startActivity(new Intent(this, ZRActivityRedemptionResult.class));
                 break;
         }
-    }*/
+    }
 
     @Override
     public void showProgress(CharSequence message) {

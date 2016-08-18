@@ -10,11 +10,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
 /**
- * Net Response Bean
+ * Net Response Bean 组合赎回
+ *
+ * package: 						com.zrt.dc.controllers.trade
+ * svcName(服务名): 					RedeemPo
+ * svcCaption( 服务中文名，可用于注释): 	组合赎回
+ * mode(http_get or http_post): 	HTTP_POST
+ * target(与init里的key相对应): 		http://172.16.101.201:9006/trade/redeemPo
+ * comments(服务详细备注，可用于注释): 		赎回比例ratio 和赎回金额amount至少填一个，同时存在以赎回比例为准
  * <p>
  * Created by Chang.Xiao on .
  */

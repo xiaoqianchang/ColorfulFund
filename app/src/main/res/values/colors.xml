@@ -5,18 +5,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="colorMarker1">#FF1C30B3</color>
-    <color name="colorMarker2">#FF616DB9</color>
-    <color name="colorMarker3">#FFAEB0B9</color>
-    <color name="colorMarker4">#FF16A152</color>
-    <color name="colorMarker5">#FF50CC1B</color>
-    <color name="colorMarker6">#FFB4CC1B</color>
-    <color name="colorMarker7">#FF93948B</color>
-    <color name="colorMarker8">#FFB95B17</color>
-    <color name="colorMarker9">#FFB91C17</color>
-    <color name="colorMarker10">#FFB9176D</color>
-
-    <!-- base color 40000000 9000-->
+            <!-- base color 40000000 9000-->
     <color name="shadow_gray">#9000</color>
     <color name="shadow_gray2">#40000000</color>
     <color name="transparent">#00000000</color>
@@ -29,7 +18,7 @@
     <color name="ltorange">#fff02323</color>
     <color name="green">#ff0073dd</color>
     <color name="blue">#ff0185f1</color>
-    <color name="ltblue">#ff3e98ea</color>
+    <color name="ltblue">#ff5c62d9</color>
     <color name="dblue">#23bef0</color>
     <color name="ltblack">#ff222222</color>
     <color name="gray">#ff333333</color>
@@ -51,14 +40,14 @@
     <color name="edittext_background_white">@color/white</color>
     <color name="edittext_background_blue">@color/dblue</color>
     <color name="border_spliter">@color/color_divider</color>
-    <color name="app_bg">#f1f1f1</color>
+    <color name="app_bg">#f6f5fa</color>
     <color name="line_color">#ffdfdfdf</color>
     <color name="line_color2">#ffc2c2c2</color>
     <color name="menu_bg">#eeeeee</color>
     <color name="menu_item">#fff8fafc</color>
     <color name="green_color">#4cc05f</color>
     <color name="text_color">#7c7c7c</color>
-    <color name="disable_btn_color">#ffB7B7B7</color>
+    <color name="disable_btn_color">#ffbababa</color>
     <color name="disable_text_color">#ff9E9E9E</color>
     <color name="color_hint">#D1D5DB</color>
 </resources>

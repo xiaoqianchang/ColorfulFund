@@ -1,6 +1,7 @@
 package com.zritc.colorfulfund.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.zritc.colorfulfund.R;
-import com.zritc.colorfulfund.data.TimeLineModel;
 import com.zritc.colorfulfund.widget.TimeLineMarker;
 
 import java.util.List;
@@ -21,17 +21,12 @@ import java.util.List;
  */
 public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.TimeLineViewHolder> {
 
-    private List<TimeLineModel> mDatas;
+    private List<String> mDatas;
     private LayoutInflater mInflater;
-    private int[] mColors;
 
-    public TimeLineAdapter(Context context, List<TimeLineModel> mDatas) {
+    public TimeLineAdapter(Context context, List<String> mDatas) {
         mInflater = LayoutInflater.from(context);
         this.mDatas = mDatas;
-        mColors = new int[] { R.color.colorMarker1, R.color.colorMarker2, R.color.colorMarker3,
-                R.color.colorMarker4, R.color.colorMarker5, R.color.colorMarker6,
-                R.color.colorMarker7, R.color.colorMarker8, R.color.colorMarker9,
-                R.color.colorMarker10  };
     }
 
     /**
@@ -54,7 +49,7 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.TimeLi
     }
 
     /**
-     * 创建、渲染视图并初始化(每个item執行一次)
+     * 创建、渲染视图并初始化
      * @param parent
      * @param viewType   ListView的每一个条目布局唯一，然而Recycler的每一个条目可以有不同布局
      * @return
@@ -72,7 +67,7 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.TimeLi
      */
     @Override
     public void onBindViewHolder(TimeLineViewHolder holder, int position) {
-        TimeLineModel timeLineModel = mDatas.get(position);
+        String timeLineModel = mDatas.get(position);
         holder.setData(timeLineModel);
     }
 
@@ -90,11 +85,9 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.TimeLi
 
         private TextView name;
 
-        // 这个ViewHolder相当于ListView的ViewHolder
         public TimeLineViewHolder(View itemView, int type) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.item_time_line_txt);
-            // 设置时间轴的效果
             TimeLineMarker timeLineMarker = (TimeLineMarker) itemView.findViewById(R.id.item_time_line_mark);
             if (type == ItemType.ATOM.getValue()) {
                 timeLineMarker.setBeginLine(null);
@@ -106,13 +99,12 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.TimeLi
             }
 
             // 动态设置marker的颜色(drawable的shap)
-            GradientDrawable myGrad = (GradientDrawable) timeLineMarker.getMarkerDrawable();
-            int ram = (int) (Math.random() * 10);
-            myGrad.setColor(itemView.getContext().getResources().getColor(mColors[ram]));
+            timeLineMarker.setMarkerSize(60);
+            timeLineMarker.setMarkerDrawable(itemView.getContext().getResources().getDrawable(R.mipmap.icon_weixin));
         }
 
-        public void setData(TimeLineModel timeLineModel) {
-            name.setText("名字：" + timeLineModel.getName() + "  年龄：" + timeLineModel.getAge());
+        public void setData(String timeLineModel) {
+            name.setText(timeLineModel);
         }
     }
 

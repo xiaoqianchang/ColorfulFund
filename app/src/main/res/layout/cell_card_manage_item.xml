@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#fcfcfc"
+    android:layout_height="@dimen/height_210"
+    android:background="@mipmap/bg_green"
+    android:gravity="center_vertical"
     android:orientation="vertical"
-    android:padding="@dimen/padding_20">
+    android:padding="@dimen/padding_30">
 
     <RelativeLayout
-        android:id="@+id/rl_video"
+        android:id="@+id/id_rl_bank_of_card"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <com.zritc.colorfulfund.ui.ZRCircleImageView
             android:id="@+id/id_img_card"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_marginRight="@dimen/padding_30"
             android:scaleType="centerCrop"
             android:src="@mipmap/ic_logo" />
@@ -23,29 +24,42 @@
             android:id="@+id/id_txt_bank_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_toRightOf="@id/id_img_card"
-            android:text="招商银行（尾号1234）"
+            android:text="中国农业银行"
+            android:textColor="#ffffff"
             android:textSize="@dimen/font_size_16" />
 
         <TextView
             android:id="@+id/id_txt_single_quota"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/id_img_card"
-            android:layout_toRightOf="@id/id_img_card"
-            android:text="单笔限额30万"
-            android:textSize="@dimen/font_size_14" />
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/id_img_card"
+            android:text="单笔限额：30万"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/font_size_12" />
 
         <TextView
             android:id="@+id/id_txt_day_quota"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/id_img_card"
-            android:layout_marginLeft="@dimen/padding_20"
-            android:layout_toRightOf="@id/id_txt_single_quota"
-            android:text="日累积限额300万"
-            android:textSize="@dimen/font_size_14" />
+            android:layout_alignParentRight="true"
+            android:text="日累计限额：100万"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/font_size_12" />
 
     </RelativeLayout>
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/id_txt_card_of_bank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="62dp"
+        android:layout_marginTop="@dimen/padding_20"
+        android:text="**** **** **** 0223"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/font_size_16" />
+
+</LinearLayout>

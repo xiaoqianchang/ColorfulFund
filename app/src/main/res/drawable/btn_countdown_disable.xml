@@ -3,10 +3,10 @@
 
     <stroke
         android:width="@dimen/control_border_width"
-        android:color="@color/orange" />
+        android:color="@color/disable_btn_color" />
 
-    <solid android:color="@color/transparent" />
+    <solid android:color="@color/disable_btn_color" />
 
-    <corners android:radius="@dimen/padding_15" />
+    <corners android:radius="@dimen/padding_5" />
 
 </shape>

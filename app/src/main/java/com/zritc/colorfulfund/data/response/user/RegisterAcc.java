@@ -10,11 +10,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
 /**
- * Net Response Bean
+ * Net Response Bean 注册APP用户
+ *
+ * package: 						com.zrt.dc.controllers.user
+ * svcName(服务名): 					RegisterAcc
+ * svcCaption( 服务中文名，可用于注释): 	注册APP用户
+ * mode(http_get or http_post): 	HTTP_POST
+ * target(与init里的key相对应): 		172.16.101.201/user/registerAcc
+ * comments(服务详细备注，可用于注释): 		用户输入之前利用手机号码获取的验证码，完成注册
  * <p>
  * Created by Chang.Xiao on .
  */

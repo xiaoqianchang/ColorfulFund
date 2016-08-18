@@ -10,11 +10,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
 /**
- * Net Response Bean
+ * Net Response Bean 设置交易密码
+ *
+ * package: 						com.zrt.dc.controllers.user
+ * svcName(服务名): 					SetTransPwd
+ * svcCaption( 服务中文名，可用于注释): 	设置交易密码
+ * mode(http_get or http_post): 	HTTP_POST
+ * target(与init里的key相对应): 		172.16.101.201/user/setTransPwd
+ * comments(服务详细备注，可用于注释): 		在第一次开户时，要求用户设置交易密码
  * <p>
  * Created by Chang.Xiao on .
  */

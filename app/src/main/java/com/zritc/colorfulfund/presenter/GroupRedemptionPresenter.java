@@ -1,7 +1,6 @@
 package com.zritc.colorfulfund.presenter;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.zritc.colorfulfund.data.response.trade.EstimateBuyFundFee;
 import com.zritc.colorfulfund.data.response.trade.RedeemPo;
@@ -10,8 +9,6 @@ import com.zritc.colorfulfund.http.ZRNetManager;
 import com.zritc.colorfulfund.iView.IGroupRedemptionView;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * $desc$
@@ -38,24 +35,17 @@ public class GroupRedemptionPresenter extends BasePresenter<IGroupRedemptionView
     public void doGroupRedemption(String poCode, String amount) {
         iView.showProgress("开始赎回");
         Call<RedeemPo> redeemPoCall = ZRNetManager.getInstance().redeemPoCallbackByPost(poCode, amount);
-        redeemPoCall.enqueue(new Callback<RedeemPo>() {
+        redeemPoCall.enqueue(new ResponseCallBack<RedeemPo>(RedeemPo.class) {
             @Override
-            public void onResponse(Call<RedeemPo> call, Response<RedeemPo> response) {
-                try {
-                    RedeemPo body = response.body();
-                    if (null != body) {
-                        Toast.makeText(mContext, body.msg, Toast.LENGTH_SHORT).show();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            public void onSuccess(RedeemPo redeemPo) {
                 iView.hideProgress();
+                iView.onSuccess(redeemPo);
             }
 
             @Override
-            public void onFailure(Call<RedeemPo> call, Throwable t) {
+            public void onError(String code, String msg) {
                 iView.hideProgress();
-                Toast.makeText(mContext, t.getMessage(), Toast.LENGTH_SHORT).show();
+                iView.onError(msg);
             }
         });
     }
@@ -71,12 +61,12 @@ public class GroupRedemptionPresenter extends BasePresenter<IGroupRedemptionView
         estimateBuyFundFeeCall.enqueue(new ResponseCallBack<EstimateBuyFundFee>(EstimateBuyFundFee.class) {
             @Override
             public void onSuccess(EstimateBuyFundFee estimateBuyFundFee) {
-                showToast(estimateBuyFundFee.msg);
+                iView.onSuccess(estimateBuyFundFee);
             }
 
             @Override
             public void onError(String code, String msg) {
-                showToast(msg);
+                iView.onError(msg);
             }
         });
     }

@@ -75,6 +75,14 @@
         android:textColor="@android:color/black"/>
 
     <Button
+        android:id="@+id/btn_user_bank_cards4C"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="基金组合详细"
+        android:textColor="@android:color/black"/>
+
+    <Button
         android:id="@+id/btn_single_redemption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

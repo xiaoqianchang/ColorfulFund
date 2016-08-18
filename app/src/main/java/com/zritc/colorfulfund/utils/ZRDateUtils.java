@@ -215,6 +215,15 @@ public class ZRDateUtils {
     }
 
     /**
+     * 得到相差的天数
+     * @param diffTime 相差的时间戳
+     * @return
+     */
+    public static int getDiffDays(long diffTime) {
+        return (int) (diffTime / (1000 * 60 * 60 * 24));
+    }
+
+    /**
      * 计算时差
      *
      * @param starttime

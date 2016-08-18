@@ -90,6 +90,10 @@ public abstract class ZRActivityToolBar<T extends BasePresenter> extends ZRActiv
                 });
     }
 
+    /**
+     * set title text
+     * @param title
+     */
     protected void setTitleText(CharSequence title){
         mCenterTitle.setText(title);
     }

@@ -10,11 +10,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
 /**
- * Net Response Bean
+ * Net Response Bean 组合调仓
+ *
+ * package: 						com.zrt.dc.controllers.trade
+ * svcName(服务名): 					AdjustPo
+ * svcCaption( 服务中文名，可用于注释): 	组合调仓
+ * mode(http_get or http_post): 	HTTP_POST
+ * target(与init里的key相对应): 		http://172.16.101.201:9006/trade/adjustPo
+ * comments(服务详细备注，可用于注释): 		对某组合当前基金比例进行调整，使之满足组合预先设定的基金比例。       如果当前基金比例与设定基金比例偏离度小于某一阈值，则不作调整。
  * <p>
  * Created by Chang.Xiao on .
  */

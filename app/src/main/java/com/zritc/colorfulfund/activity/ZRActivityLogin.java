@@ -10,9 +10,10 @@ import android.widget.TextView;
 
 import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.base.ZRActivityBase;
-import com.zritc.colorfulfund.data.response.trade.PrepareBindPayment;
+import com.zritc.colorfulfund.data.response.user.Login;
 import com.zritc.colorfulfund.iView.ILoginView;
 import com.zritc.colorfulfund.presenter.LoginPresenter;
+import com.zritc.colorfulfund.utils.ZRConstant;
 import com.zritc.colorfulfund.utils.ZRNetUtils;
 import com.zritc.colorfulfund.utils.ZRSharePreferenceKeeper;
 import com.zritc.colorfulfund.utils.ZRToastFactory;
@@ -62,10 +63,10 @@ public class ZRActivityLogin extends ZRActivityBase<LoginPresenter> implements I
     protected void onStart() {
         super.onStart();
         // 获取上次登录时的账号
-        String user_name = ZRSharePreferenceKeeper.getStringValue(this, "user_name");
-        edtUserName.setText(user_name);
+        String phone = ZRSharePreferenceKeeper.getStringValue(this, ZRConstant.KEY_PHONE);
+        edtUserName.setText(phone);
         // 让光标在最后显示
-        edtUserName.setSelection(user_name.length());
+        edtUserName.setSelection(phone.length());
     }
 
     @OnClick({R.id.img_back, R.id.tv_wechat_login, R.id.btn_user_login, R.id.tv_register})
@@ -85,7 +86,6 @@ public class ZRActivityLogin extends ZRActivityBase<LoginPresenter> implements I
             case R.id.tv_register:
                 Intent intent = new Intent(this, ZRActivityRegister.class);
                 startActivity(intent);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 break;
         }
     }
@@ -111,14 +111,20 @@ public class ZRActivityLogin extends ZRActivityBase<LoginPresenter> implements I
     }
 
     @Override
-    public void loginSuccess(PrepareBindPayment prepareBindPayment) {
-        // 登录成功，保存用户名
-        ZRSharePreferenceKeeper.keepStringValue(this, "user_name", edtUserName.getText().toString().trim());
+    public void loginSuccess(Login login) {
+        // 登录成功，保存状态
+        ZRSharePreferenceKeeper.keepStringValue(this, ZRConstant.KEY_PHONE, edtUserName.getText().toString().trim());
+        ZRSharePreferenceKeeper.keepStringValue(this, ZRConstant.KEY_PASSWORD, edtUserPass.getText().toString().trim());
+        ZRSharePreferenceKeeper.keepStringValue(this, ZRConstant.KEY_SID, login.sid);
+        ZRSharePreferenceKeeper.keepStringValue(this, ZRConstant.KEY_RID, login.rid);
+
+        Intent intent = new Intent(mContext, ZRActivityMain.class);
+        mContext.startActivity(intent);
     }
 
     @Override
     public void loginFail(String message) {
-
+        showToast(message);
     }
 
     @Override

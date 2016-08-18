@@ -2,13 +2,23 @@ package com.zritc.colorfulfund.data.response.user;
 
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Net Response Bean
+ * Net Response Bean 用户登录
+ *
+ * package: 						com.zrt.dc.controllers.user
+ * svcName(服务名): 					Login
+ * svcCaption( 服务中文名，可用于注释): 	用户登录
+ * mode(http_get or http_post): 	HTTP_POST
+ * target(与init里的key相对应): 		172.16.101.201/user/login
+ * comments(服务详细备注，可用于注释): 		用户登录
  * <p>
  * Created by Chang.Xiao on .
  */

@@ -1,6 +1,6 @@
 package com.zritc.colorfulfund.iView;
 
-import com.zritc.colorfulfund.data.response.trade.PrepareBindPayment;
+import com.zritc.colorfulfund.data.response.user.Login;
 
 /**
  * 登录界面view操作
@@ -11,7 +11,7 @@ import com.zritc.colorfulfund.data.response.trade.PrepareBindPayment;
  */
 public interface ILoginView extends IBaseView {
 
-    void loginSuccess(PrepareBindPayment prepareBindPayment);
+    void loginSuccess(Login login);
     void loginFail(String message);
     void showProgress(CharSequence message);
     void hideProgress();

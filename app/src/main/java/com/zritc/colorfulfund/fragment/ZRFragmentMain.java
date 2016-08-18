@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.activity.CardManage.ZRActivityCardManage;
 import com.zritc.colorfulfund.activity.Fund.ZRActivityGroupRedemption;
+import com.zritc.colorfulfund.activity.Fund.ZRActivitySingleRedemption;
 import com.zritc.colorfulfund.base.ZRFragmentBase;
 
 import butterknife.ButterKnife;
@@ -32,7 +33,7 @@ public class ZRFragmentMain extends ZRFragmentBase {
         return view;
     }
 
-    @OnClick({R.id.btn_card, R.id.btn_group_redemption})
+    @OnClick({R.id.btn_card, R.id.btn_single_redemption, R.id.btn_group_redemption})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_card:
@@ -40,6 +41,9 @@ public class ZRFragmentMain extends ZRFragmentBase {
                 intent1 = new Intent(getActivity(),
                         ZRActivityCardManage.class);
                 startActivity(intent1);
+                break;
+            case R.id.btn_single_redemption: // 单个赎回
+                startActivity(new Intent(mContext, ZRActivitySingleRedemption.class));
                 break;
             case R.id.btn_group_redemption: // // 组合赎回
                 Intent intent = new Intent(mContext, ZRActivityGroupRedemption.class);

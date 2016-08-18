@@ -1,5 +1,7 @@
 package com.zritc.colorfulfund.activity.CardManage;
 
+import android.text.Editable;
+import android.view.View;
 import android.widget.Button;
 
 import com.jakewharton.rxbinding.view.RxView;
@@ -7,6 +9,7 @@ import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.activity.ZRActivityToolBar;
 import com.zritc.colorfulfund.iView.ITradePasswordSetView;
 import com.zritc.colorfulfund.presenter.TradePasswordSetPresenter;
+import com.zritc.colorfulfund.ui.ZREditText;
 import com.zritc.colorfulfund.ui.ZRItemTextInput;
 
 import java.util.concurrent.TimeUnit;
@@ -21,6 +24,25 @@ public class ZRActivityTradePasswordSet extends ZRActivityToolBar<TradePasswordS
     Button btnNext;
 
     private TradePasswordSetPresenter tradePasswordSetPresenter;
+
+    ZREditText.ZRTextWatcher textWatcher = new ZREditText.ZRTextWatcher() {
+        @Override
+        public void onTextChanged(View view, CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void beforeTextChanged(View view, CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void afterTextChanged(View view, Editable s) {
+            String password = edtCardTradePassword.getValue().toString();
+            boolean enable = password.isEmpty();
+            btnNext.setEnabled(!enable);
+        }
+    };
 
     @Override
     protected int getContentViewId() {
@@ -40,11 +62,14 @@ public class ZRActivityTradePasswordSet extends ZRActivityToolBar<TradePasswordS
 
         edtCardTradePassword.setBackgroundDrawable(null);
         edtCardTradePassword.setHint("请设置您的支付密码");
+        edtCardTradePassword.addTextChangedListener(textWatcher);
 
         RxView.clicks(btnNext).throttleFirst(1, TimeUnit.SECONDS)
                 .subscribe(aVoid -> {
                     if (btnNext.getText().toString().equals("下一步")) {
                         btnNext.setText("完成");
+                        btnNext.setEnabled(false);
+                        edtCardTradePassword.setValue("");
                         edtCardTradePassword.setHint("请再次输入您的支付密码");
                     } else {
                         setResult(RESULT_OK);

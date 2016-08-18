@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.base.ZRActivityBase;
+import com.zritc.colorfulfund.common.ZRAppActivityManager;
 import com.zritc.colorfulfund.data.ZRDataEngine;
 import com.zritc.colorfulfund.fragment.ZRFragmentMain;
 import com.zritc.colorfulfund.iView.IMainView;
@@ -31,7 +32,7 @@ import com.zritc.colorfulfund.view.ZRTabWidget.OnTabSelectedListener;
  * @createDate 2015-06-24
  * @lastUpdate 2015-06-24
  */
-public class ZRActivityMain extends ZRActivityBase<MainPresenter> implements IMainView,
+public class ZRActivityMain extends ZRActivityToolBar<MainPresenter> implements IMainView,
         OnTabSelectedListener {
 
     private static final int DIALOG_ACTION_FORCE_UPDATE = 1;
@@ -81,6 +82,7 @@ public class ZRActivityMain extends ZRActivityBase<MainPresenter> implements IMa
 
     @Override
     public void initView() {
+        setTitleText("多彩基金");
         Bundle bundle = getIntent().getExtras();
         if (null != bundle) {
             String from = bundle.getString(ZRConstant.KEY_FROM_WHICH_ACTIVITY);
@@ -191,6 +193,7 @@ public class ZRActivityMain extends ZRActivityBase<MainPresenter> implements IMa
     }
 
     protected void clearBeforeExit() {
+        ZRAppActivityManager.getAppManager().finishAllActivity();
         ZRDataEngine.clear();
     }
 

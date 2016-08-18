@@ -14,7 +14,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * 网络响应异常封装
+ * 网络响应封装
  * <p>
  * Created by Chang.Xiao on 2016/8/16.
  *
@@ -65,6 +65,11 @@ public abstract class ResponseCallBack<T> implements Callback<T> {
         }
     }
 
+    /**
+     * 1.服务器连上失败
+     * @param call
+     * @param t
+     */
     @Override
     public void onFailure(Call<T> call, Throwable t) {
         if (!ZRNetUtils.isNetworkConnected(ZRApplication.applicationContext)) {

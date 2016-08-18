@@ -11,4 +11,6 @@ public interface IGroupRedemptionView extends IBaseView {
 
     void showProgress(CharSequence message);
     void hideProgress();
+    void onSuccess(Object object);
+    void onError(String msg);
 }

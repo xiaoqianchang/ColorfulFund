@@ -46,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="4600.00元"/>
+                android:text="4600.00"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -93,6 +93,7 @@
             android:layout_height="40dp"
             android:gravity="center"
             android:background="@android:color/white"
+            android:inputType="numberDecimal"
             android:hint="请输入赎回份额"
             android:textColorHint="@android:color/darker_gray"
             android:textColor="@android:color/black"

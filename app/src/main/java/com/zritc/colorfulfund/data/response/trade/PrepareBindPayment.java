@@ -10,11 +10,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
 /**
- * Net Response Bean
+ * Net Response Bean 准备绑定支付
+ *
+ * package: 						com.zrt.dc.controllers.trade
+ * svcName(服务名): 					PrepareBindPayment
+ * svcCaption( 服务中文名，可用于注释): 	准备绑定支付
+ * mode(http_get or http_post): 	HTTP_POST
+ * target(与init里的key相对应): 		http://172.16.101.201:9006/trade/prepareBindPayment
+ * comments(服务详细备注，可用于注释): 		prepareBindPayment接口的作用是让用户填入绑卡要素信息，并向用户手机发出带有验证码的短信。           bindPayment接口的作用是让用户填入绑卡要素信息和短信验证码。           两个接口的调用顺序必须保证先调用prepareBindPayment，拿到验证码后调用bindPayment。
  * <p>
  * Created by Chang.Xiao on .
  */

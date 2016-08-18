@@ -10,11 +10,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
 /**
- * Net Response Bean
+ * Net Response Bean 组合申购
+ *
+ * package: 						com.zrt.dc.controllers.trade
+ * svcName(服务名): 					BuyPo
+ * svcCaption( 服务中文名，可用于注释): 	组合申购
+ * mode(http_get or http_post): 	HTTP_POST
+ * target(与init里的key相对应): 		http://172.16.101.201:9006/trade/buyPo
+ * comments(服务详细备注，可用于注释): 		
  * <p>
  * Created by Chang.Xiao on .
  */

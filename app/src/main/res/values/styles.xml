@@ -465,19 +465,9 @@
         <item name="android:background">@drawable/btn_ltblack</item>
     </style>
 
-    <style name="orange_button_style" parent="@style/white_button_style">
-        <item name="android:textColor">@color/orange</item>
-        <item name="android:background">@drawable/btn_orange</item>
-    </style>
-
     <style name="ltblack_button_orange_text_style" parent="@style/white_button_style">
         <item name="android:textColor">@color/orange</item>
         <item name="android:background">@drawable/btn_ltblack</item>
-    </style>
-
-    <style name="solid_orange_button_style" parent="@style/white_button_style">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:background">@drawable/btn_orange2</item>
     </style>
 
     <style name="black_text_font_15_style">
@@ -547,6 +537,11 @@
 
     <style name="dblue_text_font_18_style" parent="@style/dblue_text_font_15_style">
         <item name="android:textSize">@dimen/font_size_18</item>
+    </style>
+
+    <style name="countdowon_button_style" parent="@style/white_button_style">
+        <item name="android:textColor">@color/countdown_text_color</item>
+        <item name="android:background">@drawable/btn_countdown</item>
     </style>
 
     <!-- cell background style -->

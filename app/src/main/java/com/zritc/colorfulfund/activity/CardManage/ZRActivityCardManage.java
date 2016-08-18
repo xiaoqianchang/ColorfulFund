@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -17,7 +18,6 @@ import com.zritc.colorfulfund.iView.ICardManageView;
 import com.zritc.colorfulfund.presenter.CardManagePresenter;
 import com.zritc.colorfulfund.ui.adapter.ZRCommonAdapter;
 import com.zritc.colorfulfund.ui.adapter.ZRViewHolder;
-import com.zritc.colorfulfund.utils.ZRLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +34,6 @@ public class ZRActivityCardManage extends ZRActivityToolBar<CardManagePresenter>
     SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.id_listview)
     ListView listView;
-    @Bind(R.id.id_add_bankcard_item)
-    View addBankCardItem;
 
     private ZRCommonAdapter<ZRCardInfo> adapter;
     private List<ZRCardInfo> datas = new ArrayList<>();
@@ -45,8 +43,10 @@ public class ZRActivityCardManage extends ZRActivityToolBar<CardManagePresenter>
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case REFRESH_COMPLETE:
+                    if (null != adapter && null != swipeRefreshLayout) {
                     adapter.notifyDataSetChanged();
                     swipeRefreshLayout.setRefreshing(false);
+                    }
                     break;
             }
         }
@@ -61,29 +61,15 @@ public class ZRActivityCardManage extends ZRActivityToolBar<CardManagePresenter>
     protected void initPresenter() {
         cardManagePresenter = new CardManagePresenter(this, this);
         cardManagePresenter.init();
-        addBankCardNotify();
-    }
-
-    private void addBankCardNotify() {
-        AlertDialog.Builder
-                builder = new AlertDialog.Builder(
-                this);
-        builder.setTitle("提示");
-        builder.setMessage("您还没绑定银行卡，赶紧去绑一张吧？");
-        builder.setCancelable(true);
-        builder.setNegativeButton("取消", (DialogInterface dialog, int which) -> {
-            dialog.cancel();
-        });
-        builder.setPositiveButton("去绑卡", (DialogInterface dialog, int which) -> {
-            jump2BindBankCard();
-        });
-        builder.create().show();
     }
 
     @Override
     public void initView() {
 
-        setTitleText("银行卡管理");
+        setTitleText("我的银行卡");
+
+        View footView = LayoutInflater.from(this).inflate(R.layout.cell_add_bankcard_item, null, false);
+        listView.addFooterView(footView);
 
         listView.setAdapter(adapter = new ZRCommonAdapter<ZRCardInfo>(this, datas, R.layout.cell_card_manage_item) {
             @Override
@@ -95,6 +81,8 @@ public class ZRActivityCardManage extends ZRActivityToolBar<CardManagePresenter>
             }
         });
 
+        listView.setDivider(null);
+        listView.setDividerHeight(this.getResources().getDimensionPixelSize(R.dimen.padding_30));
         listView.setOnItemLongClickListener((AdapterView<?> parent, View view, int position, long id) -> {
             AlertDialog.Builder
                     builder = new AlertDialog.Builder(
@@ -114,26 +102,19 @@ public class ZRActivityCardManage extends ZRActivityToolBar<CardManagePresenter>
             return false;
         });
 
-        RxView.clicks(addBankCardItem).throttleFirst(1, TimeUnit.SECONDS)
+        RxView.clicks(footView).throttleFirst(1, TimeUnit.SECONDS)
                 .subscribe(aVoid -> {
                     jump2BindBankCard();
                 });
-
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.post(() ->
-                swipeRefreshLayout.setRefreshing(true)
-        );
         // 假数据
         initData();
-        onRefresh();
-        addBankCardItem.setVisibility(View.VISIBLE);
+
+        mHandler.sendEmptyMessageDelayed(REFRESH_COMPLETE, 2000);
     }
 
     @Override
     public void onRefresh() {
-        ZRLog.e(Thread.currentThread().getName());
-        // UI Thread
-        mHandler.sendEmptyMessageDelayed(REFRESH_COMPLETE, 1000);
     }
 
     private void jump2BindBankCard() {
@@ -147,7 +128,7 @@ public class ZRActivityCardManage extends ZRActivityToolBar<CardManagePresenter>
         ZRCardInfo cardInfo = new ZRCardInfo();
         cardInfo.setCardId(1);
         cardInfo.setCardImage("http://www.zzbxlc.com/Uploads/2014/10/11/543933ffd5bb1.jpg");
-        cardInfo.setCardName("招商银行（尾号8228）");
+        cardInfo.setCardName("中国农业银行");
         cardInfo.setSingleQuota("单笔限额30万");
         cardInfo.setDayQuota("日累计限额300万");
         datas.add(cardInfo);
@@ -155,10 +136,18 @@ public class ZRActivityCardManage extends ZRActivityToolBar<CardManagePresenter>
         ZRCardInfo cardInfo1 = new ZRCardInfo();
         cardInfo1.setCardId(2);
         cardInfo1.setCardImage("http://minsheng.qingdaonews.com/images/attachement/png/site1/20160114/089e01cc7a3d18018ec50a.png");
-        cardInfo1.setCardName("工商银行（尾号8126）");
+        cardInfo1.setCardName("中国银行");
         cardInfo1.setSingleQuota("单笔限额50万");
         cardInfo1.setDayQuota("日累计限额600万");
         datas.add(cardInfo1);
+
+        ZRCardInfo cardInfo2 = new ZRCardInfo();
+        cardInfo2.setCardId(3);
+        cardInfo2.setCardImage("http://minsheng.qingdaonews.com/images/attachement/png/site1/20160114/089e01cc7a3d18018ec50a.png");
+        cardInfo2.setCardName("中国建设银行");
+        cardInfo2.setSingleQuota("单笔限额50万");
+        cardInfo2.setDayQuota("日累计限额600万");
+        datas.add(cardInfo2);
     }
 
     @Override

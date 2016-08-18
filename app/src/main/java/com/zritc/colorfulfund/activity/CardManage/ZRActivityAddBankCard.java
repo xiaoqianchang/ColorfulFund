@@ -9,9 +9,6 @@ import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding.view.RxView;
@@ -27,7 +24,6 @@ import com.zritc.colorfulfund.ui.ZRItemMobile;
 import com.zritc.colorfulfund.ui.ZRItemPan;
 import com.zritc.colorfulfund.ui.ZRItemTextInput;
 import com.zritc.colorfulfund.utils.ZRPopupUtil;
-import com.zritc.colorfulfund.utils.ZRToastFactory;
 
 import java.util.concurrent.TimeUnit;
 
@@ -47,16 +43,16 @@ public class ZRActivityAddBankCard extends ZRActivityToolBar<AddCardPresenter> i
     ZRItemPan edtBankCard;
     @Bind(R.id.id_edt_mobile)
     ZRItemMobile edtMobile;
-    @Bind(R.id.id_rl_bank_of_card)
-    RelativeLayout rlBankOfCard;
-    @Bind(R.id.id_img_bank_of_card)
-    ImageView imgCardOfBank;
-    @Bind(R.id.id_txt_card_of_bank)
-    TextView txtCardOfBank;
+    @Bind(R.id.id_ll_bank_card_type)
+    View bankCardTypeView;
+    @Bind(R.id.id_line)
+    View line;
+    @Bind(R.id.id_tab_line)
+    View tabline;
     @Bind(R.id.id_txt_card_info)
     TextView txtCardInfo;
-    @Bind(R.id.id_ck_agree_pro)
-    CheckBox ckAgreePro;
+    @Bind(R.id.id_txt_trade_pro)
+    TextView txtTradePro;
     @Bind(R.id.id_btn_next)
     Button btnNext;
 
@@ -65,8 +61,7 @@ public class ZRActivityAddBankCard extends ZRActivityToolBar<AddCardPresenter> i
     private ZRGridPasswordView gridPasswordView;
     private int visibleHeight = 0;
 
-
-    ZREditText.ZRTextWatcher bankCardTextWatcher = new ZREditText.ZRTextWatcher() {
+    ZREditText.ZRTextWatcher textWatcher = new ZREditText.ZRTextWatcher() {
         @Override
         public void onTextChanged(View view, CharSequence s, int start, int before, int count) {
 
@@ -79,8 +74,17 @@ public class ZRActivityAddBankCard extends ZRActivityToolBar<AddCardPresenter> i
 
         @Override
         public void afterTextChanged(View view, Editable s) {
-            rlBankOfCard.setVisibility(s.length() > 3 ? View.VISIBLE : View.GONE);
-            txtCardInfo.setVisibility(s.length() > 3 ? View.VISIBLE : View.GONE);
+            String username = edtUserName.getValue().toString();
+            String iccard = edtICCard.getValue().toString();
+            String bankcard = edtBankCard.getValue().toString();
+            String mobile = edtMobile.getValue().toString();
+
+            bankCardTypeView.setVisibility(bankcard.length() > 3 ? View.VISIBLE : View.GONE);
+            txtCardInfo.setText("招商银行");
+            tabline.setVisibility(bankcard.length() > 3 ? View.VISIBLE : View.GONE);
+
+            boolean enable = username.isEmpty() || iccard.isEmpty() || bankcard.isEmpty() || mobile.isEmpty();
+            btnNext.setEnabled(!enable);
         }
     };
 
@@ -102,44 +106,25 @@ public class ZRActivityAddBankCard extends ZRActivityToolBar<AddCardPresenter> i
 
         edtUserName.setBackgroundDrawable(null);
         edtUserName.setHint("请输入您的真实姓名");
+        edtUserName.addTextChangedListener(textWatcher);
 
         edtICCard.setIDType(ZRItemID.TYPE_ID_CARD);
         edtICCard.setBackgroundDrawable(null);
         edtICCard.setHint("请输入您的身份证号");
+        edtICCard.addTextChangedListener(textWatcher);
 
         edtBankCard.setBackgroundDrawable(null);
         edtBankCard.setHint("请输入银行卡号");
-        edtBankCard.addTextChangedListener(bankCardTextWatcher);
+        edtBankCard.addTextChangedListener(textWatcher);
 
         edtMobile.setBackgroundDrawable(null);
-        edtMobile.setHint("请输入银行办卡时的预留手机号");
+        edtMobile.setHint("请输入银行卡预留手机号");
+        edtMobile.addTextChangedListener(textWatcher);
 
         RxView.clicks(btnNext).throttleFirst(1, TimeUnit.SECONDS)
                 .subscribe(aVoid -> {
-//                    if (validElement()) {
                         openValidCodeView();
-//                    }
                 });
-    }
-
-    private boolean validElement() {
-        if (edtUserName.isEmpty()) {
-            ZRToastFactory.getToast(this, "请输入您的真实姓名").show();
-            return false;
-        } else if (!edtICCard.isValidate()) {
-            ZRToastFactory.getToast(this, "请输入正确的身份证号").show();
-            return false;
-        } else if (edtBankCard.getValue().length() < 18) {
-            ZRToastFactory.getToast(this, "请输入正确的银行卡号").show();
-            return false;
-        } else if (!edtMobile.isValidate()) {
-            ZRToastFactory.getToast(this, "请输入银行办卡时的预留手机号").show();
-            return false;
-        } else if (!ckAgreePro.isChecked()) {
-            ZRToastFactory.getToast(this, "请同意基金交易服务协议").show();
-            return false;
-        }
-        return true;
     }
 
     private void openValidCodeView() {
@@ -164,6 +149,7 @@ public class ZRActivityAddBankCard extends ZRActivityToolBar<AddCardPresenter> i
         Button btnSmsCode = (Button) view.findViewById(R.id.btn_send_verifycode);
         ZRCountDownButton timer = new ZRCountDownButton();
         timer.init(this, btnSmsCode);
+        timer.setTickDrawable(this.getResources().getDrawable(R.drawable.btn_countdown_disable));
         timer.start();
         btnSmsCode.setOnClickListener(v->{
             timer.start();
