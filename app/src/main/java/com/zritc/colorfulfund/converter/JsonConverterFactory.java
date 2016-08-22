@@ -65,7 +65,7 @@ public final class JsonConverterFactory extends Converter.Factory {
                 e.printStackTrace();
             } catch (InvocationTargetException e) {
                 // if an exception was thrown by the invoked method
-                Log.e(TAG, e.getCause().getMessage());
+                Log.e(TAG, "json解析异常，" + e.getCause().getMessage());
             }
             return null;
         }

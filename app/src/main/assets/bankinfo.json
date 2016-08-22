@@ -1,0 +1,108 @@
+{
+    "datas": [
+        {
+            "name": "工商银行",
+            "paymentType": "bank:002",
+            "maxRapidPayAmountPerTxn": "99999999.00",
+            "maxRapidPayAmountPerDay": "999999999.00",
+            "maxRapidPayAmountPerMonth": "9999999999.00",
+            "maxRapidPayTxnCountPerDay": null
+        },
+        {
+            "name": "农业银行",
+            "paymentType": "bank:003",
+            "maxRapidPayAmountPerTxn": "99999999.00",
+            "maxRapidPayAmountPerDay": "999999999.00",
+            "maxRapidPayAmountPerMonth": "9999999999.00",
+            "maxRapidPayTxnCountPerDay": null
+        },
+        {
+            "name": "中国银行",
+            "paymentType": "bank:004",
+            "maxRapidPayAmountPerTxn": "99999999.00",
+            "maxRapidPayAmountPerDay": "999999999.00",
+            "maxRapidPayAmountPerMonth": "9999999999.00",
+            "maxRapidPayTxnCountPerDay": null
+        },
+        {
+            "name": "建设银行",
+            "paymentType": "bank:005",
+            "maxRapidPayAmountPerTxn": "99999999.00",
+            "maxRapidPayAmountPerDay": "999999999.00",
+            "maxRapidPayAmountPerMonth": "9999999999.00",
+            "maxRapidPayTxnCountPerDay": null
+        },
+        {
+            "name": "交通银行",
+            "paymentType": "bank:006",
+            "maxRapidPayAmountPerTxn": "99999999.00",
+            "maxRapidPayAmountPerDay": "999999999.00",
+            "maxRapidPayAmountPerMonth": "9999999999.00",
+            "maxRapidPayTxnCountPerDay": null
+        },
+        {
+            "name": "招商银行",
+            "paymentType": "bank:007",
+            "maxRapidPayAmountPerTxn": "99999999.00",
+            "maxRapidPayAmountPerDay": "999999999.00",
+            "maxRapidPayAmountPerMonth": "9999999999.00",
+            "maxRapidPayTxnCountPerDay": null
+        },
+        {
+            "name": "中信银行",
+            "paymentType": "bank:009",
+            "maxRapidPayAmountPerTxn": "99999999.00",
+            "maxRapidPayAmountPerDay": "999999999.00",
+            "maxRapidPayAmountPerMonth": "9999999999.00",
+            "maxRapidPayTxnCountPerDay": null
+        },
+        {
+            "name": "兴业银行",
+            "paymentType": "bank:012",
+            "maxRapidPayAmountPerTxn": "99999999.00",
+            "maxRapidPayAmountPerDay": "999999999.00",
+            "maxRapidPayAmountPerMonth": "9999999999.00",
+            "maxRapidPayTxnCountPerDay": null
+        },
+        {
+            "name": "光大银行",
+            "paymentType": "bank:013",
+            "maxRapidPayAmountPerTxn": "99999999.00",
+            "maxRapidPayAmountPerDay": "999999999.00",
+            "maxRapidPayAmountPerMonth": "9999999999.00",
+            "maxRapidPayTxnCountPerDay": null
+        },
+        {
+            "name": "民生银行",
+            "paymentType": "bank:014",
+            "maxRapidPayAmountPerTxn": "99999999.00",
+            "maxRapidPayAmountPerDay": "999999999.00",
+            "maxRapidPayAmountPerMonth": "9999999999.00",
+            "maxRapidPayTxnCountPerDay": null
+        },
+        {
+            "name": "上海银行",
+            "paymentType": "bank:016",
+            "maxRapidPayAmountPerTxn": "99999999.00",
+            "maxRapidPayAmountPerDay": "999999999.00",
+            "maxRapidPayAmountPerMonth": "9999999999.00",
+            "maxRapidPayTxnCountPerDay": null
+        },
+        {
+            "name": "平安银行",
+            "paymentType": "bank:017",
+            "maxRapidPayAmountPerTxn": "99999999.00",
+            "maxRapidPayAmountPerDay": "999999999.00",
+            "maxRapidPayAmountPerMonth": "9999999999.00",
+            "maxRapidPayTxnCountPerDay": null
+        },
+        {
+            "name": "华夏银行",
+            "paymentType": "bank:019",
+            "maxRapidPayAmountPerTxn": "99999999.00",
+            "maxRapidPayAmountPerDay": "999999999.00",
+            "maxRapidPayAmountPerMonth": "9999999999.00",
+            "maxRapidPayTxnCountPerDay": null
+        }
+    ]
+}
