@@ -19,7 +19,7 @@ import java.util.List;
 public class ZRTabWidget extends LinearLayout {
 
     private int[] mDrawableIds = new int[]{R.drawable.bg_video,
-            R.drawable.bg_bbs, R.drawable.bg_mine};
+            R.drawable.bg_bbs, R.drawable.bg_mine, R.drawable.bg_mine};
 
     // 存放底部菜单的各个文字CheckedTextView
     private List<CheckedTextView> mCheckedList = new ArrayList<>();

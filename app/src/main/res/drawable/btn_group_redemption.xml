@@ -3,19 +3,19 @@
 
     <item android:state_pressed="true">
         <shape>
-            <corners android:radius="8dp"/>
+            <corners android:radius="45dp"/>
             <solid android:color="#707ff4"/>
         </shape>
     </item>
     <item android:state_focused="true">
         <shape>
-            <corners android:radius="8dp"/>
+            <corners android:radius="45dp"/>
             <solid android:color="#707ff4"/>
         </shape>
     </item>
     <item>
         <shape>
-            <corners android:radius="8dp"/>
+            <corners android:radius="45dp"/>
             <solid android:color="#707ff4"/>
         </shape>
     </item>

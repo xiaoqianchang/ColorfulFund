@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.zritc.colorfulfund.R;
+import com.zritc.colorfulfund.base.ZRApplication;
 import com.zritc.colorfulfund.widget.TimeLineMarker;
 
 import java.util.List;
@@ -68,7 +69,7 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.TimeLi
     @Override
     public void onBindViewHolder(TimeLineViewHolder holder, int position) {
         String timeLineModel = mDatas.get(position);
-        holder.setData(timeLineModel);
+        holder.setData(timeLineModel, position);
     }
 
     /**
@@ -84,11 +85,12 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.TimeLi
     class TimeLineViewHolder extends RecyclerView.ViewHolder {
 
         private TextView name;
+        TimeLineMarker timeLineMarker;
 
         public TimeLineViewHolder(View itemView, int type) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.item_time_line_txt);
-            TimeLineMarker timeLineMarker = (TimeLineMarker) itemView.findViewById(R.id.item_time_line_mark);
+            timeLineMarker = (TimeLineMarker) itemView.findViewById(R.id.item_time_line_mark);
             if (type == ItemType.ATOM.getValue()) {
                 timeLineMarker.setBeginLine(null);
                 timeLineMarker.setEndLine(null);
@@ -99,12 +101,25 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.TimeLi
             }
 
             // 动态设置marker的颜色(drawable的shap)
-            timeLineMarker.setMarkerSize(60);
-            timeLineMarker.setMarkerDrawable(itemView.getContext().getResources().getDrawable(R.mipmap.icon_weixin));
+//            timeLineMarker.setMarkerSize(60);
+//            timeLineMarker.setMarkerDrawable(itemView.getContext().getResources().getDrawable(R.mipmap.icon_weixin));
         }
 
-        public void setData(String timeLineModel) {
+        public void setData(String timeLineModel, int position) {
             name.setText(timeLineModel);
+            if (position == 0) {
+                name.setTextColor(ZRApplication.applicationContext.getResources().getColor(R.color.redemption_text_color));
+                timeLineMarker.setMarkerDrawable(ZRApplication.applicationContext.getResources().getDrawable(R.mipmap.charge_0_complete));
+            } else if (position == 1){
+                name.setTextColor(ZRApplication.applicationContext.getResources().getColor(R.color.grey));
+                timeLineMarker.setMarkerDrawable(ZRApplication.applicationContext.getResources().getDrawable(R.mipmap.charge_1));
+            } else if (position == 2){
+                name.setTextColor(ZRApplication.applicationContext.getResources().getColor(R.color.grey));
+                timeLineMarker.setMarkerDrawable(ZRApplication.applicationContext.getResources().getDrawable(R.mipmap.charge_2));
+            } else if (position == 3){
+                name.setTextColor(ZRApplication.applicationContext.getResources().getColor(R.color.grey));
+                timeLineMarker.setMarkerDrawable(ZRApplication.applicationContext.getResources().getDrawable(R.mipmap.charge_3));
+            }
         }
     }
 

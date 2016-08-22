@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:zrt="http://schemas.android.com/apk/res-auto"
     android:id="@+id/id_rootview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_bg">
 
+    <include
+        android:id="@+id/app_bar_layout"
+        layout="@layout/toolbar_layout" />
+
     <LinearLayout
+        android:id="@+id/id_ll_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/app_bar_layout"
         android:orientation="vertical">
 
-        <include layout="@layout/toolbar_layout" />
-
-        <include
-            layout="@layout/view_line"
+        <include                         layout="@layout/view_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_30" />
@@ -109,7 +112,7 @@
 
         </LinearLayout>
 
-        <include                         android:id="@+id/id_tab_line"
+        <include                                                 android:id="@+id/id_tab_line"
             layout="@layout/view_tabline"
             android:visibility="gone" />
 
@@ -140,7 +143,7 @@
                 android:layout_marginLeft="@dimen/padding_20"
                 android:textColor="@color/ltblack"
                 android:textSize="@dimen/font_size_15" />
-                                        </LinearLayout>
+                                                        </LinearLayout>
 
         <include
 
@@ -187,18 +190,11 @@ android:id="@+id/id_line"
 
         <Button
             android:id="@+id/id_btn_next"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_88"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="@dimen/padding_30"
-            android:layout_marginRight="@dimen/padding_30"
+            style="@style/blue_button_style"
             android:layout_marginTop="@dimen/padding_54"
 
-android:background="@drawable/btn_blue"
-        android:enabled="false"
-            android:text="同意协议并绑定"
-            android:textColor="@color/blue_btn_selector"
-            android:textSize="@dimen/font_size_15" />
+android:text="同意协议并绑定"
+/>
 
         <TextView
             android:id="@+id/id_txt_trade_pro"
@@ -213,4 +209,14 @@ android:background="@drawable/btn_blue"
             android:textSize="@dimen/font_size_14" />
 
         </LinearLayout>
-</ScrollView>
+
+    <TextView
+        style="@style/ltgray_text_font_12_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/padding_32"
+        android:text="基金交易金额由盈米财富提供" />
+
+</RelativeLayout>

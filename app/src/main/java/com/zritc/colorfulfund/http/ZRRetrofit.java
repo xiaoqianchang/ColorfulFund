@@ -12,6 +12,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -95,7 +96,7 @@ public class ZRRetrofit {
      */
     public static ZRNetManager.ZRNetApi getNetApiInstance(String serverUrl) {
         synchronized (monitor) {
-            if (null == mNetApi) {
+//            if (null == mNetApi) {
                 Retrofit retrofit = builder
                         .client(client)
                         .baseUrl(serverUrl + "/")
@@ -103,7 +104,7 @@ public class ZRRetrofit {
                         .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                         .build();
                 mNetApi = retrofit.create(ZRNetManager.ZRNetApi.class);
-            }
+//            }
             return mNetApi;
         }
     }

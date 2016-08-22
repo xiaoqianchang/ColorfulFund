@@ -98,6 +98,10 @@ public abstract class ZRActivityToolBar<T extends BasePresenter> extends ZRActiv
         mCenterTitle.setText(title);
     }
 
+    protected void hideLeftBar(){
+        mNavLeftText.setVisibility(View.INVISIBLE);
+    }
+
     /**
      * onToolbarClick
      */

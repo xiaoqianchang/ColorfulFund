@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f6f5fa">
+    android:background="@color/app_bg">
 
     <include layout="@layout/toolbar_layout"/>
 
@@ -16,26 +16,27 @@
         <!-- 安全认证 -->
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="#707ff4">
+            android:layout_height="@dimen/height_58"
+            android:background="#7282f1">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:drawableLeft="@mipmap/icon_safety"
+                android:drawableLeft="@mipmap/icon_safety_white"
+                android:drawablePadding="@dimen/padding_15"
                 android:text="平安银行全程提供资金安全保障"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/font_size_14"/>
+                android:textSize="@dimen/font_size_12"/>
         </RelativeLayout>
 
         <!-- 购买产品组合 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:paddingLeft="@dimen/padding_30"
+            android:paddingRight="@dimen/padding_30"
             android:orientation="vertical">
 
             <TextView
@@ -44,14 +45,14 @@
                 android:gravity="center_vertical"
                 android:text="购买产品组合"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/font_size_16"                                                android:textStyle="bold"/>
+                android:textSize="@dimen/font_size_16"                                                                android:textStyle="bold"/>
 
             <include layout="@layout/view_line"/>
 
             <ListView
                 android:id="@+id/lv_product_group"
                 android:layout_width="match_parent"
-                android:layout_height="150dp">
+                android:layout_height="wrap_content">
 
 </ListView>
         </LinearLayout>
@@ -60,36 +61,43 @@
         <LinearLayout
 
 android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+        android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/padding_30"
+            android:paddingRight="@dimen/padding_30"
+        android:paddingTop="@dimen/padding_32"
+            android:paddingBottom="@dimen/padding_24"
             android:gravity="center_vertical"
             android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/light"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@mipmap/icon_safety"
+                android:paddingLeft="@dimen/padding_12"
                 android:gravity="center_vertical"
                 android:text="今日可赎回金额："
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/font_size_14"/>
+                android:textColor="@color/font_text_color"
+                android:textSize="@dimen/font_size_13"/>
 
                 <TextView
                 android:id="@+id/tv_today_redeem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="8000.00"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/font_size_14"/>
+                android:textColor="@color/font_text_color"
+                android:textSize="@dimen/font_size_13"/>
 
 </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:paddingLeft="@dimen/padding_30"
+            android:paddingRight="@dimen/padding_30"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -114,14 +122,13 @@ android:layout_width="match_parent"
 
 </LinearLayout>
 
-            <include layout="@layout/view_line"/>
-
             <!-- 赎回费用 -->
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
+                android:paddingLeft="@dimen/padding_30"
+            android:paddingRight="@dimen/padding_30"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -129,7 +136,7 @@ android:layout_width="match_parent"
                     android:layout_alignParentLeft="true"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:visibility="gone">
+>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -165,43 +172,19 @@ android:textColor="@android:color/darker_gray"
             <TextView
                 android:id="@+id/tv_working_days"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"                                        android:textColor="#707ff4"
+                android:layout_height="wrap_content"                                                            android:textColor="#707ff4"
                     android:textSize="@dimen/font_size_14"/>
         </LinearLayout>
 
 </RelativeLayout>
 
-        <include layout="@layout/view_line"/>
-
-        <LinearLayout
-            android:id="@+id/ll_all_redemption"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:orientation="horizontal"                        android:visibility="gone">
-
-            <CheckBox
-                android:id="@+id/cb_all_redemption"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="全部赎回"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/font_size_16"/>
-        </LinearLayout>
-        
         <Button
             android:id="@+id/btn_redemption_group"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_height="@dimen/height_88"
+            android:layout_marginLeft="@dimen/padding_30"
+            android:layout_marginRight="@dimen/padding_30"
+            android:layout_marginTop="@dimen/padding_120"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/btn_group_redemption"
 

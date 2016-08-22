@@ -1,76 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:zrt="http://schemas.android.com/apk/res-auto"
     android:id="@+id/id_rootview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f1f1f1"
+    android:background="@color/app_bg"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar_layout" />
+    <include         android:id="@+id/app_bar_layout"
+        layout="@layout/toolbar_layout" />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <!--<ScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:id="@+id/id_ll_content"
+        android:layout_width="match_parent"
+            android:layout_height="match_parent"        android:layout_below="@id/app_bar_layout"
+        android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="@dimen/height_58"
+            android:background="#7282f1"
+                android:gravity="center">
 
 
-                <TextView
+<TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/padding_30"
-                    android:text="购买产品组合"
-                    android:textSize="@dimen/font_size_14" />
+                    android:drawableLeft="@mipmap/icon_safety_white"
+                    android:drawablePadding="@dimen/padding_15"
+                android:gravity="center"
+                android:text="平安银行全程提供资金安全保障"
+                android:textColor="@color/white"
+                    android:textSize="@dimen/font_size_12" />
 
-                <include layout="@layout/view_line" />
+                </LinearLayout>
+
+                <TextView
+                    style="@style/ltblack_text_font_14_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_75"
+            android:layout_marginTop="@dimen/padding_30"
+            android:background="@color/white"
+                    android:gravity="center_vertical"
+
+android:paddingLeft="@dimen/padding_30"
+                android:text="购买产品组合" />
+
+                <include layout="@layout/view_tabline" />
 
                 <com.zritc.colorfulfund.ui.ZRListView
                     android:id="@+id/id_listview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#fcfcfc">
+                    android:background="@color/white">
 
-                </com.zritc.colorfulfund.ui.ZRListView>
+                    </com.zritc.colorfulfund.ui.ZRListView>
+                                        <include
+            layout="@layout/view_line"
+                    android:layout_width="match_parent"
 
-                <include layout="@layout/view_line" />
-
-                <TextView
-                    android:id="@+id/id_txt_iccard"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/padding_30"
-                    android:gravity="right"
-                    android:text="支付方式"
-                    android:textColor="@color/ltblack"
-                    android:textSize="@dimen/font_size_15" />
-
-                <include layout="@layout/view_line" />
+android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_30" />
 
                 <RelativeLayout
-                    android:id="@+id/id_rl_bank_of_card"
+                    android:id="@+id/id_rl_add_bank"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_88"
-                    android:background="#fcfcfc"
+                    android:background="@color/white"
                     android:gravity="center_vertical"
-                    android:paddingLeft="@dimen/padding_30"
-                    android:paddingRight="@dimen/padding_30">
+                    android:paddingLeft="@dimen/padding_28"
+                    android:paddingRight="@dimen/padding_28">
 
                     <TextView
-                        android:id="@+id/id_txt_bank_card"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/id_txt_add_bank_card"
+                        style="@style/ltblack_text_font_15_style"
                         android:layout_alignParentLeft="true"
-                        android:text="招商银行（尾号1234）"
-                        android:textColor="@color/ltblack"
-                        android:textSize="@dimen/font_size_15" />
+                        android:drawableLeft="@mipmap/icon_blue_add"
+                        android:drawablePadding="@dimen/padding_26"
+                        android:text="添加支付方式" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -81,71 +92,101 @@
 
                 </RelativeLayout>
 
-                <include layout="@layout/view_line" />
+                <RelativeLayout
+            android:id="@+id/id_rl_bank_of_card"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_130"
+            android:background="@color/white"
+            android:paddingLeft="@dimen/padding_30"
+            android:paddingRight="@dimen/padding_28"
+
+android:visibility="gone">
+                                    <com.zritc.colorfulfund.ui.ZRCircleImageView
+                    android:id="@+id/id_img_bank"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/padding_20"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/ic_logo" />
 
                 <TextView
+                    android:id="@+id/id_txt_bank_name"
+                style="@style/ltblack_text_font_16_style"
+                android:layout_alignTop="@id/id_img_bank"
+                android:layout_toRightOf="@id/id_img_bank"
+                android:singleLine="true"
+                android:text="银行名称" />
+
+            <TextView
                     android:id="@+id/id_txt_card_info"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/grey_text_font_12_style"
+                    android:layout_alignBottom="@id/id_img_bank"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="@dimen/padding_30"
-                    android:layout_marginRight="@dimen/padding_30"
-                    android:layout_marginTop="@dimen/padding_20"
-                    android:text="该卡单笔限额：30万 日累计限额：300万"
-                    android:textSize="@dimen/font_size_12" />
+                    android:layout_toRightOf="@id/id_img_bank"
+                    android:singleLine="true"
+                    android:text="单笔限额0万 日累计限额0万" />
 
-                <TextView
-                    android:id="@+id/id_txt_buy_money"
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/padding_30"
-                    android:layout_marginRight="@dimen/padding_30"
-                    android:layout_marginTop="@dimen/padding_20"
-                    android:text="购买金额"
-                    android:textSize="@dimen/font_size_14" />
+                    android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                    android:src="@mipmap/icon_s_right_arrow" />
+                                        </RelativeLayout>
+                                        <include layout="@layout/view_line" />
 
-                <TextView
-                    android:id="@+id/id_txt_buy_fee"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="@dimen/padding_30"
-                    android:layout_marginRight="@dimen/padding_30"
-                    android:layout_marginTop="@dimen/padding_20"
-                    android:text="申购费用：123.00"
-                    android:textSize="@dimen/font_size_12" />
-
-                <EditText
-                    android:id="@+id/id_edt_buy_money"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_88"
                     android:layout_marginTop="@dimen/padding_20"
-                    android:background="#ffffff"
-                    android:hint="请输入购买金额"
-                    android:paddingLeft="@dimen/padding_30"
-                    android:textSize="@dimen/font_size_14" />
+                    android:background="@color/white"
+            android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/id_btn_next"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/padding_20"
-                    android:text="申购"
-                    android:textColor="#666666" />
+                    <TextView
+                android:id="@+id/id_txt_buy_money"
+                style="@style/ltblack_text_font_15_style"
+                android:layout_width="@dimen/width_120"
+                android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/padding_30"
+                android:gravity="center_vertical"
+                    android:text="购买金额" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="@dimen/padding_30"
+                <com.zritc.colorfulfund.ui.ZRItemTextInput
+                android:id="@+id/id_edt_buy_money"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:paddingLeft="@dimen/padding_20"
+                    android:textColor="@color/ltblack"
+                    android:textSize="@dimen/font_size_15" />
+
+                </LinearLayout>
+                                        <TextView
+                    android:id="@+id/id_txt_buy_fee"
+                    style="@style/grey_text_font_12_style"
                     android:layout_marginLeft="@dimen/padding_30"
                     android:layout_marginRight="@dimen/padding_30"
                     android:layout_marginTop="@dimen/padding_20"
-                    android:text="平安银行全程提供资金安全保障"
-                    android:textSize="@dimen/font_size_12" />
+                    android:text="" />
+
+        <Button
+            android:id="@+id/id_btn_next"
+            style="@style/blue_button_style"
+            android:layout_marginTop="@dimen/padding_20"
+                    android:text="申购" />
 
             </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+            <TextView
+        style="@style/ltgray_text_font_12_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/padding_32"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="基金交易金额由盈米财富提供" />
+    <!--</ScrollView>-->
+</RelativeLayout>

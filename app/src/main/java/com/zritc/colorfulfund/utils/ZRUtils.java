@@ -772,7 +772,7 @@ public class ZRUtils {
 
     /***
      * format card number
-     *
+     * 6226 **** **** 8888
      * @param str
      * @return
      */
@@ -782,7 +782,7 @@ public class ZRUtils {
         int leastCardNum = 8;
         int cardNumPart = 4;
         if (str.length() > leastCardNum) {
-            String firstFourStr = panNumber.substring(0, cardNumPart);
+            String firstFourStr = "****";//panNumber.substring(0, cardNumPart);
             String lastFourStr = panNumber.substring(panNumber.length()
                     - cardNumPart, panNumber.length());
             return firstFourStr + flgStr + lastFourStr;
@@ -874,22 +874,6 @@ public class ZRUtils {
             format = "";
         }
         return format;
-    }
-
-    /**
-     * 测试IP地址是否合法
-     *
-     * @param ipAddress
-     * @return
-     */
-    public static boolean isIp(String ipAddress) {
-        Pattern pattern = Pattern
-                .compile("(2[5][0-5]|2[0-4]\\d|1\\d{2}|\\d{1,2})"
-                        + "\\.(25[0-5]|2[0-4]\\d|1\\d{2}|\\d{1,2})"
-                        + "\\.(25[0-5]|2[0-4]\\d|1\\d{2}|\\d{1,2})"
-                        + "\\.(25[0-5]|2[0-4]\\d|1\\d{2}|\\d{1,2})");
-        Matcher matcher = pattern.matcher(ipAddress);
-        return matcher.matches();
     }
 
     public static String getMD5(String content) {
@@ -1001,62 +985,6 @@ public class ZRUtils {
             }
         }
         return iswifiActivity;
-    }
-
-    public static String getApnType(Context context) {
-        String apntype = "ctnet";
-        try {
-            if (isWiFiActive(context)) {
-                return "wifi";
-            }
-            Uri PREFERRED_APN_URI = Uri
-                    .parse("content://telephony/carriers/preferapn");
-            Cursor c = context.getContentResolver().query(PREFERRED_APN_URI,
-                    null, null, null, null);
-            c.moveToFirst();
-            String s = "";
-            for (int i = 0; i < c.getColumnCount(); i++) {
-                s += c.getColumnName(i) + "," + c.getString(i) + "|";
-            }
-            String user = c.getString(c.getColumnIndex("user"));
-            if (user.startsWith("ctnet")) {
-                apntype = "ctnet";
-            } else if (user.startsWith("ctwap")) {
-                apntype = "ctwap";
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return apntype;
-    }
-
-    /**
-     * Gps是否可用
-     *
-     * @param context
-     * @return
-     */
-    public static boolean isGpsEnable(Context context) {
-        LocationManager locationManager = ((LocationManager) context
-                .getSystemService(Context.LOCATION_SERVICE));
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-    }
-
-    /**
-     * 过滤emoj表情
-     *
-     * @param content
-     * @return
-     */
-    public static boolean matchEmoj(String content) {
-        String reg = "^([a-z]|[A-Z]|[0-9]|[\u2E80-\u9FFF]){3,}|@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?|[wap.]{4}|[www.]{4}|[blog.]{5}|[bbs.]{4}|[.com]{4}|[.cn]{3}|[.net]{4}|[.org]{4}|[http://]{7}|[ftp://]{6}$";
-        Pattern pattern = Pattern.compile(reg);
-        // 正则匹配是否是表情符号
-        Matcher matcher = pattern.matcher(content);
-        if (!matcher.matches()) {
-            return true;
-        }
-        return false;
     }
 
     /**

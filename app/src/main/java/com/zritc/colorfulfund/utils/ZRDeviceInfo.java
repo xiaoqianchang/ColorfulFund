@@ -8,8 +8,6 @@ import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 
 /**
  * DeviceInfo class
@@ -170,23 +168,6 @@ public class ZRDeviceInfo {
         return out;
     }
 
-    /**
-     * @return
-     */
-    public static int getDeviceImageType() {
-        if (mImageType == -1) {
-            int width = mContext.getResources().getDisplayMetrics().widthPixels;
-            if (width <= 640) {
-                mImageType = IMAGE_TYPE_640;
-            } else if (width > 640 && width <= 1080) {
-                mImageType = IMAGE_TYPE_1080;
-            } else {
-                mImageType = IMAGE_TYPE_default;
-            }
-        }
-        return mImageType;
-    }
-
     public static int dp2px(float dp) {
         final float scale = mContext.getResources().getDisplayMetrics().density;
         return (int) (dp * scale + 0.5f);
@@ -202,42 +183,13 @@ public class ZRDeviceInfo {
         return (int) (pxValue / fontScale + 0.5f);
     }
 
-//	/**
-//	 * 40063电信插卡机
-//	 * 
-//	 * @return
-//	 */
-//	public static String getIMEI(Context context) {
-//		TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-//		return telephonyManager.getDeviceId();
-//	}
-
-    public static String getUserAgent(Context context) {
-        String ua = null;
-        try {
-            WebView webview;
-            webview = new WebView(context);
-            webview.layout(0, 0, 0, 0);
-            WebSettings settings = webview.getSettings();
-            ua = settings.getUserAgentString();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return ua;
-    }
-
-    static String sid = "31343773039E38373503834F33363985F32066396C23766A616321D3935839642BD34382353823D6263635372DD3866462373773739E30383583963F2B77695623105F363C56639A3362612382D861363B0312D23432635352D661323D8342D433326743338E37326556633F3335";
-    static String deviceid = "2";
-
     // extends methods
     public static String getSid() {
-//        return ZRSharePreferenceKeeper.getStringValue(mContext, ZRConstant.KEY_EXTRA_SID, "");
-        return sid;
+        return ZRSharePreferenceKeeper.getStringValue(mContext, ZRConstant.KEY_EXTRA_SID, "");
     }
 
     public static String getServerDeviceId() {
-//        return ZRSharePreferenceKeeper.getStringValue(mContext, ZRConstant.KEY_EXTRA_SERVER_DEVICE_ID, "", false);
-        return deviceid;
+        return ZRSharePreferenceKeeper.getStringValue(mContext, ZRConstant.KEY_EXTRA_SERVER_DEVICE_ID, "", false);
     }
 
     public static String getRid() {

@@ -52,12 +52,12 @@ public class GetUserBankCards4C implements Serializable {
 	/**
 	 * 
 	 */
-	public List<UserBankCardList4C> userBankCardList4C;
+	public List<UserBankCardList> userBankCardList;
     
 	/**
-     * userBankCardList4C
+	 * userBankCardList
      */
-    public class UserBankCardList4C implements Serializable {
+	public class UserBankCardList implements Serializable {
 
 	/**
 	 * 用户交易账号id，每个银行卡有一个交易账号id
@@ -65,6 +65,11 @@ public class GetUserBankCards4C implements Serializable {
 	public String userPaymentId = "";
 
 	/**
+		 * 银行卡号
+		 */
+		public String bankCardNo = "";
+
+		/**
 	 * 银行名称 如：工商银行
 	 */
 	public String bankName = "";
@@ -75,29 +80,24 @@ public class GetUserBankCards4C implements Serializable {
 	public String paymentType = "";
 
 	/**
-	 * 银行卡号
-	 */
-	public String bankCardNo = "";
-
-	/**
 	 * logo
 	 */
-	public String logoUrl = "";
+		public String bankLogo = "";
 
 	/**
 	 * 每笔限额
 	 */
-	public double maxPayAmountPerTxn;
+		public String maxPayAmountPerTxn;
 
 	/**
 	 * 每天限额
 	 */
-	public double maxPayAmountPerDay;
+		public String maxPayAmountPerDay;
 
 	/**
 	 * 每月限额
 	 */
-	public double maxPayAmountPerMonth;
+		public String maxPayAmountPerMonth;
 
 	/**
 	 * 每日最大次数
@@ -111,12 +111,12 @@ public class GetUserBankCards4C implements Serializable {
 		
 		@Override
 		public String toString() {
-			return "UserBankCardList4C{" +
+			return "UserBankCardList{" +
 					"userPaymentId='" + userPaymentId + '\'' +
+					", bankCardNo='" + bankCardNo + '\'' +
 					", bankName='" + bankName + '\'' +
 					", paymentType='" + paymentType + '\'' +
-					", bankCardNo='" + bankCardNo + '\'' +
-					", logoUrl='" + logoUrl + '\'' +
+					", bankLogo='" + bankLogo + '\'' +
 					", maxPayAmountPerTxn=" + maxPayAmountPerTxn +
 					", maxPayAmountPerDay=" + maxPayAmountPerDay +
 					", maxPayAmountPerMonth=" + maxPayAmountPerMonth +
@@ -134,7 +134,7 @@ public class GetUserBankCards4C implements Serializable {
 				", code='" + code + '\'' +
 				", msg='" + msg + '\'' +
 				", optype='" + optype + '\'' +
-				", userBankCardList4C=" + userBankCardList4C +
+				", userBankCardList=" + userBankCardList +
 				'}';
 	}
     
@@ -164,59 +164,59 @@ public class GetUserBankCards4C implements Serializable {
 	    		Log.d("GetUserBankCards4C", "has no mapping for key " + "optype" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
 			this.optype = jsonObject.optString("optype");
-	    	if (jsonObject.isNull("userBankCardList4C")) {
-	    		Log.d("GetUserBankCards4C", "has no mapping for key " + "userBankCardList4C" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
+		if (jsonObject.isNull("userBankCardList4S")) {
+			Log.d("GetUserBankCards4C", "has no mapping for key " + "userBankCardList4S" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-			JSONArray userBankCardList4CArray = jsonObject.optJSONArray("userBankCardList4C");
-			this.userBankCardList4C = new ArrayList<>();
+		JSONArray userBankCardListArray = jsonObject.optJSONArray("userBankCardList4S");
+		this.userBankCardList = new ArrayList<>();
 			
-			if (null != userBankCardList4CArray && userBankCardList4CArray.length() > 0) {
-				for(int userBankCardList4Ci = 0; userBankCardList4Ci < userBankCardList4CArray.length(); userBankCardList4Ci++) {
-					JSONObject jsonObjectUserBankCardList4C = userBankCardList4CArray.optJSONObject(userBankCardList4Ci);
-			UserBankCardList4C userBankCardList4C = new UserBankCardList4C();
+		if (null != userBankCardListArray && userBankCardListArray.length() > 0) {
+			for(int userBankCardListi = 0; userBankCardListi < userBankCardListArray.length(); userBankCardListi++) {
+				JSONObject jsonObjectUserBankCardList = userBankCardListArray.optJSONObject(userBankCardListi);
+				UserBankCardList userBankCardList = new UserBankCardList();
 		
-	    	if (jsonObjectUserBankCardList4C.isNull("userPaymentId")) {
+				if (jsonObjectUserBankCardList.isNull("userPaymentId")) {
 	    		Log.d("GetUserBankCards4C", "has no mapping for key " + "userPaymentId" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-			userBankCardList4C.userPaymentId = jsonObjectUserBankCardList4C.optString("userPaymentId");
-	    	if (jsonObjectUserBankCardList4C.isNull("bankName")) {
+				userBankCardList.userPaymentId = jsonObjectUserBankCardList.optString("userPaymentId");
+				if (jsonObjectUserBankCardList.isNull("bankCardNo")) {
+					Log.d("GetUserBankCards4C", "has no mapping for key " + "bankCardNo" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
+				}
+				userBankCardList.bankCardNo = jsonObjectUserBankCardList.optString("bankCardNo");
+				if (jsonObjectUserBankCardList.isNull("bankName")) {
 	    		Log.d("GetUserBankCards4C", "has no mapping for key " + "bankName" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-			userBankCardList4C.bankName = jsonObjectUserBankCardList4C.optString("bankName");
-	    	if (jsonObjectUserBankCardList4C.isNull("paymentType")) {
+				userBankCardList.bankName = jsonObjectUserBankCardList.optString("bankName");
+				if (jsonObjectUserBankCardList.isNull("paymentType")) {
 	    		Log.d("GetUserBankCards4C", "has no mapping for key " + "paymentType" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-			userBankCardList4C.paymentType = jsonObjectUserBankCardList4C.optString("paymentType");
-	    	if (jsonObjectUserBankCardList4C.isNull("bankCardNo")) {
-	    		Log.d("GetUserBankCards4C", "has no mapping for key " + "bankCardNo" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
+				userBankCardList.paymentType = jsonObjectUserBankCardList.optString("paymentType");
+				if (jsonObjectUserBankCardList.isNull("bankLogo")) {
+					Log.d("GetUserBankCards4C", "has no mapping for key " + "bankLogo" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-			userBankCardList4C.bankCardNo = jsonObjectUserBankCardList4C.optString("bankCardNo");
-	    	if (jsonObjectUserBankCardList4C.isNull("logoUrl")) {
-	    		Log.d("GetUserBankCards4C", "has no mapping for key " + "logoUrl" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
-	    	}
-			userBankCardList4C.logoUrl = jsonObjectUserBankCardList4C.optString("logoUrl");
-	    	if (jsonObjectUserBankCardList4C.isNull("maxPayAmountPerTxn")) {
+				userBankCardList.bankLogo = jsonObjectUserBankCardList.optString("bankLogo");
+				if (jsonObjectUserBankCardList.isNull("maxPayAmountPerTxn")) {
 	    		Log.d("GetUserBankCards4C", "has no mapping for key " + "maxPayAmountPerTxn" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-			userBankCardList4C.maxPayAmountPerTxn = jsonObjectUserBankCardList4C.optDouble("maxPayAmountPerTxn");
-	    	if (jsonObjectUserBankCardList4C.isNull("maxPayAmountPerDay")) {
+				userBankCardList.maxPayAmountPerTxn = jsonObjectUserBankCardList.optString("maxPayAmountPerTxn");
+				if (jsonObjectUserBankCardList.isNull("maxPayAmountPerDay")) {
 	    		Log.d("GetUserBankCards4C", "has no mapping for key " + "maxPayAmountPerDay" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-			userBankCardList4C.maxPayAmountPerDay = jsonObjectUserBankCardList4C.optDouble("maxPayAmountPerDay");
-	    	if (jsonObjectUserBankCardList4C.isNull("maxPayAmountPerMonth")) {
+				userBankCardList.maxPayAmountPerDay = jsonObjectUserBankCardList.optString("maxPayAmountPerDay");
+				if (jsonObjectUserBankCardList.isNull("maxPayAmountPerMonth")) {
 	    		Log.d("GetUserBankCards4C", "has no mapping for key " + "maxPayAmountPerMonth" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-			userBankCardList4C.maxPayAmountPerMonth = jsonObjectUserBankCardList4C.optDouble("maxPayAmountPerMonth");
-	    	if (jsonObjectUserBankCardList4C.isNull("maxPayTxnCountPerDay")) {
+				userBankCardList.maxPayAmountPerMonth = jsonObjectUserBankCardList.optString("maxPayAmountPerMonth");
+				if (jsonObjectUserBankCardList.isNull("maxPayTxnCountPerDay")) {
 	    		Log.d("GetUserBankCards4C", "has no mapping for key " + "maxPayTxnCountPerDay" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-			userBankCardList4C.maxPayTxnCountPerDay = jsonObjectUserBankCardList4C.optInt("maxPayTxnCountPerDay");
-	    	if (jsonObjectUserBankCardList4C.isNull("bindTime")) {
+				userBankCardList.maxPayTxnCountPerDay = jsonObjectUserBankCardList.optInt("maxPayTxnCountPerDay");
+				if (jsonObjectUserBankCardList.isNull("bindTime")) {
 	    		Log.d("GetUserBankCards4C", "has no mapping for key " + "bindTime" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-			userBankCardList4C.bindTime = jsonObjectUserBankCardList4C.optLong("bindTime");
+				userBankCardList.bindTime = jsonObjectUserBankCardList.optLong("bindTime");
 					
-					this.userBankCardList4C.add(userBankCardList4C);
+				this.userBankCardList.add(userBankCardList);
 				}
 			}
 			

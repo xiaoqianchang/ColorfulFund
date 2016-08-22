@@ -425,12 +425,17 @@
         <item name="android:textSize">@dimen/font_size_17</item>
     </style>
 
-    <style name="white_button_210_style" parent="@style/white_button_style">
-        <item name="android:layout_width">@dimen/width_210</item>
-    </style>
+    <style name="blue_button_style" parent="@style/white_button_style">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/height_88</item>
+        <item name="android:layout_marginLeft">@dimen/padding_30</item>
+    <item name="android:layout_marginRight">@dimen/padding_30</item>
 
-    <style name="white_button_480_style" parent="@style/white_button_style">
-        <item name="android:layout_width">@dimen/width_480</item>
+<item name="android:background">@drawable/btn_blue</item>
+    <item name="android:enabled">
+false</item>
+        <item name="android:textSize">@dimen/font_size_15</item>
     </style>
 
     <style name="black_button_style" parent="@style/white_button_style">
@@ -453,20 +458,7 @@
         <item name="android:background">@drawable/btn_ltgrey</item>
     </style>
 
-    <style name="blue_button_210_style" parent="@style/grey_button_style">
-        <item name="android:layout_width">@dimen/width_210</item>
-    </style>
-
-    <style name="blue_button_480_style" parent="@style/grey_button_style">
-        <item name="android:layout_width">@dimen/width_480</item>
-    </style>
-
     <style name="ltblack_button_style" parent="@style/white_button_style">
-        <item name="android:background">@drawable/btn_ltblack</item>
-    </style>
-
-    <style name="ltblack_button_orange_text_style" parent="@style/white_button_style">
-        <item name="android:textColor">@color/orange</item>
         <item name="android:background">@drawable/btn_ltblack</item>
     </style>
 
@@ -476,9 +468,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/font_size_15</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:singleLine">true</item>
-    </style>
+        </style>
 
     <style name="black_text_font_17_style" parent="@style/black_text_font_15_style">
         <item name="android:textSize">@dimen/font_size_17</item>
@@ -494,6 +484,22 @@
         <item name="android:textColorHint">@color/ltgray</item>
     </style>
 
+    <style name="ltblack_text_font_12_style" parent="@style/ltblack_text_font_15_style">
+        <item name="android:textSize">@dimen/font_size_12</item>
+    </style>
+
+    <style name="ltblack_text_font_14_style" parent="@style/ltblack_text_font_15_style">
+        <item name="android:textSize">@dimen/font_size_14</item>
+    </style>
+
+    <style name="ltblack_text_font_16_style" parent="@style/ltblack_text_font_15_style">
+        <item name="android:textSize">@dimen/font_size_16</item>
+    </style>
+
+    <style name="ltgray_text_font_12_style" parent="@style/ltgray_text_font_15_style">
+        <item name="android:textSize">@dimen/font_size_12</item>
+    </style>
+
     <style name="ltgray_text_font_15_style" parent="@style/black_text_font_15_style">
         <item name="android:textColor">@color/ltgray</item>
     </style>
@@ -502,21 +508,17 @@
         <item name="android:textSize">@dimen/font_size_17</item>
     </style>
 
+    <style name="grey_text_font_12_style" parent="@style/black_text_font_15_style">
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:textSize">@dimen/font_size_12</item>
+    </style>
+
     <style name="grey_text_font_15_style" parent="@style/black_text_font_15_style">
         <item name="android:textColor">@color/grey</item>
     </style>
 
     <style name="grey_text_font_17_style" parent="@style/black_text_font_15_style">
         <item name="android:textSize">@dimen/font_size_17</item>
-    </style>
-
-    <style name="orange_text_font_12_style" parent="@style/black_text_font_15_style">
-        <item name="android:textColor">@color/orange</item>
-        <item name="android:textSize">@dimen/font_size_12</item>
-    </style>
-
-    <style name="orange_text_font_15_style" parent="@style/black_text_font_15_style">
-        <item name="android:textColor">@color/orange</item>
     </style>
 
     <style name="blue_text_font_15_style" parent="@style/black_text_font_15_style">

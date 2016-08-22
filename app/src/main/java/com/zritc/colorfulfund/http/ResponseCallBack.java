@@ -4,10 +4,15 @@ import android.text.TextUtils;
 
 import com.zritc.colorfulfund.base.ZRApplication;
 import com.zritc.colorfulfund.exception.ServerException;
+import com.zritc.colorfulfund.utils.ZRConstant;
 import com.zritc.colorfulfund.utils.ZRErrors;
 import com.zritc.colorfulfund.utils.ZRNetUtils;
+import com.zritc.colorfulfund.utils.ZRSharePreferenceKeeper;
+
+import org.apache.http.HttpStatus;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,6 +30,7 @@ public abstract class ResponseCallBack<T> implements Callback<T> {
     private final Class<?> c;
     private String code;
     private String msg;
+    private String sid;
 
     public ResponseCallBack(Class<?> c) {
         this.c = c;
@@ -34,13 +40,27 @@ public abstract class ResponseCallBack<T> implements Callback<T> {
     public void onResponse(Call<T> call, Response<T> response) {
         try {
             T body = response.body();
+            int statusCode = response.code(); // 服务解析返回后的code
+            // 405 right return
+            if (HttpStatus.SC_METHOD_NOT_ALLOWED == statusCode) {
+                String jsonStr = response.errorBody().string();
+                Method parseJson = c.getMethod("parseJson", String.class);
+                Object object = parseJson.invoke(c.newInstance(), new String(jsonStr));
+                body = (T) object;
+            }
+
             if (null != body) {
                 // 获取code、msg
                 try {
                     Field code = c.getField("code");
                     Field msg = c.getField("msg");
+                    Field sid = c.getField("sid");
                     this.code = (String) code.get(body);
                     this.msg = (String) msg.get(body);
+                    this.sid = (String) sid.get(body);
+                    
+                    ZRSharePreferenceKeeper.keepStringValue(ZRApplication.applicationContext,
+                            ZRConstant.KEY_EXTRA_SID, this.sid);
                 } catch (NoSuchFieldException e) {
                     e.printStackTrace();
                 } catch (IllegalAccessException e) {
@@ -67,6 +87,7 @@ public abstract class ResponseCallBack<T> implements Callback<T> {
 
     /**
      * 1.服务器连上失败
+     *
      * @param call
      * @param t
      */

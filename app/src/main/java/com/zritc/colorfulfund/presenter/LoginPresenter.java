@@ -27,20 +27,20 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
     public void release() {
     }
 
-    public void doLogin(String loginName, String password, String ip) {
+    public void doLogin(String loginName, String password) {
         iView.showProgress("开始登录...");
-        Call<Login> loginCall = ZRNetManager.getInstance().loginCallbackByPost(loginName, password, ip);
+        Call<Login> loginCall = ZRNetManager.getInstance().loginCallbackByPost(loginName, password);
         loginCall.enqueue(new ResponseCallBack<Login>(Login.class) {
             @Override
             public void onSuccess(Login login) {
-                iView.hideProgress();
                 iView.loginSuccess(login);
+                iView.hideProgress();
             }
 
             @Override
             public void onError(String code, String msg) {
-                iView.hideProgress();
                 ZRToastFactory.getToast(mContext, msg).show();
+                iView.hideProgress();
             }
         });
     }

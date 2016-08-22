@@ -3,9 +3,32 @@
 
     <!-- 首页导航 -->
     <string-array name="bottom_bar_labels">
-        <item>首页</item>
-        <item>基金</item>
-        <item>我的</item>
+        <item>多彩家庭</item>
+        <item>基金管家</item>
+        <item>投资圈</item>
+        <item>更多</item>
+    </string-array>
+
+    <string-array name="bank_with_red_bg">
+        <item>中国工商银行</item>
+        <item>中国银行</item>
+        <item>招商银行</item>
+        <item>中信银行</item>
+        <item>平安银行</item>
+        <item>华夏银行</item>
+    </string-array>
+
+    <string-array name="bank_with_green_bg">
+        <item>中国农业银行</item>
+        <item>中国光大银行</item>
+        <item>中国名生银行</item>
+    </string-array>
+
+    <string-array name="bank_with_blue_bg">
+        <item>中国建设银行</item>
+        <item>交通银行</item>
+        <item>兴业银行</item>
+        <item>上海银行</item>
     </string-array>
 
 </resources>

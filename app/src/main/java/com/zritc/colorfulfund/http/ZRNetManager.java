@@ -4,7 +4,11 @@ import com.zritc.colorfulfund.data.response.trade.AdjustPo;
 import com.zritc.colorfulfund.data.response.trade.BindPayment;
 import com.zritc.colorfulfund.data.response.trade.BuyPo;
 import com.zritc.colorfulfund.data.response.trade.EstimateBuyFundFee;
+import com.zritc.colorfulfund.data.response.trade.GetFundPoInfo4C;
+import com.zritc.colorfulfund.data.response.trade.GetFundPoList4C;
 import com.zritc.colorfulfund.data.response.trade.GetUserBankCards4C;
+import com.zritc.colorfulfund.data.response.trade.GetUserPoInfo4C;
+import com.zritc.colorfulfund.data.response.trade.GetUserPoList4C;
 import com.zritc.colorfulfund.data.response.trade.PrepareBindPayment;
 import com.zritc.colorfulfund.data.response.trade.RedeemPo;
 import com.zritc.colorfulfund.data.response.trade.UnbindPayment;
@@ -41,7 +45,6 @@ public final class ZRNetManager {
                 , @Field("rid") String rid
                 , @Field("loginName") String loginName
                 , @Field("password") String password
-                , @Field("ip") String ip
         );
 
         @FormUrlEncoded
@@ -78,6 +81,7 @@ public final class ZRNetManager {
                 , @Field("rid") String rid
                 , @Field("poCode") String poCode
                 , @Field("amount") String amount
+                , @Field("paymentId") String paymentId
         );
 
         @FormUrlEncoded
@@ -177,7 +181,47 @@ public final class ZRNetManager {
                 , @Field("rid") String rid
                 , @Field("tradeType") String tradeType
                 , @Field("fundCode") String fundCode
-                , @Field("amount") double amount
+                , @Field("amount") String amount
+        );
+
+        @FormUrlEncoded
+        @POST
+        Call<GetFundPoInfo4C> getFundPoInfo4CCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+                , @Field("poCode") String poCode
+        );
+
+        @FormUrlEncoded
+        @POST
+        Call<GetFundPoList4C> getFundPoList4CCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+        );
+
+        @FormUrlEncoded
+        @POST
+        Call<GetUserPoInfo4C> getUserPoInfo4CCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+                , @Field("poCode") String poCode
+                , @Field("userPaymentId") String userPaymentId
+        );
+
+        @FormUrlEncoded
+        @POST
+        Call<GetUserPoList4C> getUserPoList4CCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+                , @Field("userPaymentId") String userPaymentId
         );
     }
 
@@ -190,14 +234,14 @@ public final class ZRNetManager {
         if (null == netManager) {
             netManager = new ZRNetManager();
         }
-        if (null == api) {
+//        if (null == api) {
             api = ZRRetrofit.getNetApiInstance();
-        }
+//        }
 
         return netManager;
     }
 
-    public Call<Login> loginCallbackByPost(String loginName, String password, String ip) {
+    public Call<Login> loginCallbackByPost(String loginName, String password) {
         return api.loginCallbackByPost(
                 "http://172.16.101.201:9006/user/login"
                 , ZRDeviceInfo.getSid()
@@ -205,7 +249,6 @@ public final class ZRNetManager {
                 , ZRDeviceInfo.getRid()
                 , loginName
                 , password
-                , ip
         );
     }
 
@@ -234,20 +277,22 @@ public final class ZRNetManager {
         );
     }
 
-    public Call<BuyPo> buyPoCallbackByPost(String poCode, String amount) {
+    public Call<BuyPo> buyPoCallbackByPost(String poCode, String amount, String paymentId) {
         return api.buyPoCallbackByPost(
-                "http://172.16.101.201:9006/trade/"
+                "http://172.16.101.201:9006/trade/buyPo"
                 , ZRDeviceInfo.getSid()
                 , ZRDeviceInfo.getServerDeviceId()
                 , ZRDeviceInfo.getRid()
                 , poCode
                 , amount
+                , paymentId
         );
     }
 
     public Call<GetUserBankCards4C> getUserBankCards4CCallbackByPost() {
         return api.getUserBankCards4CCallbackByPost(
-                "http://172.16.101.201:9006/trade/getUserBCards"
+                /*"http://172.16.101.201:9006/trade/getUserBCards"*/
+                "http://172.16.101.202/play/trade/getUserBankCards4C"
                 , ZRDeviceInfo.getSid()
                 , ZRDeviceInfo.getServerDeviceId()
                 , ZRDeviceInfo.getRid()
@@ -333,15 +378,59 @@ public final class ZRNetManager {
         );
     }
 
-    public Call<EstimateBuyFundFee> estimateBuyFundFeeCallbackByPost(String tradeType, String fundCode, double amount) {
+    public Call<EstimateBuyFundFee> estimateBuyFundFeeCallbackByPost(String tradeType, String fundCode, String amount) {
         return api.estimateBuyFundFeeCallbackByPost(
-                "http://172.16.101.201:9006/trade/estimateBuyFundFee"
+                "http://172.16.101.201:9006/trade/estimtaeBuyFundFee"
                 , ZRDeviceInfo.getSid()
                 , ZRDeviceInfo.getServerDeviceId()
                 , ZRDeviceInfo.getRid()
                 , tradeType
                 , fundCode
                 , amount
+        );
+    }
+
+    public Call<GetFundPoInfo4C> getFundPoInfo4CCallbackByPost(String poCode) {
+        return api.getFundPoInfo4CCallbackByPost(
+                /*"http://172.16.101.201:9006/trade/getFundPoInfo4C"*/
+                "http://172.16.101.202/play/trade/getFundPoInfo4C"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+                , poCode
+        );
+    }
+
+    public Call<GetFundPoList4C> getFundPoList4CCallbackByPost() {
+        return api.getFundPoList4CCallbackByPost(
+                /*"http://172.16.101.201:9006/trade/getFundPoList4C"*/
+                "http://172.16.101.202/play/trade/getFundPoList4C"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+        );
+    }
+
+    public Call<GetUserPoInfo4C> getUserPoInfo4CCallbackByPost(String poCode, String userPaymentId) {
+        return api.getUserPoInfo4CCallbackByPost(
+                /*"http://172.16.101.201:9006/trade/getUserPoInfo4C"*/
+                "http://172.16.101.202/play/trade/getUserPoInfo4C"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+                , poCode
+                , userPaymentId
+        );
+    }
+
+    public Call<GetUserPoList4C> getUserPoList4CCallbackByPost(String userPaymentId) {
+        return api.getUserPoList4CCallbackByPost(
+                /*"http://172.16.101.201:9006/trade/getUserPoList4C"*/
+                "http://172.16.101.202/play/trade/getUserPoList4C"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+                , userPaymentId
         );
     }
 

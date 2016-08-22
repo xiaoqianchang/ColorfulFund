@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:orientation="horizontal"
-    android:layout_width="match_parent"
+              android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="horizontal"
     android:paddingLeft="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
 
     <com.zritc.colorfulfund.widget.TimeLineMarker
         android:id="@+id/item_time_line_mark"
-        android:layout_width="30dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:paddingBottom="16dp"
-        android:paddingTop="16dp"
+        android:paddingTop="@dimen/padding_60"
+        android:layout_gravity="center"
         app:beginLine="@android:color/darker_gray"
         app:endLine="@android:color/darker_gray"
         app:lineSize="2dp"
         app:marker="@mipmap/icon_weixin"
-        app:markerSize="124dp"/>
+        app:markerSize="@dimen/padding_70"/>
 
     <TextView
         android:id="@+id/item_time_line_txt"
@@ -24,9 +29,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:paddingBottom="@dimen/padding_16"
-        android:paddingLeft="@dimen/padding_5"
-        android:paddingRight="@dimen/padding_5"
-        android:paddingTop="@dimen/padding_16"
-        android:textColor="@android:color/black"
+        android:paddingLeft="@dimen/padding_38"
+        android:paddingTop="@dimen/padding_60"
+        android:textColor="@color/redemption_text_color"
         android:textSize="@dimen/font_size_16"/>
+    </LinearLayout>
 </LinearLayout>

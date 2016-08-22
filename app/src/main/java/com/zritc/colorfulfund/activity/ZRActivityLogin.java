@@ -80,7 +80,7 @@ public class ZRActivityLogin extends ZRActivityBase<LoginPresenter> implements I
                 break;
             case R.id.btn_user_login:
                 if (inputValidate()) {
-                    loginPresenter.doLogin(userNmae, userPass, ZRNetUtils.getLocalIpAddress());
+                    loginPresenter.doLogin(userNmae, userPass);
                 }
                 break;
             case R.id.tv_register:

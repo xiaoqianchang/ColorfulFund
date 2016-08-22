@@ -10,8 +10,8 @@ package com.zritc.colorfulfund.iView;
  */
 public interface ITradePasswordSetView extends IBaseView {
 
-    void showProgress();
+    void showProgress(CharSequence message);
     void hideProgress();
-    void showErrorView();
-    void showNoMoreData();
+    void onSuccess(Object object);
+    void onError(String msg);
 }

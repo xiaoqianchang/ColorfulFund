@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimary">#ffffffff</color>
+<!-- #3F51B5 -->
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+<!-- #303F9F -->
+    <color name="colorAccent">@color/black</color>
 
-            <!-- base color 40000000 9000-->
+                <!-- base color 40000000 9000-->
     <color name="shadow_gray">#9000</color>
     <color name="shadow_gray2">#40000000</color>
     <color name="transparent">#00000000</color>
@@ -17,7 +19,7 @@
     <color name="orange">#fffaa701</color>
     <color name="ltorange">#fff02323</color>
     <color name="green">#ff0073dd</color>
-    <color name="blue">#ff0185f1</color>
+    <color name="blue">#ff7282f1</color>
     <color name="ltblue">#ff5c62d9</color>
     <color name="dblue">#23bef0</color>
     <color name="ltblack">#ff222222</color>
@@ -50,4 +52,7 @@
     <color name="disable_btn_color">#ffbababa</color>
     <color name="disable_text_color">#ff9E9E9E</color>
     <color name="color_hint">#D1D5DB</color>
+    
+    <color name="redemption_text_color">#5C6BDC</color>
+    <color name="font_text_color">#222222</color>
 </resources>

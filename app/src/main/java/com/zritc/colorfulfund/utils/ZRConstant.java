@@ -132,106 +132,10 @@ public class ZRConstant {
 	/**
 	 * main
 	 */
-	// banner
-	public static final String KEY_BANNDER = "banner";
-
-	// 频道总数
-	public static final String KEY_CHANNELLISTTOTAL = "channellisttotal";
-
-	// channel grid view
-	public static final String KEY_CHANNELID = "channelid";
-	public static final String KEY_CHANNELNAME = "channelname";
-	public static final String KEY_CHANNEL_DESCRIPTION = "channeldescription";
-	public static final String KEY_CHANNEL_IMGURL = "channelimgurl";
-	public static final String KEY_CHANNEL_RESOURCE = "videochannelresource";
-	public static final String KEY_CHANNEL = "channel";
-	public static final String KEY_CHANNEL_PARENT = "channelparent";
-	public static final String KEY_CHANNEL_CHILDREN = "channelchildren";
-
-	// channel module list item
-	public static final String KEY_CHANNEL_HOT_VIDEO = "hotvideo";
-	public static final String KEY_CHANNEL_MODULE_LIST = "videochanneldetail";
-
-	// video
-	public static final String KEY_VIDEO_LIST = "videolist";
-	public static final String KEY_ONLINENUMBER = "onlinenumber";
-	public static final String KEY_ATTENDANCE = "attendance";
-	public static final String KEY_LIVE = "live";
-	public static final String KEY_NOTSTART = "notstart";
-	public static final String KEY_CLOSED = "closed";
-	public static final String KEY_BOARDID = "boardid";
-	public static final String KEY_BOARDNAME = "boardname";
-	public static final String KEY_TERMINALTYPE = "terminaltype";
-	public static final String KEY_CONTENTHTML = "contenthtml";
-	public static final String KEY_ATTACHMENTURL = "attachmenturl";
-	public static final String KEY_ATTACHMENTNAME = "attachmentname";
-	public static final String KEY_PATH = "path";
-	public static final String KEY_IMAGE_URL = "imgurl";
-	public static final String KEY_ACTIVITYID = "activityid";
-	public static final String KEY_VIDEOUNIQUE = "videouique";
-	public static final String KEY_VIDEOTYPE = "videotype";
-	public static final String KEY_VIDEOPK = "videopk";
-	public static final String KEY_STARTTIME = "starttime";
-	public static final String KEY_ENDTIME = "endtime";
-	public static final String KEY_MAXNUM = "maxnum";
 	public static final String KEY_COUNT = "count";
-	public static final String KEY_DESCRIPTION = "description";
-	public static final String KEY_CONTENT_DESCRIPTION = "contentdescription";
-	public static final String KEY_VIDEODUR = "videoduration";
-	public static final String KEY_ACCESSTYPE = "accesstype";
-	public static final String KEY_ACCESSCODE = "accesscode";
-	public static final String KEY_ISPUBLIC = "ispublic";
-	public static final String KEY_ISSTORED = "isstored";
-	public static final String KEY_ISPE = "ispe";
-	public static final String KEY_PHONEINFO = "phoneinfo";
-	public static final String KEY_PHONELIST = "phonelist";
-	public static final String KEY_LIVE_URL = "liveurl";
-	public static final String KEY_ARTICLEID = "articleid";
-	public static final String KEY_CONTENTPK = "contentpk";
-	public static final String KEY_COLLECTIONTYPE = "collectiontype";
-	public static final String KEY_TITLE = "title";
-	public static final String KEY_ARTICLEURL = "boardurl";
-	public static final String KEY_ARTICLEPHOTO = "articlephoto";
-	public static final String KEY_PDF = "attachmentname";
-	public static final String KEY_IMAGEPATH1 = "imagepath1";
-	public static final String KEY_IMAGEPATH2 = "imagepath2";
-	public static final String KEY_IMAGEPATH3 = "imagepath3";
-	public static final String KEY_IMAGECOUNT = "imagecount";
-	public static final String KEY_ISCLASSIC = "isclassic";
-	public static final String KEY_ISNEEDLOGIN = "needlogin";
-	public static final String KEY_VIDEOIMGURL = "videoimgurl";
-	public static final String KEY_VIDEONAME = "videoname";
-	public static final String KEY_VIDEOAUTHOR = "videoauthor";
-	public static final String KEY_THUMBNUMBER = "thumbnumber";
-	public static final String KEY_ITIME = "itime";
-	public static final String KEY_COMMENTNUMBER = "commentnumber";
-	public static final String KEY_COMMENT = "comment";
-	public static final String KEY_POSTTIME = "posttime";
 	public static final String KEY_STATUS = "status";
-	public static final String KEY_RELATIONSTATUS = "relationstatus";
-	public static final String KEY_AIDPKS = "videopklist";
-	public static final String KEY_LIVESTATUS = "livestatus";
-	public static final String KEY_CITYS = "cities";
-	public static final String KEY_CONTENTIMG = "contentimg";
-	public static final String KEY_ISDELETED = "isdeleted";
-	public static final String KEY_COLLECTIONTIME = "collectiontime";
-	public static final String KEY_VIDEOCOMMENTNUMBER = "videocommentnumber";
-	public static final String KEY_VIDEOREFRENCENUMBER = "referencelistnumber";
-
-	/**
-	 * find pwd
-	 */
-	public static final String KEY_VCODE = "vcode";
-	public static final String KEY_OLD_PASSWORD = "oldpasswd";
-	public static final String KEY_NEW_PASSWORD = "password";
-
-	/**
-	 * feedback
-	 */
-	public static final String KEY_DETAIL = "detail";
 
 	// activity keys
-	public static final String KEY_BADGE_CHANGED_TIMESTAMP = "kLastBadgeClickedTime";
 	public static final String KEY_LOGIN_STATUS = "kLoginStatus";
 	public static final String KEY_USER_PLAT = "login_plat";
 	public static final String KEY_USER_INFO = "user_info";
@@ -240,41 +144,15 @@ public class ZRConstant {
 	public static final String KEY_IS_FOREGROUND = "is_foreground";
 	public static final String KEY_WEB_VIEW_TITLE = "webview_title";
 	public static final String KEY_WEB_VIEW_URL = "webview_url";
-	public static final String KEY_CHANNEL_INFO = "channel_info";
 	public static final String KEY_FROM_WHICH_ACTIVITY = "which_activity";
-	public static final String KEY_WELCOME_FROM_FLAG = "welcome_from_flag";
-	public static final String KEY_FROM_LIVEVALID_BY_OUTLINK = "outlink_stepup";
-	public static final String KEY_GUIDE_FLOW1 = "guide_flow1";
-	public static final String KEY_GUIDE_FLOW2 = "guide_flow2";
-	public static final String KEY_GUIDE_FLOW3 = "guide_flow3";
-	public static final String KEY_MAXMSGID = "u_%s_maxmsgid";
 
 	// extra data
-	public static final String KEY_EXTRA_CHANNEL = "channel";
-	public static final String KEY_EXTRA_ROADSHOW = "roadshow";
 	public static final String KEY_EXTRA_SID = "sid";
 	public static final String KEY_EXTRA_SERVER_DEVICE_ID = "server_deviceid";
-	public static final String KEY_EXTRA_PHONE = "phone";
-	public static final String KEY_EXTRA_VCODE = "vcode";
-	public static final String KEY_EXTRA_REG_DEVICE = "reg_device";
 	public static final String KEY_EXTRA_CURRENT_VERSION = "current_version";
-	public static final String KEY_EXTRA_FRAGMENT_INDEX = "findex";
-	public static final String KEY_EXTRA_VIDEOPK = "videopk";
-	public static final String KEY_EXTRA_DISCUZ = "discuz";
-	public static final String KEY_EXTRA_CONTACT = "contact";
-	public static final String KEY_EXTRA_NICKNAME = "nickname";
-	public static final String KEY_EXTRA_SEX = "sex";
 	public static final String KEY_EXTRA_INTRO = "intro";
-	public static final String KEY_EXTRA_AREA = "area";
-	public static final String KEY_EXTRA_MNAME = "meeting_name";
-	public static final String KEY_EXTRA_MDESC = "meeting_desc";
-	public static final String KEY_EXTRA_MPWD = "meeting_pwd";
-	public static final String KEY_EXTRA_RZXX = "rzxx";
 	public static final String KEY_EXTRA_IMAGE_LIST = "image_list";
 	public static final String KEY_EXTRA_IMAGE_INDEX = "image_index";
-	public static final String KEY_EXTRA_SMSCONTENT = "smscontent";
-	public static final String KEY_EXTRA_CHANNELITEM = "channelitem";
-	public static final String KEY_EXTRA_CHANNELCHILDREN = "channelchildren";
 
 	public static final int REQUEST_START = 0;
 	public static final int REQUEST_WEB_HTTP_START = 1000;
@@ -363,34 +241,6 @@ public class ZRConstant {
 	public static final int REQUEST_CHECK_VERSION = REQUEST_FEEDBACK + 1; // 版本更新
 	public static final int REQUEST_END = REQUEST_WEB_HTTP_START - 1;
 
-	public static final int ACTIVITY_REQUEST_LOGIN = 110;
-	public static final int ACTIVITY_REQUEST_TAKE_PICTURE = 111;
-	public static final int ACTIVITY_REQUEST_SEL_PICTURE = 112;
-	public static final int ACTIVITY_REQUEST_SELECT_PIC_KITKAT = 113;
-	public static final int ACTIVITY_REQUEST_CROP = 114;
-	public static final int ACTIVITY_REQUEST_REGISTER = 115;
-	public static final int ACTIVITY_REQUEST_MEETING_NAME = 118;
-	public static final int ACTIVITY_REQUEST_MEETING_DESC = 119;
-	public static final int ACTIVITY_REQUEST_MEETING_PWD = 120;
-	public static final int ACTIVITY_REQUEST_CONTACT = 121;
-	public static final int ACTIVITY_REQUEST_CREATE_MEETING = 122;
-	public static final int ACTIVITY_REQUEST_NICK_NAME = 123;
-	public static final int ACTIVITY_REQUEST_INTRO = 124;
-	public static final int ACTIVITY_REQUEST_SEX = 125;
-	public static final int ACTIVITY_REQUEST_SMRZ = 126;
-	public static final int ACTIVITY_REQUEST_AREA = 127;
-	public static final int ACTIVITY_REQUEST_RZXX = 128;
-	public static final int ACTIVITY_REQUEST_DO_COMMENT = 129;
-	public static final int ACTIVITY_REQUEST_DO_PUSHDISCUZ = 130;
-	public static final int ACTIVITY_REQUEST_SHARE = 132;
-	public static final int ACTIVITY_REQUEST_RE_LOGIN = 134;
-	public static final int ACTIVITY_REQUEST_LIVE_VALID = 135;
-	public static final int ACTIVITY_REQUEST_DISCUZ_TYPE = 136;
-	public static final int ACTIVITY_REQUEST_SEL_VIDEO = 137;
-	public static final int ACTIVITY_REQUEST_SMRD = 138;
-	public static final int ACTIVITY_REQUEST_PERMISSION = 139;
-	public static final int ACTIVITY_REQUEST_DISCUZ = 140;
-
 	// 推送通知ID为0-1000,客户端版本更新为1001，其它应用或文件下载为1002
 	public static final int REQUEST_DOWNLOAD_APP = REQUEST_DOWNLOAD_START + 1;
 	public static final int NOTIFICATION_ID = REQUEST_DOWNLOAD_APP + 1;
@@ -399,7 +249,5 @@ public class ZRConstant {
 	public static final int DIALOG_EXIT = DIALOG_ACTION_CLIENT_UPDATE + 1;
 	public static final int DIALOG_ACTION_LOGOUT = DIALOG_EXIT + 1;
 	public static final int DIALOG_ACTION_JPUSH = DIALOG_ACTION_LOGOUT + 1;
-	public static final int DIALOG_ACTION_DELETE_DISCUZ = DIALOG_ACTION_JPUSH + 1;
-	public static final int DIALOG_ACTION_DELETE_COMMENT = DIALOG_ACTION_DELETE_DISCUZ + 1;
 
 }

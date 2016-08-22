@@ -165,6 +165,12 @@
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_fund_apply_purchase"
             android:screenOrientation="portrait"/>
+        <!-- 基金申购结果 -->
+        <activity
+            android:name=".activity.Fund.ZRActivityApplyPurchaseResult"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_fund_apply_purchase_result"
+            android:screenOrientation="portrait" />
         <!-- 分享入口 -->
         <activity
             android:name=".activity.ZRActivityShareEntry"
@@ -363,13 +369,15 @@
 
         <activity android:name=".activity.TestNetApiActivity">
         </activity>
-        <activity             android:name=".activity.Fund.ZRActivityGroupRedemption"            android:configChanges="orientation|keyboardHidden"
+        <activity                         android:name=".activity.Fund.ZRActivityGroupRedemption"                        android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" >
         </activity>
         <activity android:name=".activity.Fund.ZRActivitySingleRedemption">
         </activity>
         <activity android:name=".activity.Fund.ZRActivityRedemptionResult">
+        </activity>
+    <activity android:name=".activity.Fund.ZRActivityFundList">
         </activity>
     </application>
 

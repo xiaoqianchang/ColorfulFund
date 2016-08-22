@@ -8,10 +8,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.widget.ImageView;
 
 import com.zritc.colorfulfund.R;
-import com.zritc.colorfulfund.base.ZRActivityBase;
 import com.zritc.colorfulfund.common.ZRAppActivityManager;
 import com.zritc.colorfulfund.data.ZRDataEngine;
 import com.zritc.colorfulfund.fragment.ZRFragmentMain;
@@ -50,6 +48,7 @@ public class ZRActivityMain extends ZRActivityToolBar<MainPresenter> implements 
     private ZRFragmentMain mFragment1;
     private ZRFragmentMain mFragment2;
     private ZRFragmentMain mFragment3;
+    private ZRFragmentMain mFragment4;
     private int mFragmentIndex = 0;
     private FragmentManager mFragmentManager;
 
@@ -83,6 +82,9 @@ public class ZRActivityMain extends ZRActivityToolBar<MainPresenter> implements 
     @Override
     public void initView() {
         setTitleText("多彩基金");
+
+        hideLeftBar();
+
         Bundle bundle = getIntent().getExtras();
         if (null != bundle) {
             String from = bundle.getString(ZRConstant.KEY_FROM_WHICH_ACTIVITY);
@@ -160,6 +162,14 @@ public class ZRActivityMain extends ZRActivityToolBar<MainPresenter> implements 
                     transaction.show(mFragment3);
                 }
                 break;
+            case 3:
+                if (null == mFragment4) {
+                    mFragment4 = new ZRFragmentMain();
+                    transaction.add(R.id.center_layout, mFragment4);
+                } else {
+                    transaction.show(mFragment4);
+                }
+                break;
             default:
                 break;
         }
@@ -176,6 +186,9 @@ public class ZRActivityMain extends ZRActivityToolBar<MainPresenter> implements 
         }
         if (null != mFragment3) {
             transaction.hide(mFragment3);
+        }
+        if (null != mFragment4) {
+            transaction.hide(mFragment4);
         }
     }
 

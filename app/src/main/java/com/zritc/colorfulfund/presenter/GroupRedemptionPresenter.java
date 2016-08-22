@@ -3,6 +3,7 @@ package com.zritc.colorfulfund.presenter;
 import android.content.Context;
 
 import com.zritc.colorfulfund.data.response.trade.EstimateBuyFundFee;
+import com.zritc.colorfulfund.data.response.trade.GetUserPoInfo4C;
 import com.zritc.colorfulfund.data.response.trade.RedeemPo;
 import com.zritc.colorfulfund.http.ResponseCallBack;
 import com.zritc.colorfulfund.http.ZRNetManager;
@@ -56,12 +57,32 @@ public class GroupRedemptionPresenter extends BasePresenter<IGroupRedemptionView
      * @param fundCode
      * @param amount
      */
-    public void doEstimateBuyFundFee(String tradeType, String fundCode, double amount) {
+    public void doEstimateBuyFundFee(String tradeType, String fundCode, String amount) {
         Call<EstimateBuyFundFee> estimateBuyFundFeeCall = ZRNetManager.getInstance().estimateBuyFundFeeCallbackByPost(tradeType, fundCode, amount);
         estimateBuyFundFeeCall.enqueue(new ResponseCallBack<EstimateBuyFundFee>(EstimateBuyFundFee.class) {
             @Override
             public void onSuccess(EstimateBuyFundFee estimateBuyFundFee) {
                 iView.onSuccess(estimateBuyFundFee);
+            }
+
+            @Override
+            public void onError(String code, String msg) {
+                iView.onError(msg);
+            }
+        });
+    }
+
+    /**
+     * 获取我要赎回基金的详情
+     * @param poCode
+     * @param userPaymentId
+     */
+    public void doGetUserPoInfo4C(String poCode, String userPaymentId) {
+        Call<GetUserPoInfo4C> userPoInfo4CCallbackByPost = ZRNetManager.getInstance().getUserPoInfo4CCallbackByPost(poCode, userPaymentId);
+        userPoInfo4CCallbackByPost.enqueue(new ResponseCallBack<GetUserPoInfo4C>(GetUserPoInfo4C.class) {
+            @Override
+            public void onSuccess(GetUserPoInfo4C getUserPoInfo4C) {
+                iView.onSuccess(getUserPoInfo4C);
             }
 
             @Override

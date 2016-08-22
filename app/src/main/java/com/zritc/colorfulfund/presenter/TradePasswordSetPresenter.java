@@ -2,7 +2,12 @@ package com.zritc.colorfulfund.presenter;
 
 import android.content.Context;
 
+import com.zritc.colorfulfund.data.response.user.SetTransPwd;
+import com.zritc.colorfulfund.http.ResponseCallBack;
+import com.zritc.colorfulfund.http.ZRNetManager;
 import com.zritc.colorfulfund.iView.ITradePasswordSetView;
+
+import retrofit2.Call;
 
 /**
  * TradePasswordSetPresenter 交易密码设置
@@ -23,21 +28,20 @@ public class TradePasswordSetPresenter extends BasePresenter<ITradePasswordSetVi
         mSubscription.unsubscribe();
     }
 
-    public void requestTradePasswordSet(String tradePassword) {
-        /*iView.showProgress();
-        mSubscription = ZRRetrofit.getNetApiInstance().getMeiziData(page)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(meiziData -> {
-                    if (meiziData.results.size() == 0){
-                        iView.showNoMoreData();
-                    }else {
-                        iView.showMeiziList(meiziData.results);
+    public void setTransPwd(String password) {
+        iView.showProgress("处理中...");
+        Call<SetTransPwd> setTransPwdCall = ZRNetManager.getInstance().setTransPwdCallbackByPost(password);
+        setTransPwdCall.enqueue(new ResponseCallBack<SetTransPwd>(SetTransPwd.class) {
+            @Override
+            public void onSuccess(SetTransPwd setTransPwd) {
+                iView.hideProgress();
+                iView.onSuccess(setTransPwd);
+            }
+
+            @Override
+            public void onError(String code, String msg) {
+                iView.onError(msg);
                     }
-                    iView.hideProgress();
-                }, throwable -> {
-                    iView.showErrorView();
-                    iView.hideProgress();
-                });*/
+        });
     }
 }

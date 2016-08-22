@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/id_bg_bank_card"
     android:layout_width="match_parent"
     android:layout_height="@dimen/height_210"
     android:background="@mipmap/bg_green"
@@ -21,14 +22,15 @@
             android:src="@mipmap/ic_logo" />
 
         <TextView
-            android:id="@+id/id_txt_bank_card"
+            android:id="@+id/id_txt_bank_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/id_img_card"
-            android:text="中国农业银行"
-            android:textColor="#ffffff"
-            android:textSize="@dimen/font_size_16" />
+            android:text="银行名称"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size_15" />
 
         <TextView
             android:id="@+id/id_txt_single_quota"
@@ -36,8 +38,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignTop="@id/id_img_card"
-            android:text="单笔限额：30万"
-            android:textColor="#ffffff"
+            android:text="单笔限额：0万"
+            android:textColor="@color/white"
             android:textSize="@dimen/font_size_12" />
 
         <TextView
@@ -46,20 +48,21 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/id_img_card"
             android:layout_alignParentRight="true"
-            android:text="日累计限额：100万"
-            android:textColor="#ffffff"
+            android:text="日累计限额：0万"
+            android:textColor="@color/white"
             android:textSize="@dimen/font_size_12" />
 
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/id_txt_card_of_bank"
+        android:id="@+id/id_txt_card_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="62dp"
+        android:textScaleX="1.1"
         android:layout_marginTop="@dimen/padding_20"
-        android:text="**** **** **** 0223"
-        android:textColor="#ffffff"
-        android:textSize="@dimen/font_size_16" />
+        android:text="**** **** **** 8888"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_size_20" />
 
 </LinearLayout>

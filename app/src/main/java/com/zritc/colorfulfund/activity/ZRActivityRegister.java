@@ -170,7 +170,7 @@ public class ZRActivityRegister extends ZRActivityBase<RegisterPresenter> implem
     @Override
     public void registerSuccess() {
         // 注册成功，开始做登录
-        registerPresenter.doLogin(mEdtUserName.getText().toString().trim(), mEdtUserPass.getText().toString().trim(), ZRNetUtils.getLocalIpAddress());
+        registerPresenter.doLogin(mEdtUserName.getText().toString().trim(), mEdtUserPass.getText().toString().trim());
     }
 
     @Override

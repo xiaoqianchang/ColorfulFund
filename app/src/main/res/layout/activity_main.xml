@@ -23,16 +23,9 @@
         <com.zritc.colorfulfund.view.ZRTabWidget
             android:id="@+id/tab_widget"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_88"
+            android:layout_height="?attr/actionBarSize"
             android:background="@color/white"
             zrt:bottom_labels="@array/bottom_bar_labels" />
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/img_guide"
-        android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="match_parent"
-        android:background="@mipmap/bg_fade_main" />
 
 </LinearLayout>

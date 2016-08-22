@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -15,11 +14,13 @@ import android.widget.TextView;
 import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.activity.ZRActivityToolBar;
 import com.zritc.colorfulfund.data.response.trade.EstimateBuyFundFee;
+import com.zritc.colorfulfund.data.response.trade.GetUserPoInfo4C;
 import com.zritc.colorfulfund.data.response.trade.RedeemPo;
 import com.zritc.colorfulfund.iView.IGroupRedemptionView;
 import com.zritc.colorfulfund.presenter.GroupRedemptionPresenter;
 import com.zritc.colorfulfund.ui.adapter.abslistview.CommonAdapter;
 import com.zritc.colorfulfund.ui.adapter.abslistview.ViewHolder;
+import com.zritc.colorfulfund.utils.StringUtils;
 import com.zritc.colorfulfund.utils.ZRDateUtils;
 
 import java.util.ArrayList;
@@ -52,9 +53,6 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
     @Bind(R.id.tv_working_days)
     TextView tvWorkingDays; // 预计到账工作日
 
-    @Bind(R.id.cb_all_redemption)
-    CheckBox allRedemption;
-
     @Bind(R.id.btn_redemption_group)
     Button btnRedemptionGroup;
 
@@ -63,7 +61,7 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
     /**
      * 假初始化数据
      */
-    private List<ProductGroup> datas;
+    private List<GetUserPoInfo4C.UserFundListPerBank> userFundListPerBank;
     private MyAdapter myAdapter;
     private String todayRedeem; // 今日可赎回
     private double totalMoney;
@@ -86,10 +84,11 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
     @Override
     public void initView() {
         setTitleText("基金赎回");
-        initData();
+        userFundListPerBank = new ArrayList<>();
+        tvTodayRedeem.setText("0");
+        // 获取数据
+        groupRedemptionPresenter.doGetUserPoInfo4C(poCode, userPaymentId);
 
-        myAdapter = new MyAdapter(this, R.layout.lv_group_redemption_item, datas);
-        productGroup.setAdapter(myAdapter);
         edtMoney.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -112,9 +111,9 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
             public void afterTextChanged(Editable s) {
                 // 开始搜索计算、显示
                 calculate(s.toString().trim());
-//                groupRedemptionPresenter.doEstimateBuyFundFee("2", "ZH000484", Double.parseDouble(s.toString().trim()));
                 // 判断输入的金额是否大于持有的份额
                 if (!TextUtils.isEmpty(s.toString().trim())) {
+                    if (!isAllRedemption) {
                     if (Double.parseDouble(s.toString().trim()) > Double.parseDouble(tvTodayRedeem.getText().toString())) {
                         showToast("您输入的份额大于可赎回份额。");
                         // 不可点击
@@ -124,7 +123,12 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
                         btnRedemptionGroup.setEnabled(true);
                         btnRedemptionGroup.setBackgroundResource(R.drawable.btn_group_redemption);
                     }
+                    } else {
+                        // 设置输入框不可编辑
+                        edtMoney.setEnabled(false);
+                    }
                 }
+                edtMoney.setSelection(s.length());
             }
 
             private void checkStr(CharSequence s, int start, int before) {
@@ -163,38 +167,41 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
 
             }
         });
-
-        tvTodayRedeem.setText(todayRedeem);
-        redemptionMoney.setText(String.format(getString(R.string.money), redemptionCost));
-        edtMoney.setText(moneyStr);
-        allRedemption.setChecked(true);
-        tvWorkingDays.setText(String.format(getResources().getString(R.string.working_days), workingDays));
     }
 
     /**
      * 初始化假数据
      */
-    private void initData() {
-        datas = new ArrayList<>();
-        datas.add(new ProductGroup("大成现金增利货币", "4600.00"));
-        datas.add(new ProductGroup("鹏华股票型价值基金", "4600.00"));
-        datas.add(new ProductGroup("光大股票型价值基金", "3200.00"));
+    private void initData(GetUserPoInfo4C getUserPoInfo4C) {
+        if (null != getUserPoInfo4C) {
+            GetUserPoInfo4C.UserPoInfoPerBank userPoInfoPerBank = getUserPoInfo4C.userPoInfo.userPoInfoPerBank.get(0);
+            if (null != userPoInfoPerBank) {
+                userFundListPerBank = userPoInfoPerBank.userFundListPerBank;
+            }
+            myAdapter = new MyAdapter(this, R.layout.lv_group_redemption_item, userFundListPerBank);
+            productGroup.setAdapter(myAdapter);
+            // 允许赎回最大金额
+            if (StringUtils.isZero(userPoInfoPerBank.maxRedeemAmount) && StringUtils.isZero(userPoInfoPerBank.minRedeemAmount)) {
+                tvTodayRedeem.setText("只能允许全额赎回");
+                isAllRedemption = true;
+            } else {
+                tvTodayRedeem.setText(userPoInfoPerBank.maxRedeemAmount);
+                isAllRedemption = false;
+            }
 
         // 算总金额
-        for (int i = 0; i < datas.size(); i++) {
-            totalMoney += Double.parseDouble(datas.get(i).getValue());
+            for (int i = 0; i < userFundListPerBank.size(); i++) {
+                totalMoney += StringUtils.getMoneyByString(userFundListPerBank.get(i).totalAmount);
         }
+            edtMoney.setText(StringUtils.getMoneyByFormat(String.valueOf(totalMoney)));
 
         // 算产品所占比例
-        for (int j = 0; j < datas.size(); j++) {
-            datas.get(j).setRatio(Double.parseDouble(datas.get(j).getValue()) / totalMoney);
+            for (int j = 0; j < userFundListPerBank.size(); j++) {
+                userFundListPerBank.get(j).poPercentage = String.valueOf(StringUtils.getMoneyByString(userFundListPerBank.get(j).totalAmount) / totalMoney);
+            }
+            // 数据赋值
+//            myAdapter.notifyDataSetChanged();
         }
-
-        todayRedeem = "8000.00";
-        redemptionCost = "123.00";
-        moneyStr = String.format("%.2f", totalMoney);
-        workingDays = 2;
-        isAllRedemption = true;
     }
 
     /**
@@ -207,24 +214,17 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
             edtMoney.setText("0");
             money = "0";
         }
-        for (int i = 0; i < datas.size(); i++) {
-            datas.get(i).setValue(String.format("%.2f", Double.parseDouble(money) * datas.get(i).getRatio()));
+        for (int i = 0; i < userFundListPerBank.size(); i++) {
+            userFundListPerBank.get(i).totalAmount = (String.format("%.2f", Double.parseDouble(money) * Double.parseDouble(userFundListPerBank.get(i).poPercentage)));
         }
         myAdapter.notifyDataSetChanged();
     }
 
-    @OnClick({R.id.btn_redemption_group, R.id.ll_all_redemption})
+    @OnClick({R.id.btn_redemption_group})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_redemption_group:
-                groupRedemptionPresenter.doGroupRedemption("ZH000484", edtMoney.getText().toString().trim());
-                break;
-            case R.id.ll_all_redemption:
-                if (allRedemption.isChecked()) {
-                    allRedemption.setChecked(false);
-                } else {
-                    allRedemption.setChecked(true);
-                }
+                groupRedemptionPresenter.doGroupRedemption(poCode, edtMoney.getText().toString().trim());
                 break;
         }
     }
@@ -241,15 +241,15 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
 
     @Override
     public void onSuccess(Object object) {
-        if (object instanceof RedeemPo) {
+        if (object instanceof GetUserPoInfo4C) {
+            // 获取我要赎回基金的详情
+            initData((GetUserPoInfo4C) object);
+        }else if (object instanceof RedeemPo) {
             // 组合赎回
             // 计算预计到账日
             RedeemPo redeemPo = (RedeemPo) object;
             int diffDays = ZRDateUtils.getDiffDays(ZRDateUtils.getDiffTime(ZRDateUtils.getCurrentTimeMillis(), redeemPo.expectedTransferIntoDate));
             startActivity(new Intent(this, ZRActivityRedemptionResult.class));
-        } else if (object instanceof EstimateBuyFundFee) {
-            // 估算申购费用
-            redemptionMoney.setText(String.valueOf(((EstimateBuyFundFee) object).buyFee));
         }
     }
 
@@ -259,54 +259,16 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
         startActivity(new Intent(this, ZRActivityRedemptionResult.class));
     }
 
-    class MyAdapter extends CommonAdapter<ProductGroup> {
+    class MyAdapter extends CommonAdapter<GetUserPoInfo4C.UserFundListPerBank> {
 
-        public MyAdapter(Context context, int layoutId, List<ProductGroup> datas) {
+        public MyAdapter(Context context, int layoutId, List<GetUserPoInfo4C.UserFundListPerBank> datas) {
             super(context, layoutId, datas);
         }
 
         @Override
-        protected void convert(ViewHolder holder, ProductGroup productGroup) {
-            holder.setText(R.id.tv_name, productGroup.getName());
-            holder.setText(R.id.tv_value, String.format(mContext.getResources().getString(R.string.money), productGroup.getValue()));
-        }
-    }
-
-    class ProductGroup {
-        public String name;
-        public String value;
-        private double ratio;
-
-        public ProductGroup() {
-        }
-
-        public ProductGroup(String name, String value) {
-            this.name = name;
-            this.value = value;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getValue() {
-            return value;
-        }
-
-        public void setValue(String value) {
-            this.value = value;
-        }
-
-        public double getRatio() {
-            return ratio;
-        }
-
-        public void setRatio(double ratio) {
-            this.ratio = ratio;
+        protected void convert(ViewHolder holder, GetUserPoInfo4C.UserFundListPerBank userFundListPerBank) {
+            holder.setText(R.id.tv_name, userFundListPerBank.fundName);
+            holder.setText(R.id.tv_value, String.format(mContext.getResources().getString(R.string.money), StringUtils.getMoneyByFormat(userFundListPerBank.totalAmount)));
         }
     }
 }

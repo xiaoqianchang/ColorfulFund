@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
     android:fitsSystemWindows="true"
     android:clipToPadding="true"
     tools:context=".activity.TestNetApiActivity">
 
-    <Button
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <Button
         android:id="@+id/btn_prepareRegisterAcc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -75,11 +79,51 @@
         android:textColor="@android:color/black"/>
 
     <Button
-        android:id="@+id/btn_user_bank_cards4C"
+        android:id="@+id/btn_buy_po"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="组合申购"
+            android:textColor="@android:color/black"/>
+
+        <Button
+            android:id="@+id/btn_user_bank_cards4C"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="基金组合详细"
+        android:text="获取用户已绑定的银行卡列表"
+            android:textColor="@android:color/black"/>
+
+        <Button
+            android:id="@+id/btn_user_po_list4C"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="获取我的基金列表"
+            android:textColor="@android:color/black"/>
+
+        <Button
+            android:id="@+id/btn_user_po_info4C"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="获取我的基金信息"
+            android:textColor="@android:color/black"/>
+
+        <Button
+            android:id="@+id/btn_fund_po_list4C"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="获取基金列表"
+            android:textColor="@android:color/black"/>
+
+        <Button
+            android:id="@+id/btn_fund_po_info4C"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="获取基金信息"
         android:textColor="@android:color/black"/>
 
     <Button
@@ -99,3 +143,4 @@
         android:textColor="@android:color/black"/>
 
 </LinearLayout>
+</ScrollView>

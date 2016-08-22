@@ -66,20 +66,20 @@ public class RegisterPresenter extends BasePresenter<IRegisterView> {
         });
     }
 
-    public void doLogin(String loginName, String password, String ip) {
+    public void doLogin(String loginName, String password) {
         iView.showProgress(mContext.getString(R.string.tip_login_processing));
-        Call<Login> loginCall = ZRNetManager.getInstance().loginCallbackByPost(loginName, password, ip);
+        Call<Login> loginCall = ZRNetManager.getInstance().loginCallbackByPost(loginName, password);
         loginCall.enqueue(new ResponseCallBack<Login>(Login.class) {
             @Override
             public void onSuccess(Login login) {
-                iView.hideProgress();
                 iView.loginSuccess(login);
+                iView.hideProgress();
             }
 
             @Override
             public void onError(String code, String msg) {
-                iView.hideProgress();
                 iView.loginFail(msg);
+                iView.hideProgress();
             }
         });
     }

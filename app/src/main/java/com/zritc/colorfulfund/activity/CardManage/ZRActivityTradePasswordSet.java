@@ -1,5 +1,7 @@
 package com.zritc.colorfulfund.activity.CardManage;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
@@ -7,6 +9,7 @@ import android.widget.Button;
 import com.jakewharton.rxbinding.view.RxView;
 import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.activity.ZRActivityToolBar;
+import com.zritc.colorfulfund.data.response.user.SetTransPwd;
 import com.zritc.colorfulfund.iView.ITradePasswordSetView;
 import com.zritc.colorfulfund.presenter.TradePasswordSetPresenter;
 import com.zritc.colorfulfund.ui.ZREditText;
@@ -23,6 +26,9 @@ public class ZRActivityTradePasswordSet extends ZRActivityToolBar<TradePasswordS
     @Bind(R.id.id_btn_next)
     Button btnNext;
 
+    private String password = "";
+    private String repassword = "";
+
     private TradePasswordSetPresenter tradePasswordSetPresenter;
 
     ZREditText.ZRTextWatcher textWatcher = new ZREditText.ZRTextWatcher() {
@@ -38,8 +44,13 @@ public class ZRActivityTradePasswordSet extends ZRActivityToolBar<TradePasswordS
 
         @Override
         public void afterTextChanged(View view, Editable s) {
-            String password = edtCardTradePassword.getValue().toString();
-            boolean enable = password.isEmpty();
+            String _password = edtCardTradePassword.getValue().toString();
+            if (isFirstPage()) {
+                password = _password;
+            } else {
+                repassword = _password;
+            }
+            boolean enable = _password.isEmpty();
             btnNext.setEnabled(!enable);
         }
     };
@@ -66,35 +77,54 @@ public class ZRActivityTradePasswordSet extends ZRActivityToolBar<TradePasswordS
 
         RxView.clicks(btnNext).throttleFirst(1, TimeUnit.SECONDS)
                 .subscribe(aVoid -> {
-                    if (btnNext.getText().toString().equals("下一步")) {
+                    if (isFirstPage()) {
                         btnNext.setText("完成");
                         btnNext.setEnabled(false);
                         edtCardTradePassword.setValue("");
                         edtCardTradePassword.setHint("请再次输入您的支付密码");
                     } else {
-                        setResult(RESULT_OK);
-                        finish();
+                        if (password.equals(repassword))
+                            tradePasswordSetPresenter.setTransPwd(password);
+                        else {
+                            AlertDialog.Builder
+                                    builder = new AlertDialog.Builder(
+                                    this);
+                            builder.setMessage("密码输入不一致");
+                            builder.setCancelable(true);
+                            builder.setPositiveButton("重新输入", (DialogInterface dialog, int which) -> {
+                                dialog.cancel();
+                            });
+                            builder.create().show();
+                        }
                     }
                 });
     }
 
-    @Override
-    public void showProgress() {
+    private boolean isFirstPage() {
+        return btnNext.getText().toString().equals("下一步");
+    }
 
+    @Override
+    public void showProgress(CharSequence message) {
+        showLoadingDialog(message);
     }
 
     @Override
     public void hideProgress() {
-
+        hideLoadingDialog();
     }
 
     @Override
-    public void showErrorView() {
-
+    public void onSuccess(Object object) {
+        if (object instanceof SetTransPwd) {
+            setResult(RESULT_OK);
+            finish();
+        }
     }
 
     @Override
-    public void showNoMoreData() {
-
+    public void onError(String msg) {
+        hideProgress();
+        showToast(msg);
     }
 }
