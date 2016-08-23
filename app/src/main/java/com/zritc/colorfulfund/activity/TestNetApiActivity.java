@@ -5,9 +5,9 @@ import android.view.View;
 import android.widget.Button;
 
 import com.zritc.colorfulfund.R;
-import com.zritc.colorfulfund.activity.Fund.ZRActivityFundList;
-import com.zritc.colorfulfund.activity.Fund.ZRActivityGroupRedemption;
-import com.zritc.colorfulfund.activity.Fund.ZRActivitySingleRedemption;
+import com.zritc.colorfulfund.activity.fund.ZRActivityFundList;
+import com.zritc.colorfulfund.activity.fund.ZRActivityGroupRedemption;
+import com.zritc.colorfulfund.activity.fund.ZRActivitySingleRedemption;
 import com.zritc.colorfulfund.base.ZRActivityBase;
 import com.zritc.colorfulfund.data.response.trade.BindPayment;
 import com.zritc.colorfulfund.data.response.trade.BuyPo;
@@ -26,7 +26,6 @@ import com.zritc.colorfulfund.http.ResponseCallBack;
 import com.zritc.colorfulfund.http.ZRNetManager;
 import com.zritc.colorfulfund.utils.ZRConstant;
 import com.zritc.colorfulfund.utils.ZRDeviceInfo;
-import com.zritc.colorfulfund.utils.ZRNetUtils;
 import com.zritc.colorfulfund.utils.ZRSharePreferenceKeeper;
 
 import butterknife.Bind;

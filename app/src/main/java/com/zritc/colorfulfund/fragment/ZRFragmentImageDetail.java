@@ -2,20 +2,20 @@ package com.zritc.colorfulfund.fragment;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.base.ZRFragmentBase;
 import com.zritc.colorfulfund.ui.photoview.PhotoViewAttacher;
 import com.zritc.colorfulfund.ui.photoview.PhotoViewAttacher.OnPhotoTapListener;
 import com.zritc.colorfulfund.utils.ZRLog;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+
+import butterknife.Bind;
 
 /**
  * 图片查看片段
@@ -27,11 +27,14 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
  */
 public class ZRFragmentImageDetail extends ZRFragmentBase {
 
-	private String mImageUrl;
-	private ImageView mImageView;
-	private ProgressBar progressBar;
+	@Bind(R.id.image)
+	ImageView mImageView;
+
+	@Bind(R.id.loading)
+	ProgressBar progressBar;
 
 	private PhotoViewAttacher mAttacher;
+	private String mImageUrl;
 
 	public static ZRFragmentImageDetail newInstance(String imageUrl) {
 		final ZRFragmentImageDetail f = new ZRFragmentImageDetail();
@@ -46,26 +49,6 @@ public class ZRFragmentImageDetail extends ZRFragmentBase {
 		super.onCreate(savedInstanceState);
 		mImageUrl = getArguments() != null ? getArguments().getString("url")
 				: null;
-	}
-
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		final View v = inflater.inflate(R.layout.cell_pager_image_item,
-				container, false);
-		mImageView = (ImageView) v.findViewById(R.id.image);
-		mAttacher = new PhotoViewAttacher(mImageView);
-
-		mAttacher.setOnPhotoTapListener(new OnPhotoTapListener() {
-
-			@Override
-			public void onPhotoTap(View arg0, float arg1, float arg2) {
-				getActivity().finish();
-			}
-		});
-
-		progressBar = (ProgressBar) v.findViewById(R.id.loading);
-		return v;
 	}
 
 	@Override
@@ -114,13 +97,21 @@ public class ZRFragmentImageDetail extends ZRFragmentBase {
 	}
 
 	@Override
-	protected void lazyLoad() {
-
+	protected int getContentViewId() {
+		return R.layout.cell_pager_image_item;
 	}
 
 	@Override
-	public String getFragmentName() {
-		return null;
+	protected void initPresenter() {
+		mAttacher = new PhotoViewAttacher(mImageView);
+
+		mAttacher.setOnPhotoTapListener(new OnPhotoTapListener() {
+
+	@Override
+			public void onPhotoTap(View arg0, float arg1, float arg2) {
+				getActivity().finish();
+			}
+		});
 	}
 
 }

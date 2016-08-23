@@ -1,4 +1,4 @@
-package com.zritc.colorfulfund.activity.Fund;
+package com.zritc.colorfulfund.activity.fund;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;

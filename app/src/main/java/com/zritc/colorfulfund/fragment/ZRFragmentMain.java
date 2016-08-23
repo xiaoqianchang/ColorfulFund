@@ -3,25 +3,22 @@ package com.zritc.colorfulfund.fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.zritc.colorfulfund.R;
-import com.zritc.colorfulfund.activity.CardManage.ZRActivityCardManage;
-import com.zritc.colorfulfund.activity.Fund.ZRActivityFundList;
-import com.zritc.colorfulfund.activity.Fund.ZRActivityGroupRedemption;
-import com.zritc.colorfulfund.activity.Fund.ZRActivityMultiFundApplyPurchase;
-import com.zritc.colorfulfund.activity.Fund.ZRActivitySingleRedemption;
+import com.zritc.colorfulfund.activity.cardmanager.ZRActivityCardManage;
+import com.zritc.colorfulfund.activity.fund.ZRActivityFundList;
+import com.zritc.colorfulfund.activity.fund.ZRActivityMultiFundApplyPurchase;
+import com.zritc.colorfulfund.activity.fund.ZRActivitySingleRedemption;
 import com.zritc.colorfulfund.base.ZRFragmentBase;
 import com.zritc.colorfulfund.data.response.trade.GetFundPoList4C;
 import com.zritc.colorfulfund.iView.IFundProListView;
 import com.zritc.colorfulfund.presenter.FundProListPresenter;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -40,15 +37,18 @@ public class ZRFragmentMain extends ZRFragmentBase implements IFundProListView {
     private FundProListPresenter fundProListPresenter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
-        ButterKnife.bind(this, view);
-        fundProListPresenter = new FundProListPresenter(getActivity(), this);
-        fundProListPresenter.fundPoList4C();
-        return view;
+    protected int getContentViewId() {
+        return R.layout.fragment_main;
     }
 
-    @OnClick({R.id.btn_card, R.id.btn_buy_pro, R.id.btn_single_redemption, R.id.btn_user_po_list4C})
+    @Override
+    protected void initPresenter() {
+        fundProListPresenter = new FundProListPresenter(getActivity(), this);
+        fundProListPresenter.init();
+        fundProListPresenter.fundPoList4C();
+    }
+
+    @OnClick({R.id.btn_card, R.id.btn_single_redemption, R.id.btn_user_po_list4C})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_card:
@@ -56,15 +56,6 @@ public class ZRFragmentMain extends ZRFragmentBase implements IFundProListView {
                 intent1 = new Intent(getActivity(),
                         ZRActivityCardManage.class);
                 startActivity(intent1);
-                break;
-            case R.id.btn_buy_pro:
-                Intent intent2 = new Intent(getActivity(),
-                        ZRActivityMultiFundApplyPurchase.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("poCode", "ZH000484");
-                bundle.putString("amount", "12400.00");
-                intent2.putExtras(bundle);
-                startActivity(intent2);
                 break;
             case R.id.btn_single_redemption: // 单个赎回
                 startActivity(new Intent(mContext, ZRActivitySingleRedemption.class));
@@ -77,12 +68,8 @@ public class ZRFragmentMain extends ZRFragmentBase implements IFundProListView {
     }
 
     @Override
-    protected void lazyLoad() {
-    }
+    public void initView(){
 
-    @Override
-    public String getFragmentName() {
-        return null;
     }
 
     @Override
@@ -116,7 +103,6 @@ public class ZRFragmentMain extends ZRFragmentBase implements IFundProListView {
                         Intent intent = new Intent(getActivity(),
                                 ZRActivityMultiFundApplyPurchase.class);
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable("UserPaymentInfo", ((GetFundPoList4C) object).userPaymentInfo.get(0));
                         bundle.putSerializable("GetFundPoList4C.FundPoList", pro);
                         intent.putExtras(bundle);
                         startActivity(intent);
@@ -131,10 +117,5 @@ public class ZRFragmentMain extends ZRFragmentBase implements IFundProListView {
     public void onError(String msg) {
         hideProgress();
         showToast(msg);
-    }
-
-    @Override
-    public void initView() {
-
     }
 }

@@ -1,4 +1,4 @@
-package com.zritc.colorfulfund.activity.Fund;
+package com.zritc.colorfulfund.activity.fund;
 
 import android.content.Intent;
 import android.text.Editable;

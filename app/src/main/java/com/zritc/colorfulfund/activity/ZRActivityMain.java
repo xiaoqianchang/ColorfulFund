@@ -13,6 +13,7 @@ import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.common.ZRAppActivityManager;
 import com.zritc.colorfulfund.data.ZRDataEngine;
 import com.zritc.colorfulfund.fragment.ZRFragmentMain;
+import com.zritc.colorfulfund.fragment.fortunegroup.ZRFragmentFortuneGroupList;
 import com.zritc.colorfulfund.iView.IMainView;
 import com.zritc.colorfulfund.presenter.MainPresenter;
 import com.zritc.colorfulfund.receiver.JPushMessageReceiver;
@@ -47,7 +48,7 @@ public class ZRActivityMain extends ZRActivityToolBar<MainPresenter> implements 
     private ZRTabWidget mTabWidget;
     private ZRFragmentMain mFragment1;
     private ZRFragmentMain mFragment2;
-    private ZRFragmentMain mFragment3;
+    private ZRFragmentFortuneGroupList fortuneGroupListFragment;
     private ZRFragmentMain mFragment4;
     private int mFragmentIndex = 0;
     private FragmentManager mFragmentManager;
@@ -81,7 +82,6 @@ public class ZRActivityMain extends ZRActivityToolBar<MainPresenter> implements 
 
     @Override
     public void initView() {
-        setTitleText("多彩基金");
 
         hideLeftBar();
 
@@ -139,6 +139,7 @@ public class ZRActivityMain extends ZRActivityToolBar<MainPresenter> implements 
         hideFragments(transaction);
         switch (index) {
             case 0:
+                setTitleText("多彩基金");
                 if (null == mFragment1) {
                     mFragment1 = new ZRFragmentMain();
                     transaction.add(R.id.center_layout, mFragment1);
@@ -147,6 +148,7 @@ public class ZRActivityMain extends ZRActivityToolBar<MainPresenter> implements 
                 }
                 break;
             case 1:
+                setTitleText("投资管家");
                 if (null == mFragment2) {
                     mFragment2 = new ZRFragmentMain();
                     transaction.add(R.id.center_layout, mFragment2);
@@ -155,14 +157,16 @@ public class ZRActivityMain extends ZRActivityToolBar<MainPresenter> implements 
                 }
                 break;
             case 2:
-                if (null == mFragment3) {
-                    mFragment3 = new ZRFragmentMain();
-                    transaction.add(R.id.center_layout, mFragment3);
+                setTitleText("财富圈");
+                if (null == fortuneGroupListFragment) {
+                    fortuneGroupListFragment = new ZRFragmentFortuneGroupList();
+                    transaction.add(R.id.center_layout, fortuneGroupListFragment);
                 } else {
-                    transaction.show(mFragment3);
+                    transaction.show(fortuneGroupListFragment);
                 }
                 break;
             case 3:
+                setTitleText("其他");
                 if (null == mFragment4) {
                     mFragment4 = new ZRFragmentMain();
                     transaction.add(R.id.center_layout, mFragment4);
@@ -184,8 +188,8 @@ public class ZRActivityMain extends ZRActivityToolBar<MainPresenter> implements 
         if (null != mFragment2) {
             transaction.hide(mFragment2);
         }
-        if (null != mFragment3) {
-            transaction.hide(mFragment3);
+        if (null != fortuneGroupListFragment) {
+            transaction.hide(fortuneGroupListFragment);
         }
         if (null != mFragment4) {
             transaction.hide(mFragment4);

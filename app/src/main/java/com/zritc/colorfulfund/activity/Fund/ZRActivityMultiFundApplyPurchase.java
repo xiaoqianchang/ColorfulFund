@@ -1,4 +1,4 @@
-package com.zritc.colorfulfund.activity.Fund;
+package com.zritc.colorfulfund.activity.fund;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.zritc.colorfulfund.R;
-import com.zritc.colorfulfund.activity.CardManage.ZRActivityCardManage;
+import com.zritc.colorfulfund.activity.cardmanager.ZRActivityCardManage;
 import com.zritc.colorfulfund.activity.ZRActivityToolBar;
 import com.zritc.colorfulfund.data.response.trade.BuyPo;
 import com.zritc.colorfulfund.data.response.trade.EstimateBuyFundFee;
@@ -181,7 +181,6 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
 
     private void getExtraData() {
         Bundle bundle = getIntent().getExtras();
-        userPaymentInfo = (GetFundPoInfo4C.UserPaymentInfo) bundle.getSerializable("GetFundPoInfo4C");
         fundPoList = (GetFundPoList4C.FundPoList) bundle.getSerializable("GetFundPoList4C.FundPoList");
     }
 
@@ -212,7 +211,6 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
      */
     private void calculate(String money) {
         if (TextUtils.isEmpty(money)) {
-            edtBuyMoney.setValue("");
             money = "0";
             textBuyFee.setText("");
         }
@@ -246,6 +244,7 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
             adapter.setData(datas);
             listView.setAdapter(adapter);
 
+            userPaymentInfo = getFundPoInfo4C.userPaymentInfo;
             if (null == userPaymentInfo) {
                 return;
             }

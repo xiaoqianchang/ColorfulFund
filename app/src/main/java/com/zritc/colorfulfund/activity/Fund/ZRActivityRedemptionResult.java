@@ -1,7 +1,9 @@
-package com.zritc.colorfulfund.activity.Fund;
+package com.zritc.colorfulfund.activity.fund;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
 
 import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.activity.ZRActivityToolBar;
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * 赎回结果
@@ -23,6 +26,9 @@ public class ZRActivityRedemptionResult extends ZRActivityToolBar {
 
     @Bind(R.id.time_line_recycler)
     RecyclerView mRecycler;
+
+    @Bind(R.id.btn_redemption_group)
+    Button btnRedemptionGroup;
 
     private TimeLineAdapter mAdapter;
 
@@ -53,5 +59,10 @@ public class ZRActivityRedemptionResult extends ZRActivityToolBar {
         datas.add("基金公司已确认赎回，等待付款");
         datas.add("已付款");
         return datas;
+    }
+
+    @OnClick(R.id.btn_redemption_group)
+    public void onClick(View view) {
+        finish();
     }
 }

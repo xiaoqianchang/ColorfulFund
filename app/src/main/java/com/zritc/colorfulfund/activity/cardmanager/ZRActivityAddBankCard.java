@@ -1,4 +1,4 @@
-package com.zritc.colorfulfund.activity.CardManage;
+package com.zritc.colorfulfund.activity.cardmanager;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -199,7 +199,7 @@ public class ZRActivityAddBankCard extends ZRActivityToolBar<AddCardPresenter> i
         View view = inflater.inflate(R.layout.view_verification_code, null, false);
         gridPasswordView = (ZRGridPasswordView) view.findViewById(R.id.gpv_normal);
         gridPasswordView.togglePasswordVisibility();
-        gridPasswordView.setOnPasswordChangedListener(new ZRGridPasswordView.OnPasswordChangedListener(){
+        gridPasswordView.setOnPasswordChangedListener(new ZRGridPasswordView.OnPasswordChangedListener() {
 
             @Override
             public void onTextChanged(String psw) {
@@ -218,7 +218,7 @@ public class ZRActivityAddBankCard extends ZRActivityToolBar<AddCardPresenter> i
         timer.init(this, btnSmsCode);
         timer.setTickDrawable(this.getResources().getDrawable(R.drawable.btn_countdown_disable));
         timer.start();
-        btnSmsCode.setOnClickListener(v->{
+        btnSmsCode.setOnClickListener(v -> {
             timer.start();
             retryPreBind = true;
             prepareBindPayment();
@@ -432,9 +432,9 @@ public class ZRActivityAddBankCard extends ZRActivityToolBar<AddCardPresenter> i
 
         public void setPaymentType(String paymentType) {
             this.paymentType = paymentType;
-    }
+        }
 
-    @Override
+        @Override
         public String toString() {
             return "BankInfo{" +
                     "maxRapidPayAmountPerDay='" + maxRapidPayAmountPerDay + '\'' +
@@ -453,7 +453,7 @@ public class ZRActivityAddBankCard extends ZRActivityToolBar<AddCardPresenter> i
                 if (bankName.equals(x.name)) {
                     return x.paymentType;
                 }
-    }
+            }
             return "";
         }
     }

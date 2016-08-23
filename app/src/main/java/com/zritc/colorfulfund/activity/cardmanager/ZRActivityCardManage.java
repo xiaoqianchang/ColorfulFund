@@ -1,4 +1,4 @@
-package com.zritc.colorfulfund.activity.CardManage;
+package com.zritc.colorfulfund.activity.cardmanager;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +17,7 @@ import android.widget.PopupWindow;
 
 import com.jakewharton.rxbinding.view.RxView;
 import com.zritc.colorfulfund.R;
-import com.zritc.colorfulfund.activity.Fund.ZRActivityMultiFundApplyPurchase;
+import com.zritc.colorfulfund.activity.fund.ZRActivityMultiFundApplyPurchase;
 import com.zritc.colorfulfund.activity.ZRActivityToolBar;
 import com.zritc.colorfulfund.data.response.trade.GetUserBankCards4C;
 import com.zritc.colorfulfund.data.response.trade.UnbindPayment;
@@ -60,8 +60,8 @@ public class ZRActivityCardManage extends ZRActivityToolBar<CardManagePresenter>
             switch (msg.what) {
                 case REFRESH_COMPLETE:
                     if (null != adapter && null != swipeRefreshLayout) {
-                    adapter.notifyDataSetChanged();
-                    swipeRefreshLayout.setRefreshing(false);
+                        adapter.notifyDataSetChanged();
+                        swipeRefreshLayout.setRefreshing(false);
                     }
                     break;
             }
@@ -97,8 +97,8 @@ public class ZRActivityCardManage extends ZRActivityToolBar<CardManagePresenter>
         {
             getExtraData();
             if (!fromBuyPro) {
-        View footView = LayoutInflater.from(this).inflate(R.layout.cell_add_bankcard_item, null, false);
-        listView.addFooterView(footView);
+                View footView = LayoutInflater.from(this).inflate(R.layout.cell_add_bankcard_item, null, false);
+                listView.addFooterView(footView);
 
                 RxView.clicks(footView).throttleFirst(1, TimeUnit.SECONDS)
                         .subscribe(aVoid -> {
@@ -121,7 +121,7 @@ public class ZRActivityCardManage extends ZRActivityToolBar<CardManagePresenter>
         listView.setDivider(null);
         listView.setDividerHeight(this.getResources().getDimensionPixelSize(R.dimen.padding_30));
         if (!fromBuyPro) {
-        listView.setOnItemLongClickListener((AdapterView<?> parent, View view, int position, long id) -> {
+            listView.setOnItemLongClickListener((AdapterView<?> parent, View view, int position, long id) -> {
                 unbindIndex = position;
                 mPopupWindows = new PopupWindows(mContext,
                         view);
@@ -195,7 +195,7 @@ public class ZRActivityCardManage extends ZRActivityToolBar<CardManagePresenter>
                     onPopupDismiss();
                 }
                 return false;
-                });
+            });
 
             ZRTextView unbind = (ZRTextView) view
                     .findViewById(R.id.item_popupwindows_unbind);
@@ -210,7 +210,7 @@ public class ZRActivityCardManage extends ZRActivityToolBar<CardManagePresenter>
 
     private View.OnClickListener popItemClickListener = new View.OnClickListener() {
 
-    @Override
+        @Override
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.item_popupwindows_unbind:

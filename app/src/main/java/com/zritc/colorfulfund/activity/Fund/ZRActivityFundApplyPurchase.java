@@ -1,4 +1,4 @@
-package com.zritc.colorfulfund.activity.Fund;
+package com.zritc.colorfulfund.activity.fund;
 
 import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.activity.ZRActivityToolBar;

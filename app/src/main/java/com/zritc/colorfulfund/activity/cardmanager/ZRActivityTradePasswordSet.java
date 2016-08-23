@@ -1,4 +1,4 @@
-package com.zritc.colorfulfund.activity.CardManage;
+package com.zritc.colorfulfund.activity.cardmanager;
 
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;

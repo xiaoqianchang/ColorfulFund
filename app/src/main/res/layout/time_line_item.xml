@@ -15,7 +15,7 @@
         android:id="@+id/item_time_line_mark"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:paddingTop="@dimen/padding_60"
+        android:paddingTop="@dimen/padding_54"
         android:layout_gravity="center"
         app:beginLine="@android:color/darker_gray"
         app:endLine="@android:color/darker_gray"

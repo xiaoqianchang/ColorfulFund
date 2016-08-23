@@ -380,7 +380,7 @@ public final class ZRNetManager {
 
     public Call<EstimateBuyFundFee> estimateBuyFundFeeCallbackByPost(String tradeType, String fundCode, String amount) {
         return api.estimateBuyFundFeeCallbackByPost(
-                "http://172.16.101.201:9006/trade/estimtaeBuyFundFee"
+                "http://172.16.101.201:9006/trade/estimateBuyFundFee"
                 , ZRDeviceInfo.getSid()
                 , ZRDeviceInfo.getServerDeviceId()
                 , ZRDeviceInfo.getRid()

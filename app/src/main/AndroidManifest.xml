@@ -137,37 +137,37 @@
             android:screenOrientation="portrait"/>
         <!-- 我的银行卡 -->
         <activity
-            android:name=".activity.CardManage.ZRActivityCardManage"
+            android:name=".activity.cardmanager.ZRActivityCardManage"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_card_manage"
             android:screenOrientation="portrait"/>
         <!-- 添加银行卡 -->
         <activity
-            android:name=".activity.CardManage.ZRActivityAddBankCard"
+            android:name=".activity.cardmanager.ZRActivityAddBankCard"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_add_bankcard"
             android:screenOrientation="portrait"/>
         <!-- 设置交易密码 -->
         <activity
-            android:name=".activity.CardManage.ZRActivityTradePasswordSet"
+            android:name=".activity.cardmanager.ZRActivityTradePasswordSet"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_add_bankcard"
             android:screenOrientation="portrait"/>
         <!-- 单只基金申购 -->
         <activity
-            android:name=".activity.Fund.ZRActivityFundApplyPurchase"
+            android:name=".activity.fund.ZRActivityFundApplyPurchase"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_fund_apply_purchase"
             android:screenOrientation="portrait"/>
         <!-- 多只基金申购 -->
         <activity
-            android:name=".activity.Fund.ZRActivityMultiFundApplyPurchase"
+            android:name=".activity.fund.ZRActivityMultiFundApplyPurchase"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_fund_apply_purchase"
             android:screenOrientation="portrait"/>
         <!-- 基金申购结果 -->
         <activity
-            android:name=".activity.Fund.ZRActivityApplyPurchaseResult"
+            android:name=".activity.fund.ZRActivityApplyPurchaseResult"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_fund_apply_purchase_result"
             android:screenOrientation="portrait" />
@@ -368,17 +368,21 @@
             android:enabled="true"/>
 
         <activity android:name=".activity.TestNetApiActivity">
-        </activity>
-        <activity                         android:name=".activity.Fund.ZRActivityGroupRedemption"                        android:configChanges="orientation|keyboardHidden"
+</activity>
+        <activity                                     android:name=".activity.fund.ZRActivityGroupRedemption"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" >
+</activity>
+        <activity android:name=".activity.fund.ZRActivitySingleRedemption"></activity>
+        <activity android:name=".activity.fund.ZRActivityRedemptionResult">
+</activity>
+        <activity android:name=".activity.fund.ZRActivityFundList">
+</activity>
         </activity>
-        <activity android:name=".activity.Fund.ZRActivitySingleRedemption">
+    <activity android:name=".activity.ZRActivityArticleDetails">
         </activity>
-        <activity android:name=".activity.Fund.ZRActivityRedemptionResult">
-        </activity>
-    <activity android:name=".activity.Fund.ZRActivityFundList">
-        </activity>
+    <activity android:name=".activity.ZRActivityVideoDetails">
     </application>
 
 </manifest>

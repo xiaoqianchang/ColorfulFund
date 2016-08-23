@@ -81,7 +81,7 @@ public class ZRActivityWelcome extends ZRActivityBase {
                             ZRActivityLogin.class);
                 }
                 intent.putExtra(ZRConstant.KEY_FROM_WHICH_ACTIVITY,
-                        ZRActivityWelcome.class.getName());
+                        TestNetApiActivity.class.getName());
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 finish();

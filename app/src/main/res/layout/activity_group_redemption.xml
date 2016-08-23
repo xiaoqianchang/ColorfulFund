@@ -5,7 +5,11 @@
     android:layout_height="match_parent"
     android:background="@color/app_bg">
 
-    <include layout="@layout/toolbar_layout"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/toolbar_layout"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,29 +39,35 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/padding_30"
-            android:paddingRight="@dimen/padding_30"
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
+                style="@style/ltblack_text_font_14_style"
+                    android:layout_width="match_parent"
+                android:layout_height="@dimen/height_75"
+                    android:layout_marginTop="@dimen/padding_30"
+                    android:paddingLeft="@dimen/padding_30"
                 android:gravity="center_vertical"
                 android:text="购买产品组合"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/font_size_16"                                                                android:textStyle="bold"/>
+/>
 
-            <include layout="@layout/view_line"/>
+            <include layout="@layout/view_tabline" />
 
-            <ListView
+            <com.zritc.colorfulfund.ui.ZRListView
                 android:id="@+id/lv_product_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-</ListView>
+</com.zritc.colorfulfund.ui.ZRListView>
         </LinearLayout>
 
-        <!-- 今日可赎回 -->
+        <include
+                layout="@layout/view_line"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_30" />
+
+            <!-- 今日可赎回 -->
         <LinearLayout
 
 android:layout_width="match_parent"
@@ -67,7 +77,8 @@ android:layout_width="match_parent"
         android:paddingTop="@dimen/padding_32"
             android:paddingBottom="@dimen/padding_24"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:background="@color/white"
+                android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -93,32 +104,35 @@ android:layout_width="match_parent"
 
 </LinearLayout>
 
+            <include layout="@layout/view_line" />
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-            android:paddingLeft="@dimen/padding_30"
-            android:paddingRight="@dimen/padding_30"
-                android:gravity="center_vertical"
+                android:layout_height="@dimen/height_88"
+            android:layout_marginTop="@dimen/padding_20"
+            android:gravity="center_vertical"
+                android:background="@color/white"
                 android:orientation="horizontal">
 
                 <TextView
+                    style="@style/ltblack_text_font_15_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/padding_30"
                     android:text="赎回金额"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/font_size_16"/>
+/>
 
                 <EditText
                     android:id="@+id/edt_money"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:minWidth="100dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/padding_20"
                 android:singleLine="true"
-                android:background="@null"
+                android:background="@color/white"
                 android:inputType="numberDecimal"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/font_size_16"/>
+                    android:textColor="@color/ltblack"
+                    android:textSize="@dimen/font_size_15"/>
 
 </LinearLayout>
 
@@ -172,7 +186,7 @@ android:textColor="@android:color/darker_gray"
             <TextView
                 android:id="@+id/tv_working_days"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"                                                            android:textColor="#707ff4"
+                android:layout_height="wrap_content"                                                                                    android:textColor="#707ff4"
                     android:textSize="@dimen/font_size_14"/>
         </LinearLayout>
 
@@ -180,17 +194,12 @@ android:textColor="@android:color/darker_gray"
 
         <Button
             android:id="@+id/btn_redemption_group"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_88"
-            android:layout_marginLeft="@dimen/padding_30"
-            android:layout_marginRight="@dimen/padding_30"
+            style="@style/blue_button_style"
             android:layout_marginTop="@dimen/padding_120"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/btn_group_redemption"
-
-android:text="赎回组合"
-        android:textColor="@android:color/white"
-            android:textSize="@dimen/font_size_20"/>
+            android:text="赎回组合"
+/>
     </LinearLayout>
+
+</RelativeLayout>
 
 </RelativeLayout>

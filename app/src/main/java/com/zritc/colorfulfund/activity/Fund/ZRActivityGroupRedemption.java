@@ -1,4 +1,4 @@
-package com.zritc.colorfulfund.activity.Fund;
+package com.zritc.colorfulfund.activity.fund;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,11 +13,11 @@ import android.widget.TextView;
 
 import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.activity.ZRActivityToolBar;
-import com.zritc.colorfulfund.data.response.trade.EstimateBuyFundFee;
 import com.zritc.colorfulfund.data.response.trade.GetUserPoInfo4C;
 import com.zritc.colorfulfund.data.response.trade.RedeemPo;
 import com.zritc.colorfulfund.iView.IGroupRedemptionView;
 import com.zritc.colorfulfund.presenter.GroupRedemptionPresenter;
+import com.zritc.colorfulfund.ui.ZRListView;
 import com.zritc.colorfulfund.ui.adapter.abslistview.CommonAdapter;
 import com.zritc.colorfulfund.ui.adapter.abslistview.ViewHolder;
 import com.zritc.colorfulfund.utils.StringUtils;
@@ -39,7 +39,7 @@ import butterknife.OnClick;
 public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemptionPresenter> implements IGroupRedemptionView {
 
     @Bind(R.id.lv_product_group)
-    ListView productGroup;
+    ZRListView productGroup;
 
     @Bind(R.id.tv_today_redeem)
     TextView tvTodayRedeem;
@@ -85,6 +85,8 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
     public void initView() {
         setTitleText("基金赎回");
         userFundListPerBank = new ArrayList<>();
+        productGroup.setDivider(null);
+        productGroup.setListViewHeightBasedOnChildren(productGroup);
         tvTodayRedeem.setText("0");
         // 获取数据
         groupRedemptionPresenter.doGetUserPoInfo4C(poCode, userPaymentId);
@@ -118,10 +120,8 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
                         showToast("您输入的份额大于可赎回份额。");
                         // 不可点击
                         btnRedemptionGroup.setEnabled(false);
-                        btnRedemptionGroup.setBackgroundResource(R.drawable.btn_disable);
                     } else {
                         btnRedemptionGroup.setEnabled(true);
-                        btnRedemptionGroup.setBackgroundResource(R.drawable.btn_group_redemption);
                     }
                     } else {
                         // 设置输入框不可编辑
@@ -193,7 +193,6 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
             for (int i = 0; i < userFundListPerBank.size(); i++) {
                 totalMoney += StringUtils.getMoneyByString(userFundListPerBank.get(i).totalAmount);
         }
-            edtMoney.setText(StringUtils.getMoneyByFormat(String.valueOf(totalMoney)));
 
         // 算产品所占比例
             for (int j = 0; j < userFundListPerBank.size(); j++) {
@@ -201,6 +200,7 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
             }
             // 数据赋值
 //            myAdapter.notifyDataSetChanged();
+            edtMoney.setText(StringUtils.getMoneyByFormat(String.valueOf(totalMoney)));
         }
     }
 
@@ -244,6 +244,7 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
         if (object instanceof GetUserPoInfo4C) {
             // 获取我要赎回基金的详情
             initData((GetUserPoInfo4C) object);
+            btnRedemptionGroup.setEnabled(true);
         }else if (object instanceof RedeemPo) {
             // 组合赎回
             // 计算预计到账日

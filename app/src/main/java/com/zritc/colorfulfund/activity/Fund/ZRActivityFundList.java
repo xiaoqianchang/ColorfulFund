@@ -1,6 +1,5 @@
-package com.zritc.colorfulfund.activity.Fund;
+package com.zritc.colorfulfund.activity.fund;
 
-import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +14,6 @@ import com.zritc.colorfulfund.activity.ZRActivityToolBar;
 import com.zritc.colorfulfund.data.response.trade.GetUserPoList4C;
 import com.zritc.colorfulfund.iView.IFundListView;
 import com.zritc.colorfulfund.presenter.FundListPresenter;
-import com.zritc.colorfulfund.ui.adapter.abslistview.CommonAdapter;
-import com.zritc.colorfulfund.ui.adapter.abslistview.ViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;

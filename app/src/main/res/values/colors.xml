@@ -7,7 +7,7 @@
 <!-- #303F9F -->
     <color name="colorAccent">@color/black</color>
 
-                <!-- base color 40000000 9000-->
+                    <!-- base color 40000000 9000-->
     <color name="shadow_gray">#9000</color>
     <color name="shadow_gray2">#40000000</color>
     <color name="transparent">#00000000</color>
