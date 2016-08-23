@@ -9,109 +9,18 @@
 
     <include layout="@layout/toolbar_layout"/>
 
-    <ScrollView
+    <com.zritc.colorfulfund.ui.pulltozoomview.PullToZoomScrollViewEx
+        android:id="@+id/sc_scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@id/app_bar_layout">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/height_150"
-                android:src="@drawable/bg_mine"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:orientation="vertical">
-
-                <!-- 文章title -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tv_tag"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Business"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="VR创业？想赚快钱的都散了吧"/>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/tv_author"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:drawableLeft="@mipmap/icon_weixin"
-                            android:drawablePadding="10dp"
-                            android:gravity="center"
-                            android:text="xc"/>
-
-                        <TextView
-                            android:id="@+id/tv_time"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
-                            android:text="07月15日"/>
-                    </LinearLayout>
-                </LinearLayout>
-
-                <WebView
-                    android:id="@+id/web_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/padding_30"
-                    android:layout_marginTop="@dimen/padding_18" />
-
-                <!-- 点赞、转发 -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="30dp"
-                        android:src="@mipmap/icon_weixin"/>
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/icon_weixin"/>
-                </LinearLayout>
-
-                <!-- 推荐文章 -->
-                <GridView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:numColumns="2">
-
-                </GridView>
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+    </com.zritc.colorfulfund.ui.pulltozoomview.PullToZoomScrollViewEx>
 
     <!-- 底部工具栏 -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="49dp"
         android:gravity="center_vertical"
         android:layout_alignParentBottom="true"
         android:paddingLeft="10dp"

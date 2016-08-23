@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">#ffffffff</color>
-<!-- #3F51B5 -->
-    <color name="colorPrimaryDark">#303F9F</color>
-<!-- #303F9F -->
+    <color name="colorPrimary">#ffffffff</color><!-- #3F51B5 -->
+    <color name="colorPrimaryDark">#303F9F</color><!-- #303F9F -->
     <color name="colorAccent">@color/black</color>
 
-                    <!-- base color 40000000 9000-->
+    <!-- base color 40000000 9000-->
     <color name="shadow_gray">#9000</color>
     <color name="shadow_gray2">#40000000</color>
     <color name="transparent">#00000000</color>

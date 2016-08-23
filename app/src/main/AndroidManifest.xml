@@ -367,22 +367,17 @@
             android:name=".service.ZRDownloadService"
             android:enabled="true"/>
 
-        <activity android:name=".activity.TestNetApiActivity">
-</activity>
-        <activity                                     android:name=".activity.fund.ZRActivityGroupRedemption"
+        <activity android:name=".activity.TestNetApiActivity"></activity>
+        <activity android:name=".activity.fund.ZRActivityGroupRedemption"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" >
-</activity>
+        </activity>
         <activity android:name=".activity.fund.ZRActivitySingleRedemption"></activity>
-        <activity android:name=".activity.fund.ZRActivityRedemptionResult">
-</activity>
-        <activity android:name=".activity.fund.ZRActivityFundList">
-</activity>
-        </activity>
-    <activity android:name=".activity.ZRActivityArticleDetails">
-        </activity>
-    <activity android:name=".activity.ZRActivityVideoDetails">
+        <activity android:name=".activity.fund.ZRActivityRedemptionResult"></activity>
+        <activity android:name=".activity.fund.ZRActivityFundList"></activity>
+        <activity android:name=".activity.ZRActivityArticleDetails"></activity>
+        <activity android:name=".activity.ZRActivityVideoDetails"></activity>
     </application>
 
 </manifest>

@@ -13,7 +13,6 @@ import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.common.ZRAppActivityManager;
 import com.zritc.colorfulfund.data.ZRDataEngine;
 import com.zritc.colorfulfund.fragment.ZRFragmentMain;
-import com.zritc.colorfulfund.fragment.fortunegroup.ZRFragmentFortuneGroupList;
 import com.zritc.colorfulfund.iView.IMainView;
 import com.zritc.colorfulfund.presenter.MainPresenter;
 import com.zritc.colorfulfund.receiver.JPushMessageReceiver;
@@ -48,7 +47,7 @@ public class ZRActivityMain extends ZRActivityToolBar<MainPresenter> implements 
     private ZRTabWidget mTabWidget;
     private ZRFragmentMain mFragment1;
     private ZRFragmentMain mFragment2;
-    private ZRFragmentFortuneGroupList fortuneGroupListFragment;
+//    private ZRFragmentFortuneGroupList fortuneGroupListFragment;
     private ZRFragmentMain mFragment4;
     private int mFragmentIndex = 0;
     private FragmentManager mFragmentManager;
@@ -158,12 +157,12 @@ public class ZRActivityMain extends ZRActivityToolBar<MainPresenter> implements 
                 break;
             case 2:
                 setTitleText("财富圈");
-                if (null == fortuneGroupListFragment) {
-                    fortuneGroupListFragment = new ZRFragmentFortuneGroupList();
-                    transaction.add(R.id.center_layout, fortuneGroupListFragment);
-                } else {
-                    transaction.show(fortuneGroupListFragment);
-                }
+//                if (null == fortuneGroupListFragment) {
+//                    fortuneGroupListFragment = new ZRFragmentFortuneGroupList();
+//                    transaction.add(R.id.center_layout, fortuneGroupListFragment);
+//                } else {
+//                    transaction.show(fortuneGroupListFragment);
+//                }
                 break;
             case 3:
                 setTitleText("其他");
@@ -188,9 +187,9 @@ public class ZRActivityMain extends ZRActivityToolBar<MainPresenter> implements 
         if (null != mFragment2) {
             transaction.hide(mFragment2);
         }
-        if (null != fortuneGroupListFragment) {
-            transaction.hide(fortuneGroupListFragment);
-        }
+//        if (null != fortuneGroupListFragment) {
+//            transaction.hide(fortuneGroupListFragment);
+//        }
         if (null != mFragment4) {
             transaction.hide(mFragment4);
         }
