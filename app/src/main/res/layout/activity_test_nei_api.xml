@@ -150,5 +150,13 @@
         android:text="文章详情"
         android:textColor="@android:color/black"/>
 
+        <Button
+            android:id="@+id/btn_video_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="视频详情"
+            android:textColor="@android:color/black"/>
+
 </LinearLayout>
 </ScrollView>

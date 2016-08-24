@@ -65,13 +65,17 @@
         android:gravity="center"
         android:orientation="horizontal">
 
+        <!-- 收藏 -->
         <ImageView
+            android:id="@+id/img_collect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="30dp"
             android:src="@mipmap/icon_weixin"/>
 
+        <!-- 分享 -->
         <ImageView
+            android:id="@+id/img_share"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/icon_weixin"/>
@@ -79,9 +83,15 @@
 
     <!-- 推荐文章 -->
     <GridView
+        android:id="@+id/gv_grid_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:numColumns="2">
-
-    </GridView>
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/padding_30"
+        android:paddingRight="@dimen/padding_30"
+        android:background="@color/white"
+        android:columnWidth="35dp"
+        android:numColumns="2"
+android:stretchMode="columnWidth"
+    android:listSelector="@color/transparent"
+        android:verticalSpacing="@dimen/padding_20" />
 </LinearLayout>

@@ -30,8 +30,8 @@
             android:drawableStart="@mipmap/btn_back"
             android:gravity="center"
             android:minWidth="50dp"
-            android:text="返回"
-            android:textColor="@android:color/white"
+            android:text=""
+            android:textColor="@color/ltblack"
             android:textSize="@dimen/font_size_16" />
 
         <TextView
@@ -42,7 +42,7 @@
             android:singleLine="true"
             android:text="标题"
             android:textColor="@color/ltblack"
-            android:textSize="@dimen/font_size_22" />
+            android:textSize="@dimen/font_size_16" />
 
         <TextView
             android:id="@+id/nav_right_text"

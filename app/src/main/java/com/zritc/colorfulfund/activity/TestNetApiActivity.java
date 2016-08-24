@@ -63,7 +63,7 @@ public class TestNetApiActivity extends ZRActivityBase {
     protected void initPresenter() {
     }
 
-    @OnClick({R.id.btn_prepareRegisterAcc, R.id.btn_registerAcc, R.id.btn_login, R.id.btn_prepare_bind_payment, R.id.btn_bind_payment, R.id.btn_unbind_payment, R.id.btn_setTransPwd, R.id.btn_group_redemption, R.id.btn_buy_po, R.id.btn_user_bank_cards4C, R.id.btn_user_po_list4C, R.id.btn_user_po_info4C, R.id.btn_fund_po_list4C, R.id.btn_fund_po_info4C, R.id.btn_single_redemption, R.id.btn_estimateBuyFundFee, R.id.btn_article_details})
+    @OnClick({R.id.btn_prepareRegisterAcc, R.id.btn_registerAcc, R.id.btn_login, R.id.btn_prepare_bind_payment, R.id.btn_bind_payment, R.id.btn_unbind_payment, R.id.btn_setTransPwd, R.id.btn_group_redemption, R.id.btn_buy_po, R.id.btn_user_bank_cards4C, R.id.btn_user_po_list4C, R.id.btn_user_po_info4C, R.id.btn_fund_po_list4C, R.id.btn_fund_po_info4C, R.id.btn_single_redemption, R.id.btn_estimateBuyFundFee, R.id.btn_article_details, R.id.btn_video_details})
     public void onClick(View view) {
         /*String realName = "顾飞";
         String identityNo = "321283198909203859"; // 110101190001012837
@@ -289,8 +289,11 @@ public class TestNetApiActivity extends ZRActivityBase {
                 Intent intent = new Intent(mContext, ZRActivityGroupRedemption.class);
                 startActivity(intent);
                 break;
-            case R.id.btn_article_details:
+            case R.id.btn_article_details: // 文章详情
                 startActivity(new Intent(this, ZRActivityArticleDetails.class));
+                break;
+            case R.id.btn_video_details: // 视频详情
+                startActivity(new Intent(this, ZRActivityVideoDetails.class));
                 break;
         }
     }
