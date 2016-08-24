@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 底部工具栏 -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_buttom_container"
+    android:layout_width="match_parent"
+    android:layout_height="49dp"
+    android:gravity="center_vertical"
+    android:layout_alignParentBottom="true"
+    android:background="@color/app_bg"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <!-- 评论 -->
+    <ImageView
+        android:id="@+id/img_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="30dp"
+        android:src="@mipmap/comment"/>
+
+    <!-- 分享 -->
+    <ImageView
+        android:id="@+id/img_share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/img_comment"
+        android:layout_marginLeft="30dp"
+        android:src="@mipmap/edit"/>
+
+    <!-- 赞 -->
+    <ImageView
+        android:id="@+id/img_praise"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/img_share"
+        android:layout_marginLeft="30dp"
+        android:src="@mipmap/heart"/>
+
+    <!-- 收藏 -->
+    <ImageView
+        android:id="@+id/img_collect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/img_praise"
+        android:src="@mipmap/heart"/>
+
+    <ImageView
+        android:id="@+id/img_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:src="@mipmap/btn_back"/>
+</RelativeLayout>
