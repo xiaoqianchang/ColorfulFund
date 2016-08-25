@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.zritc.colorfulfund.activity.fortunegroup.ZRActivityFortuneGroupCommentList">
+
+    <include
+        android:id="@+id/app_bar_layout"
+        layout="@layout/toolbar_layout" />
+
+    <com.zritc.colorfulfund.ui.pull2refresh.ZRPullToRefreshListView
+        android:id="@+id/pull_to_refresh_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white" />
+
+    <LinearLayout
+        android:id="@+id/view_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/view_line"
+            layout="@layout/view_line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/control_divider_height" />
+
+        <RelativeLayout
+            android:id="@+id/bottom_view_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/app_bg"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/padding_12"
+            android:paddingLeft="@dimen/padding_20"
+            android:paddingRight="@dimen/padding_20"
+            android:paddingTop="@dimen/padding_12">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_64"
+                android:layout_toLeftOf="@+id/btn_send"
+                android:background="@drawable/bg_comment_edit"
+                android:drawableLeft="@mipmap/icon_leave_word"
+                android:drawablePadding="@dimen/padding_15"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/padding_32"
+                android:paddingRight="@dimen/padding_15"
+                android:text="写评论"
+                android:textColor="@color/ltgray"
+                android:textSize="@dimen/font_size_12" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

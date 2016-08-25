@@ -3,9 +3,11 @@ package com.zritc.colorfulfund.http;
 import android.text.TextUtils;
 
 import com.zritc.colorfulfund.base.ZRApplication;
+import com.zritc.colorfulfund.common.ZRAppActivityManager;
 import com.zritc.colorfulfund.exception.ServerException;
 import com.zritc.colorfulfund.utils.ZRConstant;
 import com.zritc.colorfulfund.utils.ZRErrors;
+import com.zritc.colorfulfund.utils.ZRLog;
 import com.zritc.colorfulfund.utils.ZRNetUtils;
 import com.zritc.colorfulfund.utils.ZRSharePreferenceKeeper;
 
@@ -82,6 +84,8 @@ public abstract class ResponseCallBack<T> implements Callback<T> {
             }
         } catch (Exception e) {
             onError("", e.getMessage());
+            StackTraceElement stackTraceElement = new Throwable().getStackTrace()[0];
+            ZRLog.e(stackTraceElement.getClass().getSimpleName(), e.getMessage() + " on " + stackTraceElement.getLineNumber());
         }
     }
 

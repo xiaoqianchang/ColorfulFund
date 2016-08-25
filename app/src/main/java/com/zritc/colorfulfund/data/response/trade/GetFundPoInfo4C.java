@@ -73,8 +73,6 @@ public class GetFundPoInfo4C implements Serializable {
 		 */
 		public String poPercentage = "";
 
-		public String totalAmount = "";
-
 		@Override
 		public String toString() {
 			return "PoFundList{" +
@@ -85,38 +83,9 @@ public class GetFundPoInfo4C implements Serializable {
 		}
 	}
 	/**
-	 * fundPoInfo
-	 */
-	public class FundPoInfo implements Serializable {
-
-	/**
-	 * 组合名称
-	 */
-	public String poName = "";
-
-	/**
-	 * 组合代码
-	 */
-	public String poCode = "";
-
-	/**
-	 * 
-	 */
-		public List<PoFundList> poFundList;
-    
-		@Override
-		public String toString() {
-			return "FundPoInfo{" +
-					"poName='" + poName + '\'' +
-					", poCode='" + poCode + '\'' +
-					", poFundList=" + poFundList +
-					'}';
-		}
-	}
-	/**
-	 * userPaymentInfo
+	 * userPoInfoPerBank
      */
-	public class UserPaymentInfo implements Serializable {
+	public class UserPoInfoPerBank implements Serializable {
 
 	/**
 		 * 用户交易账号id
@@ -165,7 +134,7 @@ public class GetFundPoInfo4C implements Serializable {
 		
 		@Override
 		public String toString() {
-			return "UserPaymentInfo{" +
+			return "UserPoInfoPerBank{" +
 					"userPaymentId='" + userPaymentId + '\'' +
 					", bankCardNo='" + bankCardNo + '\'' +
 					", bankName='" + bankName + '\'' +
@@ -178,6 +147,64 @@ public class GetFundPoInfo4C implements Serializable {
 					'}';
 		}
     }
+	/**
+	 * fundPoInfo
+	 */
+	public class FundPoInfo implements Serializable {
+
+		/**
+		 * 组合名称
+		 */
+		public String poName = "";
+
+		/**
+		 * 组合代码
+		 */
+		public String poCode = "";
+
+		/**
+		 *
+		 */
+		public List<PoFundList> poFundList;
+
+		@Override
+		public String toString() {
+			return "FundPoInfo{" +
+					"poName='" + poName + '\'' +
+					", poCode='" + poCode + '\'' +
+					", poFundList=" + poFundList +
+					'}';
+		}
+	}
+	/**
+	 * userPaymentInfo
+	 */
+	public class UserPaymentInfo implements Serializable {
+
+		/**
+		 * 组合名称
+		 */
+		public String poName = "";
+
+		/**
+		 * 组合代码
+		 */
+		public String poCode = "";
+
+		/**
+		 *
+		 */
+		public List<UserPoInfoPerBank> userPoInfoPerBank;
+
+		@Override
+		public String toString() {
+			return "UserPaymentInfo{" +
+					"poName='" + poName + '\'' +
+					", poCode='" + poCode + '\'' +
+					", userPoInfoPerBank=" + userPoInfoPerBank +
+					'}';
+		}
+	}
     
 	@Override
 	public String toString() {
@@ -270,42 +297,66 @@ public class GetFundPoInfo4C implements Serializable {
 		JSONObject jsonObjectUserPaymentInfo = jsonObject.optJSONObject("userPaymentInfo");
 		UserPaymentInfo userPaymentInfo = new UserPaymentInfo();
 
-		if (jsonObjectUserPaymentInfo.isNull("userPaymentId")) {
+		if (jsonObjectUserPaymentInfo.isNull("poName")) {
+			Log.d("GetFundPoInfo4C", "has no mapping for key " + "poName" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
+		}
+		userPaymentInfo.poName = jsonObjectUserPaymentInfo.optString("poName");
+		if (jsonObjectUserPaymentInfo.isNull("poCode")) {
+			Log.d("GetFundPoInfo4C", "has no mapping for key " + "poCode" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
+		}
+		userPaymentInfo.poCode = jsonObjectUserPaymentInfo.optString("poCode");
+		if (jsonObjectUserPaymentInfo.isNull("userPoInfoPerBank")) {
+			Log.d("GetFundPoInfo4C", "has no mapping for key " + "userPoInfoPerBank" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
+		}
+		JSONArray userPoInfoPerBankArray = jsonObjectUserPaymentInfo.optJSONArray("userPoInfoPerBank");
+		userPaymentInfo.userPoInfoPerBank = new ArrayList<>();
+
+		if (null != userPoInfoPerBankArray && userPoInfoPerBankArray.length() > 0) {
+			for(int userPoInfoPerBanki = 0; userPoInfoPerBanki < userPoInfoPerBankArray.length(); userPoInfoPerBanki++) {
+				JSONObject jsonObjectUserPoInfoPerBank = userPoInfoPerBankArray.optJSONObject(userPoInfoPerBanki);
+				UserPoInfoPerBank userPoInfoPerBank = new UserPoInfoPerBank();
+
+				if (jsonObjectUserPoInfoPerBank.isNull("userPaymentId")) {
 			Log.d("GetFundPoInfo4C", "has no mapping for key " + "userPaymentId" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 		}
-		userPaymentInfo.userPaymentId = jsonObjectUserPaymentInfo.optString("userPaymentId");
-		if (jsonObjectUserPaymentInfo.isNull("bankCardNo")) {
+				userPoInfoPerBank.userPaymentId = jsonObjectUserPoInfoPerBank.optString("userPaymentId");
+				if (jsonObjectUserPoInfoPerBank.isNull("bankCardNo")) {
 			Log.d("GetFundPoInfo4C", "has no mapping for key " + "bankCardNo" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 		}
-		userPaymentInfo.bankCardNo = jsonObjectUserPaymentInfo.optString("bankCardNo");
-		if (jsonObjectUserPaymentInfo.isNull("bankName")) {
+				userPoInfoPerBank.bankCardNo = jsonObjectUserPoInfoPerBank.optString("bankCardNo");
+				if (jsonObjectUserPoInfoPerBank.isNull("bankName")) {
 			Log.d("GetFundPoInfo4C", "has no mapping for key " + "bankName" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 		}
-		userPaymentInfo.bankName = jsonObjectUserPaymentInfo.optString("bankName");
-		if (jsonObjectUserPaymentInfo.isNull("bankLogo")) {
+				userPoInfoPerBank.bankName = jsonObjectUserPoInfoPerBank.optString("bankName");
+				if (jsonObjectUserPoInfoPerBank.isNull("bankLogo")) {
 			Log.d("GetFundPoInfo4C", "has no mapping for key " + "bankLogo" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 		}
-		userPaymentInfo.bankLogo = jsonObjectUserPaymentInfo.optString("bankLogo");
-		if (jsonObjectUserPaymentInfo.isNull("paymentType")) {
+				userPoInfoPerBank.bankLogo = jsonObjectUserPoInfoPerBank.optString("bankLogo");
+				if (jsonObjectUserPoInfoPerBank.isNull("paymentType")) {
 			Log.d("GetFundPoInfo4C", "has no mapping for key " + "paymentType" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 		}
-		userPaymentInfo.paymentType = jsonObjectUserPaymentInfo.optString("paymentType");
-		if (jsonObjectUserPaymentInfo.isNull("maxRapidPayAmountPerTxn")) {
+				userPoInfoPerBank.paymentType = jsonObjectUserPoInfoPerBank.optString("paymentType");
+				if (jsonObjectUserPoInfoPerBank.isNull("maxRapidPayAmountPerTxn")) {
 			Log.d("GetFundPoInfo4C", "has no mapping for key " + "maxRapidPayAmountPerTxn" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 		}
-		userPaymentInfo.maxRapidPayAmountPerTxn = jsonObjectUserPaymentInfo.optString("maxRapidPayAmountPerTxn");
-		if (jsonObjectUserPaymentInfo.isNull("maxRapidPayAmountPerDay")) {
+				userPoInfoPerBank.maxRapidPayAmountPerTxn = jsonObjectUserPoInfoPerBank.optString("maxRapidPayAmountPerTxn");
+				if (jsonObjectUserPoInfoPerBank.isNull("maxRapidPayAmountPerDay")) {
 			Log.d("GetFundPoInfo4C", "has no mapping for key " + "maxRapidPayAmountPerDay" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 		}
-		userPaymentInfo.maxRapidPayAmountPerDay = jsonObjectUserPaymentInfo.optString("maxRapidPayAmountPerDay");
-		if (jsonObjectUserPaymentInfo.isNull("maxRapidPayAmountPerMonth")) {
+				userPoInfoPerBank.maxRapidPayAmountPerDay = jsonObjectUserPoInfoPerBank.optString("maxRapidPayAmountPerDay");
+				if (jsonObjectUserPoInfoPerBank.isNull("maxRapidPayAmountPerMonth")) {
 			Log.d("GetFundPoInfo4C", "has no mapping for key " + "maxRapidPayAmountPerMonth" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 		}
-		userPaymentInfo.maxRapidPayAmountPerMonth = jsonObjectUserPaymentInfo.optString("maxRapidPayAmountPerMonth");
-		if (jsonObjectUserPaymentInfo.isNull("maxRapidPayTxnCountPerDay")) {
+				userPoInfoPerBank.maxRapidPayAmountPerMonth = jsonObjectUserPoInfoPerBank.optString("maxRapidPayAmountPerMonth");
+				if (jsonObjectUserPoInfoPerBank.isNull("maxRapidPayTxnCountPerDay")) {
 			Log.d("GetFundPoInfo4C", "has no mapping for key " + "maxRapidPayTxnCountPerDay" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 		}
-		userPaymentInfo.maxRapidPayTxnCountPerDay = jsonObjectUserPaymentInfo.optString("maxRapidPayTxnCountPerDay");
+				userPoInfoPerBank.maxRapidPayTxnCountPerDay = jsonObjectUserPoInfoPerBank.optString("maxRapidPayTxnCountPerDay");
+
+				userPaymentInfo.userPoInfoPerBank.add(userPoInfoPerBank);
+			}
+		}
+
 
 		this.userPaymentInfo = userPaymentInfo;
 

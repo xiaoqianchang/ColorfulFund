@@ -8,6 +8,7 @@
     android:gravity="center_vertical"
     android:layout_alignParentBottom="true"
     android:background="@color/app_bg"
+    android:clickable="true"
     android:paddingLeft="10dp"
     android:paddingRight="10dp">
 
@@ -27,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/img_comment"
         android:layout_marginLeft="30dp"
-        android:src="@mipmap/edit"/>
+        android:src="@mipmap/icon_share"/>
 
     <!-- 赞 -->
     <ImageView
@@ -36,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/img_share"
         android:layout_marginLeft="30dp"
-        android:src="@mipmap/heart"/>
+        android:src="@mipmap/icon_praise"/>
 
     <!-- 收藏 -->
     <ImageView
@@ -44,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/img_praise"
-        android:src="@mipmap/heart"/>
+        android:src="@mipmap/icon_collection"/>
 
     <ImageView
         android:id="@+id/img_back"

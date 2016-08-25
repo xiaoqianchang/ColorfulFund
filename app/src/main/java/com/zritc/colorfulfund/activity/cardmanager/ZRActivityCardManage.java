@@ -114,8 +114,8 @@ public class ZRActivityCardManage extends ZRActivityToolBar<CardManagePresenter>
                 helper.setImageByUrl(R.id.id_img_card, item.bankLogo);
                 helper.setText(R.id.id_txt_bank_name, item.bankName);
                 helper.setText(R.id.id_txt_card_number, ZRUtils.getFormatCardNum(item.bankCardNo));
-                helper.setText(R.id.id_txt_single_quota, "单笔限额：" + item.maxPayAmountPerTxn + "万");
-                helper.setText(R.id.id_txt_day_quota, "日累计限额：" + item.maxPayAmountPerDay + "万");
+                helper.setText(R.id.id_txt_single_quota, "单笔限额：" + item.maxRapidPayAmountPerTxn + "万");
+                helper.setText(R.id.id_txt_day_quota, "日累计限额：" + item.maxRapidPayAmountPerDay + "万");
             }
         });
         listView.setDivider(null);

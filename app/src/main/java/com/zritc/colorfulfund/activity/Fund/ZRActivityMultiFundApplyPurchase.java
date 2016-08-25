@@ -94,8 +94,11 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
                 startActivityForResult(intent, REQUEST_CODE_ADD_BANK_CARD);
                 break;
             case R.id.id_btn_next:
-                if (null != userPaymentInfo)
-                    multiFundApplyPurchasePresenter.buyPo(userPaymentInfo.userPaymentId, fundPoList.poCode, amount);
+                if (null != userPaymentInfo) {
+                    if (userPaymentInfo.userPoInfoPerBank.size() > 0) {
+                        multiFundApplyPurchasePresenter.buyPo(userPaymentInfo.userPoInfoPerBank.get(0).userPaymentId, fundPoList.poCode, amount);
+                    }
+                }
                 break;
         }
     }
@@ -193,7 +196,7 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
             @Override
             public void convert(int position, ZRViewHolder helper, GetFundPoInfo4C.PoFundList item) {
                 helper.setText(R.id.id_txt_name, item.fundName);
-                helper.setText(R.id.id_txt_money, item.totalAmount);
+//                helper.setText(R.id.id_txt_money, item.totalAmount);
             }
         };
         listView.setDivider(null);
@@ -219,7 +222,7 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
             if (TextUtils.isEmpty(proPercentage))
                 continue;
             double _poPercentage = Double.parseDouble(proPercentage);
-            datas.get(i).totalAmount = String.format("%.2f元", Double.parseDouble(money) * _poPercentage);
+//            datas.get(i).totalAmount = String.format("%.2f元", Double.parseDouble(money) * _poPercentage);
         }
         adapter.notifyDataSetChanged();
     }
@@ -248,14 +251,15 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
             if (null == userPaymentInfo) {
                 return;
             }
-            String userPaymentId = userPaymentInfo.userPaymentId;
+            GetFundPoInfo4C.UserPoInfoPerBank userPoInfoPerBank = userPaymentInfo.userPoInfoPerBank.get(0);
+            String userPaymentId = userPoInfoPerBank.userPaymentId;
             // 绑过卡，购买过基金
             if (!TextUtils.isEmpty(userPaymentId)) {
                 rlAddBank.setVisibility(View.GONE);
                 rlBankCard.setVisibility(View.VISIBLE);
-                ZRImageLoaderHelper.getInstance().loadImage(userPaymentInfo.bankLogo, imgBank, R.mipmap.icon_share_logo);
-                textBankName.setText(userPaymentInfo.bankName);
-                textCardInfo.setText("单笔限额：" + userPaymentInfo.maxRapidPayAmountPerTxn + "万" + " 日累计限额：" + userPaymentInfo.maxRapidPayAmountPerDay + "万");
+                ZRImageLoaderHelper.getInstance().loadImage(userPoInfoPerBank.bankLogo, imgBank, R.mipmap.icon_share_logo);
+                textBankName.setText(userPoInfoPerBank.bankName);
+                textCardInfo.setText("单笔限额：" + userPoInfoPerBank.maxRapidPayAmountPerTxn + "万" + " 日累计限额：" + userPoInfoPerBank.maxRapidPayAmountPerDay + "万");
                 boolean enable = amount.isEmpty() && TextUtils.isEmpty(textBankName.getText().toString());
                 btnNext.setEnabled(!enable);
             } else {
@@ -291,7 +295,7 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
                     rlBankCard.setVisibility(View.VISIBLE);
                     ZRImageLoaderHelper.getInstance().loadImage(bankCardList.bankLogo, imgBank, R.mipmap.icon_share_logo);
                     textBankName.setText(bankCardList.bankName);
-                    textCardInfo.setText("单笔限额：" + bankCardList.maxPayAmountPerTxn + "万" + " 日累计限额：" + bankCardList.maxPayAmountPerDay + "万");
+                    textCardInfo.setText("单笔限额：" + bankCardList.maxRapidPayAmountPerTxn + "万" + " 日累计限额：" + bankCardList.maxRapidPayAmountPerDay + "万");
                     boolean enable = TextUtils.isEmpty(amount) && TextUtils.isEmpty(textBankName.getText().toString());
                     btnNext.setEnabled(!enable);
                     break;

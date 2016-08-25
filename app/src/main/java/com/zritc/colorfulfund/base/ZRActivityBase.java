@@ -41,16 +41,6 @@ public abstract class ZRActivityBase<T extends BasePresenter> extends AppCompatA
     protected Context mContext;
     private Dialog mDialog;
 
-    protected String realName = "张三";
-    protected String identityNo = "110101190001012837"; // 110101190001012837
-    protected String paymentType = "bank:003";
-    protected String paymentNo = "6222023803013297864";
-    protected String phone = "18512123013";
-    protected String password = "123456";
-    protected String vCode = "0453";
-    protected String poCode = "ZH000484";
-    protected String userPaymentId = "6";
-
     protected InputMethodManager mManager;
 
     @Override

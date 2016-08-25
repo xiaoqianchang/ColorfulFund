@@ -75,10 +75,9 @@ public class GroupRedemptionPresenter extends BasePresenter<IGroupRedemptionView
     /**
      * 获取我要赎回基金的详情
      * @param poCode
-     * @param userPaymentId
      */
-    public void doGetUserPoInfo4C(String poCode, String userPaymentId) {
-        Call<GetUserPoInfo4C> userPoInfo4CCallbackByPost = ZRNetManager.getInstance().getUserPoInfo4CCallbackByPost(poCode, userPaymentId);
+    public void doGetUserPoInfo4C(String poCode) {
+        Call<GetUserPoInfo4C> userPoInfo4CCallbackByPost = ZRNetManager.getInstance().getUserPoInfo4CCallbackByPost(poCode);
         userPoInfo4CCallbackByPost.enqueue(new ResponseCallBack<GetUserPoInfo4C>(GetUserPoInfo4C.class) {
             @Override
             public void onSuccess(GetUserPoInfo4C getUserPoInfo4C) {

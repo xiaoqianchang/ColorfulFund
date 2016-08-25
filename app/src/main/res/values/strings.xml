@@ -96,6 +96,9 @@
 
 <string name="title_activity_fund_apply_purchase_result">交易结果</string>
 
+    <!-- 投资圈评论 -->
+    <string name="title_activity_fortune_group_comment_list">评论</string>
+
     <!-- client update download -->
     <string name="notification_download_app">开始下载%s</string>
     <string name="toast_download_start">开始下载</string>
@@ -107,7 +110,6 @@
     <string name="error_share_not_support">您安装的%s客户端不支持分享功能！</string>
     <string name="error_share_unknown">分享失败！</string>
     <string name="lable_shareto">分享到</string>
-    <string name="lable_shareto2">点击邀请您的好友参加会议</string>
     <string name="lable_sms">短信</string>
     <string name="lable_weixin">微信好友</string>
     <string name="lable_pengyouquan">朋友圈</string>

@@ -33,7 +33,6 @@ public class ZRActivityFundList extends ZRActivityToolBar<FundListPresenter> imp
     ListView lvFundList;
 
     private FundListPresenter fundListPresenter;
-    private String userPaymentId = "6";
     private GetUserPoList4C userPoList4C;
     private MyAdapter myAdapter;
     private List<GetUserPoList4C.UserPoList> userPoList;
@@ -59,14 +58,16 @@ public class ZRActivityFundList extends ZRActivityToolBar<FundListPresenter> imp
         lvFundList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                GetUserPoList4C.UserPoList userPoList = ZRActivityFundList.this.userPoList.get(position);
                 Intent intent = new Intent(mContext, ZRActivityGroupRedemption.class);
+                intent.putExtra("poCode", userPoList.poCode);
                 startActivity(intent);
             }
         });
     }
 
     private void initData() {
-        fundListPresenter.doGetUserPoList4C(userPaymentId);
+        fundListPresenter.doGetUserPoList4C();
     }
 
     @Override

@@ -29,11 +29,10 @@ public class FundListPresenter extends BasePresenter<IFundListView> {
 
     /**
      * 获取我的基金列表
-     * @param userPaymentId
      */
-    public void doGetUserPoList4C(String userPaymentId) {
+    public void doGetUserPoList4C() {
         iView.showProgress("获取基金列表...");
-        Call<GetUserPoList4C> userPoList4CCallbackByPost = ZRNetManager.getInstance().getUserPoList4CCallbackByPost(userPaymentId);
+        Call<GetUserPoList4C> userPoList4CCallbackByPost = ZRNetManager.getInstance().getUserPoList4CCallbackByPost();
         userPoList4CCallbackByPost.enqueue(new ResponseCallBack<GetUserPoList4C>(GetUserPoList4C.class) {
             @Override
             public void onSuccess(GetUserPoList4C getUserPoList4C) {

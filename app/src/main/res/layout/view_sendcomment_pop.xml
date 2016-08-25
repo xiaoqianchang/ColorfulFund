@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:zrt="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent">
+
+    <RelativeLayout
+        android:id="@+id/ll_popup"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_260"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:id="@+id/titleBar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_64">
+
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/padding_30"
+                android:background="@null"
+                android:src="@mipmap/icon_close"
+                android:text="@string/btn_cancel" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/height_64"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="评论"
+                android:textColor="@color/ltblack"
+                android:textSize="@dimen/font_size_15" />
+
+            <Button
+                android:id="@+id/btn_ok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/padding_30"
+                android:background="@null"
+                android:text="@string/btn_ok"
+                android:textColor="@color/ltgray" />
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/edt_comment"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/titleBar"
+            android:layout_marginBottom="@dimen/padding_20"
+            android:layout_marginLeft="@dimen/padding_30"
+            android:layout_marginRight="@dimen/padding_30"
+            android:background="@drawable/btn_ltgrey"
+            android:gravity="top|left"
+            android:maxLength="100"
+            android:padding="@dimen/padding_10"
+            android:textColor="@color/ltblack"
+            android:textSize="@dimen/font_size_14" />
+
+        <TextView
+            android:id="@+id/messageTextnumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/edt_comment"
+            android:layout_alignRight="@+id/edt_comment"
+            android:padding="8dp"
+            android:text="0/100"
+            android:textColor="@color/ltblack"
+            android:textSize="@dimen/font_size_12"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -65,15 +65,15 @@ public class TestNetApiActivity extends ZRActivityBase {
 
     @OnClick({R.id.btn_prepareRegisterAcc, R.id.btn_registerAcc, R.id.btn_login, R.id.btn_prepare_bind_payment, R.id.btn_bind_payment, R.id.btn_unbind_payment, R.id.btn_setTransPwd, R.id.btn_group_redemption, R.id.btn_buy_po, R.id.btn_user_bank_cards4C, R.id.btn_user_po_list4C, R.id.btn_user_po_info4C, R.id.btn_fund_po_list4C, R.id.btn_fund_po_info4C, R.id.btn_single_redemption, R.id.btn_estimateBuyFundFee, R.id.btn_article_details, R.id.btn_video_details})
     public void onClick(View view) {
-        /*String realName = "顾飞";
-        String identityNo = "321283198909203859"; // 110101190001012837
-        String paymentType = "bank:007";
-        String paymentNo = "6217003762218235621";
-        String phone = "13564228527";
+        String realName = "张三";
+        String identityNo = "110101190001012837"; // 110101190001012837
+        String paymentType = "bank:003";
+        String paymentNo = "6222023803013297864";
+        String phone = "18512123013"; // 18721081671
         String password = "123456";
         String vCode = "0453";
         String poCode = "ZH000484";
-        String userPaymentId = "5";*/
+        String userPaymentId = "6";
         switch (view.getId()) {
             case R.id.btn_prepareRegisterAcc:
                 Call<PrepareRegisterAcc> prepareRegisterAccCall = ZRNetManager.getInstance().prepareRegisterAccCallbackByPost(phone);
@@ -241,7 +241,7 @@ public class TestNetApiActivity extends ZRActivityBase {
                 startActivity(new Intent(this, ZRActivityFundList.class));
                 break;
             case R.id.btn_user_po_info4C: // 获取我的基金信息
-                Call<GetUserPoInfo4C> userPoInfo4CCallbackByPost = ZRNetManager.getInstance().getUserPoInfo4CCallbackByPost(poCode, userPaymentId);
+                Call<GetUserPoInfo4C> userPoInfo4CCallbackByPost = ZRNetManager.getInstance().getUserPoInfo4CCallbackByPost(poCode);
                 userPoInfo4CCallbackByPost.enqueue(new ResponseCallBack<GetUserPoInfo4C>(GetUserPoInfo4C.class) {
                     @Override
                     public void onSuccess(GetUserPoInfo4C getUserPoInfo4C) {

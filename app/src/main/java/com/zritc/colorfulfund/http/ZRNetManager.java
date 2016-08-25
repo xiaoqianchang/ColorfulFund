@@ -211,7 +211,6 @@ public final class ZRNetManager {
                 , @Field("deviceid") String deviceid
                 , @Field("rid") String rid
                 , @Field("poCode") String poCode
-                , @Field("userPaymentId") String userPaymentId
         );
 
         @FormUrlEncoded
@@ -221,7 +220,6 @@ public final class ZRNetManager {
                 , @Field("sid") String sid
                 , @Field("deviceid") String deviceid
                 , @Field("rid") String rid
-                , @Field("userPaymentId") String userPaymentId
         );
     }
 
@@ -411,7 +409,7 @@ public final class ZRNetManager {
         );
     }
 
-    public Call<GetUserPoInfo4C> getUserPoInfo4CCallbackByPost(String poCode, String userPaymentId) {
+    public Call<GetUserPoInfo4C> getUserPoInfo4CCallbackByPost(String poCode) {
         return api.getUserPoInfo4CCallbackByPost(
                 /*"http://172.16.101.201:9006/trade/getUserPoInfo4C"*/
                 "http://172.16.101.202/play/trade/getUserPoInfo4C"
@@ -419,18 +417,16 @@ public final class ZRNetManager {
                 , ZRDeviceInfo.getServerDeviceId()
                 , ZRDeviceInfo.getRid()
                 , poCode
-                , userPaymentId
         );
     }
 
-    public Call<GetUserPoList4C> getUserPoList4CCallbackByPost(String userPaymentId) {
+    public Call<GetUserPoList4C> getUserPoList4CCallbackByPost() {
         return api.getUserPoList4CCallbackByPost(
                 /*"http://172.16.101.201:9006/trade/getUserPoList4C"*/
                 "http://172.16.101.202/play/trade/getUserPoList4C"
                 , ZRDeviceInfo.getSid()
                 , ZRDeviceInfo.getServerDeviceId()
                 , ZRDeviceInfo.getRid()
-                , userPaymentId
         );
     }
 

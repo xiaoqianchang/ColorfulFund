@@ -19,16 +19,15 @@
         android:orientation="vertical" >
 
         <include
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
             layout="@layout/view_share" />
 
         <Button
             android:id="@+id/btn_share_cancel"
             android:layout_width="match_parent"
+            android:textSize="@dimen/font_size_17"
             android:layout_height="@dimen/height_88"
             android:background="@color/white"
-            android:text="@string/btn_cancel" />
+            android:text="@string/btn_cancel"             android:textColor="@color/ltblack" />
     </LinearLayout>
 
 </RelativeLayout>

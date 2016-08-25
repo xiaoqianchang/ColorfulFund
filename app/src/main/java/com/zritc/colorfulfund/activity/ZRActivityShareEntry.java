@@ -1,5 +1,6 @@
 package com.zritc.colorfulfund.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -13,7 +14,6 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.TranslateAnimation;
 
 import com.zritc.colorfulfund.R;
-import com.zritc.colorfulfund.base.ZRActivityBase;
 import com.zritc.colorfulfund.share.IUPShareRequestCallback;
 import com.zritc.colorfulfund.share.UPMediaMessage;
 import com.zritc.colorfulfund.share.UPShareErrors;
@@ -29,7 +29,7 @@ import com.zritc.colorfulfund.utils.ZRToastFactory;
  *
  * @author Midas.
  */
-public class ZRActivityShareEntry extends ZRActivityBase {
+public class ZRActivityShareEntry extends Activity {
 
     private Context mContext;
     private static final int SHARE_STATE_SHOW = 1;
@@ -104,6 +104,7 @@ public class ZRActivityShareEntry extends ZRActivityBase {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
+        setContentView(R.layout.activity_share);
         mExtraMessage = (UPMediaMessage) getIntent().getSerializableExtra(
                 ZRConstant.KEY_EXTRA_INTRO);
         mShareManager.initPlatform(UPShareManager.SHARE_WEIXIN_SINGLE,
@@ -112,18 +113,7 @@ public class ZRActivityShareEntry extends ZRActivityBase {
                 UPShareManager.SHARE_SINA_ID);
         mShareManager.initPlatform(UPShareManager.SHARE_QQ,
                 UPShareManager.SHARE_QQ_ID);
-        setContentView(R.layout.activity_share);
         initShareView();
-    }
-
-    @Override
-    protected int getContentViewId() {
-        return 0;
-    }
-
-    @Override
-    protected void initPresenter() {
-
     }
 
     @Override
@@ -238,9 +228,7 @@ public class ZRActivityShareEntry extends ZRActivityBase {
         ZRTextView shareTitle = (ZRTextView) findViewById(R.id.text_share_title);
         shareTitle
                 .setText(ZRStrings.get(
-                        mContext,
-                        mExtraMessage.getShareFrom() == UPMediaMessage.SHARE_FROM_INVITE_MEETING ? "lable_shareto2"
-                                : "lable_shareto"));
+                        mContext, "lable_shareto"));
 
         findViewById(R.id.btn_share_cancel).setOnClickListener(
                 new OnClickListener() {

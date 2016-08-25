@@ -5,10 +5,11 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.zritc.colorfulfund.R;
-import com.zritc.colorfulfund.activity.cardmanager.ZRActivityCardManage;
+import com.zritc.colorfulfund.activity.fortunegroup.ZRActivityFortuneGroupCommentList;
 import com.zritc.colorfulfund.base.ZRFragmentBase;
 import com.zritc.colorfulfund.iView.IFortuneGroupListView;
 import com.zritc.colorfulfund.presenter.FortuneGroupListPresenter;
+import com.zritc.colorfulfund.ui.ZRCircleImageView;
 import com.zritc.colorfulfund.ui.ZRListView;
 import com.zritc.colorfulfund.ui.adapter.ZRCommonAdapter;
 import com.zritc.colorfulfund.ui.adapter.ZRViewHolder;
@@ -78,7 +79,7 @@ public class ZRFragmentFortuneGroupList extends ZRFragmentBase<FortuneGroupListP
 
     @Override
     protected int getContentViewId() {
-        return R.layout.activity_group_list;
+        return R.layout.activity_fortune_group_list;
     }
 
     @Override
@@ -109,22 +110,26 @@ public class ZRFragmentFortuneGroupList extends ZRFragmentBase<FortuneGroupListP
                 holder.setText(R.id.text_date, item.getPublishTime());
                 holder.setText(R.id.text_collection, item.getCollection());
                 holder.setText(R.id.text_during, item.getDuring());
+                ((ZRCircleImageView)holder.getView(R.id.image_view)).setRectAdius(16);
                 holder.setImageByUrl(R.id.image_view, item.getImage());
                 holder.setImageByUrl(R.id.img_user, item.getImage());
             }
 
         });
         listView.setVerticalScrollBarEnabled(false);
-        listView.setDivider(null);
+//        listView.setDivider(null);
         listView.setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> {
             Intent intent = new Intent();
-            intent.setClass(getActivity(), ZRActivityCardManage.class);
+            intent.setClass(getActivity(), ZRActivityFortuneGroupCommentList.class);
             startActivity(intent);
         });
         pullToRefreshListView.setOnRefreshListener(onRefreshListener);
 
         // 初次进界面给与初始刷新时间，并自动触发下拉刷新请求
         setLastUpdateTime();
+
+        // Test code
+        onLoadComplete();
     }
 
     /**

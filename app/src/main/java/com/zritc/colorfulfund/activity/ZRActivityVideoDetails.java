@@ -7,7 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.MediaController;
 import android.widget.RelativeLayout;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.zritc.colorfulfund.R;
+import com.zritc.colorfulfund.base.ZRActivityBase;
 import com.zritc.colorfulfund.iView.IVideoDetailsView;
 import com.zritc.colorfulfund.presenter.VideoDetailsPresenter;
 import com.zritc.colorfulfund.ui.adapter.ZRCommonAdapter;
@@ -25,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import cn.com.video.venvy.param.JjVideoRelativeLayout;
+import butterknife.OnClick;
 import cn.com.video.venvy.param.JjVideoView;
 import cn.com.video.venvy.param.OnJjBufferCompleteListener;
 import cn.com.video.venvy.param.OnJjBufferStartListener;
@@ -43,7 +46,7 @@ import cn.com.video.venvy.param.VideoJjMediaContoller;
  *
  * @version 1.0
  */
-public class ZRActivityVideoDetails extends ZRActivityToolBar<VideoDetailsPresenter> implements IVideoDetailsView {
+public class ZRActivityVideoDetails extends ZRActivityBase<VideoDetailsPresenter> implements IVideoDetailsView {
 
     @Bind(R.id.jj_video_view)
     JjVideoView mVideoView;
@@ -60,8 +63,14 @@ public class ZRActivityVideoDetails extends ZRActivityToolBar<VideoDetailsPresen
     @Bind(R.id.sdk_sdk_ijk_load_buffer_text)
     TextView mLoadBufferTextView;
 
+    @Bind(R.id.img_video_bg)
+    ImageView imgVideoBg;
+
+    @Bind(R.id.img_play)
+    ImageView imgPlay;
+
     @Bind(R.id.sc_scrollView)
-    PullToZoomScrollViewEx mScrollView;
+    LinearLayout mScrollView;
 
     @Bind(R.id.tv_tag)
     TextView tvtag; // 文章tag
@@ -112,10 +121,15 @@ public class ZRActivityVideoDetails extends ZRActivityToolBar<VideoDetailsPresen
 
     @Override
     public void initView() {
+        imgVideoBg.setBackgroundResource(R.mipmap.bg_red);
         datas = new ArrayList<>();
         initData();
         adapter = new HotVideoAdapter(this, datas, R.layout.lv_video_detail_item);
         mHotVideo.setAdapter(adapter);
+        mHotVideo.setOnItemClickListener((parent, view, position, id) -> {
+            mVideoUrl = datas.get(position).getVideoUrl();
+            play();
+        });
 
         mVideoView.setMediaController(new VideoJjMediaContoller(this, true));
         mLoadBufferTextView.setTextColor(Color.RED);
@@ -158,6 +172,7 @@ public class ZRActivityVideoDetails extends ZRActivityToolBar<VideoDetailsPresen
             @Override
             public void onJjOpenSuccess() {
                 mLoadView.setVisibility(View.GONE);
+                imgVideoBg.setVisibility(View.GONE);
             }
         });
         // 缓冲开始
@@ -205,9 +220,44 @@ public class ZRActivityVideoDetails extends ZRActivityToolBar<VideoDetailsPresen
         /***
          * 注意VideoView 要调用下面方法 配置你用户信息
          */
-        mVideoView.setVideoJjAppKey("N1WlKQabW");
-        mVideoView.setVideoJjPageName("com.example.videojjsdkdemo");
+        mVideoView.setVideoJjAppKey("Nke_z5Dq-");
+        mVideoView.setVideoJjPageName("com.zritc.colorfulfund");
         // mVideoView.setMediaCodecEnabled(true);// 是否开启 硬解 硬解对一些手机有限制
+    }
+
+    private void initData() {
+        for (int i = 0; i < 4; i++) {
+            datas.add(new HotVideo("哈哈哈", 1355, "http://v.youku.com/v_show/id_XMTY5NjE3NTc4OA==.html?from=y1.2-2-96.3.3-1.1-3-1-2-0", "http://img4.imgtn.bdimg.com/it/u=98923187,3761999633&fm=11&gp=0.jpg", "05:33"));
+        }
+    }
+
+    @OnClick({R.id.img_play, R.id.img_back, R.id.img_collect, R.id.img_praise, R.id.img_share, R.id.img_comment})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.img_play:
+                play();
+                break;
+            case R.id.img_back: // 返回
+                finish();
+                break;
+            case R.id.img_collect: // 收藏
+                showToast("攻城狮正在Coading...");
+                break;
+            case R.id.img_praise: // 赞
+                showToast("攻城狮正在Coading...");
+                break;
+            case R.id.img_share: // 分享
+                showToast("攻城狮正在Coading...");
+                break;
+            case R.id.img_comment: // 评论
+                showToast("攻城狮正在Coading...");
+                break;
+        }
+    }
+
+    private void play() {
+        imgPlay.setVisibility(View.GONE);
+        mLoadView.setVisibility(View.VISIBLE);
         /***
          * 视频标签显示的时间 默认显示5000毫秒 可设置 传入值 long类型 毫秒
          */
@@ -226,16 +276,6 @@ public class ZRActivityVideoDetails extends ZRActivityToolBar<VideoDetailsPresen
         // 4：特殊需求
         mVideoView.setVideoJjType(0);
         mVideoView.setResourceVideo(mVideoUrl);
-        RelativeLayout mLayout = (RelativeLayout) findViewById(R.id.root);
-        JjVideoRelativeLayout mJjVideoRelativeLayout = (JjVideoRelativeLayout) findViewById(R.id.jjlayout);
-        mJjVideoRelativeLayout.setJjToFront(mLayout);// 设置此方法
-        // 重新排序视图层级JjVideoRelativeLayout，避免横屏其它遮挡
-    }
-
-    private void initData() {
-        for (int i = 0; i < 4; i++) {
-            datas.add(new HotVideo("哈哈哈", 1355, "http://img4.imgtn.bdimg.com/it/u=98923187,3761999633&fm=11&gp=0.jpg", "05:33"));
-        }
     }
 
     @Override
@@ -276,7 +316,7 @@ public class ZRActivityVideoDetails extends ZRActivityToolBar<VideoDetailsPresen
         public void convert(int position, ZRViewHolder helper, HotVideo item) {
             helper.setText(R.id.tv_video_title, item.getTitle());
             helper.setText(R.id.tv_play_count, String.format("%s 次播放", item.getPlayCOunt()));
-            helper.setImageByUrl(R.id.img_hot_video, item.getVideoUrl());
+            helper.setImageByUrl(R.id.img_hot_video, item.getImgUrl());
             helper.setText(R.id.tv_time, item.getTime());
         }
     }
@@ -285,12 +325,14 @@ public class ZRActivityVideoDetails extends ZRActivityToolBar<VideoDetailsPresen
         private String title;
         private int playCOunt;
         private String videoUrl;
+        private String imgUrl;
         private String time;
 
-        public HotVideo(String title, int playCOunt, String videoUrl, String time) {
+        public HotVideo(String title, int playCOunt, String videoUrl, String imgUrl, String time) {
             this.title = title;
             this.playCOunt = playCOunt;
             this.videoUrl = videoUrl;
+            this.imgUrl = imgUrl;
             this.time = time;
         }
 
@@ -316,6 +358,14 @@ public class ZRActivityVideoDetails extends ZRActivityToolBar<VideoDetailsPresen
 
         public void setVideoUrl(String videoUrl) {
             this.videoUrl = videoUrl;
+        }
+
+        public String getImgUrl() {
+            return imgUrl;
+        }
+
+        public void setImgUrl(String imgUrl) {
+            this.imgUrl = imgUrl;
         }
 
         public String getTime() {

@@ -2,26 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/app_bg"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_280"
+        android:layout_height="@dimen/height_300"
         android:layout_gravity="center"
         android:layout_marginLeft="@dimen/padding_20"
         android:layout_marginRight="@dimen/padding_20"
         android:layout_marginTop="@dimen/padding_20"
-        android:background="@color/white"
         android:descendantFocusability="blocksDescendants">
 
-        <ImageView
+        <com.zritc.colorfulfund.ui.ZRCircleImageView
             android:id="@+id/image_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="0dp"
             android:scaleType="centerCrop"
-            android:src="@mipmap/icon_default" />
+/>
 
         <RelativeLayout
             android:id="@+id/view_bottom"
@@ -77,10 +76,10 @@
 
         <TextView
             android:id="@+id/text_channel"
-            style="@style/ltgray_text_font_12_style"
+            style="@style/ltgray_text_font_10_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/blue"
+            android:background="@mipmap/bg_purple"
             android:padding="@dimen/padding_2"
             android:text="channel"
             android:textColor="@color/white" />
@@ -90,14 +89,16 @@
             style="@style/ltblack_text_font_16_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_10"
+            android:layout_marginTop="@dimen/padding_18"
             android:gravity="left"
-            android:text="title" />
+            android:lineSpacingExtra="1.5dp"
+            android:lineSpacingMultiplier="1.1"
+            android:text="title"             android:textColor="#2e2e2e" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_10">
+            android:layout_marginTop="@dimen/padding_20">
 
             <LinearLayout
                 android:id="@+id/ll_header"
@@ -126,36 +127,36 @@
 
             <TextView
                 android:id="@+id/text_publisher"
-                style="@style/ltgray_text_font_12_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/padding_15"
                 android:layout_toRightOf="@id/ll_header"
-                android:text="名字" />
+                android:text="名字"                 android:maxLength="14"
+                android:textColor="#bdbdbd"
+                android:textSize="@dimen/font_size_11" />
 
             <TextView
                 android:id="@+id/text_date"
-                style="@style/ltgray_text_font_12_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/padding_20"
                 android:layout_toRightOf="@id/text_publisher"
                 android:drawablePadding="@dimen/padding_5"
-                android:text="0分钟前" />
+                android:text="0分钟前"                 android:textColor="#bdbdbd"
+                android:textSize="@dimen/font_size_11" />
 
             <TextView
                 android:id="@+id/text_collection"
-                style="@style/ltgray_text_font_12_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/padding_40"
-                android:drawableLeft="@mipmap/icon_collection_normal"
+                android:drawableLeft="@mipmap/icon_like"
                 android:drawablePadding="@dimen/padding_10"
-                android:text="0" />
+                android:textSize="@dimen/font_size_11"
+                android:text="0"                 android:textColor="#666" />
         </RelativeLayout>
     </LinearLayout>
 

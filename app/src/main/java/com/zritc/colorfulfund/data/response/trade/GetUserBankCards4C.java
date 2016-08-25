@@ -87,27 +87,22 @@ public class GetUserBankCards4C implements Serializable {
 	/**
 	 * 每笔限额
 	 */
-		public String maxPayAmountPerTxn;
+		public String maxRapidPayAmountPerTxn = "";
 
 	/**
 	 * 每天限额
 	 */
-		public String maxPayAmountPerDay;
+		public String maxRapidPayAmountPerDay = "";
 
 	/**
 	 * 每月限额
 	 */
-		public String maxPayAmountPerMonth;
+		public String maxRapidPayAmountPerMonth = "";
 
 	/**
 	 * 每日最大次数
 	 */
-	public int maxPayTxnCountPerDay;
-
-	/**
-	 * 绑卡时间
-	 */
-	public long bindTime;
+		public String maxRapidPayTxnCountPerDay = "";
 		
 		@Override
 		public String toString() {
@@ -117,11 +112,10 @@ public class GetUserBankCards4C implements Serializable {
 					", bankName='" + bankName + '\'' +
 					", paymentType='" + paymentType + '\'' +
 					", bankLogo='" + bankLogo + '\'' +
-					", maxPayAmountPerTxn=" + maxPayAmountPerTxn +
-					", maxPayAmountPerDay=" + maxPayAmountPerDay +
-					", maxPayAmountPerMonth=" + maxPayAmountPerMonth +
-					", maxPayTxnCountPerDay=" + maxPayTxnCountPerDay +
-					", bindTime=" + bindTime +
+					", maxRapidPayAmountPerTxn='" + maxRapidPayAmountPerTxn + '\'' +
+					", maxRapidPayAmountPerDay='" + maxRapidPayAmountPerDay + '\'' +
+					", maxRapidPayAmountPerMonth='" + maxRapidPayAmountPerMonth + '\'' +
+					", maxRapidPayTxnCountPerDay='" + maxRapidPayTxnCountPerDay + '\'' +
 					'}';
 		}
     }
@@ -164,10 +158,10 @@ public class GetUserBankCards4C implements Serializable {
 	    		Log.d("GetUserBankCards4C", "has no mapping for key " + "optype" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
 			this.optype = jsonObject.optString("optype");
-		if (jsonObject.isNull("userBankCardList4S")) {
-			Log.d("GetUserBankCards4C", "has no mapping for key " + "userBankCardList4S" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
+		if (jsonObject.isNull("userBankCardList")) {
+			Log.d("GetUserBankCards4C", "has no mapping for key " + "userBankCardList" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-		JSONArray userBankCardListArray = jsonObject.optJSONArray("userBankCardList4S");
+		JSONArray userBankCardListArray = jsonObject.optJSONArray("userBankCardList");
 		this.userBankCardList = new ArrayList<>();
 			
 		if (null != userBankCardListArray && userBankCardListArray.length() > 0) {
@@ -195,26 +189,22 @@ public class GetUserBankCards4C implements Serializable {
 					Log.d("GetUserBankCards4C", "has no mapping for key " + "bankLogo" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
 				userBankCardList.bankLogo = jsonObjectUserBankCardList.optString("bankLogo");
-				if (jsonObjectUserBankCardList.isNull("maxPayAmountPerTxn")) {
-	    		Log.d("GetUserBankCards4C", "has no mapping for key " + "maxPayAmountPerTxn" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
+				if (jsonObjectUserBankCardList.isNull("maxRapidPayAmountPerTxn")) {
+					Log.d("GetUserBankCards4C", "has no mapping for key " + "maxRapidPayAmountPerTxn" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-				userBankCardList.maxPayAmountPerTxn = jsonObjectUserBankCardList.optString("maxPayAmountPerTxn");
-				if (jsonObjectUserBankCardList.isNull("maxPayAmountPerDay")) {
-	    		Log.d("GetUserBankCards4C", "has no mapping for key " + "maxPayAmountPerDay" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
+				userBankCardList.maxRapidPayAmountPerTxn = jsonObjectUserBankCardList.optString("maxRapidPayAmountPerTxn");
+				if (jsonObjectUserBankCardList.isNull("maxRapidPayAmountPerDay")) {
+					Log.d("GetUserBankCards4C", "has no mapping for key " + "maxRapidPayAmountPerDay" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-				userBankCardList.maxPayAmountPerDay = jsonObjectUserBankCardList.optString("maxPayAmountPerDay");
-				if (jsonObjectUserBankCardList.isNull("maxPayAmountPerMonth")) {
-	    		Log.d("GetUserBankCards4C", "has no mapping for key " + "maxPayAmountPerMonth" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
+				userBankCardList.maxRapidPayAmountPerDay = jsonObjectUserBankCardList.optString("maxRapidPayAmountPerDay");
+				if (jsonObjectUserBankCardList.isNull("maxRapidPayAmountPerMonth")) {
+					Log.d("GetUserBankCards4C", "has no mapping for key " + "maxRapidPayAmountPerMonth" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-				userBankCardList.maxPayAmountPerMonth = jsonObjectUserBankCardList.optString("maxPayAmountPerMonth");
-				if (jsonObjectUserBankCardList.isNull("maxPayTxnCountPerDay")) {
-	    		Log.d("GetUserBankCards4C", "has no mapping for key " + "maxPayTxnCountPerDay" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
+				userBankCardList.maxRapidPayAmountPerMonth = jsonObjectUserBankCardList.optString("maxRapidPayAmountPerMonth");
+				if (jsonObjectUserBankCardList.isNull("maxRapidPayTxnCountPerDay")) {
+					Log.d("GetUserBankCards4C", "has no mapping for key " + "maxRapidPayTxnCountPerDay" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-				userBankCardList.maxPayTxnCountPerDay = jsonObjectUserBankCardList.optInt("maxPayTxnCountPerDay");
-				if (jsonObjectUserBankCardList.isNull("bindTime")) {
-	    		Log.d("GetUserBankCards4C", "has no mapping for key " + "bindTime" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
-	    	}
-				userBankCardList.bindTime = jsonObjectUserBankCardList.optLong("bindTime");
+				userBankCardList.maxRapidPayTxnCountPerDay = jsonObjectUserBankCardList.optString("maxRapidPayTxnCountPerDay");
 					
 				this.userBankCardList.add(userBankCardList);
 				}

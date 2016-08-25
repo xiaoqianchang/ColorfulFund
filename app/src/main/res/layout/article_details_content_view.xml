@@ -91,7 +91,7 @@
         android:background="@color/white"
         android:columnWidth="35dp"
         android:numColumns="2"
-android:stretchMode="columnWidth"
+        android:stretchMode="columnWidth"
     android:listSelector="@color/transparent"
         android:verticalSpacing="@dimen/padding_20" />
 </LinearLayout>

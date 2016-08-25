@@ -177,7 +177,7 @@ public class ZRActivityAddBankCard extends ZRActivityToolBar<AddCardPresenter> i
                 });
 
         // Test begin
-        edtUserName.setValue("顾飞");
+        /*edtUserName.setValue("顾飞");
         edtICCard.setValue("321283198909203859");
         edtBankCard.setValue("6217230200004388585");
         edtMobile.setValue("18917212395");
@@ -186,7 +186,7 @@ public class ZRActivityAddBankCard extends ZRActivityToolBar<AddCardPresenter> i
         realName = edtUserName.getValue().toString();
         identityNo = edtICCard.getValue().toString();
         paymentNo = edtBankCard.getValue().toString();
-        phone = edtMobile.getValue().toString();
+        phone = edtMobile.getValue().toString();*/
         // test end
     }
 

@@ -2,22 +2,20 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_bg"
     tools:context="com.zritc.colorfulfund.activity.ZRActivityVideoDetails">
 
-    <include layout="@layout/toolbar_layout"/>
-
-    <com.zritc.colorfulfund.ui.pulltozoomview.PullToZoomScrollViewEx
+    <LinearLayout
         android:id="@+id/sc_scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:contentView="@layout/video_details_content_view"
-        android:layout_below="@+id/app_bar_layout">
+        android:orientation="vertical">
 
-    </com.zritc.colorfulfund.ui.pulltozoomview.PullToZoomScrollViewEx>
+        <include layout="@layout/video_details_content_view"/>
+
+    </LinearLayout>
 
     <!-- 底部工具栏 -->
     <include layout="@layout/view_bottom_container"/>

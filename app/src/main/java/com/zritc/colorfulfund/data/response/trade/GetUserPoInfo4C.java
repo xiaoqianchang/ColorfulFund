@@ -94,22 +94,22 @@ public class GetUserPoInfo4C implements Serializable {
 	/**
 	 * 每笔最大限额
 	 */
-		public String maxRapidPayAmountPerTxn = "";
+		public double maxRapidPayAmountPerTxn;
 
 	/**
 	 * 每天最大限额
 	 */
-		public String maxRapidPayAmountPerDay = "";
+		public double maxRapidPayAmountPerDay;
 
 	/**
 	 * 每天最大限额
 	 */
-		public String maxRapidPayAmountPerMonth = "";
+		public double maxRapidPayAmountPerMonth;
 
 	/**
 	 * 每天最大交易次数
 	 */
-		public String maxRapidPayTxnCountPerDay = "";
+		public int maxRapidPayTxnCountPerDay;
 
 	/**
 	 * 
@@ -126,10 +126,10 @@ public class GetUserPoInfo4C implements Serializable {
 					", bankName='" + bankName + '\'' +
 					", bankLogo='" + bankLogo + '\'' +
 					", paymentType='" + paymentType + '\'' +
-					", maxRapidPayAmountPerTxn='" + maxRapidPayAmountPerTxn + '\'' +
-					", maxRapidPayAmountPerDay='" + maxRapidPayAmountPerDay + '\'' +
-					", maxRapidPayAmountPerMonth='" + maxRapidPayAmountPerMonth + '\'' +
-					", maxRapidPayTxnCountPerDay='" + maxRapidPayTxnCountPerDay + '\'' +
+					", maxRapidPayAmountPerTxn=" + maxRapidPayAmountPerTxn +
+					", maxRapidPayAmountPerDay=" + maxRapidPayAmountPerDay +
+					", maxRapidPayAmountPerMonth=" + maxRapidPayAmountPerMonth +
+					", maxRapidPayTxnCountPerDay=" + maxRapidPayTxnCountPerDay +
 					", userFundListPerBank=" + userFundListPerBank +
 					'}';
 		}
@@ -181,26 +181,26 @@ public class GetUserPoInfo4C implements Serializable {
 	/**
 	 * 用户购买组合中基金资产占比
 	 */
-		public String poPercentage = "";
+		public double poPercentage;
 
 	/**
 	 * 可赎回的金额
 	 */
-		public String aviAmount = "";
+		public double aviAmount;
 
 	/**
 	 * 用户购买组合中的基金当前资产占比
 	 */
-		public String totalAmount = "";
+		public double totalAmount;
 		
 		@Override
 		public String toString() {
 			return "UserFundListPerBank{" +
 					"fundCode='" + fundCode + '\'' +
 					", fundName='" + fundName + '\'' +
-					", poPercentage='" + poPercentage + '\'' +
-					", aviAmount='" + aviAmount + '\'' +
-					", totalAmount='" + totalAmount + '\'' +
+					", poPercentage=" + poPercentage +
+					", aviAmount=" + aviAmount +
+					", totalAmount=" + totalAmount +
 					'}';
 		}
     }
@@ -300,19 +300,19 @@ public class GetUserPoInfo4C implements Serializable {
 				if (jsonObjectUserPoInfoPerBank.isNull("maxRapidPayAmountPerTxn")) {
 	    		Log.d("GetUserPoInfo4C", "has no mapping for key " + "maxRapidPayAmountPerTxn" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-				userPoInfoPerBank.maxRapidPayAmountPerTxn = jsonObjectUserPoInfoPerBank.optString("maxRapidPayAmountPerTxn");
+				userPoInfoPerBank.maxRapidPayAmountPerTxn = jsonObjectUserPoInfoPerBank.optDouble("maxRapidPayAmountPerTxn");
 				if (jsonObjectUserPoInfoPerBank.isNull("maxRapidPayAmountPerDay")) {
 	    		Log.d("GetUserPoInfo4C", "has no mapping for key " + "maxRapidPayAmountPerDay" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-				userPoInfoPerBank.maxRapidPayAmountPerDay = jsonObjectUserPoInfoPerBank.optString("maxRapidPayAmountPerDay");
+				userPoInfoPerBank.maxRapidPayAmountPerDay = jsonObjectUserPoInfoPerBank.optDouble("maxRapidPayAmountPerDay");
 				if (jsonObjectUserPoInfoPerBank.isNull("maxRapidPayAmountPerMonth")) {
 	    		Log.d("GetUserPoInfo4C", "has no mapping for key " + "maxRapidPayAmountPerMonth" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-				userPoInfoPerBank.maxRapidPayAmountPerMonth = jsonObjectUserPoInfoPerBank.optString("maxRapidPayAmountPerMonth");
+				userPoInfoPerBank.maxRapidPayAmountPerMonth = jsonObjectUserPoInfoPerBank.optDouble("maxRapidPayAmountPerMonth");
 				if (jsonObjectUserPoInfoPerBank.isNull("maxRapidPayTxnCountPerDay")) {
 	    		Log.d("GetUserPoInfo4C", "has no mapping for key " + "maxRapidPayTxnCountPerDay" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-				userPoInfoPerBank.maxRapidPayTxnCountPerDay = jsonObjectUserPoInfoPerBank.optString("maxRapidPayTxnCountPerDay");
+				userPoInfoPerBank.maxRapidPayTxnCountPerDay = jsonObjectUserPoInfoPerBank.optInt("maxRapidPayTxnCountPerDay");
 				if (jsonObjectUserPoInfoPerBank.isNull("userFundListPerBank")) {
 					Log.d("GetUserPoInfo4C", "has no mapping for key " + "userFundListPerBank" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
@@ -335,15 +335,15 @@ public class GetUserPoInfo4C implements Serializable {
 						if (jsonObjectUserFundListPerBank.isNull("poPercentage")) {
 	    		Log.d("GetUserPoInfo4C", "has no mapping for key " + "poPercentage" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-						userFundListPerBank.poPercentage = jsonObjectUserFundListPerBank.optString("poPercentage");
+						userFundListPerBank.poPercentage = jsonObjectUserFundListPerBank.optDouble("poPercentage");
 						if (jsonObjectUserFundListPerBank.isNull("aviAmount")) {
 	    		Log.d("GetUserPoInfo4C", "has no mapping for key " + "aviAmount" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-						userFundListPerBank.aviAmount = jsonObjectUserFundListPerBank.optString("aviAmount");
+						userFundListPerBank.aviAmount = jsonObjectUserFundListPerBank.optDouble("aviAmount");
 						if (jsonObjectUserFundListPerBank.isNull("totalAmount")) {
 	    		Log.d("GetUserPoInfo4C", "has no mapping for key " + "totalAmount" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-						userFundListPerBank.totalAmount = jsonObjectUserFundListPerBank.optString("totalAmount");
+						userFundListPerBank.totalAmount = jsonObjectUserFundListPerBank.optDouble("totalAmount");
 					
 						userPoInfoPerBank.userFundListPerBank.add(userFundListPerBank);
 				}

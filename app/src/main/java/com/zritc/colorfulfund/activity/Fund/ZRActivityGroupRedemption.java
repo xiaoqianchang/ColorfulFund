@@ -57,6 +57,7 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
     Button btnRedemptionGroup;
 
     private GroupRedemptionPresenter groupRedemptionPresenter;
+    private String poCode = ""; // 基金代码
 
     /**
      * 假初始化数据
@@ -84,12 +85,16 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
     @Override
     public void initView() {
         setTitleText("基金赎回");
+        Intent intent = getIntent();
+        if (null != intent) {
+            poCode = intent.getStringExtra("poCode");
+        }
         userFundListPerBank = new ArrayList<>();
         productGroup.setDivider(null);
         productGroup.setListViewHeightBasedOnChildren(productGroup);
         tvTodayRedeem.setText("0");
         // 获取数据
-        groupRedemptionPresenter.doGetUserPoInfo4C(poCode, userPaymentId);
+        groupRedemptionPresenter.doGetUserPoInfo4C(poCode);
 
         edtMoney.addTextChangedListener(new TextWatcher() {
             @Override
@@ -191,12 +196,12 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
 
         // 算总金额
             for (int i = 0; i < userFundListPerBank.size(); i++) {
-                totalMoney += StringUtils.getMoneyByString(userFundListPerBank.get(i).totalAmount);
+                totalMoney += userFundListPerBank.get(i).totalAmount;
         }
 
         // 算产品所占比例
             for (int j = 0; j < userFundListPerBank.size(); j++) {
-                userFundListPerBank.get(j).poPercentage = String.valueOf(StringUtils.getMoneyByString(userFundListPerBank.get(j).totalAmount) / totalMoney);
+                userFundListPerBank.get(j).poPercentage = userFundListPerBank.get(j).totalAmount / totalMoney;
             }
             // 数据赋值
 //            myAdapter.notifyDataSetChanged();
@@ -215,7 +220,7 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
             money = "0";
         }
         for (int i = 0; i < userFundListPerBank.size(); i++) {
-            userFundListPerBank.get(i).totalAmount = (String.format("%.2f", Double.parseDouble(money) * Double.parseDouble(userFundListPerBank.get(i).poPercentage)));
+            userFundListPerBank.get(i).totalAmount = Double.parseDouble(money) * userFundListPerBank.get(i).poPercentage;
         }
         myAdapter.notifyDataSetChanged();
     }
@@ -269,7 +274,7 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
         @Override
         protected void convert(ViewHolder holder, GetUserPoInfo4C.UserFundListPerBank userFundListPerBank) {
             holder.setText(R.id.tv_name, userFundListPerBank.fundName);
-            holder.setText(R.id.tv_value, String.format(mContext.getResources().getString(R.string.money), StringUtils.getMoneyByFormat(userFundListPerBank.totalAmount)));
+            holder.setText(R.id.tv_value, String.format(mContext.getResources().getString(R.string.money), userFundListPerBank.totalAmount));
         }
     }
 }

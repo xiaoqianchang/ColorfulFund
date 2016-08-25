@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Net Response Bean 获取用户已绑定的某张银行卡所购买的基金组合详细信息包括，包括里面的详细基金列表及所占资产
+ * Net Response Bean 获取用户已绑定的某张银行卡所购买的基金组合详细列表包括，包括里面的详细基金列表及所占资产
  *
  * package: 						com.zrt.dc.controllers.trade
  * svcName(服务名): 					GetUserPoList4C
- * svcCaption( 服务中文名，可用于注释): 	获取用户已绑定的某张银行卡所购买的基金组合详细信息包括，包括里面的详细基金列表及所占资产
+ * svcCaption( 服务中文名，可用于注释): 	获取用户已绑定的某张银行卡所购买的基金组合详细列表包括，包括里面的详细基金列表及所占资产
  * mode(http_get or http_post): 	HTTP_POST
  * target(与init里的key相对应): 		http://172.16.101.201:9006/trade/getUserPoList4C
  * comments(服务详细备注，可用于注释): 		仅供客户端调用的接口
@@ -126,22 +126,22 @@ public class GetUserPoList4C implements Serializable {
 	/**
 	 * 每笔最大限额
 	 */
-		public String maxRapidPayAmountPerTxn = "";
+		public double maxRapidPayAmountPerTxn;
 
 	/**
 	 * 每天最大限额
 	 */
-		public String maxRapidPayAmountPerDay = "";
+		public double maxRapidPayAmountPerDay;
 
 	/**
 	 * 每天最大限额
 	 */
-		public String maxRapidPayAmountPerMonth = "";
+		public double maxRapidPayAmountPerMonth;
 
 	/**
 	 * 每天最大交易次数
 	 */
-		public String maxRapidPayTxnCountPerDay = "";
+		public int maxRapidPayTxnCountPerDay;
 
 	/**
 	 * 
@@ -158,10 +158,10 @@ public class GetUserPoList4C implements Serializable {
 					", bankName='" + bankName + '\'' +
 					", bankLogo='" + bankLogo + '\'' +
 					", paymentType='" + paymentType + '\'' +
-					", maxRapidPayAmountPerTxn='" + maxRapidPayAmountPerTxn + '\'' +
-					", maxRapidPayAmountPerDay='" + maxRapidPayAmountPerDay + '\'' +
-					", maxRapidPayAmountPerMonth='" + maxRapidPayAmountPerMonth + '\'' +
-					", maxRapidPayTxnCountPerDay='" + maxRapidPayTxnCountPerDay + '\'' +
+					", maxRapidPayAmountPerTxn=" + maxRapidPayAmountPerTxn +
+					", maxRapidPayAmountPerDay=" + maxRapidPayAmountPerDay +
+					", maxRapidPayAmountPerMonth=" + maxRapidPayAmountPerMonth +
+					", maxRapidPayTxnCountPerDay=" + maxRapidPayTxnCountPerDay +
 					", userFundListPerBank=" + userFundListPerBank +
 					'}';
 		}
@@ -307,19 +307,19 @@ public class GetUserPoList4C implements Serializable {
 						if (jsonObjectUserPoInfoPerBank.isNull("maxRapidPayAmountPerTxn")) {
 	    		Log.d("GetUserPoList4C", "has no mapping for key " + "maxRapidPayAmountPerTxn" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-						userPoInfoPerBank.maxRapidPayAmountPerTxn = jsonObjectUserPoInfoPerBank.optString("maxRapidPayAmountPerTxn");
+						userPoInfoPerBank.maxRapidPayAmountPerTxn = jsonObjectUserPoInfoPerBank.optDouble("maxRapidPayAmountPerTxn");
 						if (jsonObjectUserPoInfoPerBank.isNull("maxRapidPayAmountPerDay")) {
 	    		Log.d("GetUserPoList4C", "has no mapping for key " + "maxRapidPayAmountPerDay" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-						userPoInfoPerBank.maxRapidPayAmountPerDay = jsonObjectUserPoInfoPerBank.optString("maxRapidPayAmountPerDay");
+						userPoInfoPerBank.maxRapidPayAmountPerDay = jsonObjectUserPoInfoPerBank.optDouble("maxRapidPayAmountPerDay");
 						if (jsonObjectUserPoInfoPerBank.isNull("maxRapidPayAmountPerMonth")) {
 	    		Log.d("GetUserPoList4C", "has no mapping for key " + "maxRapidPayAmountPerMonth" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-						userPoInfoPerBank.maxRapidPayAmountPerMonth = jsonObjectUserPoInfoPerBank.optString("maxRapidPayAmountPerMonth");
+						userPoInfoPerBank.maxRapidPayAmountPerMonth = jsonObjectUserPoInfoPerBank.optDouble("maxRapidPayAmountPerMonth");
 						if (jsonObjectUserPoInfoPerBank.isNull("maxRapidPayTxnCountPerDay")) {
 	    		Log.d("GetUserPoList4C", "has no mapping for key " + "maxRapidPayTxnCountPerDay" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-						userPoInfoPerBank.maxRapidPayTxnCountPerDay = jsonObjectUserPoInfoPerBank.optString("maxRapidPayTxnCountPerDay");
+						userPoInfoPerBank.maxRapidPayTxnCountPerDay = jsonObjectUserPoInfoPerBank.optInt("maxRapidPayTxnCountPerDay");
 						if (jsonObjectUserPoInfoPerBank.isNull("userFundListPerBank")) {
 							Log.d("GetUserPoList4C", "has no mapping for key " + "userFundListPerBank" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}

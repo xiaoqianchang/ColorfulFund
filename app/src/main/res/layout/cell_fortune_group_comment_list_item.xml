@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_30">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_77"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/height_77"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.zritc.colorfulfund.ui.ZRCircleImageView
+                android:id="@+id/img_user"
+                android:layout_width="@dimen/width_64"
+                android:layout_height="@dimen/height_64"
+                android:background="@null"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/icon_header" />
+
+            <ImageView
+                android:id="@+id/img_v"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="-10dp"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/view_content"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_77"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/padding_20">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/text_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:ellipsize="end"
+                    android:gravity="center|left"
+                    android:maxEms="16"
+                    android:singleLine="true"
+                    android:text="姓名"
+                    android:textColor="#0185f1"
+                    android:textSize="@dimen/font_size_12" />
+
+                <TextView
+                    android:id="@+id/text_110"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="@dimen/padding_20"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/padding_3"
+                    android:paddingRight="@dimen/padding_3"
+                    android:text="举报"
+                    android:textColor="#0185f1"
+                    android:textSize="@dimen/font_size_14" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/text_time"
+                style="@style/ltgray_text_font_10_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_10"
+                android:gravity="center|left"
+                android:text="0分钟前" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_comments"
+        style="@style/ltblack_text_font_15_style"
+        android:layout_marginLeft="@dimen/padding_91"
+        android:layout_marginTop="@dimen/padding_18"
+        android:gravity="center|left"
+        android:lineSpacingExtra="1.5dp"
+        android:lineSpacingMultiplier="1.1" />
+
+</LinearLayout>
