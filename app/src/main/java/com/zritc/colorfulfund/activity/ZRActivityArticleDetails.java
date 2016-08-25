@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.VelocityTracker;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.webkit.WebSettings;
@@ -165,41 +166,85 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
         }
     }
 
+    // 手指上下滑动时的最小速度
+    private static final int YSPEED_MIN = 150;
+
+    // 记录手指按下时的横坐标
+    private float xDown;
+
+    // 记录手指按下时的纵坐标
+    private float yDown;
+
+    // 记录手指移动时的横坐标
+    private float xMove;
+
+    // 记录手指移动时的纵坐标
+    private float yMove;
+
+    // 用于计算手指滑动的速度
+    private VelocityTracker mVelocityTracker;
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
+        createVelocityTracker(ev);
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                xDown = ev.getRawX();
+                yDown = ev.getRawY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                xMove = ev.getRawX();
+                yMove = ev.getRawY();
+                // 滑动的距离
+                int distanceX = (int) (xMove - xDown);
+                int distanceY = (int) (yMove - yDown);
+                // 获取顺时速度
+                int ySpeed = getScrollVelocity();
+                Log.d("xc", "sepeed: " + ySpeed);
+                // 底部容器显示与隐藏需满足以下条件：
+                // 1.y轴速度>YSPEED_MIN
+                // 2.
+                if (ySpeed > YSPEED_MIN) {
+                    hideOrShowButtomContainer();
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                recycleVelocityTracker();
+                break;
+        }
         return super.dispatchTouchEvent(ev);
     }
 
-    @Override
-    public void onUserInteraction() {
-        super.onUserInteraction();
+    /**
+     * 创建VelocityTracker对象，并将触摸界面的滑动事件加入到VelocityTracker当中
+     *
+     * @param ev
+     */
+    private void createVelocityTracker(MotionEvent ev) {
+        if (null == mVelocityTracker) {
+            mVelocityTracker = VelocityTracker.obtain();
+        }
+        mVelocityTracker.addMovement(ev);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        Log.d("xc", "ssssssssssssssssssss");
-        float startY = 0;
-        float endY = 0;
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                startY = event.getY();
-                Log.d(TAG, "" + startY);
-                break;
-            case MotionEvent.ACTION_MOVE:
-                float v = endY - startY;
-                if (v < 0) {
-                    v = -v;
-                }
-                Log.d(TAG, "" + v);
-                if (v > 10)
-                    hideOrShowButtomContainer();
-                break;
-            case MotionEvent.ACTION_UP:
-                endY = event.getY();
-                Log.d(TAG, "" + endY);
-                break;
+    /**
+     * 回收VelocityTracker对象
+     */
+    private void recycleVelocityTracker() {
+        if (null != mVelocityTracker) {
+            mVelocityTracker.recycle();
+            mVelocityTracker = null;
         }
-        return super.onTouchEvent(event);
+    }
+
+    /**
+     *
+     * @return  滑动速度，以每秒钟移动了多少像素值为单位
+     */
+    private int getScrollVelocity() {
+        mVelocityTracker.computeCurrentVelocity(1000);
+        int velocity = (int) mVelocityTracker.getYVelocity();
+        return Math.abs(velocity);
     }
 
     @Override
