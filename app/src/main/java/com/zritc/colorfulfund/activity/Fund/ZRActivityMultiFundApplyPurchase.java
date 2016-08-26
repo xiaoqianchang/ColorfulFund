@@ -3,14 +3,15 @@ package com.zritc.colorfulfund.activity.fund;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.zritc.colorfulfund.R;
-import com.zritc.colorfulfund.activity.cardmanager.ZRActivityCardManage;
 import com.zritc.colorfulfund.activity.ZRActivityToolBar;
+import com.zritc.colorfulfund.activity.cardmanager.ZRActivityCardManage;
 import com.zritc.colorfulfund.data.response.trade.BuyPo;
 import com.zritc.colorfulfund.data.response.trade.EstimateBuyFundFee;
 import com.zritc.colorfulfund.data.response.trade.GetFundPoInfo4C;
@@ -27,6 +28,8 @@ import com.zritc.colorfulfund.ui.adapter.ZRViewHolder;
 import com.zritc.colorfulfund.utils.ZRConstant;
 import com.zritc.colorfulfund.utils.ZRImageLoaderHelper;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,12 +79,12 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
     private ZRCommonAdapter<GetFundPoInfo4C.PoFundList> adapter;
     private MultiFundApplyPurchasePresenter multiFundApplyPurchasePresenter;
 
-    private GetUserBankCards4C.UserBankCardList bankCardList;
+    private GetUserBankCards4C.UserBankCardList bankCardList;// 选银行卡带过来的实体对象
 
     private List<GetFundPoInfo4C.PoFundList> datas = new ArrayList<>();
     private GetFundPoList4C.FundPoList fundPoList;
     private GetFundPoInfo4C.UserPaymentInfo userPaymentInfo;
-    private String amount;
+    private String amount;//申购总金额
 
     @OnClick({R.id.id_rl_add_bank, R.id.id_rl_bank_of_card, R.id.id_btn_next})
     public void onClick(View view) {
@@ -95,13 +98,20 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
                 break;
             case R.id.id_btn_next:
                 if (null != userPaymentInfo) {
+                    String userPaymentId = "";
                     if (userPaymentInfo.userPoInfoPerBank.size() > 0) {
-                        multiFundApplyPurchasePresenter.buyPo(userPaymentInfo.userPoInfoPerBank.get(0).userPaymentId, fundPoList.poCode, amount);
+                        userPaymentId = userPaymentInfo.userPoInfoPerBank.get(0).userPaymentId;
+                    } else if (null != bankCardList) {
+                        userPaymentId = bankCardList.userPaymentId;
                     }
+                    multiFundApplyPurchasePresenter.buyPo(fundPoList.poCode, amount, userPaymentId);
                 }
                 break;
         }
     }
+
+    private static final BigDecimal MAX_FUND_AMOUNT = new BigDecimal(
+            1000000000.00f);
 
     ZREditText.ZRTextWatcher watcher = new ZREditText.ZRTextWatcher() {
         @Override
@@ -124,46 +134,44 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
             calculate(amount);
             // 计算申购费
             doEstimateBuyFundFee();
-            boolean enable = TextUtils.isEmpty(amount) && TextUtils.isEmpty(textBankName.getText().toString());
-            btnNext.setEnabled(!enable);
+            btnEnable();
         }
 
         private void checkStr(CharSequence s, int start, int before) {
-            // 整数限五位
-//            if (!s.toString().contains(".")) {
-//                if (s.toString().length() > 5) {
-//                    s = s.toString().subSequence(0, 5).toString();
-//                    edtBuyMoney.setText(s);
-//                }
-//            }
-            // 小数精确到后两位
-            if (s.toString().contains(".")) {
-                if (s.length() - 1 - s.toString().indexOf(".") > 2) {
-                    s = s.toString().subSequence(0,
-                            s.toString().indexOf(".") + 3);
-                    edtBuyMoney.setValue(s.toString());
-                    edtBuyMoney.setSelection(s.length());
+            String tempS = s.toString();
+            // 第一位为小数点时，不显示
+            if (!TextUtils.isEmpty(tempS)) {
+                if (tempS.length() == 1 && tempS.contains(".")) {
+                    edtBuyMoney.setValue("");
+                } else {
+                    BigDecimal max = MAX_FUND_AMOUNT
+                            .subtract(new BigDecimal("0.00"));
+                    BigDecimal input = new BigDecimal(
+                            edtBuyMoney.getValue().toString());
+                    if (0 > max.compareTo(input)) {
+                        tempS = max.setScale(2, RoundingMode.HALF_UP)
+                                .toString();
+                    } else if (input.scale() > 2) {
+                        tempS = input.setScale(2, RoundingMode.FLOOR)
+                                .toString();
+                }
+                    if (!tempS.equals(s.toString())) {
+                        edtBuyMoney.setValue(tempS);
+                        edtBuyMoney.setSelection(tempS.length());
+            }
+            }
+                amount = s.toString();
                 }
             }
-            if (s.toString().trim().substring(0).equals(".")) {
-                s = "0" + s;
-                edtBuyMoney.setValue(s.toString());
-                edtBuyMoney.setSelection(2);
-            }
-
-            if (s.toString().startsWith("0")
-                    && s.toString().trim().length() > 1) {
-                if (!s.toString().substring(1, 2).equals(".")) {
-                    edtBuyMoney.setValue(s.subSequence(0, 1).toString());
-                    edtBuyMoney.setSelection(1);
-                    return;
-                }
-            }
-
-            amount = s.toString();
-        }
 
     };
+
+    private void btnEnable() {
+        boolean enable1 = !TextUtils.isEmpty(amount);
+        boolean enable2 = !TextUtils.isEmpty(textBankName.getText().toString());
+        boolean enable = enable1 && enable2;
+        btnNext.setEnabled(enable);
+        }
 
     private void doEstimateBuyFundFee() {
         if (!TextUtils.isEmpty(amount))
@@ -196,10 +204,11 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
             @Override
             public void convert(int position, ZRViewHolder helper, GetFundPoInfo4C.PoFundList item) {
                 helper.setText(R.id.id_txt_name, item.fundName);
-//                helper.setText(R.id.id_txt_money, item.totalAmount);
+                helper.setText(R.id.id_txt_money, item.totalAmount);
             }
         };
         listView.setDivider(null);
+        edtBuyMoney.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         edtBuyMoney.setBackgroundDrawable(null);
         edtBuyMoney.addTextChangedListener(watcher);
         listView.setListViewHeightBasedOnChildren(listView);
@@ -213,7 +222,7 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
      * @param money
      */
     private void calculate(String money) {
-        if (TextUtils.isEmpty(money)) {
+        if (TextUtils.isEmpty(money) || money.equals(".")) {
             money = "0";
             textBuyFee.setText("");
         }
@@ -222,7 +231,7 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
             if (TextUtils.isEmpty(proPercentage))
                 continue;
             double _poPercentage = Double.parseDouble(proPercentage);
-//            datas.get(i).totalAmount = String.format("%.2f元", Double.parseDouble(money) * _poPercentage);
+            datas.get(i).totalAmount = String.format("%.2f元", Double.parseDouble(money) * _poPercentage);
         }
         adapter.notifyDataSetChanged();
     }
@@ -251,10 +260,9 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
             if (null == userPaymentInfo) {
                 return;
             }
-            GetFundPoInfo4C.UserPoInfoPerBank userPoInfoPerBank = userPaymentInfo.userPoInfoPerBank.get(0);
-            String userPaymentId = userPoInfoPerBank.userPaymentId;
             // 绑过卡，购买过基金
-            if (!TextUtils.isEmpty(userPaymentId)) {
+            if (userPaymentInfo.userPoInfoPerBank.size() > 0) {
+            GetFundPoInfo4C.UserPoInfoPerBank userPoInfoPerBank = userPaymentInfo.userPoInfoPerBank.get(0);
                 rlAddBank.setVisibility(View.GONE);
                 rlBankCard.setVisibility(View.VISIBLE);
                 ZRImageLoaderHelper.getInstance().loadImage(userPoInfoPerBank.bankLogo, imgBank, R.mipmap.icon_share_logo);
@@ -296,8 +304,7 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
                     ZRImageLoaderHelper.getInstance().loadImage(bankCardList.bankLogo, imgBank, R.mipmap.icon_share_logo);
                     textBankName.setText(bankCardList.bankName);
                     textCardInfo.setText("单笔限额：" + bankCardList.maxRapidPayAmountPerTxn + "万" + " 日累计限额：" + bankCardList.maxRapidPayAmountPerDay + "万");
-                    boolean enable = TextUtils.isEmpty(amount) && TextUtils.isEmpty(textBankName.getText().toString());
-                    btnNext.setEnabled(!enable);
+                    btnEnable();
                     break;
                 case REQUEST_CODE_APPLY_PURCHASE_RESULT:
                     setResult(RESULT_OK);

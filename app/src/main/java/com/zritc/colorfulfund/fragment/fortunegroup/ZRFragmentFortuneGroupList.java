@@ -1,10 +1,13 @@
 package com.zritc.colorfulfund.fragment.fortunegroup;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 
 import com.zritc.colorfulfund.R;
+import com.zritc.colorfulfund.activity.ZRActivityArticleDetails;
+import com.zritc.colorfulfund.activity.ZRActivityVideoDetails;
 import com.zritc.colorfulfund.activity.fortunegroup.ZRActivityFortuneGroupCommentList;
 import com.zritc.colorfulfund.base.ZRFragmentBase;
 import com.zritc.colorfulfund.iView.IFortuneGroupListView;
@@ -120,7 +123,11 @@ public class ZRFragmentFortuneGroupList extends ZRFragmentBase<FortuneGroupListP
 //        listView.setDivider(null);
         listView.setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> {
             Intent intent = new Intent();
-            intent.setClass(getActivity(), ZRActivityFortuneGroupCommentList.class);
+            if (TextUtils.isEmpty(datas.get(position).getDuring())) {
+                intent.setClass(getActivity(), ZRActivityArticleDetails.class);
+            } else {
+                intent.setClass(getActivity(), ZRActivityVideoDetails.class);
+            }
             startActivity(intent);
         });
         pullToRefreshListView.setOnRefreshListener(onRefreshListener);

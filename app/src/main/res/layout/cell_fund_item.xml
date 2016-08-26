@@ -12,6 +12,9 @@
         android:id="@+id/id_txt_money"
         style="@style/ltblack_text_font_14_style"
         android:layout_alignParentRight="true"
+        android:ellipsize="end"
+        android:maxEms="8"
+        android:singleLine="true"
         android:text="0.00元" />
 
     <TextView
@@ -19,8 +22,9 @@
         style="@style/ltblack_text_font_14_style"
         android:layout_alignParentLeft="true"
         android:layout_marginRight="@dimen/padding_10"
-        android:gravity="left"
         android:layout_toLeftOf="@+id/id_txt_money"
+        android:ellipsize="end"
+        android:gravity="left"
         android:singleLine="true"
         android:text="基金名称" />
 

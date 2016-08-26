@@ -73,6 +73,8 @@ public class GetFundPoInfo4C implements Serializable {
 		 */
 		public String poPercentage = "";
 
+		public String totalAmount = "";
+
 		@Override
 		public String toString() {
 			return "PoFundList{" +

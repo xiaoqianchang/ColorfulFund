@@ -83,9 +83,8 @@ public abstract class ResponseCallBack<T> implements Callback<T> {
                 onFailure(new ServerException("response body is null"));
             }
         } catch (Exception e) {
+            e.printStackTrace();
             onError("", e.getMessage());
-            StackTraceElement stackTraceElement = new Throwable().getStackTrace()[0];
-            ZRLog.e(stackTraceElement.getClass().getSimpleName(), e.getMessage() + " on " + stackTraceElement.getLineNumber());
         }
     }
 

@@ -96,7 +96,7 @@ public class ZRActivityCardManage extends ZRActivityToolBar<CardManagePresenter>
 
         {
             getExtraData();
-            if (!fromBuyPro) {
+//            if (!fromBuyPro) {
                 View footView = LayoutInflater.from(this).inflate(R.layout.cell_add_bankcard_item, null, false);
                 listView.addFooterView(footView);
 
@@ -104,7 +104,7 @@ public class ZRActivityCardManage extends ZRActivityToolBar<CardManagePresenter>
                         .subscribe(aVoid -> {
                             jump2BindBankCard();
                         });
-            }
+//            }
         }
 
         listView.setAdapter(adapter = new ZRCommonAdapter<GetUserBankCards4C.UserBankCardList>(this, datas, R.layout.cell_card_manage_item) {

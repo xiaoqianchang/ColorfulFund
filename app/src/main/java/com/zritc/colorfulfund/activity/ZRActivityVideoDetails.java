@@ -20,6 +20,7 @@ import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.base.ZRActivityBase;
 import com.zritc.colorfulfund.iView.IVideoDetailsView;
 import com.zritc.colorfulfund.presenter.VideoDetailsPresenter;
+import com.zritc.colorfulfund.ui.ZRCircleImageView;
 import com.zritc.colorfulfund.ui.adapter.ZRCommonAdapter;
 import com.zritc.colorfulfund.ui.adapter.ZRViewHolder;
 import com.zritc.colorfulfund.ui.pulltozoomview.PullToZoomScrollViewEx;
@@ -241,16 +242,16 @@ public class ZRActivityVideoDetails extends ZRActivityBase<VideoDetailsPresenter
                 finish();
                 break;
             case R.id.img_collect: // 收藏
-                showToast("攻城狮正在Coading...");
+                showToast("攻城狮正在Coding...");
                 break;
             case R.id.img_praise: // 赞
-                showToast("攻城狮正在Coading...");
+                showToast("攻城狮正在Coding...");
                 break;
             case R.id.img_share: // 分享
-                showToast("攻城狮正在Coading...");
+                showToast("攻城狮正在Coding...");
                 break;
             case R.id.img_comment: // 评论
-                showToast("攻城狮正在Coading...");
+                showToast("攻城狮正在Coding...");
                 break;
         }
     }
@@ -316,6 +317,7 @@ public class ZRActivityVideoDetails extends ZRActivityBase<VideoDetailsPresenter
         public void convert(int position, ZRViewHolder helper, HotVideo item) {
             helper.setText(R.id.tv_video_title, item.getTitle());
             helper.setText(R.id.tv_play_count, String.format("%s 次播放", item.getPlayCOunt()));
+            ((ZRCircleImageView) helper.getView(R.id.img_hot_video)).setRectAdius(16);
             helper.setImageByUrl(R.id.img_hot_video, item.getImgUrl());
             helper.setText(R.id.tv_time, item.getTime());
         }

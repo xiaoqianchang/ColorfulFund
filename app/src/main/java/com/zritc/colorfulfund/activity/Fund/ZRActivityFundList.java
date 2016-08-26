@@ -29,6 +29,8 @@ import butterknife.Bind;
  */
 public class ZRActivityFundList extends ZRActivityToolBar<FundListPresenter> implements IFundListView {
 
+    private static final int REQUEST_CODE_GROUP_REDEMPTION = 0x110;
+
     @Bind(R.id.lv_fund_list)
     ListView lvFundList;
 
@@ -61,9 +63,21 @@ public class ZRActivityFundList extends ZRActivityToolBar<FundListPresenter> imp
                 GetUserPoList4C.UserPoList userPoList = ZRActivityFundList.this.userPoList.get(position);
                 Intent intent = new Intent(mContext, ZRActivityGroupRedemption.class);
                 intent.putExtra("poCode", userPoList.poCode);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE_GROUP_REDEMPTION);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_CODE_GROUP_REDEMPTION:
+                    initData();
+                    break;
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void initData() {

@@ -27,7 +27,7 @@
             android:textSize="@dimen/font_size_17"
             android:layout_height="@dimen/height_88"
             android:background="@color/white"
-            android:text="@string/btn_cancel"             android:textColor="@color/ltblack" />
+            android:text="@string/btn_cancel"                         android:textColor="@color/ltblack" />
     </LinearLayout>
 
 </RelativeLayout>

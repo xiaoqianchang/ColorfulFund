@@ -1,5 +1,6 @@
 package com.zritc.colorfulfund.activity.fund;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -51,9 +52,6 @@ public class ZRActivityRedemptionResult extends ZRActivityToolBar {
 
     private List<String> getDatas() {
         List<String> datas = new ArrayList<String>();
-//        datas.add("扣款成功，基金申购份额4000.00元");
-//        datas.add("确认交易等待基金公司确认份额");
-//        datas.add("基金公司已确认份额");
         datas.add("基金赎回提交成功，赎回份额：");
         datas.add("确认交易，等待基金公司登记赎回");
         datas.add("基金公司已确认赎回，等待付款");
@@ -63,6 +61,7 @@ public class ZRActivityRedemptionResult extends ZRActivityToolBar {
 
     @OnClick(R.id.btn_redemption_group)
     public void onClick(View view) {
+        setResult(RESULT_OK);
         finish();
     }
 }

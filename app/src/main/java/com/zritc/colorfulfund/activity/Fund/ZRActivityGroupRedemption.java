@@ -38,6 +38,8 @@ import butterknife.OnClick;
  */
 public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemptionPresenter> implements IGroupRedemptionView {
 
+    private static final int REQUEST_CODE_GROUP_REDEMPTION_RESULT = 0x110;
+
     @Bind(R.id.lv_product_group)
     ZRListView productGroup;
 
@@ -179,6 +181,12 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
      */
     private void initData(GetUserPoInfo4C getUserPoInfo4C) {
         if (null != getUserPoInfo4C) {
+            List<GetUserPoInfo4C.UserPoInfoPerBank> userPoInfoPerBanks = getUserPoInfo4C.userPoInfo.userPoInfoPerBank;
+            if (userPoInfoPerBanks.size() == 0) {
+                showToast("用户没有组合信息");
+                edtMoney.setEnabled(false);
+                return;
+            }
             GetUserPoInfo4C.UserPoInfoPerBank userPoInfoPerBank = getUserPoInfo4C.userPoInfo.userPoInfoPerBank.get(0);
             if (null != userPoInfoPerBank) {
                 userFundListPerBank = userPoInfoPerBank.userFundListPerBank;
@@ -255,14 +263,26 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
             // 计算预计到账日
             RedeemPo redeemPo = (RedeemPo) object;
             int diffDays = ZRDateUtils.getDiffDays(ZRDateUtils.getDiffTime(ZRDateUtils.getCurrentTimeMillis(), redeemPo.expectedTransferIntoDate));
-            startActivity(new Intent(this, ZRActivityRedemptionResult.class));
+            startActivityForResult(new Intent(this, ZRActivityRedemptionResult.class), REQUEST_CODE_GROUP_REDEMPTION_RESULT);
         }
     }
 
     @Override
     public void onError(String msg) {
         showToast(msg);
-        startActivity(new Intent(this, ZRActivityRedemptionResult.class));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_CODE_GROUP_REDEMPTION_RESULT:
+                    setResult(RESULT_OK);
+                    finish();
+                    break;
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     class MyAdapter extends CommonAdapter<GetUserPoInfo4C.UserFundListPerBank> {

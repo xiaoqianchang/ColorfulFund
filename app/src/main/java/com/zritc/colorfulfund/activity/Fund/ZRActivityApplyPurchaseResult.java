@@ -3,6 +3,8 @@ package com.zritc.colorfulfund.activity.fund;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
 
 import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.activity.ZRActivityToolBar;
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * ZRActivityApplyPurchaseResult 申购结果
@@ -25,6 +28,9 @@ public class ZRActivityApplyPurchaseResult extends ZRActivityToolBar {
 
     @Bind(R.id.time_line_recycler)
     RecyclerView mRecycler;
+
+    @Bind(R.id.btn_finish)
+    Button btnFinish;
 
     private TimeLineAdapter mAdapter;
 
@@ -50,10 +56,16 @@ public class ZRActivityApplyPurchaseResult extends ZRActivityToolBar {
     }
 
     private List<String> getDatas() {
-        List<String> datas = new ArrayList<String>();
+        List<String> datas = new ArrayList<>();
         datas.add(String.format("扣款成功，基金申购份额%s元", amount));
         datas.add("确认交易等待基金公司确认份额");
         datas.add("基金公司已确认份额");
         return datas;
+    }
+
+    @OnClick(R.id.btn_finish)
+    public void onClick(View view) {
+        setResult(RESULT_OK);
+        finish();
     }
 }

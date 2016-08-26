@@ -4,11 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
+    <com.zritc.colorfulfund.ui.ZRCircleImageView
         android:id="@+id/img_hot_img"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/icon_weixin"/>
+        android:layout_height="match_parent"
+        android:padding="0dp"
+        android:scaleType="centerCrop" />
 
     <TextView
         android:id="@+id/tv_hot_title"

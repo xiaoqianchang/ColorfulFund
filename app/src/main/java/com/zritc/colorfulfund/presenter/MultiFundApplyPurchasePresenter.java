@@ -57,12 +57,13 @@ public class MultiFundApplyPurchasePresenter extends BasePresenter<IMultiFundApp
      * @param poCode
      * @param amount
      */
-    public void buyPo(String paymentId, String poCode, String amount) {
+    public void buyPo(String poCode, String amount, String paymentId) {
         iView.showProgress("处理中...");
-        Call<BuyPo> buyPoCall = ZRNetManager.getInstance().buyPoCallbackByPost(paymentId, poCode, amount);
+        Call<BuyPo> buyPoCall = ZRNetManager.getInstance().buyPoCallbackByPost(poCode, amount, paymentId);
         buyPoCall.enqueue(new ResponseCallBack<BuyPo>(BuyPo.class) {
             @Override
             public void onSuccess(BuyPo buyPo) {
+                iView.hideProgress();
                 iView.onSuccess(buyPo);
             }
 
@@ -91,7 +92,7 @@ public class MultiFundApplyPurchasePresenter extends BasePresenter<IMultiFundApp
 
             @Override
             public void onError(String code, String msg) {
-                iView.onError(msg);
+//                iView.onError(msg);
             }
         });
     }

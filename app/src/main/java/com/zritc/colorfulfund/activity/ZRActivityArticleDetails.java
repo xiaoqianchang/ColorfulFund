@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.iView.IArticleDetailsView;
 import com.zritc.colorfulfund.presenter.ArticleDetailsPresenter;
+import com.zritc.colorfulfund.ui.ZRCircleImageView;
 import com.zritc.colorfulfund.ui.adapter.ZRCommonAdapter;
 import com.zritc.colorfulfund.ui.adapter.ZRViewHolder;
 import com.zritc.colorfulfund.ui.adapter.abslistview.CommonAdapter;
@@ -64,6 +65,9 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
 
     @Bind(R.id.tv_time)
     TextView tvTime; // 时间
+
+    @Bind(R.id.ll_article)
+    RelativeLayout llArticle;
 
     @Bind(R.id.wv_webView)
     WebView mWebView;
@@ -141,7 +145,7 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
 
     private void initData() {
         for (int i = 0; i < 4; i++) {
-            datas.add(new Hot("http://img4.imgtn.bdimg.com/it/u=98923187,3761999633&fm=11&gp=0.jpg", "哈哈哈哈哈哈哈哈"));
+            datas.add(new Hot("http://img4.imgtn.bdimg.com/it/u=98923187,3761999633&fm=11&gp=0.jpg", "哈哈哈哈哈哈哈哈" + i));
         }
     }
 
@@ -152,22 +156,25 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
                 finish();
                 break;
             case R.id.img_collect: // 收藏
-                showToast("攻城狮正在Coading...");
+                showToast("攻城狮正在Coding...");
                 break;
             case R.id.img_praise: // 赞
-                showToast("攻城狮正在Coading...");
+                showToast("攻城狮正在Coding...");
                 break;
             case R.id.img_share: // 分享
-                showToast("攻城狮正在Coading...");
+                showToast("攻城狮正在Coding...");
                 break;
             case R.id.img_comment: // 评论
-                showToast("攻城狮正在Coading...");
+                showToast("攻城狮正在Coding...");
                 break;
         }
     }
 
     // 手指上下滑动时的最小速度
     private static final int YSPEED_MIN = 150;
+
+    // 手指上下滑动时的最小距离
+    private static final int YDISTANCE_MIN = 150;
 
     // 记录手指按下时的横坐标
     private float xDown;
@@ -180,6 +187,12 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
 
     // 记录手指移动时的纵坐标
     private float yMove;
+
+    // 记录手指移动的y轴距离
+    private int distanceX;
+
+    // 记录手指移动的x轴距离
+    private int distanceY;
 
     // 用于计算手指滑动的速度
     private VelocityTracker mVelocityTracker;
@@ -196,19 +209,34 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
                 xMove = ev.getRawX();
                 yMove = ev.getRawY();
                 // 滑动的距离
-                int distanceX = (int) (xMove - xDown);
-                int distanceY = (int) (yMove - yDown);
+                distanceX = (int) (xMove - xDown);
+                distanceY = (int) (yMove - yDown);
                 // 获取顺时速度
                 int ySpeed = getScrollVelocity();
-                Log.d("xc", "sepeed: " + ySpeed);
+//                Log.d(TAG, "sepeed: " + ySpeed + ", distanceY: " + distanceY);
                 // 底部容器显示与隐藏需满足以下条件：
                 // 1.y轴速度>YSPEED_MIN
-                // 2.
-                if (ySpeed > YSPEED_MIN) {
+                // 2.向下滑工具栏消失
+                // 3.向上滑、点击文章正文时出现
+                if (ySpeed > YSPEED_MIN && distanceY > YDISTANCE_MIN) {
+                    // 向下滑
+                    if (!isButtomContainerHiding) {
+                        hideOrShowButtomContainer();
+                    }
+                } else if (ySpeed > YSPEED_MIN && distanceY < -YDISTANCE_MIN) {
+                    // 向上滑
+                    if (isButtomContainerHiding) {
                     hideOrShowButtomContainer();
+                }
                 }
                 break;
             case MotionEvent.ACTION_UP:
+                // 是否点击正文
+                if (distanceX >-50 && distanceX < 50 && distanceY > -50 && distanceY < 50) {
+                    if (isButtomContainerHiding) {
+                        hideOrShowButtomContainer();
+                    }
+                }
                 recycleVelocityTracker();
                 break;
         }
@@ -292,6 +320,7 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
 
         @Override
         public void convert(int position, ZRViewHolder helper, Hot item) {
+            ((ZRCircleImageView) helper.getView(R.id.img_hot_img)).setRectAdius(16);
             helper.setImageByUrl(R.id.img_hot_img, item.getImgUrl());
             helper.setText(R.id.tv_hot_title, item.getTitle());
         }

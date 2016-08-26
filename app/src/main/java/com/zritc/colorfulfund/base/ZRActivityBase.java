@@ -36,7 +36,7 @@ import butterknife.ButterKnife;
  */
 public abstract class ZRActivityBase<T extends BasePresenter> extends AppCompatActivity {
 
-    protected final String TAG = ZRActivityBase.class.getSimpleName();
+    protected final String TAG = this.getClass().getSimpleName();
     protected T mPresenter;
     protected Context mContext;
     private Dialog mDialog;
