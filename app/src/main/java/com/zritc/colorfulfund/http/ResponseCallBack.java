@@ -43,6 +43,11 @@ public abstract class ResponseCallBack<T> implements Callback<T> {
         try {
             T body = response.body();
             int statusCode = response.code(); // 服务解析返回后的code
+            // 500
+            if (HttpStatus.SC_INTERNAL_SERVER_ERROR == statusCode) {
+                onError(String.valueOf(HttpStatus.SC_INTERNAL_SERVER_ERROR), "Internal Server Error");
+                return;
+            }
             // 405 right return
             if (HttpStatus.SC_METHOD_NOT_ALLOWED == statusCode) {
                 String jsonStr = response.errorBody().string();

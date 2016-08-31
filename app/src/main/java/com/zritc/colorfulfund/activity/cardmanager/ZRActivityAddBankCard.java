@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -129,7 +130,14 @@ public class ZRActivityAddBankCard extends ZRActivityToolBar<AddCardPresenter> i
 
             // 获取支付类型
             paymentType = bankInfo.getPaymentType(txtCardInfo.getText().toString());
-
+            if (TextUtils.isEmpty(realName))
+                edtUserName.setError(Html.fromHtml("<font color=#ffffff>真实姓名不能为空</font>"));
+            if (!edtICCard.isValidate())
+                edtICCard.setError(Html.fromHtml("<font color=#ffffff>身份证格式不正确</font>"));
+            if (edtBankCard.getValue().toString().length() < 15)
+                edtBankCard.setError(Html.fromHtml("<font color=#ffffff>银行卡不正确</font>"));
+            if (!edtMobile.isValidate())
+                edtMobile.setError(Html.fromHtml("<font color=#ffffff>手机号格式不正确</font>"));
             boolean enable = !TextUtils.isEmpty(realName) && edtICCard.isValidate() && !TextUtils.isEmpty(paymentNo) && paymentNo.length() > 15 && edtMobile.isValidate();
             btnNext.setEnabled(enable);
         }

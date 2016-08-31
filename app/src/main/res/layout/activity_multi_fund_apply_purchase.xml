@@ -7,13 +7,13 @@
     android:background="@color/app_bg"
     android:orientation="vertical">
 
-    <include                                         android:id="@+id/app_bar_layout"
+    <include                                                 android:id="@+id/app_bar_layout"
         layout="@layout/toolbar_layout" />
 
     <LinearLayout
             android:id="@+id/id_ll_content"
         android:layout_width="match_parent"
-            android:layout_height="match_parent"                                        android:layout_below="@id/app_bar_layout"
+            android:layout_height="match_parent"                                                android:layout_below="@id/app_bar_layout"
         android:orientation="vertical">
 
             <LinearLayout
@@ -55,7 +55,7 @@ android:paddingLeft="@dimen/padding_30"
                     android:background="@color/white">
 
                     </com.zritc.colorfulfund.ui.ZRListView>
-                                                                        <include
+                                                                                <include
             layout="@layout/view_line"
                     android:layout_width="match_parent"
 
@@ -97,7 +97,7 @@ android:layout_height="wrap_content"
             android:paddingRight="@dimen/padding_28"
 
 android:visibility="gone">
-                                                                                    <com.zritc.colorfulfund.ui.ZRCircleImageView
+                                                                                                <com.zritc.colorfulfund.ui.ZRCircleImageView
                     android:id="@+id/id_img_bank"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
@@ -131,8 +131,8 @@ android:visibility="gone">
                 android:layout_centerVertical="true"
                 android:background="@null"
                     android:src="@mipmap/icon_s_right_arrow" />
-                                                                        </RelativeLayout>
-                                                                        <include layout="@layout/view_line" />
+                                                                                </RelativeLayout>
+                                                                                <include layout="@layout/view_line" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -161,13 +161,13 @@ android:visibility="gone">
                     android:textSize="@dimen/font_size_15" />
 
                 </LinearLayout>
-                                                                        <TextView
+                                                                                <TextView
                     android:id="@+id/id_txt_buy_fee"
                     style="@style/grey_text_font_12_style"
                     android:layout_marginLeft="@dimen/padding_30"
                     android:layout_marginRight="@dimen/padding_30"
                     android:layout_marginTop="@dimen/padding_20"
-                    android:text="" />
+                    android:text="申购费0.0%（申购费用0元）" />
 
         <Button
             android:id="@+id/id_btn_next"
@@ -176,7 +176,7 @@ android:visibility="gone">
                     android:text="申购" />
 
             </LinearLayout>
-                            <TextView
+                                <TextView
         style="@style/ltgray_text_font_12_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

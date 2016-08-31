@@ -110,12 +110,12 @@ public class ZRActivityCardManage extends ZRActivityToolBar<CardManagePresenter>
         listView.setAdapter(adapter = new ZRCommonAdapter<GetUserBankCards4C.UserBankCardList>(this, datas, R.layout.cell_card_manage_item) {
             @Override
             public void convert(int position, ZRViewHolder helper, GetUserBankCards4C.UserBankCardList item) {
-                helper.getView(R.id.id_bg_bank_card).setBackgroundResource(getBankBackground(item.bankName));
-                helper.setImageByUrl(R.id.id_img_card, item.bankLogo);
-                helper.setText(R.id.id_txt_bank_name, item.bankName);
-                helper.setText(R.id.id_txt_card_number, ZRUtils.getFormatCardNum(item.bankCardNo));
-                helper.setText(R.id.id_txt_single_quota, "单笔限额：" + item.maxRapidPayAmountPerTxn + "万");
-                helper.setText(R.id.id_txt_day_quota, "日累计限额：" + item.maxRapidPayAmountPerDay + "万");
+                helper.getView(R.id.id_bg_bank_card).setBackgroundResource(getBankBackground(item.bankInfo.bankName));
+                helper.setImageByUrl(R.id.id_img_card, item.bankInfo.bankLogo);
+                helper.setText(R.id.id_txt_bank_name, item.bankInfo.bankName);
+                helper.setText(R.id.id_txt_card_number, ZRUtils.getFormatCardNum(item.paymentBankInfo.bankCardNo));
+                helper.setText(R.id.id_txt_single_quota, "单笔限额：" + item.bankInfo.maxRapidPayAmountPerTxn + "万");
+                helper.setText(R.id.id_txt_day_quota, "日累计限额：" + item.bankInfo.maxRapidPayAmountPerDay + "万");
             }
         });
         listView.setDivider(null);
@@ -214,7 +214,7 @@ public class ZRActivityCardManage extends ZRActivityToolBar<CardManagePresenter>
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.item_popupwindows_unbind:
-                    cardManagePresenter.unbindPayment(datas.get(unbindIndex).bankCardNo);
+                    cardManagePresenter.unbindPayment(datas.get(unbindIndex).paymentBankInfo.bankCardNo);
                     onPopupDismiss();
                     break;
                 case R.id.item_popupwindows_cancel:

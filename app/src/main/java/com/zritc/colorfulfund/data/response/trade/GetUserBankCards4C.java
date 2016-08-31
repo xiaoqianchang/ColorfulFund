@@ -59,6 +59,23 @@ public class GetUserBankCards4C implements Serializable {
      */
 	public class UserBankCardList implements Serializable {
 
+		public PaymentBankInfo paymentBankInfo;
+
+		public BankInfo bankInfo;
+
+		@Override
+		public String toString() {
+			return "UserBankCardList{" +
+					"paymentBankInfo=" + paymentBankInfo +
+					", bankInfo=" + bankInfo +
+					'}';
+		}
+	}
+	/**
+	 * paymentBankInfo
+	 */
+	public class PaymentBankInfo implements Serializable {
+
 	/**
 	 * 用户交易账号id，每个银行卡有一个交易账号id
 	 */
@@ -68,6 +85,19 @@ public class GetUserBankCards4C implements Serializable {
 		 * 银行卡号
 		 */
 		public String bankCardNo = "";
+
+		@Override
+		public String toString() {
+			return "PaymentBankInfo{" +
+					"userPaymentId='" + userPaymentId + '\'' +
+					", bankCardNo='" + bankCardNo + '\'' +
+					'}';
+		}
+	}
+	/**
+	 * bankInfo
+	 */
+	public class BankInfo implements Serializable {
 
 		/**
 	 * 银行名称 如：工商银行
@@ -106,10 +136,8 @@ public class GetUserBankCards4C implements Serializable {
 		
 		@Override
 		public String toString() {
-			return "UserBankCardList{" +
-					"userPaymentId='" + userPaymentId + '\'' +
-					", bankCardNo='" + bankCardNo + '\'' +
-					", bankName='" + bankName + '\'' +
+			return "BankInfo{" +
+					"bankName='" + bankName + '\'' +
 					", paymentType='" + paymentType + '\'' +
 					", bankLogo='" + bankLogo + '\'' +
 					", maxRapidPayAmountPerTxn='" + maxRapidPayAmountPerTxn + '\'' +
@@ -169,42 +197,60 @@ public class GetUserBankCards4C implements Serializable {
 				JSONObject jsonObjectUserBankCardList = userBankCardListArray.optJSONObject(userBankCardListi);
 				UserBankCardList userBankCardList = new UserBankCardList();
 		
-				if (jsonObjectUserBankCardList.isNull("userPaymentId")) {
+				if (jsonObjectUserBankCardList.isNull("paymentBankInfo")) {
+					Log.d("GetUserBankCards4C", "has no mapping for key " + "paymentBankInfo" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
+				}
+
+				JSONObject jsonObjectPaymentBankInfo = jsonObjectUserBankCardList.optJSONObject("paymentBankInfo");
+				PaymentBankInfo paymentBankInfo = new PaymentBankInfo();
+
+				if (jsonObjectPaymentBankInfo.isNull("userPaymentId")) {
 	    		Log.d("GetUserBankCards4C", "has no mapping for key " + "userPaymentId" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-				userBankCardList.userPaymentId = jsonObjectUserBankCardList.optString("userPaymentId");
-				if (jsonObjectUserBankCardList.isNull("bankCardNo")) {
+				paymentBankInfo.userPaymentId = jsonObjectPaymentBankInfo.optString("userPaymentId");
+				if (jsonObjectPaymentBankInfo.isNull("bankCardNo")) {
 					Log.d("GetUserBankCards4C", "has no mapping for key " + "bankCardNo" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 				}
-				userBankCardList.bankCardNo = jsonObjectUserBankCardList.optString("bankCardNo");
-				if (jsonObjectUserBankCardList.isNull("bankName")) {
+				paymentBankInfo.bankCardNo = jsonObjectPaymentBankInfo.optString("bankCardNo");
+
+				userBankCardList.paymentBankInfo = paymentBankInfo;
+				if (jsonObjectUserBankCardList.isNull("bankInfo")) {
+					Log.d("GetUserBankCards4C", "has no mapping for key " + "bankInfo" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
+				}
+
+				JSONObject jsonObjectBankInfo = jsonObjectUserBankCardList.optJSONObject("bankInfo");
+				BankInfo bankInfo = new BankInfo();
+
+				if (jsonObjectBankInfo.isNull("bankName")) {
 	    		Log.d("GetUserBankCards4C", "has no mapping for key " + "bankName" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-				userBankCardList.bankName = jsonObjectUserBankCardList.optString("bankName");
-				if (jsonObjectUserBankCardList.isNull("paymentType")) {
+				bankInfo.bankName = jsonObjectBankInfo.optString("bankName");
+				if (jsonObjectBankInfo.isNull("paymentType")) {
 	    		Log.d("GetUserBankCards4C", "has no mapping for key " + "paymentType" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-				userBankCardList.paymentType = jsonObjectUserBankCardList.optString("paymentType");
-				if (jsonObjectUserBankCardList.isNull("bankLogo")) {
+				bankInfo.paymentType = jsonObjectBankInfo.optString("paymentType");
+				if (jsonObjectBankInfo.isNull("bankLogo")) {
 					Log.d("GetUserBankCards4C", "has no mapping for key " + "bankLogo" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-				userBankCardList.bankLogo = jsonObjectUserBankCardList.optString("bankLogo");
-				if (jsonObjectUserBankCardList.isNull("maxRapidPayAmountPerTxn")) {
+				bankInfo.bankLogo = jsonObjectBankInfo.optString("bankLogo");
+				if (jsonObjectBankInfo.isNull("maxRapidPayAmountPerTxn")) {
 					Log.d("GetUserBankCards4C", "has no mapping for key " + "maxRapidPayAmountPerTxn" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-				userBankCardList.maxRapidPayAmountPerTxn = jsonObjectUserBankCardList.optString("maxRapidPayAmountPerTxn");
-				if (jsonObjectUserBankCardList.isNull("maxRapidPayAmountPerDay")) {
+				bankInfo.maxRapidPayAmountPerTxn = jsonObjectBankInfo.optString("maxRapidPayAmountPerTxn");
+				if (jsonObjectBankInfo.isNull("maxRapidPayAmountPerDay")) {
 					Log.d("GetUserBankCards4C", "has no mapping for key " + "maxRapidPayAmountPerDay" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-				userBankCardList.maxRapidPayAmountPerDay = jsonObjectUserBankCardList.optString("maxRapidPayAmountPerDay");
-				if (jsonObjectUserBankCardList.isNull("maxRapidPayAmountPerMonth")) {
+				bankInfo.maxRapidPayAmountPerDay = jsonObjectBankInfo.optString("maxRapidPayAmountPerDay");
+				if (jsonObjectBankInfo.isNull("maxRapidPayAmountPerMonth")) {
 					Log.d("GetUserBankCards4C", "has no mapping for key " + "maxRapidPayAmountPerMonth" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-				userBankCardList.maxRapidPayAmountPerMonth = jsonObjectUserBankCardList.optString("maxRapidPayAmountPerMonth");
-				if (jsonObjectUserBankCardList.isNull("maxRapidPayTxnCountPerDay")) {
+				bankInfo.maxRapidPayAmountPerMonth = jsonObjectBankInfo.optString("maxRapidPayAmountPerMonth");
+				if (jsonObjectBankInfo.isNull("maxRapidPayTxnCountPerDay")) {
 					Log.d("GetUserBankCards4C", "has no mapping for key " + "maxRapidPayTxnCountPerDay" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-				userBankCardList.maxRapidPayTxnCountPerDay = jsonObjectUserBankCardList.optString("maxRapidPayTxnCountPerDay");
+				bankInfo.maxRapidPayTxnCountPerDay = jsonObjectBankInfo.optString("maxRapidPayTxnCountPerDay");
+
+				userBankCardList.bankInfo = bankInfo;
 					
 				this.userBankCardList.add(userBankCardList);
 				}

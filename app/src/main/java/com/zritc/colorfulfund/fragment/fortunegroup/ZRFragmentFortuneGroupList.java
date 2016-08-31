@@ -8,7 +8,6 @@ import android.widget.AdapterView;
 import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.activity.ZRActivityArticleDetails;
 import com.zritc.colorfulfund.activity.ZRActivityVideoDetails;
-import com.zritc.colorfulfund.activity.fortunegroup.ZRActivityFortuneGroupCommentList;
 import com.zritc.colorfulfund.base.ZRFragmentBase;
 import com.zritc.colorfulfund.iView.IFortuneGroupListView;
 import com.zritc.colorfulfund.presenter.FortuneGroupListPresenter;
@@ -113,9 +112,10 @@ public class ZRFragmentFortuneGroupList extends ZRFragmentBase<FortuneGroupListP
                 holder.setText(R.id.text_date, item.getPublishTime());
                 holder.setText(R.id.text_collection, item.getCollection());
                 holder.setText(R.id.text_during, item.getDuring());
-                ((ZRCircleImageView)holder.getView(R.id.image_view)).setRectAdius(16);
-                holder.setImageByUrl(R.id.image_view, item.getImage());
-                holder.setImageByUrl(R.id.img_user, item.getImage());
+                ((ZRCircleImageView)holder.getView(R.id.img_album)).setRectAdius(16);
+                holder.setImageByUrl(R.id.img_album, item.getImage());
+                holder.setImageByUrl(R.id.img_user, item.getAuthorImage());
+                holder.getView(R.id.img_play).setVisibility(TextUtils.isEmpty(item.getDuring())?View.GONE:View.VISIBLE);
             }
 
         });

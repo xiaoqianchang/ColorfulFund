@@ -1,29 +1,25 @@
 package com.zritc.colorfulfund.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.MediaController;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import com.zritc.colorfulfund.R;
+import com.zritc.colorfulfund.activity.fortunegroup.ZRActivityFortuneGroupCommentList;
 import com.zritc.colorfulfund.base.ZRActivityBase;
 import com.zritc.colorfulfund.iView.IVideoDetailsView;
 import com.zritc.colorfulfund.presenter.VideoDetailsPresenter;
+import com.zritc.colorfulfund.share.UPMediaMessage;
 import com.zritc.colorfulfund.ui.ZRCircleImageView;
 import com.zritc.colorfulfund.ui.adapter.ZRCommonAdapter;
 import com.zritc.colorfulfund.ui.adapter.ZRViewHolder;
-import com.zritc.colorfulfund.ui.pulltozoomview.PullToZoomScrollViewEx;
+import com.zritc.colorfulfund.utils.ZRConstant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +38,7 @@ import cn.com.video.venvy.param.VideoJjMediaContoller;
 
 /**
  * 视频详情界面
- * 
+ * <p>
  * Created by Chang.Xiao on 2016/8/23.
  *
  * @version 1.0
@@ -234,6 +230,7 @@ public class ZRActivityVideoDetails extends ZRActivityBase<VideoDetailsPresenter
 
     @OnClick({R.id.img_play, R.id.img_back, R.id.img_collect, R.id.img_praise, R.id.img_share, R.id.img_comment})
     public void onClick(View view) {
+        Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.img_play:
                 play();
@@ -248,10 +245,20 @@ public class ZRActivityVideoDetails extends ZRActivityBase<VideoDetailsPresenter
                 showToast("攻城狮正在Coding...");
                 break;
             case R.id.img_share: // 分享
-                showToast("攻城狮正在Coding...");
+                // 分享弹出
+                UPMediaMessage message = new UPMediaMessage();
+                message.setShareFrom(UPMediaMessage.SHARE_FROM_APP);
+                message.setTitle("title");
+                message.setSMSDesc("desc");
+                message.setDescription("description");
+                message.setUrl("http://www.baidu.com");
+                intent.setClass(this, ZRActivityShareEntry.class);
+                intent.putExtra(ZRConstant.KEY_EXTRA_INTRO, message);
+                startActivity(intent);
                 break;
             case R.id.img_comment: // 评论
-                showToast("攻城狮正在Coding...");
+                intent.setClass(this, ZRActivityFortuneGroupCommentList.class);
+                startActivity(intent);
                 break;
         }
     }

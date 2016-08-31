@@ -218,4 +218,8 @@ public class ZRItemTextInput extends ZRItemBase {
 		mEditText.setFilters(new InputFilter[] { new InputFilter.LengthFilter(
 				length) });
 	}
+
+	public void setError(CharSequence error){
+		mEditText.setError(error);
+	}
 }

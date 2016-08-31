@@ -30,7 +30,7 @@
             android:id="@+id/sdk_ijk_progress_bar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            layout="@layout/venvy_fragment_video_progress_bar_sdk"                         android:visibility="gone"/>
+            layout="@layout/venvy_fragment_video_progress_bar_sdk"                                     android:visibility="gone"/>
 
         <include
             android:id="@+id/sdk_load_layout"
@@ -40,7 +40,7 @@
             android:layout_centerVertical="true"
             layout="@layout/venvy_video_ijk_load_sdk"
             android:visibility="gone" />
-                    <ImageView
+                            <ImageView
             android:id="@+id/img_play"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
             android:gravity="left"
             android:lineSpacingExtra="1.5dp"
             android:lineSpacingMultiplier="1.1"
-            android:text="VR创业？想赚快钱的都散了吧"            android:textColor="#2e2e2e"/>
+            android:text="VR创业？想赚快钱的都散了吧"                        android:textColor="#2e2e2e"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -125,9 +125,9 @@
                 android:layout_centerVertical="true"
                 android:singleLine="true"
                 android:ellipsize="end"
-                android:text="07月15日"                android:textColor="#bdbdbd"
+                android:text="07月15日"                                android:textColor="#bdbdbd"
                 android:textSize="@dimen/font_size_11"/>
-                                <TextView
+                                            <TextView
                 android:id="@+id/tv_play_count"
                 style="@style/ltblack_text_font_12_style"
                 android:layout_alignParentRight="true"
@@ -143,7 +143,7 @@
     <ListView
         android:id="@+id/lv_hot_video"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"        android:paddingLeft="@dimen/padding_30"
+        android:layout_height="match_parent"                android:paddingLeft="@dimen/padding_30"
         android:paddingRight="@dimen/padding_30"
         android:scrollbars="none">
 

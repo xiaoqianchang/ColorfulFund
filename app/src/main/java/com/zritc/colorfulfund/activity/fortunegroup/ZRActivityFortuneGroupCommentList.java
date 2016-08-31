@@ -2,24 +2,20 @@ package com.zritc.colorfulfund.activity.fortunegroup;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
 import com.zritc.colorfulfund.R;
-import com.zritc.colorfulfund.activity.ZRActivityShareEntry;
 import com.zritc.colorfulfund.activity.ZRActivityToolBar;
 import com.zritc.colorfulfund.iView.IFortuneGroupCommentListView;
 import com.zritc.colorfulfund.presenter.FortuneGroupCommentListPresenter;
-import com.zritc.colorfulfund.share.UPMediaMessage;
 import com.zritc.colorfulfund.ui.ZRListView;
 import com.zritc.colorfulfund.ui.adapter.ZRCommonAdapter;
 import com.zritc.colorfulfund.ui.adapter.ZRViewHolder;
 import com.zritc.colorfulfund.ui.pull2refresh.ZRPullToRefreshBase;
 import com.zritc.colorfulfund.ui.pull2refresh.ZRPullToRefreshListView;
-import com.zritc.colorfulfund.utils.ZRConstant;
 import com.zritc.colorfulfund.utils.ZRPopupUtil;
 import com.zritc.colorfulfund.utils.ZRUtils;
 
@@ -59,18 +55,6 @@ public class ZRActivityFortuneGroupCommentList extends ZRActivityToolBar<Fortune
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.view_comment:
-                // 分享弹出
-                Intent intent = new Intent();
-                UPMediaMessage message = new UPMediaMessage();
-                message.setShareFrom(UPMediaMessage.SHARE_FROM_APP);
-                message.setTitle("title");
-                message.setSMSDesc("desc");
-                message.setDescription("description");
-                message.setUrl("http://www.baidu.com");
-                intent.setClass(this, ZRActivityShareEntry.class);
-                intent.putExtra(ZRConstant.KEY_EXTRA_INTRO, message);
-                startActivity(intent);
-
                 // 评论弹出
                 LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View v = inflater.inflate(R.layout.view_sendcomment_pop, null, false);

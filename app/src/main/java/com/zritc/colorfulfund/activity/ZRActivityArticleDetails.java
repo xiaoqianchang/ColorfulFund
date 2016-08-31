@@ -2,12 +2,6 @@ package com.zritc.colorfulfund.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
@@ -21,13 +15,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zritc.colorfulfund.R;
+import com.zritc.colorfulfund.activity.fortunegroup.ZRActivityFortuneGroupCommentList;
 import com.zritc.colorfulfund.iView.IArticleDetailsView;
 import com.zritc.colorfulfund.presenter.ArticleDetailsPresenter;
+import com.zritc.colorfulfund.share.UPMediaMessage;
 import com.zritc.colorfulfund.ui.ZRCircleImageView;
 import com.zritc.colorfulfund.ui.adapter.ZRCommonAdapter;
 import com.zritc.colorfulfund.ui.adapter.ZRViewHolder;
-import com.zritc.colorfulfund.ui.adapter.abslistview.CommonAdapter;
-import com.zritc.colorfulfund.ui.adapter.abslistview.ViewHolder;
 import com.zritc.colorfulfund.ui.pulltozoomview.PullToZoomScrollViewEx;
 import com.zritc.colorfulfund.utils.ZRConstant;
 
@@ -35,9 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit2.http.OPTIONS;
 
 /**
  * 文章详情界面
@@ -151,6 +143,7 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
 
     @OnClick({R.id.img_back, R.id.img_collect, R.id.img_praise, R.id.img_share, R.id.img_comment})
     public void onClick(View view) {
+        Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.img_back: // 返回
                 finish();
@@ -161,11 +154,22 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
             case R.id.img_praise: // 赞
                 showToast("攻城狮正在Coding...");
                 break;
-            case R.id.img_share: // 分享
-                showToast("攻城狮正在Coding...");
+            case R.id.img_share:
+            case R.id.img_share_inner: // 分享
+                // 分享弹出
+                UPMediaMessage message = new UPMediaMessage();
+                message.setShareFrom(UPMediaMessage.SHARE_FROM_APP);
+                message.setTitle("title");
+                message.setSMSDesc("desc");
+                message.setDescription("description");
+                message.setUrl("http://www.baidu.com");
+                intent.setClass(this, ZRActivityShareEntry.class);
+                intent.putExtra(ZRConstant.KEY_EXTRA_INTRO, message);
+                startActivity(intent);
                 break;
             case R.id.img_comment: // 评论
-                showToast("攻城狮正在Coding...");
+                intent.setClass(this, ZRActivityFortuneGroupCommentList.class);
+                startActivity(intent);
                 break;
         }
     }

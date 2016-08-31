@@ -102,7 +102,7 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
                     if (userPaymentInfo.userPoInfoPerBank.size() > 0) {
                         userPaymentId = userPaymentInfo.userPoInfoPerBank.get(0).userPaymentId;
                     } else if (null != bankCardList) {
-                        userPaymentId = bankCardList.userPaymentId;
+                        userPaymentId = bankCardList.paymentBankInfo.userPaymentId;
                     }
                     multiFundApplyPurchasePresenter.buyPo(fundPoList.poCode, amount, userPaymentId);
                 }
@@ -111,7 +111,8 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
     }
 
     private static final BigDecimal MAX_FUND_AMOUNT = new BigDecimal(
-            1000000000.00f);
+            1000000000.00f);// 最大购买金额
+    private String minBuyMoney = "100.00";//最小购买金额
 
     ZREditText.ZRTextWatcher watcher = new ZREditText.ZRTextWatcher() {
         @Override
@@ -145,7 +146,7 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
                     edtBuyMoney.setValue("");
                 } else {
                     BigDecimal max = MAX_FUND_AMOUNT
-                            .subtract(new BigDecimal("0.00"));
+                            .subtract(new BigDecimal(minBuyMoney));
                     BigDecimal input = new BigDecimal(
                             edtBuyMoney.getValue().toString());
                     if (0 > max.compareTo(input)) {
@@ -210,6 +211,7 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
         listView.setDivider(null);
         edtBuyMoney.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         edtBuyMoney.setBackgroundDrawable(null);
+        edtBuyMoney.setHint("最小购买金额100.00元");
         edtBuyMoney.addTextChangedListener(watcher);
         listView.setListViewHeightBasedOnChildren(listView);
 
@@ -224,7 +226,7 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
     private void calculate(String money) {
         if (TextUtils.isEmpty(money) || money.equals(".")) {
             money = "0";
-            textBuyFee.setText("");
+            textBuyFee.setText("申购费0.0%（申购费用0元）");
         }
         for (int i = 0; i < datas.size(); i++) {
             String proPercentage = datas.get(i).poPercentage;
@@ -283,7 +285,10 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
         } else if (object instanceof EstimateBuyFundFee) {
             // 估算申购费用
             double buyFee = ((EstimateBuyFundFee) object).buyFee;
-            String feePert = String.format("申购费 %.1f", (buyFee / Double.parseDouble(amount)) * 100) + "%";
+            double feePerc = (buyFee / Double.parseDouble(amount));
+            if (Double.isNaN(feePerc))
+                feePerc = 0;
+            String feePert = String.format("申购费%.1f", feePerc * 100) + "%";
             textBuyFee.setText(feePert + String.format("（申购费用%s元）", buyFee));
         }
     }
@@ -301,9 +306,10 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
                     bankCardList = (GetUserBankCards4C.UserBankCardList) data.getExtras().getSerializable("bankinfo");
                     rlAddBank.setVisibility(View.GONE);
                     rlBankCard.setVisibility(View.VISIBLE);
-                    ZRImageLoaderHelper.getInstance().loadImage(bankCardList.bankLogo, imgBank, R.mipmap.icon_share_logo);
-                    textBankName.setText(bankCardList.bankName);
-                    textCardInfo.setText("单笔限额：" + bankCardList.maxRapidPayAmountPerTxn + "万" + " 日累计限额：" + bankCardList.maxRapidPayAmountPerDay + "万");
+                    ZRImageLoaderHelper.getInstance().loadImage(bankCardList.bankInfo.bankLogo, imgBank, R.mipmap.icon_share_logo);
+                    int bankNoLen = bankCardList.paymentBankInfo.bankCardNo.length();
+                    textBankName.setText(bankCardList.bankInfo.bankName + String.format("（尾号%s）", bankCardList.paymentBankInfo.bankCardNo.substring(bankNoLen - 4, bankNoLen)));
+                    textCardInfo.setText("单笔限额：" + bankCardList.bankInfo.maxRapidPayAmountPerTxn + "万" + " 日累计限额：" + bankCardList.bankInfo.maxRapidPayAmountPerDay + "万");
                     btnEnable();
                     break;
                 case REQUEST_CODE_APPLY_PURCHASE_RESULT:
