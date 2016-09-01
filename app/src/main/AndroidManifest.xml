@@ -146,7 +146,7 @@
             android:name=".activity.cardmanager.ZRActivityAddBankCard"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_add_bankcard"
-            android:screenOrientation="portrait"                        android:windowSoftInputMode="adjustPan" />
+            android:screenOrientation="portrait"                                    android:windowSoftInputMode="adjustPan" />
         <!-- 设置交易密码 -->
         <activity
             android:name=".activity.cardmanager.ZRActivityTradePasswordSet"
@@ -163,7 +163,7 @@
             android:name=".activity.fund.ZRActivityMultiFundApplyPurchase"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_fund_apply_purchase"
-            android:screenOrientation="portrait"                        android:windowSoftInputMode="adjustPan" />
+            android:screenOrientation="portrait"                                    android:windowSoftInputMode="adjustPan" />
         <!-- 基金申购结果 -->
         <activity
             android:name=".activity.fund.ZRActivityApplyPurchaseResult"
@@ -171,7 +171,7 @@
             android:label="@string/title_activity_fund_apply_purchase_result"
             android:screenOrientation="portrait" />
         <!-- 投资圈评论列表-->
-        <activity                         android:name=".activity.fortunegroup.ZRActivityFortuneGroupCommentList"
+        <activity                                     android:name=".activity.fortunegroup.ZRActivityFortuneGroupCommentList"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_fortune_group_comment_list"
             android:screenOrientation="portrait"/>
@@ -372,20 +372,20 @@
             android:enabled="true"/>
 
         <activity android:name=".activity.TestNetApiActivity"/>
-        <activity                                                 android:name=".activity.fund.ZRActivityGroupRedemption"
+        <activity                                                             android:name=".activity.fund.ZRActivityGroupRedemption"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" >
-                                        </activity>
-        <activity                                                 android:name=".activity.fund.ZRActivitySingleRedemption"                                                android:configChanges="orientation|keyboardHidden"
+                                                </activity>
+        <activity                                                             android:name=".activity.fund.ZRActivitySingleRedemption"                                                            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"/>
-        <activity                                                 android:name=".activity.fund.ZRActivityRedemptionResult"                                                android:configChanges="orientation|keyboardHidden"
+        <activity                                                             android:name=".activity.fund.ZRActivityRedemptionResult"                                                            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"/>
-        <activity                                                 android:name=".activity.fund.ZRActivityFundList"                                                android:configChanges="orientation|keyboardHidden"
+        <activity                                                             android:name=".activity.fund.ZRActivityFundList"                                                            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"/>
-        <activity                                                 android:name=".activity.ZRActivityArticleDetails"                                                android:configChanges="orientation|keyboardHidden"
+        <activity                                                             android:name=".activity.ZRActivityArticleDetails"                                                            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"/>
-        <activity                                                 android:name=".activity.ZRActivityVideoDetails"                                                android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
+        <activity                                                             android:name=".activity.ZRActivityVideoDetails"                                                            android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
             android:screenOrientation="portrait"/>
     </application>
 

@@ -579,4 +579,16 @@ false</item>
         <item name="android:layout_marginTop">1dp</item>
         <item name="android:layout_marginBottom">1dp</item>
     </style>
+
+    <!-- 窗口淡入淡出动画 -->
+    <style name="animationFade">
+        <item name="android:windowEnterAnimation">@anim/fade_in</item>
+        <item name="android:windowExitAnimation">@anim/fade_out</item>
+    </style>
+
+    <!-- 窗口淡入淡出动画 -->
+    <style name="animationBottomTranslate">
+        <item name="android:windowEnterAnimation">@anim/bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/bottom_out</item>
+    </style>
 </resources>

@@ -1,8 +1,15 @@
 package com.zritc.colorfulfund.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 
 import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.activity.fund.ZRActivityFundList;
@@ -63,7 +70,11 @@ public class TestNetApiActivity extends ZRActivityBase {
     protected void initPresenter() {
     }
 
-    @OnClick({R.id.btn_prepareRegisterAcc, R.id.btn_registerAcc, R.id.btn_login, R.id.btn_prepare_bind_payment, R.id.btn_bind_payment, R.id.btn_unbind_payment, R.id.btn_setTransPwd, R.id.btn_group_redemption, R.id.btn_buy_po, R.id.btn_user_bank_cards4C, R.id.btn_user_po_list4C, R.id.btn_user_po_info4C, R.id.btn_fund_po_list4C, R.id.btn_fund_po_info4C, R.id.btn_single_redemption, R.id.btn_estimateBuyFundFee, R.id.btn_article_details, R.id.btn_video_details})
+    @OnClick({R.id.btn_prepareRegisterAcc, R.id.btn_registerAcc, R.id.btn_login, R.id.btn_prepare_bind_payment,
+            R.id.btn_bind_payment, R.id.btn_unbind_payment, R.id.btn_setTransPwd, R.id.btn_group_redemption,
+            R.id.btn_buy_po, R.id.btn_user_bank_cards4C, R.id.btn_user_po_list4C, R.id.btn_user_po_info4C,
+            R.id.btn_fund_po_list4C, R.id.btn_fund_po_info4C, R.id.btn_single_redemption, R.id.btn_estimateBuyFundFee,
+            R.id.btn_article_details, R.id.btn_video_details, R.id.btn_call_camera})
     public void onClick(View view) {
         String realName = "张三";
         String identityNo = "110101190001012837"; // 110101190001012837
@@ -295,6 +306,59 @@ public class TestNetApiActivity extends ZRActivityBase {
             case R.id.btn_video_details: // 视频详情
                 startActivity(new Intent(this, ZRActivityVideoDetails.class));
                 break;
+            case R.id.btn_call_camera:
+                new BottomPopupWindow(this);
+                break;
+        }
+    }
+
+    private class BottomPopupWindow extends PopupWindow {
+
+        public BottomPopupWindow(Context context) {
+            View view = View.inflate(context, R.layout.view_photo_choose, null);
+            view.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
+
+            setWidth(android.view.ViewGroup.LayoutParams.MATCH_PARENT);
+            setHeight(android.view.ViewGroup.LayoutParams.MATCH_PARENT);
+            setBackgroundDrawable(new BitmapDrawable());
+            setFocusable(true);
+            setTouchable(true);
+            setOutsideTouchable(true);
+            setContentView(view);
+            showAtLocation(getContentView(), Gravity.BOTTOM, 0, 0);
+            update();
+
+            // 主界面变暗
+            backgroundAlpha(0.8f);
+            //添加pop窗口关闭事件
+            setOnDismissListener(new poponDismissListener());
+            // 淡入淡出动画
+            setAnimationStyle(R.style.animationBottomTranslate);
+        }
+
+        /**
+         * 设置添加屏幕的背景透明度
+         * @param bgAlpha
+         */
+        public void backgroundAlpha(float bgAlpha) {
+            WindowManager.LayoutParams lp = getWindow().getAttributes();
+            lp.alpha = bgAlpha; //0.0-1.0
+            getWindow().setAttributes(lp);
+        }
+
+        /**
+         * 添加新笔记时弹出的popWin关闭的事件，主要是为了将背景透明度改回来
+         * @author xiaochang
+         *
+         */
+        class poponDismissListener implements PopupWindow.OnDismissListener{
+
+            @Override
+            public void onDismiss() {
+                // TODO Auto-generated method stub
+                backgroundAlpha(1f);
+            }
+
         }
     }
 }

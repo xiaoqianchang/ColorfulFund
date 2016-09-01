@@ -158,5 +158,13 @@
             android:text="视频详情"
             android:textColor="@android:color/black"/>
 
+        <Button
+            android:id="@+id/btn_call_camera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="调用相机/相册功能"
+            android:textColor="@android:color/black"/>
+
 </LinearLayout>
 </ScrollView>
