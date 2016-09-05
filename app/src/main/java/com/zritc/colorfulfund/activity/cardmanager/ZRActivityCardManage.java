@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -268,6 +269,12 @@ public class ZRActivityCardManage extends ZRActivityToolBar<CardManagePresenter>
     public void onSuccess(Object object) {
         if (object instanceof GetUserBankCards4C){
             datas.clear();
+            if (((GetUserBankCards4C) object).userBankCardList.size()==1){
+                // 一条记录时判断下是否是占位记录，不展示出来
+                if (!TextUtils.isEmpty(((GetUserBankCards4C) object).userBankCardList.get(0).bankInfo.bankName)){
+                    datas.addAll(((GetUserBankCards4C) object).userBankCardList);
+                }
+            }else
             datas.addAll(((GetUserBankCards4C) object).userBankCardList);
             adapter.notifyDataSetChanged();
         } else if (object instanceof UnbindPayment){

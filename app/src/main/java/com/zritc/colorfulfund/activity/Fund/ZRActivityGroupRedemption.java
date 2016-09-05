@@ -181,35 +181,36 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
      */
     private void initData(GetUserPoInfo4C getUserPoInfo4C) {
         if (null != getUserPoInfo4C) {
-            List<GetUserPoInfo4C.UserPoInfoPerBank> userPoInfoPerBanks = getUserPoInfo4C.userPoInfo.userPoInfoPerBank;
-            if (userPoInfoPerBanks.size() == 0) {
+            List<GetUserPoInfo4C.UserPoInfoListPerBank> userPoInfoListPerBanks = getUserPoInfo4C.userPoInfo.userPoInfoListPerBank;
+            if (userPoInfoListPerBanks.size() == 0) {
                 showToast("用户没有组合信息");
                 edtMoney.setEnabled(false);
                 return;
             }
-            GetUserPoInfo4C.UserPoInfoPerBank userPoInfoPerBank = getUserPoInfo4C.userPoInfo.userPoInfoPerBank.get(0);
-            if (null != userPoInfoPerBank) {
-                userFundListPerBank = userPoInfoPerBank.userFundListPerBank;
+            GetUserPoInfo4C.UserPoInfoListPerBank userPoInfoListPerBank = getUserPoInfo4C.userPoInfo.userPoInfoListPerBank.get(0);
+            if (null != userPoInfoListPerBank) {
+                userFundListPerBank = userPoInfoListPerBank.userFundListPerBank;
             }
             myAdapter = new MyAdapter(this, R.layout.lv_group_redemption_item, userFundListPerBank);
             productGroup.setAdapter(myAdapter);
             // 允许赎回最大金额
-            if (StringUtils.isZero(userPoInfoPerBank.maxRedeemAmount) && StringUtils.isZero(userPoInfoPerBank.minRedeemAmount)) {
+            if (StringUtils.isZero(userPoInfoListPerBank.poRedeemableAsset.maxRedeemAmount) && StringUtils.isZero(userPoInfoListPerBank.poRedeemableAsset.minRedeemAmount)) {
                 tvTodayRedeem.setText("只能允许全额赎回");
                 isAllRedemption = true;
             } else {
-                tvTodayRedeem.setText(userPoInfoPerBank.maxRedeemAmount);
+                tvTodayRedeem.setText(String.valueOf(userPoInfoListPerBank.poRedeemableAsset.maxRedeemAmount));
                 isAllRedemption = false;
             }
 
         // 算总金额
             for (int i = 0; i < userFundListPerBank.size(); i++) {
-                totalMoney += userFundListPerBank.get(i).totalAmount;
+                totalMoney += userFundListPerBank.get(i).poFundAssetInfo.totalAmount;
         }
 
         // 算产品所占比例
             for (int j = 0; j < userFundListPerBank.size(); j++) {
-                userFundListPerBank.get(j).poPercentage = userFundListPerBank.get(j).totalAmount / totalMoney;
+                if (!StringUtils.isZero(totalMoney))
+                    userFundListPerBank.get(j).fundInfo.poPercentage = userFundListPerBank.get(j).poFundAssetInfo.totalAmount / totalMoney;
             }
             // 数据赋值
 //            myAdapter.notifyDataSetChanged();
@@ -228,7 +229,7 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
             money = "0";
         }
         for (int i = 0; i < userFundListPerBank.size(); i++) {
-            userFundListPerBank.get(i).totalAmount = Double.parseDouble(money) * userFundListPerBank.get(i).poPercentage;
+            userFundListPerBank.get(i).poFundAssetInfo.totalAmount = Double.parseDouble(money) * userFundListPerBank.get(i).fundInfo.poPercentage;
         }
         myAdapter.notifyDataSetChanged();
     }
@@ -293,8 +294,8 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
 
         @Override
         protected void convert(ViewHolder holder, GetUserPoInfo4C.UserFundListPerBank userFundListPerBank) {
-            holder.setText(R.id.tv_name, userFundListPerBank.fundName);
-            holder.setText(R.id.tv_value, String.format(mContext.getResources().getString(R.string.money), userFundListPerBank.totalAmount));
+            holder.setText(R.id.tv_name, userFundListPerBank.fundInfo.fundName);
+            holder.setText(R.id.tv_value, String.format(mContext.getResources().getString(R.string.money), userFundListPerBank.poFundAssetInfo.totalAmount));
         }
     }
 }

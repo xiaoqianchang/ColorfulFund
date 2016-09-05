@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg_edu_scene"
+    tools:context="com.zritc.colorfulfund.activity.scene.ZRActivityEduScene">
+
+    <include
+        android:id="@+id/app_bar_layout"
+        layout="@layout/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/app_bar_layout"
+        android:paddingLeft="@dimen/padding_30"
+        android:paddingRight="@dimen/padding_30">
+
+        <ImageButton
+            android:id="@+id/btn_left_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginTop="@dimen/padding_30"
+            android:background="@null"
+            android:src="@mipmap/btn_left_back" />
+
+        <com.zritc.colorfulfund.ui.pull2refresh.ZRPullToRefreshListView
+            android:id="@+id/pull_to_refresh_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
+    <RelativeLayout
+        android:id="@+id/composer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
+        <com.zritc.colorfulfund.view.animation.InOutRelativeLayout
+            android:id="@+id/composer_buttons_wrapper"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:clipChildren="false"
+            android:clipToPadding="false">
+
+
+            <com.zritc.colorfulfund.view.animation.InOutImageButton
+                android:id="@+id/composer_button_place"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="25dp"
+                android:layout_marginRight="130dp"
+                android:background="@mipmap/icon_menu_photos"
+                android:visibility="gone" />
+
+            <com.zritc.colorfulfund.view.animation.InOutImageButton
+                android:id="@+id/composer_button_people"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="104dp"
+                android:layout_marginRight="99dp"
+                android:background="@mipmap/icon_menu_groupup"
+                android:visibility="gone" />
+
+            <com.zritc.colorfulfund.view.animation.InOutImageButton
+                android:id="@+id/composer_button_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="138dp"
+                android:layout_marginRight="14dp"
+                android:background="@mipmap/icon_menu_store_money"
+                android:visibility="gone" />
+
+        </com.zritc.colorfulfund.view.animation.InOutRelativeLayout>
+
+        <com.zritc.colorfulfund.view.animation.InOutRelativeLayout
+            android:id="@+id/composer_buttons_show_hide_button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true">
+
+            <ImageView
+                android:id="@+id/composer_buttons_show_hide_button_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/icon_menu_scene_normal" />
+        </com.zritc.colorfulfund.view.animation.InOutRelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

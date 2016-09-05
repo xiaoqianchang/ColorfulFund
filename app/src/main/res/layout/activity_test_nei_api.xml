@@ -166,5 +166,21 @@
             android:text="调用相机/相册功能"
             android:textColor="@android:color/black"/>
 
+        <Button
+            android:id="@+id/btn_record_growth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="点击图片记录成长"
+            android:textColor="@android:color/black"/>
+
+        <Button
+            android:id="@+id/btn_generate_album"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="成长相册"
+            android:textColor="@android:color/black"/>
+
 </LinearLayout>
 </ScrollView>

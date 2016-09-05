@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+              android:paddingLeft="20dp"
+              android:paddingRight="20dp"
+              android:clipChildren="false"
+    android:background="@color/app_bg">
+
+    <ImageView
+        android:id="@+id/img_cancle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_gravity="right"
+        android:src="@mipmap/btn_cancel"/>
+
+    <ImageView
+        android:id="@+id/img_avatar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@mipmap/btn_cancel"/>
+
+    <EditText
+        android:id="@+id/edt_description"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:gravity="start"
+        android:background="@drawable/bg_edittext_white"/>
+
+    <LinearLayout
+        android:id="@+id/ll_show_save_money"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_88"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/ltblack_text_font_15_style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:text="为宝贝存一笔成长基金"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_arrow_right_dark"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_save_money"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_88"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/edt_money"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_edittext_white"
+            android:hint="输入存钱金额"
+            android:gravity="center"/>
+
+        <Button
+            android:id="@+id/btn_save_money"
+            style="@style/blue_button_style"
+            android:layout_width="100dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/padding_120"
+            android:text="存钱"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_complete"
+        style="@style/blue_button_style"
+        android:layout_width="150dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="完成"/>
+</LinearLayout>

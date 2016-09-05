@@ -24,7 +24,7 @@ import java.text.DecimalFormat;
  * * API：
  * 1.setSmallTickMarkNum();设置小刻度线的数量，默认10条
  * 2.setBigTickMarkNum();设置大刻度线的数量，默认0条
- * 3.setEachCircleTotal(new int[] {});设置每圈的总值，默认每圈都是10
+ * 3.setEachCircleTotal(new double[] {});设置每圈的总值，默认每圈都是10
  * 4.setCurrentValue();设置小球的位置(并计算当前的弧度值、当前第几圈(从第零圈开始))
  * <p>
  * Created by Chang.Xiao on 2016/8/29.
@@ -710,7 +710,7 @@ public class DraggableCircleView extends View {
          * @param middleValueSize
          */
         public Builder setMiddleValueSize(float middleValueSize) {
-            mMiddleValueSize = middleValueSize;
+            mMiddleValueSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, middleValueSize, getContext().getResources().getDisplayMetrics());
             return this;
         }
 
@@ -720,7 +720,7 @@ public class DraggableCircleView extends View {
          * @param middleTextSize
          */
         public Builder setMiddleTextSize(float middleTextSize) {
-            mMiddleTextSize = middleTextSize;
+            mMiddleTextSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, middleTextSize, getContext().getResources().getDisplayMetrics());
             return this;
         }
 

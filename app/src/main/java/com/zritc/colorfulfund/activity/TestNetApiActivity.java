@@ -1,13 +1,24 @@
 package com.zritc.colorfulfund.activity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.Display;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
@@ -31,11 +42,20 @@ import com.zritc.colorfulfund.data.response.user.RegisterAcc;
 import com.zritc.colorfulfund.data.response.user.SetTransPwd;
 import com.zritc.colorfulfund.http.ResponseCallBack;
 import com.zritc.colorfulfund.http.ZRNetManager;
+import com.zritc.colorfulfund.ui.ZRCircleImageView;
+import com.zritc.colorfulfund.ui.ZRTextView;
 import com.zritc.colorfulfund.utils.ZRConstant;
 import com.zritc.colorfulfund.utils.ZRDeviceInfo;
+import com.zritc.colorfulfund.utils.ZRFileUtils;
+import com.zritc.colorfulfund.utils.ZRPhotoPicker;
+import com.zritc.colorfulfund.utils.ZRPopupUtil;
+import com.zritc.colorfulfund.utils.ZRResourceManager;
 import com.zritc.colorfulfund.utils.ZRSharePreferenceKeeper;
 
+import java.util.ArrayList;
+
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Call;
 
@@ -74,7 +94,7 @@ public class TestNetApiActivity extends ZRActivityBase {
             R.id.btn_bind_payment, R.id.btn_unbind_payment, R.id.btn_setTransPwd, R.id.btn_group_redemption,
             R.id.btn_buy_po, R.id.btn_user_bank_cards4C, R.id.btn_user_po_list4C, R.id.btn_user_po_info4C,
             R.id.btn_fund_po_list4C, R.id.btn_fund_po_info4C, R.id.btn_single_redemption, R.id.btn_estimateBuyFundFee,
-            R.id.btn_article_details, R.id.btn_video_details, R.id.btn_call_camera})
+            R.id.btn_article_details, R.id.btn_video_details, R.id.btn_call_camera, R.id.btn_record_growth, R.id.btn_generate_album})
     public void onClick(View view) {
         String realName = "张三";
         String identityNo = "110101190001012837"; // 110101190001012837
@@ -306,59 +326,163 @@ public class TestNetApiActivity extends ZRActivityBase {
             case R.id.btn_video_details: // 视频详情
                 startActivity(new Intent(this, ZRActivityVideoDetails.class));
                 break;
-            case R.id.btn_call_camera:
-                new BottomPopupWindow(this);
+            case R.id.btn_call_camera: // 获取图片
+                openPhotoPicker(this);
+                break;
+            case R.id.btn_record_growth: // 记录成长
+                RecordGrowthDialog recordGrowthDialog = new RecordGrowthDialog(this);
+                recordGrowthDialog.show();
+                break;
+            case R.id.btn_generate_album: // 成长相册
+                openImageSelector();
                 break;
         }
     }
 
-    private class BottomPopupWindow extends PopupWindow {
+    static class RecordGrowthDialog extends Dialog {
 
-        public BottomPopupWindow(Context context) {
-            View view = View.inflate(context, R.layout.view_photo_choose, null);
-            view.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
+        @Bind(R.id.img_cancle)
+        ImageView imgCancle;
 
-            setWidth(android.view.ViewGroup.LayoutParams.MATCH_PARENT);
-            setHeight(android.view.ViewGroup.LayoutParams.MATCH_PARENT);
-            setBackgroundDrawable(new BitmapDrawable());
-            setFocusable(true);
-            setTouchable(true);
-            setOutsideTouchable(true);
-            setContentView(view);
-            showAtLocation(getContentView(), Gravity.BOTTOM, 0, 0);
-            update();
+        @Bind(R.id.edt_description)
+        EditText edtDescription;
 
-            // 主界面变暗
-            backgroundAlpha(0.8f);
-            //添加pop窗口关闭事件
-            setOnDismissListener(new poponDismissListener());
-            // 淡入淡出动画
-            setAnimationStyle(R.style.animationBottomTranslate);
+        @Bind(R.id.ll_save_money)
+        LinearLayout llShowSaveMoney;
+
+        @Bind(R.id.edt_money)
+        EditText edtMoney;
+
+        @Bind(R.id.btn_save_money)
+        Button btnsavemoney;
+
+        @Bind(R.id.btn_complete)
+        Button btnComplete;
+
+        private Context mContext;
+        private boolean isShowSaveMoney = false;
+
+        public RecordGrowthDialog(Context context) {
+            super(context);
+            this.mContext = context;
         }
 
-        /**
-         * 设置添加屏幕的背景透明度
-         * @param bgAlpha
-         */
-        public void backgroundAlpha(float bgAlpha) {
-            WindowManager.LayoutParams lp = getWindow().getAttributes();
-            lp.alpha = bgAlpha; //0.0-1.0
-            getWindow().setAttributes(lp);
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            setContentView(R.layout.view_record_growth);
+            ButterKnife.bind(this);
+
+            // 创建一个头像
+            ZRCircleImageView avatarmageView = new ZRCircleImageView(mContext);
+            avatarmageView.setImageResource(R.mipmap.icon_user);
+
+            Window window = getWindow();
+            window.setGravity(Gravity.BOTTOM);
+            window.getDecorView().setPadding(0, 0, 0 ,0);
+            WindowManager windowManager = window.getWindowManager();
+            Display display = windowManager.getDefaultDisplay();
+            WindowManager.LayoutParams windowparams = window.getAttributes();
+            windowparams.width = display.getWidth(); // 设置dialog的宽度为当前手机屏幕的宽度
+            window.setWindowAnimations(R.style.animationBottomTranslate);
+            window.setBackgroundDrawableResource(R.color.transparent);
+            window.setAttributes(windowparams);
+
+            edtDescription.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
         }
 
-        /**
-         * 添加新笔记时弹出的popWin关闭的事件，主要是为了将背景透明度改回来
-         * @author xiaochang
-         *
-         */
-        class poponDismissListener implements PopupWindow.OnDismissListener{
+                @Override
+                public void afterTextChanged(Editable s) {
+                    String description = s.toString();
+                    btnComplete.setEnabled(!TextUtils.isEmpty(description));
+        }
+            });
+
+            edtMoney.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
 
             @Override
-            public void onDismiss() {
-                // TODO Auto-generated method stub
-                backgroundAlpha(1f);
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
             }
 
+                @Override
+                public void afterTextChanged(Editable s) {
+                    String money = s.toString();
+                    btnsavemoney.setEnabled(!TextUtils.isEmpty(money));
+                }
+            });
+        }
+
+        @OnClick({R.id.ll_show_save_money, R.id.btn_save_money, R.id.btn_complete})
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.ll_show_save_money:
+                    if (isShowSaveMoney) {
+                        llShowSaveMoney.setVisibility(View.GONE);
+                        isShowSaveMoney = false;
+                    } else {
+                        llShowSaveMoney.setVisibility(View.VISIBLE);
+                        isShowSaveMoney = true;
+                    }
+                    break;
+                case R.id.btn_save_money: // 走基金申购流程
+                    break;
+                case R.id.btn_complete: // 保存图片到服务端
+                    break;
+            }
+        }
+    }
+
+    private ArrayList<String> mSelectPath = new ArrayList<String>();
+    private void openImageSelector() {
+        Intent intent = new Intent();
+        int selectedMode = ZRActivityGenerateAlbum.MODE_MULTI;
+        int maxNum = 10;
+        intent.setClass(mContext, ZRActivityGenerateAlbum.class);
+        // 是否显示拍摄图片
+        intent.putExtra(
+                ZRActivityGenerateAlbum.EXTRA_SHOW_CAMERA, true);
+        // 最大可选择图片数量
+        intent.putExtra(
+                ZRActivityGenerateAlbum.EXTRA_SELECT_COUNT,
+                maxNum);
+        // 选择模式
+        intent.putExtra(
+                ZRActivityGenerateAlbum.EXTRA_SELECT_MODE,
+                selectedMode);
+        // 默认选择
+        if (mSelectPath != null && mSelectPath.size() > 0) {
+            intent.putExtra(
+                    ZRActivityGenerateAlbum.EXTRA_DEFAULT_SELECTED_LIST,
+                    mSelectPath);
+        }
+        startActivityForResult(intent,
+                ZRConstant.ACTIVITY_REQUEST_TAKE_PICTURE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case ZRConstant.ACTIVITY_REQUEST_TAKE_PICTURE:
+                    mSelectPath = data
+                            .getStringArrayListExtra(ZRActivityGenerateAlbum.EXTRA_RESULT);
+                    break;
+            }
         }
     }
 }

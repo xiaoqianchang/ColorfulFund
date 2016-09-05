@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_add_scene_photo"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_gravity="center_horizontal">
+
+        <com.zritc.colorfulfund.ui.ZRCircleImageView
+            android:id="@+id/img_album"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@mipmap/bg_add_scene" />
+
+        <TextView
+            android:id="@+id/text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:ellipsize="end"
+            android:gravity="center_horizontal"
+            android:maxEms="7"
+            android:singleLine="true"
+            android:text="二个月时的样子"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size_15" />
+
+        <TextView
+            android:id="@+id/text_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_title"
+            android:layout_centerInParent="true"
+            android:ellipsize="end"
+            android:gravity="center_horizontal"
+            android:maxEms="4"
+            android:singleLine="true"
+            android:text="¥3000"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size_13" />
+
+        <TextView
+            android:id="@+id/text_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_money"
+            android:layout_centerInParent="true"
+            android:ellipsize="end"
+            android:gravity="center_horizontal"
+            android:maxEms="7"
+            android:singleLine="true"
+            android:text="16/03/20"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size_13" />
+
+    </RelativeLayout>
+</LinearLayout>

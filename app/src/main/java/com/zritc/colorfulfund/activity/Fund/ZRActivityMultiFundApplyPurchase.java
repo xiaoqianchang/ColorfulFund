@@ -99,12 +99,13 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
             case R.id.id_btn_next:
                 if (null != userPaymentInfo) {
                     String userPaymentId = "";
-                    if (userPaymentInfo.userPoInfoPerBank.size() > 0) {
-                        userPaymentId = userPaymentInfo.userPoInfoPerBank.get(0).userPaymentId;
-                    } else if (null != bankCardList) {
+                    if (userPaymentInfo.userPaymentInfoListPerBank.size() > 0) {
+                        userPaymentId = userPaymentInfo.userPaymentInfoListPerBank.get(0).paymentBankInfo.userPaymentId;
+                    }
+                    if (TextUtils.isEmpty(userPaymentId) && null != bankCardList) {
                         userPaymentId = bankCardList.paymentBankInfo.userPaymentId;
                     }
-                    multiFundApplyPurchasePresenter.buyPo(fundPoList.poCode, amount, userPaymentId);
+                    multiFundApplyPurchasePresenter.buyPo(fundPoList.poBase.poCode, amount, userPaymentId);
                 }
                 break;
         }
@@ -176,7 +177,7 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
 
     private void doEstimateBuyFundFee() {
         if (!TextUtils.isEmpty(amount))
-            multiFundApplyPurchasePresenter.doEstimateBuyFundFee("2", fundPoList.poCode, amount);
+            multiFundApplyPurchasePresenter.doEstimateBuyFundFee("2", fundPoList.poBase.poCode, amount);
     }
 
     @Override
@@ -215,7 +216,7 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
         edtBuyMoney.addTextChangedListener(watcher);
         listView.setListViewHeightBasedOnChildren(listView);
 
-        multiFundApplyPurchasePresenter.fundPoInfo4C(fundPoList.poCode);
+        multiFundApplyPurchasePresenter.fundPoInfo4C(fundPoList.poBase.poCode);
     }
 
     /**
@@ -252,25 +253,29 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
     public void onSuccess(Object object) {
         if (object instanceof GetFundPoInfo4C) {
             GetFundPoInfo4C getFundPoInfo4C = ((GetFundPoInfo4C) object);
-            GetFundPoInfo4C.FundPoInfo fundPoInfo = getFundPoInfo4C.fundPoInfo;
+            GetFundPoInfo4C.FundPoInfo fundPoInfo = getFundPoInfo4C.commonFundPoInfo.fundPoInfo;
             datas.clear();
             datas.addAll(fundPoInfo.poFundList);
             adapter.setData(datas);
             listView.setAdapter(adapter);
 
-            userPaymentInfo = getFundPoInfo4C.userPaymentInfo;
+            userPaymentInfo = getFundPoInfo4C.commonFundPoInfo.userPaymentInfo;
             if (null == userPaymentInfo) {
                 return;
             }
-            // 绑过卡，购买过基金
-            if (userPaymentInfo.userPoInfoPerBank.size() > 0) {
-            GetFundPoInfo4C.UserPoInfoPerBank userPoInfoPerBank = userPaymentInfo.userPoInfoPerBank.get(0);
+
+            String userPaymentId = "";
+            if (userPaymentInfo.userPaymentInfoListPerBank.size() > 0) {
+                userPaymentId = userPaymentInfo.userPaymentInfoListPerBank.get(0).paymentBankInfo.userPaymentId;
+            }
+            if (!TextUtils.isEmpty(userPaymentId)) {
+                GetFundPoInfo4C.UserPaymentInfoListPerBank userPoInfoPerBank = userPaymentInfo.userPaymentInfoListPerBank.get(0);
                 rlAddBank.setVisibility(View.GONE);
                 rlBankCard.setVisibility(View.VISIBLE);
-                ZRImageLoaderHelper.getInstance().loadImage(userPoInfoPerBank.bankLogo, imgBank, R.mipmap.icon_share_logo);
-                textBankName.setText(userPoInfoPerBank.bankName);
-                textCardInfo.setText("单笔限额：" + userPoInfoPerBank.maxRapidPayAmountPerTxn + "万" + " 日累计限额：" + userPoInfoPerBank.maxRapidPayAmountPerDay + "万");
-                boolean enable = amount.isEmpty() && TextUtils.isEmpty(textBankName.getText().toString());
+                ZRImageLoaderHelper.getInstance().loadImage(userPoInfoPerBank.bankInfo.bankLogo, imgBank, R.mipmap.icon_share_logo);
+                textBankName.setText(userPoInfoPerBank.bankInfo.bankName);
+                textCardInfo.setText("单笔限额：" + userPoInfoPerBank.bankInfo.maxRapidPayAmountPerTxn + "万" + " 日累计限额：" + userPoInfoPerBank.bankInfo.maxRapidPayAmountPerDay + "万");
+                boolean enable = TextUtils.isEmpty(amount) && TextUtils.isEmpty(textBankName.getText().toString());
                 btnNext.setEnabled(!enable);
             } else {
                 rlAddBank.setVisibility(View.VISIBLE);

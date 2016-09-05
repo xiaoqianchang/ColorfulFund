@@ -10,9 +10,12 @@ import android.widget.TextView;
 
 import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.activity.cardmanager.ZRActivityCardManage;
+import com.zritc.colorfulfund.activity.fund.ZRActivityFundGroupDetail;
 import com.zritc.colorfulfund.activity.fund.ZRActivityFundList;
 import com.zritc.colorfulfund.activity.fund.ZRActivityMultiFundApplyPurchase;
 import com.zritc.colorfulfund.activity.fund.ZRActivitySingleRedemption;
+import com.zritc.colorfulfund.activity.scene.ZRActivityEduScene;
+import com.zritc.colorfulfund.activity.scene.ZRActivityTargetSetting;
 import com.zritc.colorfulfund.base.ZRFragmentBase;
 import com.zritc.colorfulfund.data.response.trade.GetFundPoList4C;
 import com.zritc.colorfulfund.iView.IFundProListView;
@@ -90,10 +93,10 @@ public class ZRFragmentMain extends ZRFragmentBase implements IFundProListView {
             textView.setTextColor(Color.parseColor("#000000"));
             viewContent.addView(textView);
 
-            for (GetFundPoList4C.FundPoList x : ((GetFundPoList4C) object).fundPoList) {
+            for (GetFundPoList4C.FundPoList x : ((GetFundPoList4C) object).commonFundPoList.fundPoList) {
                 Button btn = new Button(getActivity());
                 btn.setTextColor(Color.parseColor("#000000"));
-                btn.setText(x.poName);
+                btn.setText(x.poBase.poName);
                 btn.setId(btn.hashCode());
                 btn.setTag(x);
                 btn.setOnClickListener(new View.OnClickListener() {
@@ -110,6 +113,49 @@ public class ZRFragmentMain extends ZRFragmentBase implements IFundProListView {
                 });
                 viewContent.addView(btn);
             }
+
+
+            Button btn3 = new Button(getActivity());
+            btn3.setTextColor(Color.parseColor("#000000"));
+            btn3.setText("基金组合详情");
+            btn3.setOnClickListener(v -> {
+                        Intent intent = new Intent(getActivity(),
+                                ZRActivityFundGroupDetail.class);
+                        //                Bundle bundle = new Bundle();
+                        //                bundle.putSerializable("GetFundPoList4C.FundPoList", pro);
+                        //                intent.putExtras(bundle);
+                        startActivity(intent);
+                    }
+            );
+            viewContent.addView(btn3);
+
+            Button btn5 = new Button(getActivity());
+            btn5.setTextColor(Color.parseColor("#000000"));
+            btn5.setText("目标设定");
+            btn5.setOnClickListener(v -> {
+                        Intent intent = new Intent(getActivity(),
+                                ZRActivityTargetSetting.class);
+                        //                Bundle bundle = new Bundle();
+                        //                bundle.putSerializable("GetFundPoList4C.FundPoList", pro);
+                        //                intent.putExtras(bundle);
+                        startActivity(intent);
+                    }
+            );
+            viewContent.addView(btn5);
+
+            Button btn6 = new Button(getActivity());
+            btn6.setTextColor(Color.parseColor("#000000"));
+            btn6.setText("教育场景");
+            btn6.setOnClickListener(v -> {
+                        Intent intent = new Intent(getActivity(),
+                                ZRActivityEduScene.class);
+                        //                Bundle bundle = new Bundle();
+                        //                bundle.putSerializable("GetFundPoList4C.FundPoList", pro);
+                        //                intent.putExtras(bundle);
+                        startActivity(intent);
+                    }
+            );
+            viewContent.addView(btn6);
         }
     }
 
@@ -117,5 +163,38 @@ public class ZRFragmentMain extends ZRFragmentBase implements IFundProListView {
     public void onError(String msg) {
         hideProgress();
         showToast(msg);
+
+
+//        double a = 3600;//每年定投金额
+//        double x = 0.15;// 收益率
+//        int n = 35;//定投期数(公式中为n次方)
+//        double m = 0;//预期收益
+//
+//        m = a * (1 + x) * (-1 + Math.pow(1 + x, n)) / x;
+//        Button btn = new Button(getActivity());
+//        btn.setTextColor(Color.parseColor("#000000"));
+//        btn.setText("每年定投金额：" + a + "元\n收益率：" + x + "\n定投期数(公式中为n次方)：" + n + "年\n预期收益：" + ZRUtils.getDecimalFormat(m) + "元");
+//        viewContent.addView(btn);
+//
+//        m = 10000000;//预期收益1000万
+//        a = m / ((1 + x) * (-1 + Math.pow((1 + x), n) / x));
+//        Button btn1 = new Button(getActivity());
+//        btn1.setTextColor(Color.parseColor("#000000"));
+//        btn1.setText("无首付\n每年定投金额：" + ZRUtils.getDecimalFormat(a) + "元\n收益率：" + x + "\n定投期数(公式中为n次方)：" + n + "年\n预期收益：1000万");
+//        viewContent.addView(btn1);
+//
+//        int s = 10000;//首付10000
+//        m = 10000000;//预期收益1000万
+//        a = (m - s * Math.pow((1 + x), n)) / ((1 + x) * (-1 + Math.pow((1 + x), n)) / x);
+//        Button btn2 = new Button(getActivity());
+//        btn2.setTextColor(Color.parseColor("#000000"));
+//        btn2.setText("首付10000\n每年定投金额：" + ZRUtils.getDecimalFormat(a) + "元\n收益率：" + x + "\n定投期数(公式中为n次方)：" + n + "年\n预期收益：1000万");
+//        viewContent.addView(btn2);
+
+//        Button btn4 = new Button(getActivity());
+//        btn4.setTextColor(Color.parseColor("#000000"));
+//        btn4.setText("1.15的35次方：" + Math.pow((1 + .15), 35));
+//        viewContent.addView(btn4);
+
     }
 }

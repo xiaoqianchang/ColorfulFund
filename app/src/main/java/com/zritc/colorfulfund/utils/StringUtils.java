@@ -67,6 +67,13 @@ public class StringUtils {
         return false;
     }
 
+    public static boolean isZero(double money) {
+        if (money == 0 || money == 0.0 || money == 0.00) {
+            return true;
+        }
+        return false;
+    }
+
     public static String adjust(String value) {
         DecimalFormat df = new DecimalFormat("0.00");
         return df.format(new Double(value));

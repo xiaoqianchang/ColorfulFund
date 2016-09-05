@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="223dp"
+        android:layout_height="223dp"
+        android:layout_marginBottom="@dimen/padding_30"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/padding_30"
+        android:background="@drawable/bg_scene_shape">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="教育基金总额"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_14" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_10"
+                android:text="¥10万元"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_20" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_10"
+                android:text="本月收益"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_14" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_10"
+                android:text="¥100元"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_26" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="..."
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_14" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_54"
+                android:layout_marginRight="@dimen/padding_54"
+                android:layout_marginTop="@dimen/padding_10"
+                android:background="@mipmap/img_v_line" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_10"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="距离目标还有"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_size_12" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="¥20万"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_size_16" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_add_scene_first_photo"
+        android:layout_width="127dp"
+        android:layout_height="127dp"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal">
+
+        <com.zritc.colorfulfund.ui.ZRCircleImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@mipmap/bg_add_scene" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:drawablePadding="@dimen/padding_20"
+            android:drawableTop="@mipmap/btn_add_scene_photo"
+            android:gravity="center_horizontal"
+            android:text="添加第一张\n宝宝成长记录"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size_13" />
+
+    </RelativeLayout>
+
+</LinearLayout>
+

@@ -62,7 +62,7 @@ public class ZRActivityFundList extends ZRActivityToolBar<FundListPresenter> imp
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 GetUserPoList4C.UserPoList userPoList = ZRActivityFundList.this.userPoList.get(position);
                 Intent intent = new Intent(mContext, ZRActivityGroupRedemption.class);
-                intent.putExtra("poCode", userPoList.poCode);
+                intent.putExtra("poCode", userPoList.poBase.poCode);
                 startActivityForResult(intent, REQUEST_CODE_GROUP_REDEMPTION);
             }
         });
@@ -132,7 +132,7 @@ public class ZRActivityFundList extends ZRActivityToolBar<FundListPresenter> imp
         public View getView(int position, View convertView, ViewGroup parent) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.lv_fund_list_item, null);
             TextView tvName = (TextView) convertView.findViewById(R.id.tv_name_test);
-            tvName.setText(userPoList.get(position).poName);
+            tvName.setText(userPoList.get(position).poBase.poName);
             return convertView;
         }
     }

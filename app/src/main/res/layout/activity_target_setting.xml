@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg_edu_scene"
+    android:fitsSystemWindows="true"
+    tools:context="com.zritc.colorfulfund.activity.scene.ZRActivityTargetSetting">
+
+    <include layout="@layout/toolbar_layout" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/app_bar_layout"
+        android:background="@mipmap/bg_half_circle"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/padding_54"
+            android:text="教育基金"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size_16" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_36"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/padding_30"
+            android:paddingRight="@dimen/padding_30">
+
+            <com.zritc.colorfulfund.widget.DraggableCircleView
+                android:id="@+id/circle_target_money"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_alignParentLeft="true" />
+
+            <com.zritc.colorfulfund.widget.DraggableCircleView
+                android:id="@+id/circle_target_date"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_alignParentRight="true" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

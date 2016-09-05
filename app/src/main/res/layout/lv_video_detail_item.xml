@@ -24,7 +24,7 @@
                 android:paddingLeft="-2dp"
                 android:maxLines="2"
                 android:ellipsize="end"
-                android:text="标题"                                                android:textColor="#2e2e2e"
+                android:text="标题"                                                                android:textColor="#2e2e2e"
                 android:textSize="@dimen/font_size_16"/>
 
             <TextView
@@ -32,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:text="1388 次播放"                                                android:textColor="#666666"
+                android:text="1388 次播放"                                                                android:textColor="#666666"
                 android:textSize="@dimen/font_size_11"/>
         </RelativeLayout>
 
@@ -82,7 +82,7 @@
                 android:drawablePadding="@dimen/padding_10"
                     android:layout_marginRight="@dimen/padding_10"
                     android:layout_marginBottom="@dimen/padding_10"
-                android:text="05:03"                                                            android:textColor="@color/white"
+                android:text="05:03"                                                                                android:textColor="@color/white"
                     android:textSize="@dimen/font_size_9"/>
             </RelativeLayout>
 

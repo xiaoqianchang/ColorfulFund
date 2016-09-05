@@ -250,4 +250,10 @@ public class ZRConstant {
 	public static final int DIALOG_ACTION_LOGOUT = DIALOG_EXIT + 1;
 	public static final int DIALOG_ACTION_JPUSH = DIALOG_ACTION_LOGOUT + 1;
 
+	// Activity 跳转Request Code
+	public static final int ACTIVITY_REQUEST_TAKE_PICTURE = 111;
+	public static final int ACTIVITY_REQUEST_SEL_PICTURE = 112;
+	public static final int ACTIVITY_REQUEST_SELECT_PIC_KITKAT = 113;
+	public static final int ACTIVITY_REQUEST_CROP = 114;
+
 }

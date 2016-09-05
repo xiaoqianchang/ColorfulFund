@@ -48,12 +48,28 @@
             android:id="@+id/nav_right_text"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:gravity="center"
+            android:layout_gravity="right"
             android:minWidth="50dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/font_normal"
+            android:text="下一步"
+            android:textColor="@color/ltblack"
+            android:textSize="14sp"
+            android:visibility="gone"/>
+
+        <!-- 其它可选按钮 -->
+        <TextView
+            android:id="@+id/nav_right_other_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:gravity="center"
+            android:layout_gravity="right"
+            android:text="other"
+            android:textColor="@color/ltblack"
+            android:textSize="14sp"
             android:visibility="gone" />
 
     </android.support.v7.widget.Toolbar>

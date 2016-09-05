@@ -43,6 +43,8 @@ public abstract class ZRActivityToolBar<T extends BasePresenter> extends ZRActiv
     protected TextView mCenterTitle;
     @Bind(R.id.nav_right_text)
     protected TextView mNavRightText;
+    @Bind(R.id.nav_right_other_text)
+    protected TextView mNavRightOtherText;
 
     protected T mPresenter;
     protected boolean isToolBarHiding = false;
@@ -92,6 +94,7 @@ public abstract class ZRActivityToolBar<T extends BasePresenter> extends ZRActiv
 
     /**
      * set title text
+     *
      * @param title
      */
     protected void setTitleText(CharSequence title){
@@ -116,6 +119,15 @@ public abstract class ZRActivityToolBar<T extends BasePresenter> extends ZRActiv
      */
     protected boolean canBack() {
         return false;
+    }
+
+    /**
+     * 显示or隐藏导航栏
+     *
+     * @param visible
+     */
+    protected void showToolBar(int visible) {
+        mToolbar.setVisibility(visible);
     }
 
     @Override
