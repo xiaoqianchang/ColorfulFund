@@ -221,12 +221,12 @@ public class ZRImageGridAdapter extends BaseAdapter {
 				if (mSelectedImages.contains(data)) {
 					// 设置选中状态
 					indicator.setImageResource(ZRResourceManager.getResourceID(
-							"btn_selected", "drawable"));
+							"btn_selected", "mipmap"));
 					mask.setVisibility(View.VISIBLE);
 				} else {
 					// 未选择
 					indicator.setImageResource(ZRResourceManager.getResourceID(
-							"btn_unselected", "drawable"));
+							"btn_unselected", "mipmap"));
 					mask.setVisibility(View.GONE);
 				}
 			} else {
@@ -239,13 +239,13 @@ public class ZRImageGridAdapter extends BaseAdapter {
 						.load(imageFile)
 						.placeholder(
 								ZRResourceManager.getResourceID(
-										"default_error", "drawable"))
+										"default_error", "mipmap"))
 						.tag(ZRFragmentMultiImageSelector.TAG)
 						.resize(mGridWidth, mGridWidth).centerCrop()
 						.into(image);
 			} else {
 				image.setImageResource(ZRResourceManager.getResourceID(
-						"default_error", "drawable"));
+						"default_error", "mipmap"));
 			}
 		}
 	}

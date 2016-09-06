@@ -20,7 +20,7 @@
         android:layout_below="@id/img_back"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="70dp"
-        android:src="@mipmap/ic_launcher"
+        android:src="@mipmap/logo"
         android:contentDescription="@null" />
 
     <TextView
@@ -71,7 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/edt_user_pass"
-        android:drawableLeft="@mipmap/icon_weixin"
+        android:drawableLeft="@mipmap/weixin_icon"
         android:drawablePadding="10dp"
         android:layout_centerHorizontal="true"
         android:gravity="center"

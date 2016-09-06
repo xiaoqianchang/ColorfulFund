@@ -52,6 +52,7 @@ public class ZRActivityGenerateAlbum extends ZRActivityToolBar<GenerateAlbumPres
     private int mDefaultCount;
 
     private GenerateAlbumPresenter presenter;
+    private ZRFragmentMultiImageSelector multiImageSelector;
 
     @Override
     protected int getContentViewId() {
@@ -67,6 +68,17 @@ public class ZRActivityGenerateAlbum extends ZRActivityToolBar<GenerateAlbumPres
     @Override
     public void initView() {
         setTitleText("相片选择");
+        setTitleBarRightImageAndListener(R.drawable.btn_ltgrey, "下一步", v -> {
+            if (resultList != null && resultList.size() > 0) {
+                // 返回已选择的图片数据
+                Intent data = new Intent();
+                data.putStringArrayListExtra(EXTRA_RESULT, resultList);
+                setResult(RESULT_OK, data);
+                finish();
+            }
+        });
+        setTitleBarRightOtherAndListener(0, "全选", v -> {});
+
         Intent intent = getIntent();
         mDefaultCount = intent.getIntExtra(EXTRA_SELECT_COUNT, 9);
         int mode = intent.getIntExtra(EXTRA_SELECT_MODE, MODE_MULTI);
@@ -88,32 +100,9 @@ public class ZRActivityGenerateAlbum extends ZRActivityToolBar<GenerateAlbumPres
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.image_grid,
-                        Fragment.instantiate(this,
+                        multiImageSelector = (ZRFragmentMultiImageSelector) Fragment.instantiate(this,
                                 ZRFragmentMultiImageSelector.class.getName(),
                                 bundle)).commit();
-
-        // 完成按钮
-        mTextNext = (TextView) findViewById(ZRResourceManager.getResourceID(
-                "text_next", "id"));
-        // if (resultList == null || resultList.size() <= 0) {
-        // mSubmitButton.setText(R.string.action_done);
-        // mSubmitButton.setEnabled(false);
-        // } else {
-        // updateDoneText();
-        // mSubmitButton.setEnabled(true);
-        // }
-        mTextNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (resultList != null && resultList.size() > 0) {
-                    // 返回已选择的图片数据
-                    Intent data = new Intent();
-                    data.putStringArrayListExtra(EXTRA_RESULT, resultList);
-                    setResult(RESULT_OK, data);
-                    finish();
-                }
-            }
-        });
     }
 
     @Override

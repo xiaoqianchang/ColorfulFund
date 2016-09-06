@@ -26,6 +26,7 @@ import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.activity.fund.ZRActivityFundList;
 import com.zritc.colorfulfund.activity.fund.ZRActivityGroupRedemption;
 import com.zritc.colorfulfund.activity.fund.ZRActivitySingleRedemption;
+import com.zritc.colorfulfund.activity.wish.ZRWishHomePage;
 import com.zritc.colorfulfund.base.ZRActivityBase;
 import com.zritc.colorfulfund.data.response.trade.BindPayment;
 import com.zritc.colorfulfund.data.response.trade.BuyPo;
@@ -94,7 +95,8 @@ public class TestNetApiActivity extends ZRActivityBase {
             R.id.btn_bind_payment, R.id.btn_unbind_payment, R.id.btn_setTransPwd, R.id.btn_group_redemption,
             R.id.btn_buy_po, R.id.btn_user_bank_cards4C, R.id.btn_user_po_list4C, R.id.btn_user_po_info4C,
             R.id.btn_fund_po_list4C, R.id.btn_fund_po_info4C, R.id.btn_single_redemption, R.id.btn_estimateBuyFundFee,
-            R.id.btn_article_details, R.id.btn_video_details, R.id.btn_call_camera, R.id.btn_record_growth, R.id.btn_generate_album})
+            R.id.btn_article_details, R.id.btn_video_details, R.id.btn_call_camera, R.id.btn_record_growth,
+            R.id.btn_generate_album, R.id.btn_wish_home_page})
     public void onClick(View view) {
         String realName = "张三";
         String identityNo = "110101190001012837"; // 110101190001012837
@@ -336,6 +338,9 @@ public class TestNetApiActivity extends ZRActivityBase {
             case R.id.btn_generate_album: // 成长相册
                 openImageSelector();
                 break;
+            case R.id.btn_wish_home_page: // 心愿首页
+                startActivity(new Intent(this, ZRWishHomePage.class));
+                break;
         }
     }
 
@@ -454,7 +459,7 @@ public class TestNetApiActivity extends ZRActivityBase {
         intent.setClass(mContext, ZRActivityGenerateAlbum.class);
         // 是否显示拍摄图片
         intent.putExtra(
-                ZRActivityGenerateAlbum.EXTRA_SHOW_CAMERA, true);
+                ZRActivityGenerateAlbum.EXTRA_SHOW_CAMERA, false);
         // 最大可选择图片数量
         intent.putExtra(
                 ZRActivityGenerateAlbum.EXTRA_SELECT_COUNT,

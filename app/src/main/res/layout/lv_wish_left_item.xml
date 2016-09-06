@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg">
+
+    <LinearLayout
+        android:id="@+id/ll_each_wish"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:gravity="center"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/bg_white_point"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/ltblack_text_font_12_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="IWC表"/>
+
+        <TextView
+            style="@style/ltblack_text_font_12_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10万"/>
+
+        <TextView
+            style="@style/ltblack_text_font_12_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="未开始"/>
+    </LinearLayout>
+
+    <TextView
+        style="@style/ltblack_text_font_15_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/ll_each_wish"
+        android:layout_marginLeft="30dp"
+        android:text="努力生钱中"/>
+</RelativeLayout>

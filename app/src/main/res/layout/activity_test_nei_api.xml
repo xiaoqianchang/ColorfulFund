@@ -182,5 +182,13 @@
             android:text="成长相册"
             android:textColor="@android:color/black"/>
 
+        <Button
+            android:id="@+id/btn_wish_home_page"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="心愿首页"
+            android:textColor="@android:color/black"/>
+
 </LinearLayout>
 </ScrollView>
