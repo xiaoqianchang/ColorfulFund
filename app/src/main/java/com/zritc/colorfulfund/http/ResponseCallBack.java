@@ -81,6 +81,10 @@ public abstract class ResponseCallBack<T> implements Callback<T> {
                         String errorMsg = ZRErrors.getLocalErrorMsg(ZRApplication.applicationContext, code);
                         onError(code, errorMsg);
                     } else {
+                        if (ZRErrors.JSON_EXCEPTION.equals(code)) { // json异常，返回json串提示给开发者看
+                            onError(code, "JSON解析异常，错误JSON为" + msg);
+                            return;
+                        }
                         onError(code, msg);
                     }
                 }

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -28,6 +29,12 @@ import com.zritc.colorfulfund.activity.fund.ZRActivityGroupRedemption;
 import com.zritc.colorfulfund.activity.fund.ZRActivitySingleRedemption;
 import com.zritc.colorfulfund.activity.wish.ZRWishHomePage;
 import com.zritc.colorfulfund.base.ZRActivityBase;
+import com.zritc.colorfulfund.data.response.circle.CreateCollection;
+import com.zritc.colorfulfund.data.response.circle.CreateComment;
+import com.zritc.colorfulfund.data.response.circle.CreatePost;
+import com.zritc.colorfulfund.data.response.circle.CreateReport;
+import com.zritc.colorfulfund.data.response.circle.CreateThumb;
+import com.zritc.colorfulfund.data.response.circle.ReadPost;
 import com.zritc.colorfulfund.data.response.trade.BindPayment;
 import com.zritc.colorfulfund.data.response.trade.BuyPo;
 import com.zritc.colorfulfund.data.response.trade.EstimateBuyFundFee;
@@ -96,7 +103,9 @@ public class TestNetApiActivity extends ZRActivityBase {
             R.id.btn_buy_po, R.id.btn_user_bank_cards4C, R.id.btn_user_po_list4C, R.id.btn_user_po_info4C,
             R.id.btn_fund_po_list4C, R.id.btn_fund_po_info4C, R.id.btn_single_redemption, R.id.btn_estimateBuyFundFee,
             R.id.btn_article_details, R.id.btn_video_details, R.id.btn_call_camera, R.id.btn_record_growth,
-            R.id.btn_generate_album, R.id.btn_wish_home_page})
+            R.id.btn_generate_album, R.id.btn_wish_home_page,
+            R.id.btn_create_post, R.id.btn_create_comment, R.id.btn_create_thumb, R.id.btn_create_collection,
+            R.id.btn_create_report, R.id.btn_read_post})
     public void onClick(View view) {
         String realName = "张三";
         String identityNo = "110101190001012837"; // 110101190001012837
@@ -340,6 +349,90 @@ public class TestNetApiActivity extends ZRActivityBase {
                 break;
             case R.id.btn_wish_home_page: // 心愿首页
                 startActivity(new Intent(this, ZRWishHomePage.class));
+                break;
+            case R.id.btn_create_post: // 创建帖子
+                Call<CreatePost> postCallbackByPost = ZRNetManager.getInstance().createPostCallbackByPost("http://www.cy580.com/file/upload/201307/29/14-03-21-44-88802.png", "business", "SB", "1", "ssssssssssssssssssssssssssss", "bbbbbbbbbbbbbbbbbbbbbbbb", "");
+                postCallbackByPost.enqueue(new ResponseCallBack<CreatePost>(CreatePost.class) {
+                    @Override
+                    public void onSuccess(CreatePost createPost) {
+                        showToast(createPost.toString());
+                    }
+
+                    @Override
+                    public void onError(String code, String msg) {
+                        showToast(msg);
+                    }
+                });
+                break;
+            case R.id.btn_create_comment: // 创建评论
+                Call<CreateComment> commentCallbackByPost = ZRNetManager.getInstance().createCommentCallbackByPost("1", "我是一个好人！");
+                commentCallbackByPost.enqueue(new ResponseCallBack<CreateComment>(CreateComment.class) {
+                    @Override
+                    public void onSuccess(CreateComment createComment) {
+                        showToast(createComment.toString());
+                    }
+
+                    @Override
+                    public void onError(String code, String msg) {
+                        showToast(msg);
+                    }
+                });
+                break;
+            case R.id.btn_create_thumb: // 点赞
+                Call<CreateThumb> thumbCallbackByPost = ZRNetManager.getInstance().createThumbCallbackByPost("1");
+                thumbCallbackByPost.enqueue(new ResponseCallBack<CreateThumb>(CreateThumb.class) {
+                    @Override
+                    public void onSuccess(CreateThumb createThumb) {
+                        showToast(createThumb.toString());
+                    }
+
+                    @Override
+                    public void onError(String code, String msg) {
+                        showToast(msg);
+                    }
+                });
+                break;
+            case R.id.btn_create_collection: // 收藏
+                Call<CreateCollection> collectionCallbackByPost = ZRNetManager.getInstance().createCollectionCallbackByPost("1");
+                collectionCallbackByPost.enqueue(new ResponseCallBack<CreateCollection>(CreateCollection.class) {
+                    @Override
+                    public void onSuccess(CreateCollection createCollection) {
+                        showToast(createCollection.toString());
+                    }
+
+                    @Override
+                    public void onError(String code, String msg) {
+                        showToast(msg);
+                    }
+                });
+                break;
+            case R.id.btn_create_report: // 举报评论
+                Call<CreateReport> reportCallbackByPost = ZRNetManager.getInstance().createReportCallbackByPost("2");
+                reportCallbackByPost.enqueue(new ResponseCallBack<CreateReport>(CreateReport.class) {
+                    @Override
+                    public void onSuccess(CreateReport createReport) {
+                        showToast(createReport.toString());
+                    }
+
+                    @Override
+                    public void onError(String code, String msg) {
+                        showToast(msg);
+                    }
+                });
+                break;
+            case R.id.btn_read_post: // 阅读帖子
+                Call<ReadPost> readPostCall = ZRNetManager.getInstance().readPostCallbackByPost("1");
+                readPostCall.enqueue(new ResponseCallBack<ReadPost>(ReadPost.class) {
+                    @Override
+                    public void onSuccess(ReadPost readPost) {
+                        showToast(readPost.toString());
+                    }
+
+                    @Override
+                    public void onError(String code, String msg) {
+                        showToast(msg);
+                    }
+                });
                 break;
         }
     }

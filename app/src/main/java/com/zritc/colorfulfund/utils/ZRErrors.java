@@ -14,6 +14,7 @@ public class ZRErrors {
 	public static final String SUCCESS = "1000";
 	public static final String ERROR = "1001";
 	public static final String CUP_COMPLETE = "0000";
+	public static final String JSON_EXCEPTION = "5002";
 	public static final String ERROR_LOGIN_TIMEOUT = "9000";
 
 	public static final String ERROR_LOCAL_BEGIN = "10000";
@@ -45,6 +46,8 @@ public class ZRErrors {
 	private static String getLocalErrorMsgId(String error) {
 		if (ERROR.equals(error)) {
 			return "error_network";
+		} else if (JSON_EXCEPTION.equals(error)) { // json异常
+			return "json_exception";
 		} else if (ERROR_NETWORK.equals(error)) {
 			return "error_network";
 		} else if (ERROR_RESPONSE_FORMAT.equals(error)) {

@@ -1,5 +1,11 @@
 package com.zritc.colorfulfund.http;
 
+import com.zritc.colorfulfund.data.response.circle.CreateCollection;
+import com.zritc.colorfulfund.data.response.circle.CreateComment;
+import com.zritc.colorfulfund.data.response.circle.CreatePost;
+import com.zritc.colorfulfund.data.response.circle.CreateReport;
+import com.zritc.colorfulfund.data.response.circle.CreateThumb;
+import com.zritc.colorfulfund.data.response.circle.ReadPost;
 import com.zritc.colorfulfund.data.response.trade.AdjustPo;
 import com.zritc.colorfulfund.data.response.trade.BindPayment;
 import com.zritc.colorfulfund.data.response.trade.BuyPo;
@@ -221,6 +227,75 @@ public final class ZRNetManager {
                 , @Field("deviceid") String deviceid
                 , @Field("rid") String rid
         );
+
+        /********************************Circle start***********************************************/
+        @FormUrlEncoded
+        @POST
+        Call<CreateCollection> createCollectionCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+                , @Field("postId") String postId
+        );
+
+        @FormUrlEncoded
+        @POST
+        Call<CreateComment> createCommentCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+                , @Field("postId") String postId
+                , @Field("comment") String comment
+        );
+
+        @FormUrlEncoded
+        @POST
+        Call<CreatePost> createPostCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+                , @Field("coverImgURL") String coverImgURL
+                , @Field("tagList") String tagList
+                , @Field("title") String title
+                , @Field("postType") String postType
+                , @Field("contentHtml") String contentHtml
+                , @Field("content") String content
+                , @Field("quote") String quote
+        );
+
+        @FormUrlEncoded
+        @POST
+        Call<CreateReport> createReportCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+                , @Field("commentId") String commentId
+        );
+
+        @FormUrlEncoded
+        @POST
+        Call<CreateThumb> createThumbCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+                , @Field("postId") String postId
+        );
+
+        @FormUrlEncoded
+        @POST
+        Call<ReadPost> readPostCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+                , @Field("postId") String postId
+        );
+        /********************************Circle end*************************************************/
     }
 
     private static ZRNetManager netManager;
@@ -429,5 +504,74 @@ public final class ZRNetManager {
                 , ZRDeviceInfo.getRid()
         );
     }
+
+    /********************************Circle start***********************************************/
+    public Call<CreateCollection> createCollectionCallbackByPost(String postId) {
+        return api.createCollectionCallbackByPost(
+                "http://172.16.101.52:9006/circle/createCollection"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+                , postId
+        );
+    }
+
+    public Call<CreateComment> createCommentCallbackByPost(String postId, String comment) {
+        return api.createCommentCallbackByPost(
+                "http://172.16.101.52:9006/circle/createComment"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+                , postId
+                , comment
+        );
+    }
+
+    public Call<CreatePost> createPostCallbackByPost(String coverImgURL, String tagList, String title, String postType, String contentHtml, String content, String quote) {
+        return api.createPostCallbackByPost(
+                "http://172.16.101.52:9006/circle/createPost"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+                , coverImgURL
+                , tagList
+                , title
+                , postType
+                , contentHtml
+                , content
+                , quote
+        );
+    }
+
+    public Call<CreateReport> createReportCallbackByPost(String commentId) {
+        return api.createReportCallbackByPost(
+                "http://172.16.101.52:9006/circle/createReport"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+                , commentId
+        );
+    }
+
+    public Call<CreateThumb> createThumbCallbackByPost(String postId) {
+        return api.createThumbCallbackByPost(
+                "http://172.16.101.52:9006/circle/createThumb"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+                , postId
+        );
+    }
+
+    public Call<ReadPost> readPostCallbackByPost(String postId) {
+        return api.readPostCallbackByPost(
+                "http://172.16.101.52:9006/circle/readPost"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+                , postId
+        );
+    }
+    /********************************Circle end*************************************************/
 
 }

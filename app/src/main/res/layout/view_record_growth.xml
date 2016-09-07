@@ -14,14 +14,14 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:layout_gravity="right"
-        android:src="@mipmap/btn_cancel"/>
+        android:src="@mipmap/close"/>
 
     <ImageView
         android:id="@+id/img_avatar"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_gravity="center_horizontal"
-        android:src="@mipmap/btn_cancel"/>
+        android:src="@mipmap/close"/>
 
     <EditText
         android:id="@+id/edt_description"

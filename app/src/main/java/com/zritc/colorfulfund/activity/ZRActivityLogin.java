@@ -1,7 +1,9 @@
 package com.zritc.colorfulfund.activity;
 
 import android.content.Intent;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -56,7 +58,23 @@ public class ZRActivityLogin extends ZRActivityBase<LoginPresenter> implements I
 
     @Override
     public void initView() {
+        edtUserName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+            public void afterTextChanged(Editable s) {
+                String str = s.toString().trim();
+                btnUserLogin.setEnabled(!TextUtils.isEmpty(str));
+            }
+        });
     }
 
     @Override

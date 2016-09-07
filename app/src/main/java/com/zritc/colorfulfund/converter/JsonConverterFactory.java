@@ -3,9 +3,12 @@ package com.zritc.colorfulfund.converter;
 import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
+import com.zritc.colorfulfund.utils.ZRDeviceInfo;
+import com.zritc.colorfulfund.utils.ZRErrors;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
@@ -66,6 +69,21 @@ public final class JsonConverterFactory extends Converter.Factory {
             } catch (InvocationTargetException e) {
                 // if an exception was thrown by the invoked method
                 Log.e(TAG, "json解析异常，" + e.getCause().getMessage());
+                // JSON异常或解析异常，构造一个异常对象return交给ResponseCallBack
+                try {
+                    Object instance = c.newInstance();
+                    c.getField("sid").set(instance, ZRDeviceInfo.getSid());
+                    c.getField("rid").set(instance, ZRDeviceInfo.getRid());
+                    c.getField("code").set(instance, ZRErrors.JSON_EXCEPTION);
+                    c.getField("msg").set(instance, jsonStr);
+                    return (T) instance;
+                } catch (InstantiationException e1) {
+                    e1.printStackTrace();
+                } catch (IllegalAccessException e1) {
+                    e1.printStackTrace();
+                } catch (NoSuchFieldException e1) {
+                    e1.printStackTrace();
+                }
             }
             return null;
         }

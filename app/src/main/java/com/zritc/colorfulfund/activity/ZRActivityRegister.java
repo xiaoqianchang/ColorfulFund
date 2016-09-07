@@ -2,7 +2,9 @@ package com.zritc.colorfulfund.activity;
 
 import android.content.Intent;
 import android.os.CountDownTimer;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -62,6 +64,24 @@ public class ZRActivityRegister extends ZRActivityBase<RegisterPresenter> implem
 
     @Override
     public void initView() {
+        mEdtUserName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String str = s.toString().trim();
+                btnRegister.setEnabled(!TextUtils.isEmpty(str));
+            }
+        });
+
         // 弹出多彩基金管家声明条款
         Intent intent = new Intent(this, ZRActivityPullToRefreshWebView.class);
         startActivity(intent);
@@ -140,8 +160,8 @@ public class ZRActivityRegister extends ZRActivityBase<RegisterPresenter> implem
             @Override
             public void onFinish() {
                 tvSendAuthCode.setEnabled(true);
-                tvSendAuthCode.setTextColor(getResources().getColor(android.R.color.holo_blue_light));
-                tvSendAuthCode.setText("发送");
+                tvSendAuthCode.setTextColor(getResources().getColor(R.color.verify_code_color));
+                tvSendAuthCode.setText(getResources().getString(R.string.btn_send_verifycode));
             }
         }.start();
     }

@@ -6,9 +6,6 @@
     <dimen name="font_large">20sp</dimen>
     <dimen name="font_normal">19sp</dimen>
 
-    <dimen name="login_edt_height">45dp</dimen>
-    <dimen name="user_edit_text_size">20sp</dimen>
-
     <!-- UI Standard Begin -->
 
     <!-- Padding Size -->
@@ -166,6 +163,7 @@
     <dimen name="width_360">198dp</dimen>
     <dimen name="width_400">226dp</dimen>
     <dimen name="width_480">269dp</dimen>
+    <dimen name="width_570">319dp</dimen>
     <dimen name="width_714">400dp</dimen>
     <dimen name="width_892">500dp</dimen>
     <dimen name="width_1344">722dp</dimen>

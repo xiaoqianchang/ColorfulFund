@@ -78,7 +78,7 @@ public class ZRActivityWelcome extends ZRActivityBase {
                             ZRActivityGuide.class);
                 } else {
                     intent = new Intent(ZRActivityWelcome.this,
-                            ZRActivityLogin.class);
+                            TestNetApiActivity.class);
                 }
                 intent.putExtra(ZRConstant.KEY_FROM_WHICH_ACTIVITY,
                         TestNetApiActivity.class.getName());

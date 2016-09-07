@@ -51,4 +51,5 @@
     
     <color name="redemption_text_color">#5C6BDC</color>
     <color name="font_text_color">#222222</color>
+    <color name="verify_code_color">#0185f1</color>
 </resources>

@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.activity.fortunegroup.ZRActivityFortuneGroupCommentList;
+import com.zritc.colorfulfund.data.response.circle.CreateCollection;
 import com.zritc.colorfulfund.iView.IArticleDetailsView;
 import com.zritc.colorfulfund.presenter.ArticleDetailsPresenter;
 import com.zritc.colorfulfund.share.UPMediaMessage;
@@ -150,6 +151,7 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
                 break;
             case R.id.img_collect: // 收藏
                 showToast("攻城狮正在Coding...");
+                presenter.doCollection("1");
                 break;
             case R.id.img_praise: // 赞
                 showToast("攻城狮正在Coding...");
@@ -308,12 +310,14 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
 
     @Override
     public void onSuccess(Object object) {
-
+        if (object instanceof CreateCollection) {
+            // 收藏返回
+        }
     }
 
     @Override
     public void onError(String msg) {
-
+        showToast(msg);
     }
 
     static class HotAdapter extends ZRCommonAdapter<Hot> {

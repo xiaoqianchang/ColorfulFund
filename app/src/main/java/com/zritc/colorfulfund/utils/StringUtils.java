@@ -17,65 +17,67 @@ import java.util.Locale;
 public class StringUtils {
 
     /**
-     * 校准精度
-     * @param value 具体的值
-     * @param scale 精度（小数几位）
-     * @return
-     */
-    public static String adjustPrecision(double value, int scale) {
-        DecimalFormat df = (DecimalFormat) NumberFormat.getInstance();
-        // 可以设置精确几位小数
-        df.setMaximumFractionDigits(scale);
-        // 模式 例如四舍五入
-        df.setRoundingMode(RoundingMode.HALF_UP);
-        return df.format(value);
-    }
-
-    /**
-     * 格式化 money
+     * 格式化 money 四舍五入
      *
      * @param money
      * @return 2.00
      */
     public static String getMoneyByFormat(String money) {
+        try {
         if (TextUtils.isEmpty(money)) {
-            money = "0";
+                money = "0.00";
         }
         NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.CHINA);
         money = numberFormat.format(new Double(money));
         return money.substring(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "0.00";
+        }
     }
 
     /**
+     * 格式化 money 四舍五入
      *
+     * @param money
+     * @return 2.00
+     */
+    public static String getMoneyByFormat(double money) {
+        try {
+            NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.CHINA);
+            return numberFormat.format(money).substring(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "0.00";
+        }
+    }
+
+    /**
+     * 金额是否为零
      *
      * @param money
      * @return
      */
-    public static double getMoneyByString(String money) {
-        getMoneyByFormat(money);
-        return Double.parseDouble(money);
-    }
-
     public static boolean isZero(String money) {
         if (TextUtils.isEmpty(money)) {
             return true;
         }
-        if ("0".equals(money)) {
+        if ("0".equals(money) || "0.0".equals(money) || "0.00".equals(money)) {
             return true;
         }
         return false;
     }
 
+    /**
+     * 金额是否为零
+     *
+     * @param money
+     * @return
+     */
     public static boolean isZero(double money) {
         if (money == 0 || money == 0.0 || money == 0.00) {
             return true;
         }
         return false;
-    }
-
-    public static String adjust(String value) {
-        DecimalFormat df = new DecimalFormat("0.00");
-        return df.format(new Double(value));
     }
 }

@@ -17,7 +17,7 @@
         android:layout_below="@id/app_bar_layout"
         android:orientation="vertical">
 
-        <include                                                                                                                         layout="@layout/view_line"
+        <include                                                                                                                                     layout="@layout/view_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_30" />
@@ -112,7 +112,7 @@
 
         </LinearLayout>
 
-        <include                                                                                                                                     android:id="@+id/id_tab_line"
+        <include                                                                                                                                                 android:id="@+id/id_tab_line"
             layout="@layout/view_tabline"
             android:visibility="gone" />
 
@@ -143,7 +143,7 @@
                 android:layout_marginLeft="@dimen/padding_20"
                 android:textColor="@color/ltblack"
                 android:textSize="@dimen/font_size_15" />
-                                                                                                                </LinearLayout>
+                                                                                                                        </LinearLayout>
 
         <include
 

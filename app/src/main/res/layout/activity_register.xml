@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/activity_horizontal_margin"
+    android:scrollbars="none"
+    android:fillViewport="true"
     android:fitsSystemWindows="true"
     android:clipToPadding="true"
-    tools:context="com.zritc.colorfulfund.activity.ZRActivityRegister">
+    android:background="@mipmap/bg_edu_scene">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/img_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/btn_cancel"/>
+        android:layout_width="@dimen/width_44"
+            android:layout_height="@dimen/height_44"
+            android:layout_marginTop="@dimen/padding_36"
+        android:layout_marginLeft="@dimen/padding_50"
+        android:background="@mipmap/close"/>
 
     <ImageView
         android:id="@+id/img_logo"
@@ -21,8 +28,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/img_back"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
-        android:src="@mipmap/ic_launcher"
+        android:layout_marginTop="@dimen/height_100"
+        android:src="@mipmap/logo"
         android:contentDescription="@null" />
 
     <TextView
@@ -31,74 +38,82 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/img_logo"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/padding_36"
         android:text="注册"
-        android:textColor="@android:color/black"
-        android:textSize="20sp"/>
+        android:textColor="#50385b"
+            android:textSize="@dimen/font_size_24"
+        android:textStyle="bold"/>
 
     <EditText
         android:id="@+id/edt_user_name"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/login_edt_height"
+        android:layout_height="@dimen/height_88"
         android:layout_below="@id/tv_logo_name"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/bg_edittext_gray"
+        android:layout_marginTop="@dimen/padding_100"
+        android:layout_marginLeft="@dimen/padding_91"
+            android:layout_marginRight="@dimen/padding_91"
+            android:paddingLeft="@dimen/padding_50"
+            android:background="@drawable/login_bg_edt"
         android:inputType="phone"
         android:maxLength="11"
         android:hint="@string/user_name_hint"
-        android:padding="5dp"
         android:textColor="@android:color/black"
         android:textColorHint="@color/color_hint"
-        android:textSize="@dimen/user_edit_text_size" />
+        android:textSize="@dimen/font_size_17" />
 
     <EditText
         android:id="@+id/edt_user_pass"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/login_edt_height"
+        android:layout_height="@dimen/height_88"
         android:layout_below="@id/edt_user_name"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="1dp"
-        android:background="@drawable/bg_edittext_gray"
+        android:layout_marginTop="@dimen/padding_36"
+            android:layout_marginLeft="@dimen/padding_91"
+        android:layout_marginRight="@dimen/padding_91"
+            android:paddingLeft="@dimen/padding_50"
+            android:background="@drawable/login_bg_edt"
         android:hint="@string/user_password_hint"
         android:inputType="textPassword"
         android:maxLength="20"
-        android:padding="5dp"
         android:textColor="@android:color/black"
         android:textColorHint="@color/color_hint"
-        android:textSize="@dimen/user_edit_text_size" />
+        android:textSize="@dimen/font_size_17" />
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/rl_auth_code"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/edt_user_pass">
+        android:layout_height="@dimen/height_88"
+        android:layout_below="@id/edt_user_pass"            android:layout_marginTop="@dimen/padding_36"
+            android:layout_marginLeft="@dimen/padding_91"
+            android:layout_marginRight="@dimen/padding_91"
+            android:paddingLeft="@dimen/padding_50"
+            android:background="@drawable/login_bg_edt"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
 
         <EditText
             android:id="@+id/edt_auth_code"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/login_edt_height"
+            android:layout_width="0dp"
+                android:layout_height="match_parent"
+            android:layout_weight="1"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="1dp"
-            android:background="@drawable/bg_edittext_gray"
+            android:background="@null"
             android:hint="@string/user_auth_code_hint"
             android:maxLength="20"
-            android:padding="5dp"
             android:textColor="@android:color/black"
             android:textColorHint="@color/color_hint"
-            android:textSize="@dimen/user_edit_text_size" />
+            android:textSize="@dimen/font_size_17" />
 
         <TextView
             android:id="@+id/tv_send_auth_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignRight="@id/edt_auth_code"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:text="发送"
-            android:textColor="@android:color/holo_blue_light"
-            android:textSize="18sp"/>
-    </RelativeLayout>
+            android:layout_marginRight="@dimen/padding_40"
+            android:text="@string/btn_send_verifycode"
+            android:textColor="@color/verify_code_color"
+            android:textSize="@dimen/font_size_14"/>
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_register"
@@ -106,11 +121,14 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/rl_auth_code"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/btn_grey"
+        android:layout_marginTop="@dimen/height_80"
+        android:layout_marginLeft="@dimen/padding_91"
+            android:layout_marginRight="@dimen/padding_91"
+            android:background="@drawable/login_btn_selector"
+            android:enabled="false"
         android:text="注册"
-        android:textColor="@android:color/black"
-        android:textSize="20sp"/>
+        android:textColor="@drawable/login_text_selector"
+        android:textSize="@dimen/font_size_17"/>
 
     <TextView
         android:id="@+id/tv_to_login"
@@ -118,6 +136,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/btn_register"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:text="已有账号"/>
-</RelativeLayout>
+        android:layout_marginTop="@dimen/padding_40"
+        android:text="已有账号"            android:textStyle="bold"/>
+    </RelativeLayout>

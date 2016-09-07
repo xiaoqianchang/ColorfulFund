@@ -29,7 +29,7 @@
         android:layout_height="49dp"
         android:clickable="true"
         android:paddingLeft="17dp"
-        android:paddingRight="17dp"         android:visibility="gone">
+        android:paddingRight="17dp"                 android:visibility="gone">
 
         <Button
             android:id="@+id/category_btn"

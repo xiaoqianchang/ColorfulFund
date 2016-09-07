@@ -190,5 +190,54 @@
             android:text="心愿首页"
             android:textColor="@android:color/black"/>
 
+        <!-- 圈子 -->
+        <Button
+            android:id="@+id/btn_create_post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="创建帖子"
+            android:textColor="@android:color/black"/>
+
+        <Button
+            android:id="@+id/btn_create_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="创建评论"
+            android:textColor="@android:color/black"/>
+
+        <Button
+            android:id="@+id/btn_create_thumb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="点赞"
+            android:textColor="@android:color/black"/>
+
+        <Button
+            android:id="@+id/btn_create_collection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="收藏"
+            android:textColor="@android:color/black"/>
+
+        <Button
+            android:id="@+id/btn_create_report"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="举报评论"
+            android:textColor="@android:color/black"/>
+
+        <Button
+            android:id="@+id/btn_read_post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="阅读帖子"
+            android:textColor="@android:color/black"/>
+
 </LinearLayout>
 </ScrollView>

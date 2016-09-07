@@ -23,6 +23,8 @@ import com.zritc.colorfulfund.ui.adapter.abslistview.ViewHolder;
 import com.zritc.colorfulfund.utils.StringUtils;
 import com.zritc.colorfulfund.utils.ZRDateUtils;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,8 +72,10 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
     private double totalMoney;
     private String redemptionCost; // 赎回费用
     private String moneyStr = ""; // 赎回金额
-    private boolean isAllRedemption; // 是否全部赎回
+    private boolean isAllRedemption = true; // 是否全部赎回
     private int workingDays;
+    private double maxRedeemAmount; // 今日可赎回最大金额
+    private double minRedeemAmount; // 今日最小赎回金额
 
     @Override
     protected int getContentViewId() {
@@ -139,20 +143,27 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
             }
 
             private void checkStr(CharSequence s, int start, int before) {
-                // 整数限五位
-                if (!s.toString().contains(".")) {
-                    if (s.toString().length() > 5) {
-                        s = s.toString().subSequence(0, 5).toString();
-                        edtMoney.setText(s);
+                // 整数不大于今日最大赎回金额
+                String tempS = s.toString();
+                if (!TextUtils.isEmpty(tempS)) {
+                    if (tempS.length() == 1 && tempS.contains(".")) {
+                        edtMoney.setText("");
+                    } else {
+                        BigDecimal max = new BigDecimal(maxRedeemAmount)
+                                .subtract(new BigDecimal(minRedeemAmount));
+                        BigDecimal input = new BigDecimal(
+                                edtMoney.getText().toString());
+                        if (0 > max.compareTo(input)) {
+                            tempS = max.setScale(2, RoundingMode.HALF_UP)
+                                    .toString();
+                        } else if (input.scale() > 2) {
+                            tempS = input.setScale(2, RoundingMode.FLOOR)
+                                    .toString();
                     }
+                        if (!tempS.equals(s.toString())) {
+                            edtMoney.setText(tempS);
+                            edtMoney.setSelection(tempS.length());
                 }
-                // 小数精确到后两位
-                if (s.toString().contains(".")) {
-                    if (s.length() - 1 - s.toString().indexOf(".") > 2) {
-                        s = s.toString().subSequence(0,
-                                s.toString().indexOf(".") + 3);
-                        edtMoney.setText(s);
-                        edtMoney.setSelection(s.length());
                     }
                 }
                 if (s.toString().trim().substring(0).equals(".")) {
@@ -194,11 +205,13 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
             myAdapter = new MyAdapter(this, R.layout.lv_group_redemption_item, userFundListPerBank);
             productGroup.setAdapter(myAdapter);
             // 允许赎回最大金额
-            if (StringUtils.isZero(userPoInfoListPerBank.poRedeemableAsset.maxRedeemAmount) && StringUtils.isZero(userPoInfoListPerBank.poRedeemableAsset.minRedeemAmount)) {
+            maxRedeemAmount = userPoInfoListPerBank.poRedeemableAsset.maxRedeemAmount;
+            minRedeemAmount = userPoInfoListPerBank.poRedeemableAsset.minRedeemAmount;
+            if (StringUtils.isZero(maxRedeemAmount) && StringUtils.isZero(minRedeemAmount)) {
                 tvTodayRedeem.setText("只能允许全额赎回");
                 isAllRedemption = true;
             } else {
-                tvTodayRedeem.setText(String.valueOf(userPoInfoListPerBank.poRedeemableAsset.maxRedeemAmount));
+                tvTodayRedeem.setText(String.valueOf(maxRedeemAmount));
                 isAllRedemption = false;
             }
 
@@ -295,7 +308,7 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
         @Override
         protected void convert(ViewHolder holder, GetUserPoInfo4C.UserFundListPerBank userFundListPerBank) {
             holder.setText(R.id.tv_name, userFundListPerBank.fundInfo.fundName);
-            holder.setText(R.id.tv_value, String.format(mContext.getResources().getString(R.string.money), userFundListPerBank.poFundAssetInfo.totalAmount));
+            holder.setText(R.id.tv_value, String.format(mContext.getResources().getString(R.string.money), StringUtils.getMoneyByFormat(userFundListPerBank.poFundAssetInfo.totalAmount)));
         }
     }
 }
