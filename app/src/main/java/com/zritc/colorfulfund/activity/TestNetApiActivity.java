@@ -59,6 +59,7 @@ import com.zritc.colorfulfund.utils.ZRPhotoPicker;
 import com.zritc.colorfulfund.utils.ZRPopupUtil;
 import com.zritc.colorfulfund.utils.ZRResourceManager;
 import com.zritc.colorfulfund.utils.ZRSharePreferenceKeeper;
+import com.zritc.colorfulfund.widget.CircleImageView;
 
 import java.util.ArrayList;
 
@@ -442,6 +443,9 @@ public class TestNetApiActivity extends ZRActivityBase {
         @Bind(R.id.img_cancle)
         ImageView imgCancle;
 
+        @Bind(R.id.img_avatar)
+        CircleImageView imgAvatar;
+
         @Bind(R.id.edt_description)
         EditText edtDescription;
 
@@ -486,6 +490,8 @@ public class TestNetApiActivity extends ZRActivityBase {
             window.setWindowAnimations(R.style.animationBottomTranslate);
             window.setBackgroundDrawableResource(R.color.transparent);
             window.setAttributes(windowparams);
+
+            imgAvatar.setImageResource(R.mipmap.ic_img_profile_bg);
 
             edtDescription.addTextChangedListener(new TextWatcher() {
                 @Override

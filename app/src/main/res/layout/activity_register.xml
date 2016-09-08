@@ -137,5 +137,7 @@
         android:layout_below="@id/btn_register"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/padding_40"
-        android:text="已有账号"            android:textStyle="bold"/>
+        android:text="已有账号"
+        android:textStyle="bold"/>
     </RelativeLayout>
+</ScrollView>

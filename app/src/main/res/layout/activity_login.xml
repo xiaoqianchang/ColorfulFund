@@ -118,3 +118,4 @@
         android:textSize="@dimen/font_size_17"
             android:textStyle="bold"/>
     </RelativeLayout>
+</ScrollView>
