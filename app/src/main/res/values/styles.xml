@@ -26,9 +26,9 @@
         <item name="android:windowBackground">@mipmap/bg_welcome</item>
     </style>
 
-    <style name="Shadow" parent="AppTheme">
+    <style name="Shadow" bogus="1" parent="AppTheme">
 
-    <!-- 设置背景 -->
+<!-- 设置背景 -->
     <item name="android:windowBackground">@color/shadow_gray</item>
         <!-- 设置底层可见 -->
         <item name="android:windowIsTranslucent">true</item>
