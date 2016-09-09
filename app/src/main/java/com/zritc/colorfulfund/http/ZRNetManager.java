@@ -5,6 +5,9 @@ import com.zritc.colorfulfund.data.response.circle.CreateComment;
 import com.zritc.colorfulfund.data.response.circle.CreatePost;
 import com.zritc.colorfulfund.data.response.circle.CreateReport;
 import com.zritc.colorfulfund.data.response.circle.CreateThumb;
+import com.zritc.colorfulfund.data.response.circle.GetCommentList4C;
+import com.zritc.colorfulfund.data.response.circle.GetPostInfo4C;
+import com.zritc.colorfulfund.data.response.circle.GetPostList4C;
 import com.zritc.colorfulfund.data.response.circle.ReadPost;
 import com.zritc.colorfulfund.data.response.trade.AdjustPo;
 import com.zritc.colorfulfund.data.response.trade.BindPayment;
@@ -295,6 +298,37 @@ public final class ZRNetManager {
                 , @Field("rid") String rid
                 , @Field("postId") String postId
         );
+
+        @FormUrlEncoded
+        @POST
+        Call<GetPostInfo4C> getPostInfo4CCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+                , @Field("postId") String postId
+        );
+
+        @FormUrlEncoded
+        @POST
+        Call<GetPostList4C> getPostList4CCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+                , @Field("boardId") String boardId
+                , @Field("pageNumber") String pageNumber
+        );
+
+        @FormUrlEncoded
+        @POST
+        Call<GetCommentList4C> getCommentList4CCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+                , @Field("postId") String postId
+        );
         /********************************Circle end*************************************************/
     }
 
@@ -508,7 +542,7 @@ public final class ZRNetManager {
     /********************************Circle start***********************************************/
     public Call<CreateCollection> createCollectionCallbackByPost(String postId) {
         return api.createCollectionCallbackByPost(
-                "http://172.16.101.52:9006/circle/createCollection"
+                "http://172.16.101.202/play/circle/createCollection"
                 , ZRDeviceInfo.getSid()
                 , ZRDeviceInfo.getServerDeviceId()
                 , ZRDeviceInfo.getRid()
@@ -518,7 +552,7 @@ public final class ZRNetManager {
 
     public Call<CreateComment> createCommentCallbackByPost(String postId, String comment) {
         return api.createCommentCallbackByPost(
-                "http://172.16.101.52:9006/circle/createComment"
+                "http://172.16.101.202/play/circle/createComment"
                 , ZRDeviceInfo.getSid()
                 , ZRDeviceInfo.getServerDeviceId()
                 , ZRDeviceInfo.getRid()
@@ -529,7 +563,7 @@ public final class ZRNetManager {
 
     public Call<CreatePost> createPostCallbackByPost(String coverImgURL, String tagList, String title, String postType, String contentHtml, String content, String quote) {
         return api.createPostCallbackByPost(
-                "http://172.16.101.52:9006/circle/createPost"
+                "http://172.16.101.202/play/circle/createPost"
                 , ZRDeviceInfo.getSid()
                 , ZRDeviceInfo.getServerDeviceId()
                 , ZRDeviceInfo.getRid()
@@ -545,7 +579,7 @@ public final class ZRNetManager {
 
     public Call<CreateReport> createReportCallbackByPost(String commentId) {
         return api.createReportCallbackByPost(
-                "http://172.16.101.52:9006/circle/createReport"
+                "http://172.16.101.202/play/circle/createReport"
                 , ZRDeviceInfo.getSid()
                 , ZRDeviceInfo.getServerDeviceId()
                 , ZRDeviceInfo.getRid()
@@ -555,7 +589,7 @@ public final class ZRNetManager {
 
     public Call<CreateThumb> createThumbCallbackByPost(String postId) {
         return api.createThumbCallbackByPost(
-                "http://172.16.101.52:9006/circle/createThumb"
+                "http://172.16.101.202/play/circle/createThumb"
                 , ZRDeviceInfo.getSid()
                 , ZRDeviceInfo.getServerDeviceId()
                 , ZRDeviceInfo.getRid()
@@ -565,7 +599,38 @@ public final class ZRNetManager {
 
     public Call<ReadPost> readPostCallbackByPost(String postId) {
         return api.readPostCallbackByPost(
-                "http://172.16.101.52:9006/circle/readPost"
+                "http://172.16.101.202/play/circle/readPost"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+                , postId
+        );
+    }
+
+    public Call<GetPostInfo4C> getPostInfo4CCallbackByPost(String postId) {
+        return api.getPostInfo4CCallbackByPost(
+                "http://172.16.101.52:9006/circle/getPostInfo4C"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+                , postId
+        );
+    }
+
+    public Call<GetPostList4C> getPostList4CCallbackByPost(String boardId, String pageNumber) {
+        return api.getPostList4CCallbackByPost(
+                "http://172.16.101.52:9006/circle/getPostList4C"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+                , boardId
+                , pageNumber
+        );
+    }
+
+    public Call<GetCommentList4C> getCommentList4CCallbackByPost(String postId) {
+        return api.getCommentList4CCallbackByPost(
+                "http://172.16.101.52:9006/circle/getCommentList4C"
                 , ZRDeviceInfo.getSid()
                 , ZRDeviceInfo.getServerDeviceId()
                 , ZRDeviceInfo.getRid()

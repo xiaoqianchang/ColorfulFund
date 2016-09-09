@@ -3,6 +3,7 @@ package com.zritc.colorfulfund.presenter;
 import android.content.Context;
 
 import com.zritc.colorfulfund.data.response.circle.CreateCollection;
+import com.zritc.colorfulfund.data.response.circle.CreateThumb;
 import com.zritc.colorfulfund.http.ResponseCallBack;
 import com.zritc.colorfulfund.http.ZRNetManager;
 import com.zritc.colorfulfund.iView.IArticleDetailsView;
@@ -38,6 +39,26 @@ public class ArticleDetailsPresenter extends BasePresenter<IArticleDetailsView> 
             @Override
             public void onSuccess(CreateCollection createCollection) {
                 iView.onSuccess(createCollection);
+            }
+
+            @Override
+            public void onError(String code, String msg) {
+                iView.onError(msg);
+            }
+        });
+    }
+
+    /**
+     * 点赞
+     *
+     * @param postId
+     */
+    public void doThumb(String postId) {
+        Call<CreateThumb> thumbCallbackByPost = ZRNetManager.getInstance().createThumbCallbackByPost(postId);
+        thumbCallbackByPost.enqueue(new ResponseCallBack<CreateThumb>(CreateThumb.class) {
+            @Override
+            public void onSuccess(CreateThumb createThumb) {
+                iView.onSuccess(createThumb);
             }
 
             @Override

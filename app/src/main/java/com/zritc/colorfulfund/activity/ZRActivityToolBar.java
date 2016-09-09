@@ -109,13 +109,18 @@ public abstract class ZRActivityToolBar<T extends BasePresenter> extends ZRActiv
      * Set titleBar right textView image and event.
      *
      * @param bckgImage     背景图片
+     * @param textColor     文章颜色
      * @param text          显示文字
      * @param listener      监听器
      */
-    protected void setTitleBarRightImageAndListener(int bckgImage, String text, View.OnClickListener listener) {
+    protected void setTitleBarRightImageAndListener(int bckgImage, int textColor, String text, View.OnClickListener listener) {
         mNavRightText.setVisibility(View.VISIBLE);
         if (bckgImage > 0) {
             mNavRightText.setBackgroundResource(bckgImage);
+        }
+        mNavRightText.setText(text);
+        if (textColor > 0) {
+            mNavRightText.setTextColor(textColor);
         }
         mNavRightText.setOnClickListener(listener);
     }
@@ -132,6 +137,7 @@ public abstract class ZRActivityToolBar<T extends BasePresenter> extends ZRActiv
         if (bckgImage > 0) {
             mNavRightOtherText.setBackgroundResource(bckgImage);
         }
+        mNavRightOtherText.setText(text);
         mNavRightOtherText.setOnClickListener(listener);
     }
 

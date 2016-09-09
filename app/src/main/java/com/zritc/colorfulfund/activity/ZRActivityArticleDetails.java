@@ -9,14 +9,17 @@ import android.view.animation.DecelerateInterpolator;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.activity.fortunegroup.ZRActivityFortuneGroupCommentList;
 import com.zritc.colorfulfund.data.response.circle.CreateCollection;
+import com.zritc.colorfulfund.data.response.circle.CreateThumb;
 import com.zritc.colorfulfund.iView.IArticleDetailsView;
 import com.zritc.colorfulfund.presenter.ArticleDetailsPresenter;
 import com.zritc.colorfulfund.share.UPMediaMessage;
@@ -91,6 +94,7 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
     private String articleUrl = "https://www.baidu.com/";
     private HotAdapter adapter;
     private List<Hot> datas;
+    private String postId = "1";
 
     @Override
     protected int getContentViewId() {
@@ -150,11 +154,10 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
                 finish();
                 break;
             case R.id.img_collect: // 收藏
-                showToast("攻城狮正在Coding...");
-                presenter.doCollection("1");
+                presenter.doCollection(postId);
                 break;
             case R.id.img_praise: // 赞
-                showToast("攻城狮正在Coding...");
+                presenter.doThumb(postId);
                 break;
             case R.id.img_share:
             case R.id.img_share_inner: // 分享
@@ -173,6 +176,76 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
                 intent.setClass(this, ZRActivityFortuneGroupCommentList.class);
                 startActivity(intent);
                 break;
+        }
+    }
+
+    @Override
+    protected void onToolbarClick() {
+        super.onToolbarClick();
+        hideOrShowButtomContainer();
+    }
+
+    @Override
+    public void showProgress(CharSequence message) {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
+    @Override
+    public void onSuccess(Object object) {
+        if (object instanceof CreateCollection) {
+            // 收藏返回
+        } else if (object instanceof CreateThumb) {
+            // 点赞
+        }
+    }
+
+    @Override
+    public void onError(String msg) {
+        showToast(msg);
+    }
+
+    static class HotAdapter extends ZRCommonAdapter<Hot> {
+
+        public HotAdapter(Context context, List<Hot> mDatas, int itemLayoutId) {
+            super(context, mDatas, itemLayoutId);
+        }
+
+        @Override
+        public void convert(int position, ZRViewHolder helper, Hot item) {
+            ((ZRCircleImageView) helper.getView(R.id.img_hot_img)).setRectAdius(16);
+            helper.setImageByUrl(R.id.img_hot_img, item.getImgUrl());
+            helper.setText(R.id.tv_hot_title, item.getTitle());
+        }
+    }
+
+    static class Hot {
+        private String imgUrl;
+        private String title;
+
+        public Hot(String imgUrl, String title) {
+            this.imgUrl = imgUrl;
+            this.title = title;
+        }
+
+        public String getImgUrl() {
+            return imgUrl;
+        }
+
+        public void setImgUrl(String imgUrl) {
+            this.imgUrl = imgUrl;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
         }
     }
 
@@ -281,12 +354,6 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
         return Math.abs(velocity);
     }
 
-    @Override
-    protected void onToolbarClick() {
-        super.onToolbarClick();
-        hideOrShowButtomContainer();
-    }
-
     /**
      * Control buttomContainer show or hiden
      */
@@ -296,67 +363,5 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
                 .setInterpolator(new DecelerateInterpolator(2))
                 .start();
         isButtomContainerHiding = !isButtomContainerHiding;
-    }
-
-    @Override
-    public void showProgress(CharSequence message) {
-
-    }
-
-    @Override
-    public void hideProgress() {
-
-    }
-
-    @Override
-    public void onSuccess(Object object) {
-        if (object instanceof CreateCollection) {
-            // 收藏返回
-        }
-    }
-
-    @Override
-    public void onError(String msg) {
-        showToast(msg);
-    }
-
-    static class HotAdapter extends ZRCommonAdapter<Hot> {
-
-        public HotAdapter(Context context, List<Hot> mDatas, int itemLayoutId) {
-            super(context, mDatas, itemLayoutId);
-        }
-
-        @Override
-        public void convert(int position, ZRViewHolder helper, Hot item) {
-            ((ZRCircleImageView) helper.getView(R.id.img_hot_img)).setRectAdius(16);
-            helper.setImageByUrl(R.id.img_hot_img, item.getImgUrl());
-            helper.setText(R.id.tv_hot_title, item.getTitle());
-        }
-    }
-
-    static class Hot {
-        private String imgUrl;
-        private String title;
-
-        public Hot(String imgUrl, String title) {
-            this.imgUrl = imgUrl;
-            this.title = title;
-        }
-
-        public String getImgUrl() {
-            return imgUrl;
-        }
-
-        public void setImgUrl(String imgUrl) {
-            this.imgUrl = imgUrl;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
     }
 }

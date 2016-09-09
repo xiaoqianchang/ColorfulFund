@@ -137,33 +137,32 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
                     } else {
                         // 设置输入框不可编辑
                         edtMoney.setEnabled(false);
+                        btnRedemptionGroup.setEnabled(true);
                     }
+                    if (StringUtils.isZero(s.toString().trim())) {
+                        btnRedemptionGroup.setEnabled(false);
                 }
                 edtMoney.setSelection(s.length());
+                } else {
+                    btnRedemptionGroup.setEnabled(false);
+                }
             }
 
             private void checkStr(CharSequence s, int start, int before) {
-                // 整数不大于今日最大赎回金额
-                String tempS = s.toString();
-                if (!TextUtils.isEmpty(tempS)) {
-                    if (tempS.length() == 1 && tempS.contains(".")) {
-                        edtMoney.setText("");
-                    } else {
-                        BigDecimal max = new BigDecimal(maxRedeemAmount)
-                                .subtract(new BigDecimal(minRedeemAmount));
-                        BigDecimal input = new BigDecimal(
-                                edtMoney.getText().toString());
-                        if (0 > max.compareTo(input)) {
-                            tempS = max.setScale(2, RoundingMode.HALF_UP)
-                                    .toString();
-                        } else if (input.scale() > 2) {
-                            tempS = input.setScale(2, RoundingMode.FLOOR)
-                                    .toString();
+                // 整数限五位
+                if (!s.toString().contains(".")) {
+                    if (s.toString().length() > 5) {
+                        s = s.toString().subSequence(0, 5).toString();
+                        edtMoney.setText(s);
                     }
-                        if (!tempS.equals(s.toString())) {
-                            edtMoney.setText(tempS);
-                            edtMoney.setSelection(tempS.length());
                 }
+                // 小数精确到后两位
+                if (s.toString().contains(".")) {
+                    if (s.length() - 1 - s.toString().indexOf(".") > 2) {
+                        s = s.toString().subSequence(0,
+                                s.toString().indexOf(".") + 3);
+                        edtMoney.setText(s);
+                        edtMoney.setSelection(s.length());
                     }
                 }
                 if (s.toString().trim().substring(0).equals(".")) {

@@ -3,25 +3,19 @@ package com.zritc.colorfulfund.activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 
 import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.activity.fund.ZRActivityFundList;
@@ -29,11 +23,16 @@ import com.zritc.colorfulfund.activity.fund.ZRActivityGroupRedemption;
 import com.zritc.colorfulfund.activity.fund.ZRActivitySingleRedemption;
 import com.zritc.colorfulfund.activity.wish.ZRWishHomePage;
 import com.zritc.colorfulfund.base.ZRActivityBase;
+import com.zritc.colorfulfund.data.response.circle.GetCommentList4C;
+import com.zritc.colorfulfund.data.response.circle.GetPostInfo4C;
+import com.zritc.colorfulfund.data.response.circle.GetPostList4C;
 import com.zritc.colorfulfund.data.response.circle.CreateCollection;
 import com.zritc.colorfulfund.data.response.circle.CreateComment;
 import com.zritc.colorfulfund.data.response.circle.CreatePost;
 import com.zritc.colorfulfund.data.response.circle.CreateReport;
 import com.zritc.colorfulfund.data.response.circle.CreateThumb;
+import com.zritc.colorfulfund.data.response.circle.GetCommentList4C;
+import com.zritc.colorfulfund.data.response.circle.GetPostList4C;
 import com.zritc.colorfulfund.data.response.circle.ReadPost;
 import com.zritc.colorfulfund.data.response.trade.BindPayment;
 import com.zritc.colorfulfund.data.response.trade.BuyPo;
@@ -51,15 +50,9 @@ import com.zritc.colorfulfund.data.response.user.SetTransPwd;
 import com.zritc.colorfulfund.http.ResponseCallBack;
 import com.zritc.colorfulfund.http.ZRNetManager;
 import com.zritc.colorfulfund.ui.ZRCircleImageView;
-import com.zritc.colorfulfund.ui.ZRTextView;
 import com.zritc.colorfulfund.utils.ZRConstant;
 import com.zritc.colorfulfund.utils.ZRDeviceInfo;
-import com.zritc.colorfulfund.utils.ZRFileUtils;
-import com.zritc.colorfulfund.utils.ZRPhotoPicker;
-import com.zritc.colorfulfund.utils.ZRPopupUtil;
-import com.zritc.colorfulfund.utils.ZRResourceManager;
 import com.zritc.colorfulfund.utils.ZRSharePreferenceKeeper;
-import com.zritc.colorfulfund.widget.CircleImageView;
 
 import java.util.ArrayList;
 
@@ -106,7 +99,7 @@ public class TestNetApiActivity extends ZRActivityBase {
             R.id.btn_article_details, R.id.btn_video_details, R.id.btn_call_camera, R.id.btn_record_growth,
             R.id.btn_generate_album, R.id.btn_wish_home_page,
             R.id.btn_create_post, R.id.btn_create_comment, R.id.btn_create_thumb, R.id.btn_create_collection,
-            R.id.btn_create_report, R.id.btn_read_post})
+            R.id.btn_create_report, R.id.btn_read_post, R.id.btn_Post_info, R.id.btn_Post_list, R.id.btn_Comment_list})
     public void onClick(View view) {
         String realName = "张三";
         String identityNo = "110101190001012837"; // 110101190001012837
@@ -427,6 +420,48 @@ public class TestNetApiActivity extends ZRActivityBase {
                     @Override
                     public void onSuccess(ReadPost readPost) {
                         showToast(readPost.toString());
+                    }
+
+                    @Override
+                    public void onError(String code, String msg) {
+                        showToast(msg);
+                    }
+                });
+                break;
+            case R.id.btn_Post_info: // 获取帖子详情
+                Call<GetPostInfo4C> postInfo4CCallbackByPost = ZRNetManager.getInstance().getPostInfo4CCallbackByPost("38");
+                postInfo4CCallbackByPost.enqueue(new ResponseCallBack<GetPostInfo4C>(GetPostInfo4C.class) {
+                    @Override
+                    public void onSuccess(GetPostInfo4C getPostInfo4C) {
+                        showToast(getPostInfo4C.toString());
+                    }
+
+                    @Override
+                    public void onError(String code, String msg) {
+                        showToast(msg);
+                    }
+                });
+                break;
+            case R.id.btn_Post_list: // 帖子列表
+                Call<GetPostList4C> postList4CCallbackByPost = ZRNetManager.getInstance().getPostList4CCallbackByPost("1", "1");
+                postList4CCallbackByPost.enqueue(new ResponseCallBack<GetPostList4C>(GetPostList4C.class) {
+                    @Override
+                    public void onSuccess(GetPostList4C getPostList4C) {
+                        showToast(getPostList4C.toString());
+                    }
+
+                    @Override
+                    public void onError(String code, String msg) {
+                        showToast(msg);
+                    }
+                });
+                break;
+            case R.id.btn_Comment_list: // 帖子的评论列表
+                Call<GetCommentList4C> commentList4CCallbackByPost = ZRNetManager.getInstance().getCommentList4CCallbackByPost("38");
+                commentList4CCallbackByPost.enqueue(new ResponseCallBack<GetCommentList4C>(GetCommentList4C.class) {
+                    @Override
+                    public void onSuccess(GetCommentList4C getCommentList4C) {
+                        showToast(getCommentList4C.toString());
                     }
 
                     @Override

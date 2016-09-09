@@ -68,7 +68,7 @@ public class ZRActivityGenerateAlbum extends ZRActivityToolBar<GenerateAlbumPres
     @Override
     public void initView() {
         setTitleText("相片选择");
-        setTitleBarRightImageAndListener(R.drawable.btn_ltgrey, "下一步", v -> {
+        setTitleBarRightImageAndListener(0, 0, "全选", v -> {
             if (resultList != null && resultList.size() > 0) {
                 // 返回已选择的图片数据
                 Intent data = new Intent();
@@ -77,7 +77,6 @@ public class ZRActivityGenerateAlbum extends ZRActivityToolBar<GenerateAlbumPres
                 finish();
             }
         });
-        setTitleBarRightOtherAndListener(0, "全选", v -> {});
 
         Intent intent = getIntent();
         mDefaultCount = intent.getIntExtra(EXTRA_SELECT_COUNT, 9);
