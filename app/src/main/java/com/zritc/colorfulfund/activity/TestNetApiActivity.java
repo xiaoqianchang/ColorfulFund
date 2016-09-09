@@ -53,6 +53,7 @@ import com.zritc.colorfulfund.ui.ZRCircleImageView;
 import com.zritc.colorfulfund.utils.ZRConstant;
 import com.zritc.colorfulfund.utils.ZRDeviceInfo;
 import com.zritc.colorfulfund.utils.ZRSharePreferenceKeeper;
+import com.zritc.colorfulfund.widget.CircleImageView;
 
 import java.util.ArrayList;
 
