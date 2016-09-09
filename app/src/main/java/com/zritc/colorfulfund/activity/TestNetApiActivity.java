@@ -502,13 +502,13 @@ public class TestNetApiActivity extends ZRActivityBase {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-        }
+                }
 
                 @Override
                 public void afterTextChanged(Editable s) {
                     String description = s.toString();
                     btnComplete.setEnabled(!TextUtils.isEmpty(description));
-        }
+                }
             });
 
             edtMoney.addTextChangedListener(new TextWatcher() {
@@ -517,10 +517,10 @@ public class TestNetApiActivity extends ZRActivityBase {
 
                 }
 
-            @Override
+                @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-            }
+                }
 
                 @Override
                 public void afterTextChanged(Editable s) {
@@ -530,9 +530,12 @@ public class TestNetApiActivity extends ZRActivityBase {
             });
         }
 
-        @OnClick({R.id.ll_show_save_money, R.id.btn_save_money, R.id.btn_complete})
+        @OnClick({R.id.img_cancle, R.id.ll_show_save_money, R.id.btn_save_money, R.id.btn_complete})
         public void onClick(View view) {
             switch (view.getId()) {
+                case R.id.img_cancle: // 关闭
+                    dismiss();
+                    break;
                 case R.id.ll_show_save_money:
                     if (isShowSaveMoney) {
                         llShowSaveMoney.setVisibility(View.GONE);

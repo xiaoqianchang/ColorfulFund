@@ -17,10 +17,8 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.widget.ImageView;
 
-import com.zritc.colorfulfund.R;
-
 /**
- * 圆角View
+ * 圆形or圆角ImageView
  * <p>
  * Created by Chang.Xiao on 2016/4/9.
  *
