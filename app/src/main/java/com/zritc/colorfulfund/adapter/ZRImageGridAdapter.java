@@ -3,6 +3,7 @@ package com.zritc.colorfulfund.adapter;
 import android.content.Context;
 import android.graphics.Point;
 import android.os.Build;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,8 @@ public class ZRImageGridAdapter extends BaseAdapter {
 	private LayoutInflater mInflater;
 	private boolean showCamera = true;
 	private boolean showSelectIndicator = true;
+	// 适配器数据来自手机内存
+	private boolean isDataFromMobile = true;
 
 	private List<ZRPhotoImage> mImages = new ArrayList<ZRPhotoImage>();
 	private List<ZRPhotoImage> mSelectedImages = new ArrayList<ZRPhotoImage>();
@@ -63,6 +66,15 @@ public class ZRImageGridAdapter extends BaseAdapter {
 	 */
 	public void showSelectIndicator(boolean b) {
 		showSelectIndicator = b;
+	}
+
+	/**
+	 * 适配器数据是否来自手机内存
+	 *
+	 * @param dataFromMobile
+	 */
+	public void setDataFromMobile(boolean dataFromMobile) {
+		isDataFromMobile = dataFromMobile;
 	}
 
 	public void setShowCamera(boolean b) {
@@ -106,6 +118,15 @@ public class ZRImageGridAdapter extends BaseAdapter {
 		if (mSelectedImages.size() > 0) {
 			notifyDataSetChanged();
 		}
+	}
+
+	/**
+	 * 设置全选
+	 */
+	public void setSelectAll() {
+		mSelectedImages.clear();
+		mSelectedImages.addAll(mImages);
+		notifyDataSetChanged();
 	}
 
 	private ZRPhotoImage getImageByPath(String path) {
@@ -232,6 +253,7 @@ public class ZRImageGridAdapter extends BaseAdapter {
 			} else {
 				indicator.setVisibility(View.GONE);
 			}
+			if (isDataFromMobile) {
 			File imageFile = new File(data.path);
 			if (imageFile.exists()) {
 				// 显示图片
@@ -246,6 +268,22 @@ public class ZRImageGridAdapter extends BaseAdapter {
 			} else {
 				image.setImageResource(ZRResourceManager.getResourceID(
 						"default_error", "mipmap"));
+			}
+			} else {
+				if (!TextUtils.isEmpty(data.path)) {
+					// 显示图片
+					Picasso.with(mContext)
+							.load(data.path)
+							.placeholder(
+									ZRResourceManager.getResourceID(
+											"default_error", "mipmap"))
+							.tag(ZRFragmentMultiImageSelector.TAG)
+							.resize(mGridWidth, mGridWidth).centerCrop()
+							.into(image);
+				} else {
+					image.setImageResource(ZRResourceManager.getResourceID(
+							"default_error", "mipmap"));
+				}
 			}
 		}
 	}

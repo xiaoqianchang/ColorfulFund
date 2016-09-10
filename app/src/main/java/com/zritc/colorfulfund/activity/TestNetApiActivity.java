@@ -444,7 +444,7 @@ public class TestNetApiActivity extends ZRActivityBase {
                 });
                 break;
             case R.id.btn_Post_list: // 帖子列表
-                Call<GetPostList4C> postList4CCallbackByPost = ZRNetManager.getInstance().getPostList4CCallbackByPost("1", "1");
+                Call<GetPostList4C> postList4CCallbackByPost = ZRNetManager.getInstance().getPostList4CCallbackByPost("1", "0");
                 postList4CCallbackByPost.enqueue(new ResponseCallBack<GetPostList4C>(GetPostList4C.class) {
                     @Override
                     public void onSuccess(GetPostList4C getPostList4C) {
@@ -593,7 +593,7 @@ public class TestNetApiActivity extends ZRActivityBase {
     private void openImageSelector() {
         Intent intent = new Intent();
         int selectedMode = ZRActivityGenerateAlbum.MODE_MULTI;
-        int maxNum = 10;
+        int maxNum = 10; // 最大可选择图片的数量
         intent.setClass(mContext, ZRActivityGenerateAlbum.class);
         // 是否显示拍摄图片
         intent.putExtra(
@@ -612,6 +612,22 @@ public class TestNetApiActivity extends ZRActivityBase {
                     ZRActivityGenerateAlbum.EXTRA_DEFAULT_SELECTED_LIST,
                     mSelectPath);
         }
+        // 外部图片资源
+        ArrayList<String> externalList = new ArrayList<>();
+        externalList.add("http://scimg.jb51.net/allimg/160813/103-160Q3143110P5.jpg");
+        externalList.add("http://scimg.jb51.net/allimg/160815/103-160Q509544OC.jpg");
+        externalList.add("http://img2.imgtn.bdimg.com/it/u=1509312158,1202655144&fm=21&gp=0.jpg");
+        externalList.add("http://pic24.nipic.com/20121029/5056611_120019351000_2.jpg");
+        externalList.add("http://www.pptbz.com/pptpic/uploadfiles_6909/201202/2012022917310499.jpg");
+        externalList.add("http://pic14.nipic.com/20110610/7181928_110502231129_2.jpg");
+        externalList.add("http://img.taopic.com/uploads/allimg/120423/107913-12042323220753.jpg");
+        externalList.add("http://pic51.nipic.com/file/20141016/24066_130156779281_2.jpg");
+        externalList.add("http://www.xxjxsj.cn/article/uploadpic/2012-4/201241221251481736.jpg");
+        externalList.add("http://pic4.nipic.com/20090910/2302530_144753008092_2.jpg");
+        externalList.add("http://img102.mypsd.com.cn/20120929/1/Mypsd_13953_201209291653040031B.jpg");
+        intent.putExtra(
+                ZRActivityGenerateAlbum.EXTRA_EXTERNAL_LIST,
+                externalList);
         startActivityForResult(intent,
                 ZRConstant.ACTIVITY_REQUEST_TAKE_PICTURE);
     }

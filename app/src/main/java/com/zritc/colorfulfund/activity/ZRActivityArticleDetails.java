@@ -2,6 +2,7 @@ package com.zritc.colorfulfund.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
@@ -16,10 +17,13 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.activity.fortunegroup.ZRActivityFortuneGroupCommentList;
 import com.zritc.colorfulfund.data.response.circle.CreateCollection;
 import com.zritc.colorfulfund.data.response.circle.CreateThumb;
+import com.zritc.colorfulfund.data.response.circle.GetPostInfo4C;
 import com.zritc.colorfulfund.iView.IArticleDetailsView;
 import com.zritc.colorfulfund.presenter.ArticleDetailsPresenter;
 import com.zritc.colorfulfund.share.UPMediaMessage;
@@ -28,6 +32,7 @@ import com.zritc.colorfulfund.ui.adapter.ZRCommonAdapter;
 import com.zritc.colorfulfund.ui.adapter.ZRViewHolder;
 import com.zritc.colorfulfund.ui.pulltozoomview.PullToZoomScrollViewEx;
 import com.zritc.colorfulfund.utils.ZRConstant;
+import com.zritc.colorfulfund.utils.ZRUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +60,9 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
 
     @Bind(R.id.tv_article_title)
     TextView tvArticleTitle; // 文章标题
+
+    @Bind(R.id.img_user)
+    ZRCircleImageView imgUser;
 
     @Bind(R.id.tv_author)
     TextView tvAuthor; // 作者
@@ -93,8 +101,10 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
     protected boolean isButtomContainerHiding = false;
     private String articleUrl = "https://www.baidu.com/";
     private HotAdapter adapter;
-    private List<Hot> datas;
+    private List<GetPostInfo4C.ReferList> referList;
     private String postId = "1";
+    private boolean isThumb; // 该用户是否点过赞
+    private boolean isCollection; // 该用户是否收藏过
 
     @Override
     protected int getContentViewId() {
@@ -110,6 +120,8 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
     @Override
     public void initView() {
         setTitleText("文章详情");
+        presenter.doGetPostInfo(postId);
+
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -134,16 +146,9 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
         settings.setDefaultTextEncodingName("utf-8");
         mWebView.loadUrl(articleUrl);
 
-        datas = new ArrayList<>();
-        initData();
-        adapter = new HotAdapter(this, datas, R.layout.gv_hot_item);
+        referList = new ArrayList<>();
+        adapter = new HotAdapter(this, referList, R.layout.gv_hot_item);
         mGridView.setAdapter(adapter);
-    }
-
-    private void initData() {
-        for (int i = 0; i < 4; i++) {
-            datas.add(new Hot("http://img4.imgtn.bdimg.com/it/u=98923187,3761999633&fm=11&gp=0.jpg", "哈哈哈哈哈哈哈哈" + i));
-        }
     }
 
     @OnClick({R.id.img_back, R.id.img_collect, R.id.img_praise, R.id.img_share, R.id.img_comment})
@@ -197,11 +202,51 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
 
     @Override
     public void onSuccess(Object object) {
-        if (object instanceof CreateCollection) {
+        if (object instanceof GetPostInfo4C) {
+            // 帖子详情数据
+            GetPostInfo4C getPostInfo4C = (GetPostInfo4C) object;
+            GetPostInfo4C.Result result = getPostInfo4C.result;
+            if (null != result) {
+                refreshContentView(result);
+            }
+        }else if (object instanceof CreateCollection) {
             // 收藏返回
         } else if (object instanceof CreateThumb) {
             // 点赞
         }
+    }
+
+    private void refreshContentView(GetPostInfo4C.Result result) {
+        GetPostInfo4C.PostInfo postInfo = result.postInfo;
+        // 刷新帖子内容
+        if (null != postInfo) {
+            if (!TextUtils.isEmpty(postInfo.coverImgURL)) {
+                Picasso.with(this).load(postInfo.coverImgURL).placeholder(R.mipmap.ic_img_profile_bg).into(imgHead);
+            } else {
+                Picasso.with(this).load(R.mipmap.ic_img_profile_bg).into(imgHead);
+            }
+//            ImageLoader.getInstance().displayImage(postInfo.coverImgURL, imgHead);
+            // 标签列表 id、name、color
+            tvtag.setText(postInfo.tagList.get(0).tagName);
+            tvArticleTitle.setText(postInfo.title);
+            setTitleText(postInfo.title);
+            // 引文富文本
+//            postInfo.quote;
+            // 富文本内容
+//            postInfo.content;
+            tvTime.setText(ZRUtils.formatTime(postInfo.postTime, ZRUtils.TIME_FORMAT14));
+            // 设置作者信息
+            if (!TextUtils.isEmpty(postInfo.authorInfo.photoURL)) {
+                Picasso.with(this).load(postInfo.authorInfo.photoURL).placeholder(R.mipmap.ic_img_profile_bg).into(imgUser);
+            } else {
+                Picasso.with(this).load(R.mipmap.icon_header).into(imgUser);
+            }
+            tvAuthor.setText(postInfo.authorInfo.nickName);
+        }
+        isThumb = result.thumbStatus;
+        isCollection = result.collectionStatus;
+        referList = result.referList;
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -209,17 +254,17 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
         showToast(msg);
     }
 
-    static class HotAdapter extends ZRCommonAdapter<Hot> {
+    static class HotAdapter extends ZRCommonAdapter<GetPostInfo4C.ReferList> {
 
-        public HotAdapter(Context context, List<Hot> mDatas, int itemLayoutId) {
+        public HotAdapter(Context context, List<GetPostInfo4C.ReferList> mDatas, int itemLayoutId) {
             super(context, mDatas, itemLayoutId);
         }
 
         @Override
-        public void convert(int position, ZRViewHolder helper, Hot item) {
+        public void convert(int position, ZRViewHolder helper, GetPostInfo4C.ReferList item) {
             ((ZRCircleImageView) helper.getView(R.id.img_hot_img)).setRectAdius(16);
-            helper.setImageByUrl(R.id.img_hot_img, item.getImgUrl());
-            helper.setText(R.id.tv_hot_title, item.getTitle());
+            helper.setImageByUrl(R.id.img_hot_img, item.coverImgURL);
+            helper.setText(R.id.tv_hot_title, item.title);
         }
     }
 

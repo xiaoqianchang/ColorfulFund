@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.zritc.colorfulfund.R;
@@ -41,15 +42,24 @@ public class ZRActivityGenerateAlbum extends ZRActivityToolBar<GenerateAlbumPres
     public static final String EXTRA_RESULT = "select_result";
     /** 默认选择集 */
     public static final String EXTRA_DEFAULT_SELECTED_LIST = "default_list";
+    /** 适配器数据来自手机内存 */
+    public static final String EXTRA_EXTERNAL_LIST = "external_list";
+    /** 外部数据 */
+    public static final String EXTRA_DATA_FROM_MOBILE = "data_from_mobile";
 
     /** 单选 */
     public static final int MODE_SINGLE = 0;
     /** 多选 */
     public static final int MODE_MULTI = 1;
 
+    @Bind(R.id.btn_generate_preview)
+    Button btnGeneratePreview;
+
+    // 外部数据源
+    private ArrayList<String> externalList = new ArrayList<String>();
     private ArrayList<String> resultList = new ArrayList<String>();
     private TextView mTextNext;
-    private int mDefaultCount;
+    private int mDefaultCount; // 默认最大可选择图片的数量
 
     private GenerateAlbumPresenter presenter;
     private ZRFragmentMultiImageSelector multiImageSelector;
@@ -68,15 +78,20 @@ public class ZRActivityGenerateAlbum extends ZRActivityToolBar<GenerateAlbumPres
     @Override
     public void initView() {
         setTitleText("相片选择");
-        setTitleBarRightImageAndListener(0, 0, "全选", v -> {
-            if (resultList != null && resultList.size() > 0) {
+        setTitleBarRightImageAndListener(0, "全选", v -> {
+//            multiImageSelector.setSelectAll();
+//            resultList.clear();
+//            resultList.addAll(externalList);
+//            multiImageSelector.setDesireImageCount();
+            /*if (resultList != null && resultList.size() > 0) {
                 // 返回已选择的图片数据
                 Intent data = new Intent();
                 data.putStringArrayListExtra(EXTRA_RESULT, resultList);
                 setResult(RESULT_OK, data);
                 finish();
-            }
+            }*/
         });
+        mNavRightText.setTextColor(getResources().getColor(R.color.album_select_all_normal));
 
         Intent intent = getIntent();
         mDefaultCount = intent.getIntExtra(EXTRA_SELECT_COUNT, 9);
@@ -85,6 +100,9 @@ public class ZRActivityGenerateAlbum extends ZRActivityToolBar<GenerateAlbumPres
         if (mode == MODE_MULTI && intent.hasExtra(EXTRA_DEFAULT_SELECTED_LIST)) {
             resultList = intent
                     .getStringArrayListExtra(EXTRA_DEFAULT_SELECTED_LIST);
+        }
+        if (intent.hasExtra(EXTRA_EXTERNAL_LIST)) {
+            externalList = intent.getStringArrayListExtra(EXTRA_EXTERNAL_LIST);
         }
 
         Bundle bundle = new Bundle();
@@ -95,6 +113,10 @@ public class ZRActivityGenerateAlbum extends ZRActivityToolBar<GenerateAlbumPres
         bundle.putStringArrayList(
                 ZRFragmentMultiImageSelector.EXTRA_DEFAULT_SELECTED_LIST,
                 resultList);
+        bundle.putBoolean(ZRFragmentMultiImageSelector.EXTRA_DATA_FROM_MOBILE, false);
+        bundle.putStringArrayList(
+                ZRFragmentMultiImageSelector.EXTRA_EXTERNAL_LIST,
+                externalList);
 
         getSupportFragmentManager()
                 .beginTransaction()
@@ -109,6 +131,15 @@ public class ZRActivityGenerateAlbum extends ZRActivityToolBar<GenerateAlbumPres
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case REQUEST_CODE_STYLE_CHOOSE_RESULT:
+                break;
+        }
+    }
+
+    @OnClick({R.id.btn_generate_preview})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_generate_preview:
+                // 生成预览
                 break;
         }
     }
@@ -134,9 +165,16 @@ public class ZRActivityGenerateAlbum extends ZRActivityToolBar<GenerateAlbumPres
     }
 
     private void updateDoneText() {
-        // mSubmitButton.setText(String.format("%s(%d/%d)",
-        // getString(R.string.action_done), resultList.size(),
-        // mDefaultCount));
+        btnGeneratePreview.setEnabled(resultList.size() > 0);
+        // 设置全选按钮的颜色
+        if (resultList.size() == mDefaultCount) {
+            // 全选
+            mNavRightText.setTextColor(getResources().getColor(R.color.album_select_all_checked));
+            mNavRightText.setEnabled(false);
+        } else {
+            mNavRightText.setTextColor(getResources().getColor(R.color.album_select_all_normal));
+            mNavRightText.setEnabled(true);
+        }
     }
 
     @Override

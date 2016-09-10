@@ -12,6 +12,23 @@
     <FrameLayout
         android:id="@+id/image_grid"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:background="#ffffff" />
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_130"
+        android:background="@color/white">
+
+        <Button
+            android:id="@+id/btn_generate_preview"
+            style="@style/blue_button_style"
+            android:layout_width="@dimen/width_280"
+            android:layout_height="@dimen/height_75"
+            android:layout_marginTop="@dimen/padding_26"
+            android:layout_centerHorizontal="true"
+            android:text="生成预览"
+            android:textSize="@dimen/font_size_17"/>
+    </RelativeLayout>
 </LinearLayout>

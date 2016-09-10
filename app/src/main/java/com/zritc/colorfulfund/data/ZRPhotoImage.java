@@ -8,6 +8,10 @@ public class ZRPhotoImage {
 	public String name;
 	public long time;
 
+	public ZRPhotoImage(String path) {
+		this.path = path;
+	}
+
 	public ZRPhotoImage(String path, String name, long time) {
 		this.path = path;
 		this.name = name;

@@ -58,6 +58,10 @@ public class ZRFragmentMultiImageSelector extends Fragment {
 	public static final String EXTRA_SHOW_CAMERA = "show_camera";
 	/** 默认选择的数据集 */
 	public static final String EXTRA_DEFAULT_SELECTED_LIST = "default_result";
+	/** 适配器数据来自手机内存 */
+	public static final String EXTRA_EXTERNAL_LIST = "external_list";
+	/** 外部数据 */
+	public static final String EXTRA_DATA_FROM_MOBILE = "data_from_mobile";
 	/** 单选 */
 	public static final int MODE_SINGLE = 0;
 	/** 多选 */
@@ -95,6 +99,8 @@ public class ZRFragmentMultiImageSelector extends Fragment {
 
 	private boolean hasFolderGened = false;
 	private boolean mIsShowCamera = false;
+	// 适配器数据来自手机内存
+	private boolean isDataFromMobile = true;
 
 	private File mTmpFile;
 
@@ -140,6 +146,11 @@ public class ZRFragmentMultiImageSelector extends Fragment {
 		mImageAdapter = new ZRImageGridAdapter(getActivity(), mIsShowCamera, 3);
 		// 是否显示选择指示器
 		mImageAdapter.showSelectIndicator(mode == MODE_MULTI);
+		// 数据是否来自手机内存
+		isDataFromMobile = getArguments().getBoolean(EXTRA_DATA_FROM_MOBILE, true);
+		// 数据是否是外部数据
+		setExternalList(getArguments().getStringArrayList(EXTRA_EXTERNAL_LIST));
+		mImageAdapter.setDataFromMobile(isDataFromMobile);
 
 		mPopupAnchorView = view.findViewById(ZRResourceManager.getResourceID(
 				"footer", "id"));
@@ -260,9 +271,11 @@ public class ZRFragmentMultiImageSelector extends Fragment {
 								mFolderPopupWindow.dismiss();
 
 								if (index == 0) {
+									if (isDataFromMobile) {
 									getActivity().getSupportLoaderManager()
 											.restartLoader(LOADER_ALL, null,
 													mLoaderCallback);
+									}
 									mCategoryText.setText(ZRStrings.get(
 											getActivity(), "folder_all"));
 									if (mIsShowCamera) {
@@ -314,8 +327,10 @@ public class ZRFragmentMultiImageSelector extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 		// 首次加载所有图片
 		// new LoadImageTask().execute();
+		if (isDataFromMobile) {
 		getActivity().getSupportLoaderManager().initLoader(LOADER_ALL, null,
 				mLoaderCallback);
+	}
 	}
 
 	@Override
@@ -537,6 +552,50 @@ public class ZRFragmentMultiImageSelector extends Fragment {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * 适配器数据是否来自手机内存
+	 *
+	 * @param dataFromMobile
+     */
+	public void setDataFromMobile(boolean dataFromMobile) {
+		isDataFromMobile = dataFromMobile;
+	}
+
+	/**
+	 * 外部数据
+	 *
+	 * @param externalList
+     */
+	public void setExternalList(ArrayList<String> externalList) {
+		List<ZRPhotoImage> images = new ArrayList<>();
+		if (externalList != null && externalList.size() > 0) {
+			for (String imgPath : externalList) {
+				images.add(new ZRPhotoImage(imgPath));
+			}
+		}
+		if (mImageAdapter != null) {
+			mImageAdapter.setData(images);
+		}
+	}
+
+	/**
+	 * 设置最大图片选择次数
+	 *
+	 * @param mDesireImageCount
+     */
+	public void setDesireImageCount(int mDesireImageCount) {
+		this.mDesireImageCount = mDesireImageCount;
+	}
+
+	/**
+	 * 设置全选
+	 */
+	public void setSelectAll() {
+		if (mImageAdapter != null) {
+			mImageAdapter.setSelectAll();
+		}
 	}
 
 	/**

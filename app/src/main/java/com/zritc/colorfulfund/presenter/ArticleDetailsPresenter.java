@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.zritc.colorfulfund.data.response.circle.CreateCollection;
 import com.zritc.colorfulfund.data.response.circle.CreateThumb;
+import com.zritc.colorfulfund.data.response.circle.GetPostInfo4C;
 import com.zritc.colorfulfund.http.ResponseCallBack;
 import com.zritc.colorfulfund.http.ZRNetManager;
 import com.zritc.colorfulfund.iView.IArticleDetailsView;
@@ -26,6 +27,26 @@ public class ArticleDetailsPresenter extends BasePresenter<IArticleDetailsView> 
     @Override
     public void release() {
 
+    }
+
+    /**
+     * 获取帖子详情
+     *
+     * @param postId
+     */
+    public void doGetPostInfo(String postId) {
+        Call<GetPostInfo4C> postInfo4CCallbackByPost = ZRNetManager.getInstance().getPostInfo4CCallbackByPost(postId);
+        postInfo4CCallbackByPost.enqueue(new ResponseCallBack<GetPostInfo4C>(GetPostInfo4C.class) {
+            @Override
+            public void onSuccess(GetPostInfo4C getPostInfo4C) {
+                iView.onSuccess(getPostInfo4C);
+            }
+
+            @Override
+            public void onError(String code, String msg) {
+                iView.onError(msg);
+            }
+        });
     }
 
     /**

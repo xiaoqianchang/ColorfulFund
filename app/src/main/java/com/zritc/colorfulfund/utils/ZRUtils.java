@@ -96,6 +96,10 @@ public class ZRUtils {
      * MM-dd HH:mm
      */
     public static final String TIME_FORMAT13 = "MM月dd日 HH:mm";
+    /**
+     * MM月dd日
+     */
+    public static final String TIME_FORMAT14 = "MM月dd日";
 
     public static long getCurrentLongTime() {
         return System.currentTimeMillis();

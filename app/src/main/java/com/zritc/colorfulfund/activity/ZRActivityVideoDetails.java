@@ -3,6 +3,7 @@ package com.zritc.colorfulfund.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,9 +11,13 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.activity.fortunegroup.ZRActivityFortuneGroupCommentList;
 import com.zritc.colorfulfund.base.ZRActivityBase;
+import com.zritc.colorfulfund.data.response.circle.CreateCollection;
+import com.zritc.colorfulfund.data.response.circle.CreateThumb;
+import com.zritc.colorfulfund.data.response.circle.GetPostInfo4C;
 import com.zritc.colorfulfund.iView.IVideoDetailsView;
 import com.zritc.colorfulfund.presenter.VideoDetailsPresenter;
 import com.zritc.colorfulfund.share.UPMediaMessage;
@@ -20,6 +25,7 @@ import com.zritc.colorfulfund.ui.ZRCircleImageView;
 import com.zritc.colorfulfund.ui.adapter.ZRCommonAdapter;
 import com.zritc.colorfulfund.ui.adapter.ZRViewHolder;
 import com.zritc.colorfulfund.utils.ZRConstant;
+import com.zritc.colorfulfund.utils.ZRUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,11 +81,17 @@ public class ZRActivityVideoDetails extends ZRActivityBase<VideoDetailsPresenter
     @Bind(R.id.tv_article_title)
     TextView tvArticleTitle; // 文章标题
 
+    @Bind(R.id.img_user)
+    ZRCircleImageView imgUser; // 作者头像
+
     @Bind(R.id.tv_author)
     TextView tvAuthor; // 作者
 
     @Bind(R.id.tv_time)
     TextView tvTime; // 时间
+
+    @Bind(R.id.tv_play_count)
+    TextView tvPlayCount; // 播放次数
 
     @Bind(R.id.img_back)
     ImageView imgBack; // 返回
@@ -101,9 +113,11 @@ public class ZRActivityVideoDetails extends ZRActivityBase<VideoDetailsPresenter
 
     private VideoDetailsPresenter presenter;
     private HotVideoAdapter adapter;
-    private List<HotVideo> datas;
-    private String uriString = "https://test-media-cmcaifu-com.oss-cn-hangzhou.aliyuncs.com/upload/1781fd560180400b971bd9c08afa0e0f.mp4";
-    String mVideoUrl = "http://v.youku.com/v_show/id_XMTUzNzM1MjUwMA==_ev_5.html?from=y1.3-idx-uhome-1519-20887.205805-205902.8-1";
+    private List<GetPostInfo4C.ReferList> referList;
+    private String mVideoUrl = "";
+    private String postId = "1";
+    private boolean isThumb; // 该用户是否点过赞
+    private boolean isCollection; // 该用户是否收藏过
 
     @Override
     protected int getContentViewId() {
@@ -119,12 +133,13 @@ public class ZRActivityVideoDetails extends ZRActivityBase<VideoDetailsPresenter
     @Override
     public void initView() {
         imgVideoBg.setBackgroundResource(R.mipmap.bg_red);
-        datas = new ArrayList<>();
+        referList = new ArrayList<>();
         initData();
-        adapter = new HotVideoAdapter(this, datas, R.layout.lv_video_detail_item);
+        presenter.doGetPostInfo(postId);
+        adapter = new HotVideoAdapter(this, referList, R.layout.lv_video_detail_item);
         mHotVideo.setAdapter(adapter);
         mHotVideo.setOnItemClickListener((parent, view, position, id) -> {
-            mVideoUrl = datas.get(position).getVideoUrl();
+            mVideoUrl = referList.get(position).content;
             play();
         });
 
@@ -223,9 +238,6 @@ public class ZRActivityVideoDetails extends ZRActivityBase<VideoDetailsPresenter
     }
 
     private void initData() {
-        for (int i = 0; i < 4; i++) {
-            datas.add(new HotVideo("哈哈哈", 1355, "http://v.youku.com/v_show/id_XMTY5NjE3NTc4OA==.html?from=y1.2-2-96.3.3-1.1-3-1-2-0", "http://img4.imgtn.bdimg.com/it/u=98923187,3761999633&fm=11&gp=0.jpg", "05:33"));
-        }
     }
 
     @OnClick({R.id.img_play, R.id.img_back, R.id.img_collect, R.id.img_praise, R.id.img_share, R.id.img_comment})
@@ -298,7 +310,47 @@ public class ZRActivityVideoDetails extends ZRActivityBase<VideoDetailsPresenter
 
     @Override
     public void onSuccess(Object object) {
+        if (object instanceof GetPostInfo4C) {
+            // 帖子详情数据
+            GetPostInfo4C getPostInfo4C = (GetPostInfo4C) object;
+            GetPostInfo4C.Result result = getPostInfo4C.result;
+            if (null != result) {
+                refreshContentView(result);
+            }
+        }else if (object instanceof CreateCollection) {
+            // 收藏返回
+        } else if (object instanceof CreateThumb) {
+            // 点赞
+        }
+    }
 
+    private void refreshContentView(GetPostInfo4C.Result result) {
+        GetPostInfo4C.PostInfo postInfo = result.postInfo;
+        // 刷新帖子内容
+        if (null != postInfo) {
+            if (!TextUtils.isEmpty(postInfo.coverImgURL)) {
+                Picasso.with(this).load(postInfo.coverImgURL).placeholder(R.mipmap.ic_img_profile_bg).into(imgVideoBg);
+            } else {
+                Picasso.with(this).load(R.mipmap.bg_red).into(imgVideoBg);
+            }
+            // 标签列表 id、name、color
+            tvtag.setText(postInfo.tagList.get(0).tagName);
+            tvArticleTitle.setText(postInfo.title);
+            mVideoUrl = postInfo.content; // 视频url
+            tvTime.setText(ZRUtils.formatTime(postInfo.postTime, ZRUtils.TIME_FORMAT14));
+            tvPlayCount.setText(String.format("%s 次播放", postInfo.visitNumber));
+            // 设置作者信息
+            if (!TextUtils.isEmpty(postInfo.authorInfo.photoURL)) {
+                Picasso.with(this).load(postInfo.authorInfo.photoURL).placeholder(R.mipmap.ic_img_profile_bg).into(imgUser);
+            } else {
+                Picasso.with(this).load(R.mipmap.icon_header).into(imgUser);
+            }
+            tvAuthor.setText(postInfo.authorInfo.nickName);
+        }
+        isThumb = result.thumbStatus;
+        isCollection = result.collectionStatus;
+        referList = result.referList;
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -314,19 +366,19 @@ public class ZRActivityVideoDetails extends ZRActivityBase<VideoDetailsPresenter
             mVideoView.onDestroy();
     }
 
-    static class HotVideoAdapter extends ZRCommonAdapter<HotVideo> {
+    static class HotVideoAdapter extends ZRCommonAdapter<GetPostInfo4C.ReferList> {
 
-        public HotVideoAdapter(Context context, List<HotVideo> mDatas, int itemLayoutId) {
+        public HotVideoAdapter(Context context, List<GetPostInfo4C.ReferList> mDatas, int itemLayoutId) {
             super(context, mDatas, itemLayoutId);
         }
 
         @Override
-        public void convert(int position, ZRViewHolder helper, HotVideo item) {
-            helper.setText(R.id.tv_video_title, item.getTitle());
-            helper.setText(R.id.tv_play_count, String.format("%s 次播放", item.getPlayCOunt()));
+        public void convert(int position, ZRViewHolder helper, GetPostInfo4C.ReferList item) {
+            helper.setText(R.id.tv_video_title, item.title);
+            helper.setText(R.id.tv_play_count, String.format("%s 次播放", item.visitNumber));
             ((ZRCircleImageView) helper.getView(R.id.img_hot_video)).setRectAdius(16);
-            helper.setImageByUrl(R.id.img_hot_video, item.getImgUrl());
-            helper.setText(R.id.tv_time, item.getTime());
+            helper.setImageByUrl(R.id.img_hot_video, item.coverImgURL);
+//            helper.setText(R.id.tv_time, ZRUtils.formatTime(item));
         }
     }
 

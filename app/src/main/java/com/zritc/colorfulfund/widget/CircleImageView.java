@@ -83,7 +83,7 @@ public class CircleImageView extends ImageView {
         mBitmapPaint.setAntiAlias(true);
 
         mBorderRadius = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, BODER_RADIUS_DEFAULT, getResources().getDisplayMetrics()); // 默认为10dp
-        type = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, TYPE_CIRCLE, getResources().getDisplayMetrics()); // 默认为Circle
+        type = TYPE_CIRCLE; // 默认为Circle
     }
 
     @Override
@@ -104,14 +104,15 @@ public class CircleImageView extends ImageView {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
+
         // 圆角图片的范围
         if (type == TYPE_ROUND)
-            mRoundRect = new RectF(0, 0, getWidth(), getHeight());
+            mRoundRect = new RectF(0, 0, w, h);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+        Log.e("TAG", "onDraw");
         if (getDrawable() == null) {
             return;
         }
@@ -144,8 +145,12 @@ public class CircleImageView extends ImageView {
             scale = mWidth * 1.0f / bSize;
 
         } else if (type == TYPE_ROUND) {
+            Log.e("TAG", "b'w = " + bmp.getWidth() + " , " + "b'h = " + bmp.getHeight());
+            if (!(bmp.getWidth() == getWidth() && bmp.getHeight() == getHeight())) {
             // 如果图片的宽或者高与view的宽高不匹配，计算出需要缩放的比例；缩放后的图片的宽高，一定要大于我们view的宽高；所以我们这里取大值；
             scale = Math.max(getWidth() * 1.0f / bmp.getWidth(), getHeight() * 1.0f / bmp.getHeight());
+        }
+
         }
         // shader的变换矩阵，我们这里主要用于放大或者缩小
         mMatrix.setScale(scale, scale);
