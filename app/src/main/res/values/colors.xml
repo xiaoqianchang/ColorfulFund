@@ -52,4 +52,6 @@
     <color name="redemption_text_color">#5C6BDC</color>
     <color name="font_text_color">#222222</color>
     <color name="verify_code_color">#0185f1</color>
+    <color name="album_select_all_normal">#5b6bdc</color>
+    <color name="album_select_all_checked">#666666</color>
 </resources>

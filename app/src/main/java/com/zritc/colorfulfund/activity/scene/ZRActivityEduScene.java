@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 
 import com.zritc.colorfulfund.R;
+import com.zritc.colorfulfund.activity.ZRActivityGenerateAlbum;
 import com.zritc.colorfulfund.activity.ZRActivityToolBar;
 import com.zritc.colorfulfund.adapter.ZRGroupUpSceneAdapter;
 import com.zritc.colorfulfund.iView.IEduSceneView;
@@ -23,6 +24,7 @@ import com.zritc.colorfulfund.ui.adapter.ZRViewHolder;
 import com.zritc.colorfulfund.ui.adapter.abslistview.MultiItemTypeSupport;
 import com.zritc.colorfulfund.ui.pull2refresh.ZRPullToRefreshBase;
 import com.zritc.colorfulfund.ui.pull2refresh.ZRPullToRefreshListView;
+import com.zritc.colorfulfund.utils.ZRConstant;
 import com.zritc.colorfulfund.utils.ZRUtils;
 import com.zritc.colorfulfund.view.animation.ComposerButtonAnimation;
 import com.zritc.colorfulfund.view.animation.ComposerButtonGrowAnimationIn;
@@ -30,6 +32,7 @@ import com.zritc.colorfulfund.view.animation.ComposerButtonGrowAnimationOut;
 import com.zritc.colorfulfund.view.animation.ComposerButtonShrinkAnimationOut;
 import com.zritc.colorfulfund.view.animation.InOutAnimation;
 import com.zritc.colorfulfund.view.animation.InOutImageButton;
+import com.zritc.colorfulfund.widget.RecordGrowthDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,11 +73,24 @@ public class ZRActivityEduScene extends ZRActivityToolBar<EduScenePresenter> imp
     private Animation rotateStoryAddButtonIn;
     private Animation rotateStoryAddButtonOut;
 
-    @OnClick({R.id.btn_left_back})
+    @OnClick({R.id.btn_left_back, R.id.btn_open_photo_picker, R.id.btn_growth_album, R.id.btn_record_growth, R.id.btn_save_money})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_left_back:
                 onBackPressed();
+                break;
+            case R.id.btn_open_photo_picker:
+                openPhotoPicker(this);
+                break;
+            case R.id.btn_growth_album:
+                openImageSelector();
+                break;
+            case R.id.btn_record_growth:
+                RecordGrowthDialog recordGrowthDialog = new RecordGrowthDialog(this);
+                recordGrowthDialog.show();
+                break;
+            case R.id.btn_save_money:
+                startActivity(new Intent(this, ZRActivityTargetSetting.class));
                 break;
         }
     }
@@ -405,6 +421,62 @@ public class ZRActivityEduScene extends ZRActivityToolBar<EduScenePresenter> imp
 
         public String getTitle() {
             return title;
+        }
+    }
+
+    private ArrayList<String> mSelectPath = new ArrayList<String>();
+    private void openImageSelector() {
+        Intent intent = new Intent();
+        int selectedMode = ZRActivityGenerateAlbum.MODE_MULTI;
+        int maxNum = 10; // 最大可选择图片的数量
+        intent.setClass(mContext, ZRActivityGenerateAlbum.class);
+        // 是否显示拍摄图片
+        intent.putExtra(
+                ZRActivityGenerateAlbum.EXTRA_SHOW_CAMERA, false);
+        // 最大可选择图片数量
+        intent.putExtra(
+                ZRActivityGenerateAlbum.EXTRA_SELECT_COUNT,
+                maxNum);
+        // 选择模式
+        intent.putExtra(
+                ZRActivityGenerateAlbum.EXTRA_SELECT_MODE,
+                selectedMode);
+        // 默认选择
+        if (mSelectPath != null && mSelectPath.size() > 0) {
+            intent.putExtra(
+                    ZRActivityGenerateAlbum.EXTRA_DEFAULT_SELECTED_LIST,
+                    mSelectPath);
+        }
+        // 外部图片资源
+        ArrayList<String> externalList = new ArrayList<>();
+        externalList.add("http://scimg.jb51.net/allimg/160813/103-160Q3143110P5.jpg");
+        externalList.add("http://scimg.jb51.net/allimg/160815/103-160Q509544OC.jpg");
+        externalList.add("http://img2.imgtn.bdimg.com/it/u=1509312158,1202655144&fm=21&gp=0.jpg");
+        externalList.add("http://pic24.nipic.com/20121029/5056611_120019351000_2.jpg");
+        externalList.add("http://www.pptbz.com/pptpic/uploadfiles_6909/201202/2012022917310499.jpg");
+        externalList.add("http://pic14.nipic.com/20110610/7181928_110502231129_2.jpg");
+        externalList.add("http://img.taopic.com/uploads/allimg/120423/107913-12042323220753.jpg");
+        externalList.add("http://pic51.nipic.com/file/20141016/24066_130156779281_2.jpg");
+        externalList.add("http://www.xxjxsj.cn/article/uploadpic/2012-4/201241221251481736.jpg");
+        externalList.add("http://pic4.nipic.com/20090910/2302530_144753008092_2.jpg");
+        externalList.add("http://img102.mypsd.com.cn/20120929/1/Mypsd_13953_201209291653040031B.jpg");
+        intent.putExtra(
+                ZRActivityGenerateAlbum.EXTRA_EXTERNAL_LIST,
+                externalList);
+        startActivityForResult(intent,
+                ZRConstant.ACTIVITY_REQUEST_TAKE_PICTURE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case ZRConstant.ACTIVITY_REQUEST_TAKE_PICTURE:
+                    mSelectPath = data
+                            .getStringArrayListExtra(ZRActivityGenerateAlbum.EXTRA_RESULT);
+                    break;
+            }
         }
     }
 

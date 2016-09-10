@@ -21,7 +21,7 @@ import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.activity.fund.ZRActivityFundList;
 import com.zritc.colorfulfund.activity.fund.ZRActivityGroupRedemption;
 import com.zritc.colorfulfund.activity.fund.ZRActivitySingleRedemption;
-import com.zritc.colorfulfund.activity.wish.ZRWishHomePage;
+import com.zritc.colorfulfund.activity.wish.ZRActivityWishHomePage;
 import com.zritc.colorfulfund.base.ZRActivityBase;
 import com.zritc.colorfulfund.data.response.circle.GetCommentList4C;
 import com.zritc.colorfulfund.data.response.circle.GetPostInfo4C;
@@ -31,8 +31,6 @@ import com.zritc.colorfulfund.data.response.circle.CreateComment;
 import com.zritc.colorfulfund.data.response.circle.CreatePost;
 import com.zritc.colorfulfund.data.response.circle.CreateReport;
 import com.zritc.colorfulfund.data.response.circle.CreateThumb;
-import com.zritc.colorfulfund.data.response.circle.GetCommentList4C;
-import com.zritc.colorfulfund.data.response.circle.GetPostList4C;
 import com.zritc.colorfulfund.data.response.circle.ReadPost;
 import com.zritc.colorfulfund.data.response.trade.BindPayment;
 import com.zritc.colorfulfund.data.response.trade.BuyPo;
@@ -343,7 +341,7 @@ public class TestNetApiActivity extends ZRActivityBase {
                 openImageSelector();
                 break;
             case R.id.btn_wish_home_page: // 心愿首页
-                startActivity(new Intent(this, ZRWishHomePage.class));
+                startActivity(new Intent(this, ZRActivityWishHomePage.class));
                 break;
             case R.id.btn_create_post: // 创建帖子
                 Call<CreatePost> postCallbackByPost = ZRNetManager.getInstance().createPostCallbackByPost("http://www.cy580.com/file/upload/201307/29/14-03-21-44-88802.png", "business", "SB", "1", "ssssssssssssssssssssssssssss", "bbbbbbbbbbbbbbbbbbbbbbbb", "");

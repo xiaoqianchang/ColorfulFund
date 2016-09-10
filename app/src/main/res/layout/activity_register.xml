@@ -84,7 +84,7 @@
         android:id="@+id/rl_auth_code"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_88"
-        android:layout_below="@id/edt_user_pass"                        android:layout_marginTop="@dimen/padding_36"
+        android:layout_below="@id/edt_user_pass"                                    android:layout_marginTop="@dimen/padding_36"
             android:layout_marginLeft="@dimen/padding_91"
             android:layout_marginRight="@dimen/padding_91"
             android:paddingLeft="@dimen/padding_50"

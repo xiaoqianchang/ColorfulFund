@@ -186,7 +186,7 @@ android:textColor="@android:color/darker_gray"
             <TextView
                 android:id="@+id/tv_working_days"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"                                                                                                                                                                                                                                    android:textColor="#707ff4"
+                android:layout_height="wrap_content"                                                                                                                                                                                                                                                            android:textColor="#707ff4"
                     android:textSize="@dimen/font_size_14"/>
         </LinearLayout>
 
@@ -200,7 +200,7 @@ android:textColor="@android:color/darker_gray"
 />
     </LinearLayout>
 
-        <TextView
+<TextView
             style="@style/ltgray_text_font_12_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

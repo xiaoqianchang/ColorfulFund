@@ -6,7 +6,7 @@
     android:scrollbars="none"
     android:fillViewport="true"
     android:fitsSystemWindows="true"
-    android:clipToPadding="true"        android:background="@mipmap/bg_edu_scene">
+    android:clipToPadding="true"            android:background="@mipmap/bg_edu_scene">
 
     <RelativeLayout
         android:layout_width="match_parent"

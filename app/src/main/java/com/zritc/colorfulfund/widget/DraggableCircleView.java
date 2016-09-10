@@ -154,7 +154,7 @@ public class DraggableCircleView extends View {
         // Init paints
         initPaint();
 
-        mHintText = "show what";
+        mHintText = "\"第\" + mCurrentCircle + \"圈，每个刻度的间隔值是\" + getSmallTickMarkIntervalValue()";
     }
 
     private void initPaint() {
@@ -278,7 +278,7 @@ public class DraggableCircleView extends View {
         canvas.restore();
         // Timer Text
         canvas.save();
-        canvas.drawText(/*mHintText*/"第" + mCurrentCircle + "圈，每个刻度的间隔值是" + getSmallTickMarkIntervalValue(), mCx, mCy + getFontHeight(mMiddleValuePaint) / 2 + mGapBetweenTimerNumberAndText + getFontHeight(mMiddleTextPaint) / 2, mMiddleTextPaint);
+        canvas.drawText(mHintText, mCx, mCy + getFontHeight(mMiddleValuePaint) / 2 + mGapBetweenTimerNumberAndText + getFontHeight(mMiddleTextPaint) / 2, mMiddleTextPaint);
         canvas.restore();
     }
 
@@ -710,7 +710,8 @@ public class DraggableCircleView extends View {
          * @param middleValueSize
          */
         public Builder setMiddleValueSize(float middleValueSize) {
-            mMiddleValueSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, middleValueSize, getContext().getResources().getDisplayMetrics());
+            mMiddleValueSize = middleValueSize;
+//            mMiddleValueSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, middleValueSize, getContext().getResources().getDisplayMetrics());
             return this;
         }
 
@@ -720,7 +721,18 @@ public class DraggableCircleView extends View {
          * @param middleTextSize
          */
         public Builder setMiddleTextSize(float middleTextSize) {
-            mMiddleTextSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, middleTextSize, getContext().getResources().getDisplayMetrics());
+            mMiddleTextSize = middleTextSize;
+//            mMiddleTextSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, middleTextSize, getContext().getResources().getDisplayMetrics());
+            return this;
+        }
+
+        /**
+         * Set dimension for middleTextSize
+         *
+         * @param hintText
+         */
+        public Builder setMiddleHintText(String hintText) {
+            mHintText = hintText;
             return this;
         }
 

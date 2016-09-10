@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:background="@mipmap/bg_create_wish">
+
+        <ImageButton
+            android:id="@+id/imgBtn_back"
+            android:layout_width="@dimen/width_36"
+            android:layout_height="@dimen/height_36"
+            android:layout_marginLeft="@dimen/padding_32"
+            android:layout_marginTop="@dimen/padding_30"
+            android:layout_gravity="start"
+            android:src="@mipmap/btn_left_back"
+            android:background="@null"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_80"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/wish_fund"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_38"
+            android:text="添加想要的东西"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size_20"/>
+
+        <com.zritc.colorfulfund.ui.ZRGridView
+            android:id="@+id/gv_create_wish"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="@dimen/padding_120"
+            android:layout_marginLeft="@dimen/padding_80"
+            android:layout_marginRight="@dimen/padding_80"
+            android:gravity="center"
+            android:scrollbars="none"
+            android:horizontalSpacing="@dimen/padding_91"
+            android:verticalSpacing="@dimen/padding_70"
+            android:numColumns="3">
+
+        </com.zritc.colorfulfund.ui.ZRGridView>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_next"
+        android:layout_width="@dimen/width_324"
+        android:layout_height="@dimen/height_92"
+        android:background="@mipmap/bg_next"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/padding_60"/>
+</RelativeLayout>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:background="@mipmap/bg_create_wish">
+
+        <ImageButton
+            android:id="@+id/imgBtn_back"
+            android:layout_width="@dimen/width_36"
+            android:layout_height="@dimen/height_36"
+            android:layout_marginLeft="@dimen/padding_32"
+            android:layout_marginTop="@dimen/padding_30"
+            android:layout_gravity="start"
+            android:src="@mipmap/btn_left_back"
+            android:background="@null"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/height_260"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="设置您的愿望，我们帮你达成梦想"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_18"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_60"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/padding_149"
+                    android:layout_height="@dimen/padding_149"
+                    android:src="@mipmap/target_money"/>
+
+                <ImageView
+                    android:layout_width="@dimen/width_40"
+                    android:layout_height="@dimen/width_44"
+                    android:layout_marginLeft="@dimen/padding_20"
+                    android:layout_marginRight="@dimen/padding_20"
+                    android:src="@mipmap/wish_add"/>
+
+                <ImageView
+                    android:layout_width="@dimen/padding_149"
+                    android:layout_height="@dimen/padding_149"
+                    android:src="@mipmap/realize_time"/>
+
+                <ImageView
+                    android:layout_width="@dimen/width_40"
+                    android:layout_height="@dimen/width_44"
+                    android:layout_marginLeft="@dimen/padding_20"
+                    android:layout_marginRight="@dimen/padding_20"
+                    android:src="@mipmap/wish_add"/>
+
+                <ImageView
+                    android:layout_width="@dimen/padding_149"
+                    android:layout_height="@dimen/padding_149"
+                    android:src="@mipmap/month_investment"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_100"
+                android:lineSpacingExtra="@dimen/padding_80"
+                android:text="然后等待梦想实现后回来取钱吧!"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_18"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_30"
+                android:text="记得定投哦"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_18"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_next"
+        android:layout_width="@dimen/width_324"
+        android:layout_height="@dimen/height_92"
+        android:background="@mipmap/bg_next"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/padding_60"/>
+</RelativeLayout>

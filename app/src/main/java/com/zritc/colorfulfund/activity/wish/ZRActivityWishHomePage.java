@@ -1,12 +1,17 @@
 package com.zritc.colorfulfund.activity.wish;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
+import com.jakewharton.rxbinding.view.RxView;
 import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.base.ZRActivityBase;
 import com.zritc.colorfulfund.iView.IWishHomePageView;
@@ -17,8 +22,10 @@ import com.zritc.colorfulfund.ui.adapter.abslistview.ViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * 心愿首页
@@ -27,7 +34,16 @@ import butterknife.Bind;
  *
  * @version 1.0
  */
-public class ZRWishHomePage extends ZRActivityBase<WishHomePagePresenter> implements IWishHomePageView {
+public class ZRActivityWishHomePage extends ZRActivityBase<WishHomePagePresenter> implements IWishHomePageView {
+
+    @Bind(R.id.imgBtn_back)
+    ImageButton imgBtnBack;
+
+    @Bind(R.id.img_title_icon)
+    ImageView imgTitleIcon;
+
+    @Bind(R.id.imgBtn_add_wish)
+    ImageButton imgBtnAddWish;
 
     @Bind(R.id.wish_swipe_layout)
     SwipeRefreshLayout wishSwipeLayout;
@@ -35,11 +51,14 @@ public class ZRWishHomePage extends ZRActivityBase<WishHomePagePresenter> implem
     @Bind(R.id.wish_list_view)
     ListView wishListView;
 
-    @Bind(R.id.ll_create_wish)
-    LinearLayout createWish; // 创建心愿
+    @Bind(R.id.ll_add_investment)
+    LinearLayout llAddInvestment; // 加仓定投
 
     @Bind(R.id.ll_look_position)
     LinearLayout lookPosition; // 查看仓位
+
+    @Bind(R.id.ll_wish_tip)
+    LinearLayout llWishTip; // 没有心愿时的模板
 
     private WishHomePagePresenter presenter;
     private List<Wish> datas;
@@ -58,6 +77,7 @@ public class ZRWishHomePage extends ZRActivityBase<WishHomePagePresenter> implem
 
     @Override
     public void initView() {
+        initTitle();
         datas = new ArrayList<>();
         initData();
         // 刷新组件
@@ -65,20 +85,20 @@ public class ZRWishHomePage extends ZRActivityBase<WishHomePagePresenter> implem
                 android.R.color.holo_orange_light, android.R.color.holo_red_light);
         wishSwipeLayout.setOnRefreshListener(() -> {
             new Handler().postDelayed(() -> {
+                setView();
                 wishSwipeLayout.setRefreshing(false);
             }, 2000);
         });
         adapter = new WishAdapter(this, datas, new MultiItemTypeSupport() {
             @Override
             public int getLayoutId(int position, Object o) {
-                if (position != 0 && position % 2 != 0) { // 奇数
+                if (position == 0) {
+                    return R.layout.lv_wish_start_item;
+                } else if (position == datas.size() - 1) {
+                    return R.layout.lv_wish_end_item;
+                } else {
                     return R.layout.lv_wish_center_item;
-                } else if (position == 0 || (position / 2) % 2 == 0) { // 如0 4 8
-                    return R.layout.lv_wish_right_item;
-                } else if ((position / 2) % 2 != 0) { // 如2 6 10
-                    return R.layout.lv_wish_left_item;
                 }
-                return 0;
             }
 
             @Override
@@ -88,23 +108,65 @@ public class ZRWishHomePage extends ZRActivityBase<WishHomePagePresenter> implem
 
             @Override
             public int getItemViewType(int position, Object o) {
-                if (position != 0 && position % 2 != 0) { // 奇数
-                    return 1;
-                } else if (position == 0 || (position / 2) % 2 == 0) { // 如0 4 8
+                if (position == 0) {
                     return 0;
-                } else if ((position / 2) % 2 != 0) { // 如2 6 10
+                } else if (position == datas.size() - 1) {
                     return 2;
+                } else {
+                    return 1;
                 }
-                return 0;
             }
         });
         wishListView.setAdapter(adapter);
+        wishListView.setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> {
+            // 创建Popupwindow
+        });
 
+        setView();
+
+    }
+
+    /**
+     * 设置view显示情况
+     */
+    private void setView() {
+        if (null != datas && datas.size() > 0) {
+            imgTitleIcon.setVisibility(View.VISIBLE);
+            llAddInvestment.setVisibility(View.VISIBLE);
+            lookPosition.setVisibility(View.VISIBLE);
+            llWishTip.setVisibility(View.GONE);
+        } else {
+            imgTitleIcon.setVisibility(View.GONE);
+            llAddInvestment.setVisibility(View.GONE);
+            lookPosition.setVisibility(View.GONE);
+            llWishTip.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void initTitle() {
+        RxView.clicks(imgBtnBack).throttleFirst(1, TimeUnit.SECONDS)
+                .subscribe(aVoid -> {
+                    finish();
+                });
+        RxView.clicks(imgBtnAddWish).throttleFirst(1, TimeUnit.SECONDS)
+                .subscribe(aVoid -> {
+                    startActivity(new Intent(this, ZRActivityCreateWish.class));
+                });
     }
 
     private void initData() {
         for (int i = 0; i < 10; i++) {
             datas.add(new Wish("IWC表" + i, "10万", "未开始"));
+        }
+    }
+
+    @OnClick({R.id.ll_add_investment, R.id.ll_look_position})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.ll_add_investment: // 加仓定投
+                break;
+            case R.id.ll_look_position: // 查看仓位
+                break;
         }
     }
 

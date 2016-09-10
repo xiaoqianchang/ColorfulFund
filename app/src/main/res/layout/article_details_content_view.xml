@@ -29,7 +29,7 @@
             android:gravity="left"
             android:lineSpacingExtra="1.5dp"
             android:lineSpacingMultiplier="1.1"
-            android:text="VR创业？想赚快钱的都散了吧"                                                android:textColor="#2e2e2e"/>
+            android:text="VR创业？想赚快钱的都散了吧"                                                            android:textColor="#2e2e2e"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -82,11 +82,11 @@
                 android:layout_centerVertical="true"
                 android:singleLine="true"
                 android:ellipsize="end"
-                android:text="07月15日"                                                                android:textColor="#bdbdbd"
+                android:text="07月15日"                                                                                android:textColor="#bdbdbd"
                 android:textSize="@dimen/font_size_11"/>
         </RelativeLayout>
     </LinearLayout>
-                    <RelativeLayout
+                        <RelativeLayout
         android:id="@+id/ll_article"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

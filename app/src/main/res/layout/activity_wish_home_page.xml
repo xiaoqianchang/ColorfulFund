@@ -4,10 +4,63 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_bg"
     android:fitsSystemWindows="true"
     android:clipToPadding="true"
-    tools:context="com.zritc.colorfulfund.activity.wish.ZRWishHomePage">
+    android:background="@mipmap/bg_edu_scene"
+    tools:context=".activity.wish.ZRActivityWishHomePage">
+
+    <!-- 自定义title -->
+    <RelativeLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+
+        <ImageButton
+            android:id="@+id/imgBtn_back"
+            android:layout_width="@dimen/width_36"
+            android:layout_height="@dimen/height_36"
+            android:layout_marginLeft="@dimen/padding_32"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/btn_left_back"
+            android:background="@null"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="horizontal">
+            
+            <ImageView
+                android:id="@+id/img_title_icon"
+                android:layout_width="@dimen/width_44"
+                android:layout_height="@dimen/height_34"
+                android:src="@mipmap/wish_fund"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_20"
+                android:text="多彩心愿基金"
+                android:textColor="#40666a"
+                android:textSize="@dimen/font_size_16"/>
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/imgBtn_add_wish"
+            android:layout_width="@dimen/padding_48"
+            android:layout_height="@dimen/padding_48"
+            android:layout_marginRight="@dimen/padding_30"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/add_wish"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/padding_20"
+        android:layout_below="@id/app_bar_layout">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/wish_swipe_layout"
@@ -29,72 +82,89 @@
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <LinearLayout
-        android:id="@+id/ll_create_wish"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginBottom="20dp"
+        android:id="@+id/ll_add_investment"
+        android:layout_width="@dimen/width_130"
+        android:layout_height="@dimen/height_130"
         android:gravity="center"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/bg_white_point"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/padding_30"
+        android:layout_marginTop="@dimen/padding_70"
+        android:background="@drawable/bg_gray_point"
         android:orientation="vertical">
 
-        <TextView
+        <ImageView
+                android:layout_width="@dimen/width_29"
+                android:layout_height="@dimen/width_29"
+                android:layout_marginTop="@dimen/padding_20"
+                android:src="@mipmap/add_fund"/>
+
+            <TextView
             style="@style/ltblack_text_font_12_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@mipmap/btn_add"
-            android:drawablePadding="5dp"
-            android:text="创建心愿"/>
-    </LinearLayout>
+            android:layout_marginTop="@dimen/padding_12"
+            android:text="加仓定投"
+                android:textColor="#50385b"
+                android:textSize="@dimen/font_size_10"/>
 
-    <LinearLayout
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:gravity="center"
-        android:layout_above="@id/ll_create_wish"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/bg_white_point"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="未完成"
-            android:textColor="@android:color/holo_red_dark"
-            android:textSize="15sp"/>
-
-        <TextView
-            style="@style/ltblack_text_font_12_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="加仓定投"/>
-
-        <TextView
-            style="@style/ltblack_text_font_12_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="6000"/>
+            <TextView
+                style="@style/ltblack_text_font_12_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/height_5"
+                android:text="6000"
+                android:textColor="#50385b"
+            android:textSize="@dimen/font_size_10"/>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_look_position"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:padding="10dp"
-        android:gravity="center"
+            android:layout_width="@dimen/width_120"
+            android:layout_height="@dimen/height_120"
+        android:layout_marginBottom="@dimen/padding_178"
+        android:layout_marginLeft="@dimen/padding_30"
+        android:gravity="center_horizontal"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/btn_ltgrey"
+        android:background="@drawable/bg_gray_point"
         android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="@dimen/width_36"
+            android:layout_height="@dimen/height_34"
+            android:layout_marginTop="@dimen/padding_24"
+            android:src="@mipmap/look_fund"/>
 
         <TextView
             style="@style/ltblack_text_font_12_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@mipmap/btn_add"
-            android:drawablePadding="10dp"
-            android:text="查看仓位"/>
+            android:layout_marginTop="@dimen/padding_12"
+
+android:text="查看仓位"
+        android:textColor="#50385b"
+            android:textSize="@dimen/font_size_10"/>
     </LinearLayout>
+
+    <!-- 没有心愿时的模板 -->
+        <LinearLayout
+        android:id="@+id/ll_wish_tip"
+            android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+                <ImageView
+        android:layout_width="@dimen/width_110"
+        android:layout_height="@dimen/height_88"
+        android:src="@mipmap/wish_fund"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_70"
+                android:text="请点击 “+” 建立心愿哦~"
+            android:textColor="#40666a"
+            android:textSize="@dimen/font_size_14"/>
+    </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>

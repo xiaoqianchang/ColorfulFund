@@ -16,6 +16,7 @@ import com.zritc.colorfulfund.activity.fund.ZRActivityMultiFundApplyPurchase;
 import com.zritc.colorfulfund.activity.fund.ZRActivitySingleRedemption;
 import com.zritc.colorfulfund.activity.scene.ZRActivityEduScene;
 import com.zritc.colorfulfund.activity.scene.ZRActivityTargetSetting;
+import com.zritc.colorfulfund.activity.wish.ZRActivityWishHomePage;
 import com.zritc.colorfulfund.base.ZRFragmentBase;
 import com.zritc.colorfulfund.data.response.trade.GetFundPoList4C;
 import com.zritc.colorfulfund.iView.IFundProListView;
@@ -51,7 +52,7 @@ public class ZRFragmentMain extends ZRFragmentBase implements IFundProListView {
         fundProListPresenter.fundPoList4C();
     }
 
-    @OnClick({R.id.btn_card, R.id.btn_single_redemption, R.id.btn_user_po_list4C})
+    @OnClick({R.id.btn_card, R.id.btn_single_redemption, R.id.btn_user_po_list4C, R.id.btn_education, R.id.btn_wish})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_card:
@@ -66,6 +67,12 @@ public class ZRFragmentMain extends ZRFragmentBase implements IFundProListView {
             case R.id.btn_user_po_list4C: // // 组合赎回
                 Intent intent = new Intent(mContext, ZRActivityFundList.class);
                 startActivity(intent);
+                break;
+            case R.id.btn_education: // 教育场景
+                startActivity(new Intent(getActivity(), ZRActivityEduScene.class));
+                break;
+            case R.id.btn_wish: // 心愿场景
+                startActivity(new Intent(getActivity(), ZRActivityWishHomePage.class));
                 break;
         }
     }
