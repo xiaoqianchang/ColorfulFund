@@ -9,6 +9,10 @@ import com.zritc.colorfulfund.data.response.circle.GetCommentList4C;
 import com.zritc.colorfulfund.data.response.circle.GetPostInfo4C;
 import com.zritc.colorfulfund.data.response.circle.GetPostList4C;
 import com.zritc.colorfulfund.data.response.circle.ReadPost;
+import com.zritc.colorfulfund.data.response.edu.CreateGrowingRecord;
+import com.zritc.colorfulfund.data.response.edu.CreateUserInvestmentPlan4Edu;
+import com.zritc.colorfulfund.data.response.edu.GetGrowingPicList4C;
+import com.zritc.colorfulfund.data.response.edu.GetGrowingRecordList4C;
 import com.zritc.colorfulfund.data.response.trade.AdjustPo;
 import com.zritc.colorfulfund.data.response.trade.BindPayment;
 import com.zritc.colorfulfund.data.response.trade.BuyPo;
@@ -330,6 +334,52 @@ public final class ZRNetManager {
                 , @Field("postId") String postId
         );
         /********************************Circle end*************************************************/
+
+        /********************************Edu start**************************************************/
+        @FormUrlEncoded
+        @POST
+        Call<CreateGrowingRecord> createGrowingRecordCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+                , @Field("planId") String planId
+                , @Field("photo") String photo
+                , @Field("investAmount") String investAmount
+                , @Field("description") String description
+        );
+
+        @FormUrlEncoded
+        @POST
+        Call<CreateUserInvestmentPlan4Edu> createUserInvestmentPlan4EduCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+                , @Field("poCode") String poCode
+                , @Field("targetDate") String targetDate
+                , @Field("targetAmount") String targetAmount
+                , @Field("initialAmount") String initialAmount
+        );
+
+        @FormUrlEncoded
+        @POST
+        Call<GetGrowingPicList4C> getGrowingPicList4CCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+        );
+
+        @FormUrlEncoded
+        @POST
+        Call<GetGrowingRecordList4C> getGrowingRecordList4CCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+        );
+        /********************************Edu end**************************************************/
     }
 
     private static ZRNetManager netManager;
@@ -638,5 +688,51 @@ public final class ZRNetManager {
         );
     }
     /********************************Circle end*************************************************/
+
+    /********************************Edu start**************************************************/
+    public Call<CreateGrowingRecord> createGrowingRecordCallbackByPost(String planId, String photo, String investAmount, String description) {
+        return api.createGrowingRecordCallbackByPost(
+                "http://172.16.101.202/play/tradeedu/createGrowingRecord"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+                , planId
+                , photo
+                , investAmount
+                , description
+        );
+    }
+
+    public Call<CreateUserInvestmentPlan4Edu> createUserInvestmentPlan4EduCallbackByPost(String poCode, String targetDate, String targetAmount, String initialAmount) {
+        return api.createUserInvestmentPlan4EduCallbackByPost(
+                "http://172.16.101.202/play/tradeedu/createUserInvestmentPlan"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+                , poCode
+                , targetDate
+                , targetAmount
+                , initialAmount
+        );
+    }
+
+    public Call<GetGrowingPicList4C> getGrowingPicList4CCallbackByPost() {
+        return api.getGrowingPicList4CCallbackByPost(
+                "http://172.16.101.202/play/tradeedu/getGrowingPicList4C"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+        );
+    }
+
+    public Call<GetGrowingRecordList4C> getGrowingRecordList4CCallbackByPost() {
+        return api.getGrowingRecordList4CCallbackByPost(
+                "http://172.16.101.202/play/tradeedu/getGrowingRecordList4C"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+        );
+    }
+    /********************************Edu end****************************************************/
 
 }
