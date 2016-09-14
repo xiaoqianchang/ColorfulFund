@@ -79,7 +79,7 @@ public class GetGrowingRecordList4C implements Serializable {
 		@Override
 		public String toString() {
 			return "GrowingRecordList{" +
-					"investmentAmount='" + investmentAmount + '\'' +
+					"periodicalAmount='" + investmentAmount + '\'' +
 					", targetDate=" + targetDate +
 					", growingDesc='" + growingDesc + '\'' +
 					", photoUrlInfo=" + photoUrlInfo +
@@ -153,10 +153,10 @@ public class GetGrowingRecordList4C implements Serializable {
 					JSONObject jsonObjectGrowingRecordList = growingRecordListArray.optJSONObject(growingRecordListi);
 			GrowingRecordList growingRecordList = new GrowingRecordList();
 		
-	    	if (jsonObjectGrowingRecordList.isNull("investmentAmount")) {
-	    		Log.d("GetGrowingRecordList4C", "has no mapping for key " + "investmentAmount" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
+	    	if (jsonObjectGrowingRecordList.isNull("periodicalAmount")) {
+	    		Log.d("GetGrowingRecordList4C", "has no mapping for key " + "periodicalAmount" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-			growingRecordList.investmentAmount = jsonObjectGrowingRecordList.optString("investmentAmount");
+			growingRecordList.investmentAmount = jsonObjectGrowingRecordList.optString("periodicalAmount");
 	    	if (jsonObjectGrowingRecordList.isNull("targetDate")) {
 	    		Log.d("GetGrowingRecordList4C", "has no mapping for key " + "targetDate" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}

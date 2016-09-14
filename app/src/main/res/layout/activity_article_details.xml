@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_bg"
-    tools:context=".activity.ZRActivityArticleDetails">
+    tools:context=".activity.fortunegroup.ZRActivityArticleDetails">
 
     <include layout="@layout/toolbar_layout"/>
 
@@ -16,6 +16,7 @@
         android:layout_height="match_parent"
         app:zoomView="@layout/article_details_zoom_view"
         app:contentView="@layout/article_details_content_view"
+        app:isHeaderParallax="false"
         android:layout_below="@id/app_bar_layout">
 
     </com.zritc.colorfulfund.ui.pulltozoomview.PullToZoomScrollViewEx>

@@ -5,6 +5,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/rl_edu_info"
         android:layout_width="223dp"
         android:layout_height="223dp"
         android:layout_marginBottom="@dimen/padding_30"
@@ -26,10 +27,11 @@
                 android:textSize="@dimen/font_size_14" />
 
             <TextView
+                android:id="@+id/text_total_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_10"
-                android:text="¥10万元"
+                android:text="¥0万元"
                 android:textColor="@color/white"
                 android:textSize="@dimen/font_size_20" />
 
@@ -42,10 +44,11 @@
                 android:textSize="@dimen/font_size_14" />
 
             <TextView
+                android:id="@+id/text_current_profit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_10"
-                android:text="¥100元"
+                android:text="¥0元"
                 android:textColor="@color/white"
                 android:textSize="@dimen/font_size_26" />
 
@@ -78,9 +81,10 @@
                     android:textSize="@dimen/font_size_12" />
 
                 <TextView
+                    android:id="@+id/text_target_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="¥20万"
+                    android:text="¥0万"
                     android:textColor="@color/white"
                     android:textSize="@dimen/font_size_16" />
 

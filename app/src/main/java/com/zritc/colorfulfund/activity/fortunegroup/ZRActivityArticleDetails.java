@@ -1,7 +1,8 @@
-package com.zritc.colorfulfund.activity;
+package com.zritc.colorfulfund.activity.fortunegroup;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
@@ -10,16 +11,16 @@ import android.view.animation.DecelerateInterpolator;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.squareup.picasso.Picasso;
 import com.zritc.colorfulfund.R;
+import com.zritc.colorfulfund.activity.ZRActivityShareEntry;
+import com.zritc.colorfulfund.activity.ZRActivityToolBar;
 import com.zritc.colorfulfund.activity.fortunegroup.ZRActivityFortuneGroupCommentList;
 import com.zritc.colorfulfund.data.response.circle.CreateCollection;
 import com.zritc.colorfulfund.data.response.circle.CreateThumb;
@@ -32,6 +33,7 @@ import com.zritc.colorfulfund.ui.adapter.ZRCommonAdapter;
 import com.zritc.colorfulfund.ui.adapter.ZRViewHolder;
 import com.zritc.colorfulfund.ui.pulltozoomview.PullToZoomScrollViewEx;
 import com.zritc.colorfulfund.utils.ZRConstant;
+import com.zritc.colorfulfund.utils.ZRStrings;
 import com.zritc.colorfulfund.utils.ZRUtils;
 
 import java.util.ArrayList;
@@ -39,10 +41,11 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import retrofit2.http.HEAD;
 
 /**
  * 文章详情界面
- * 
+ *
  * Created by Chang.Xiao on 2016/8/23.
  *
  * @version 1.0
@@ -101,8 +104,8 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
     protected boolean isButtomContainerHiding = false;
     private String articleUrl = "https://www.baidu.com/";
     private HotAdapter adapter;
-    private List<GetPostInfo4C.ReferList> referList;
-    private String postId = "1";
+    private List<GetPostInfo4C.ReferList> referList = new ArrayList<>();
+    private String postId = "";
     private boolean isThumb; // 该用户是否点过赞
     private boolean isCollection; // 该用户是否收藏过
 
@@ -117,9 +120,15 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
         presenter.init();
     }
 
+    private void getExtraData() {
+        Bundle bundle = getIntent().getExtras();
+        postId = bundle.getString("postId");
+    }
+
     @Override
     public void initView() {
         setTitleText("文章详情");
+        getExtraData();
         presenter.doGetPostInfo(postId);
 
         mWebView.setWebViewClient(new WebViewClient() {
@@ -143,20 +152,24 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
         });
         WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true); // 必须设置，不然网页加载不出来
-        settings.setDefaultTextEncodingName("utf-8");
-        mWebView.loadUrl(articleUrl);
+        settings.setDefaultTextEncodingName("UTF-8");
+//        mWebView.loadUrl(articleUrl);
 
-        referList = new ArrayList<>();
-        adapter = new HotAdapter(this, referList, R.layout.gv_hot_item);
-        mGridView.setAdapter(adapter);
+        mGridView.setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> {
+            postId = referList.get(position).articleId;
+            presenter.doGetPostInfo(postId);
+        });
     }
 
-    @OnClick({R.id.img_back, R.id.img_collect, R.id.img_praise, R.id.img_share, R.id.img_comment})
+    @OnClick({R.id.img_back, R.id.img_collect_inner, R.id.img_collect, R.id.img_praise, R.id.img_share, R.id.img_share_inner, R.id.img_comment})
     public void onClick(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.img_back: // 返回
                 finish();
+                break;
+            case R.id.img_collect_inner:
+                presenter.doCollection(postId);
                 break;
             case R.id.img_collect: // 收藏
                 presenter.doCollection(postId);
@@ -165,6 +178,16 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
                 presenter.doThumb(postId);
                 break;
             case R.id.img_share:
+                // 分享弹出
+                UPMediaMessage messageInner = new UPMediaMessage();
+                messageInner.setShareFrom(UPMediaMessage.SHARE_FROM_APP);
+                messageInner.setTitle("title");
+                messageInner.setSMSDesc("desc");
+                messageInner.setDescription("description");
+                messageInner.setUrl("http://www.baidu.com");
+                intent.setClass(this, ZRActivityShareEntry.class);
+                intent.putExtra(ZRConstant.KEY_EXTRA_INTRO, messageInner);
+                startActivity(intent);
             case R.id.img_share_inner: // 分享
                 // 分享弹出
                 UPMediaMessage message = new UPMediaMessage();
@@ -179,6 +202,7 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
                 break;
             case R.id.img_comment: // 评论
                 intent.setClass(this, ZRActivityFortuneGroupCommentList.class);
+                intent.putExtra("postId", postId);
                 startActivity(intent);
                 break;
         }
@@ -209,10 +233,18 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
             if (null != result) {
                 refreshContentView(result);
             }
+            collectionStatusChanged();
+            praiseStatusChanged();
         }else if (object instanceof CreateCollection) {
             // 收藏返回
+            CreateCollection createCollection = (CreateCollection) object;
+            isCollection = createCollection.collectionStatus;
+            collectionStatusChanged();
         } else if (object instanceof CreateThumb) {
             // 点赞
+            CreateThumb createThumb = (CreateThumb) object;
+            isThumb = createThumb.trhumStatus;
+            praiseStatusChanged();
         }
     }
 
@@ -233,7 +265,7 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
             // 引文富文本
 //            postInfo.quote;
             // 富文本内容
-//            postInfo.content;
+            mWebView.loadData(postInfo.content, "text/html", "UTF-8");
             tvTime.setText(ZRUtils.formatTime(postInfo.postTime, ZRUtils.TIME_FORMAT14));
             // 设置作者信息
             if (!TextUtils.isEmpty(postInfo.authorInfo.photoURL)) {
@@ -246,7 +278,22 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
         isThumb = result.thumbStatus;
         isCollection = result.collectionStatus;
         referList = result.referList;
-        adapter.notifyDataSetChanged();
+        adapter = new HotAdapter(this, referList, R.layout.gv_hot_item);
+        mGridView.setAdapter(adapter);
+    }
+
+    /**
+     * 收藏状态变化
+     */
+    private void collectionStatusChanged() {
+        imgCollect.setImageResource(isCollection ? R.mipmap.icon_collection_selected : R.mipmap.icon_collection_normal);
+    }
+
+    /**
+     * 点赞状态变化
+     */
+    private void praiseStatusChanged() {
+        imgPraise.setImageResource(isThumb ? R.mipmap.icon_praise_selected : R.mipmap.icon_praise_normal);
     }
 
     @Override
@@ -265,32 +312,6 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
             ((ZRCircleImageView) helper.getView(R.id.img_hot_img)).setRectAdius(16);
             helper.setImageByUrl(R.id.img_hot_img, item.coverImgURL);
             helper.setText(R.id.tv_hot_title, item.title);
-        }
-    }
-
-    static class Hot {
-        private String imgUrl;
-        private String title;
-
-        public Hot(String imgUrl, String title) {
-            this.imgUrl = imgUrl;
-            this.title = title;
-        }
-
-        public String getImgUrl() {
-            return imgUrl;
-        }
-
-        public void setImgUrl(String imgUrl) {
-            this.imgUrl = imgUrl;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
         }
     }
 
@@ -337,7 +358,7 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
                 distanceY = (int) (yMove - yDown);
                 // 获取顺时速度
                 int ySpeed = getScrollVelocity();
-//                Log.d(TAG, "sepeed: " + ySpeed + ", distanceY: " + distanceY);
+                //                Log.d(TAG, "sepeed: " + ySpeed + ", distanceY: " + distanceY);
                 // 底部容器显示与隐藏需满足以下条件：
                 // 1.y轴速度>YSPEED_MIN
                 // 2.向下滑工具栏消失
@@ -350,8 +371,8 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
                 } else if (ySpeed > YSPEED_MIN && distanceY < -YDISTANCE_MIN) {
                     // 向上滑
                     if (isButtomContainerHiding) {
-                    hideOrShowButtomContainer();
-                }
+                        hideOrShowButtomContainer();
+                    }
                 }
                 break;
             case MotionEvent.ACTION_UP:

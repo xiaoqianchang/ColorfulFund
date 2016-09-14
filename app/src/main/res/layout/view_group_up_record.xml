@@ -25,7 +25,7 @@
             android:gravity="center_horizontal"
             android:maxEms="7"
             android:singleLine="true"
-            android:text="二个月时的样子"
+            android:text=""
             android:textColor="@color/white"
             android:textSize="@dimen/font_size_15" />
 
@@ -39,7 +39,7 @@
             android:gravity="center_horizontal"
             android:maxEms="4"
             android:singleLine="true"
-            android:text="¥3000"
+            android:text=""
             android:textColor="@color/white"
             android:textSize="@dimen/font_size_13" />
 
@@ -53,7 +53,7 @@
             android:gravity="center_horizontal"
             android:maxEms="7"
             android:singleLine="true"
-            android:text="16/03/20"
+            android:text=""
             android:textColor="@color/white"
             android:textSize="@dimen/font_size_13" />
 

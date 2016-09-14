@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -15,12 +16,17 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zritc.colorfulfund.R;
+import com.zritc.colorfulfund.activity.fortunegroup.ZRActivityArticleDetails;
+import com.zritc.colorfulfund.activity.fortunegroup.ZRActivityVideoDetails;
 import com.zritc.colorfulfund.activity.fund.ZRActivityFundList;
 import com.zritc.colorfulfund.activity.fund.ZRActivityGroupRedemption;
+import com.zritc.colorfulfund.activity.fund.ZRActivityMultiFundApplyPurchase;
 import com.zritc.colorfulfund.activity.fund.ZRActivitySingleRedemption;
+import com.zritc.colorfulfund.activity.scene.ZRActivityEduScene;
 import com.zritc.colorfulfund.activity.wish.ZRActivityWishHomePage;
 import com.zritc.colorfulfund.base.ZRActivityBase;
 import com.zritc.colorfulfund.data.response.circle.GetCommentList4C;
@@ -45,20 +51,37 @@ import com.zritc.colorfulfund.data.response.user.Login;
 import com.zritc.colorfulfund.data.response.user.PrepareRegisterAcc;
 import com.zritc.colorfulfund.data.response.user.RegisterAcc;
 import com.zritc.colorfulfund.data.response.user.SetTransPwd;
+import com.zritc.colorfulfund.data.response.wish.CreateUserWishList4C;
+import com.zritc.colorfulfund.data.response.wish.DeleteUserWishList4C;
+import com.zritc.colorfulfund.data.response.wish.GetUserWishLists4C;
+import com.zritc.colorfulfund.data.response.wish.GetWishListTypes4C;
+import com.zritc.colorfulfund.data.response.wish.WithdrawAssetFromWishlist4C;
 import com.zritc.colorfulfund.http.ResponseCallBack;
 import com.zritc.colorfulfund.http.ZRNetManager;
+import com.zritc.colorfulfund.http.ZRRetrofit;
 import com.zritc.colorfulfund.ui.ZRCircleImageView;
 import com.zritc.colorfulfund.utils.ZRConstant;
 import com.zritc.colorfulfund.utils.ZRDeviceInfo;
 import com.zritc.colorfulfund.utils.ZRSharePreferenceKeeper;
+import com.zritc.colorfulfund.utils.ZRUtils;
 import com.zritc.colorfulfund.widget.CircleImageView;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TestNetApiActivity extends ZRActivityBase {
 
@@ -96,15 +119,16 @@ public class TestNetApiActivity extends ZRActivityBase {
             R.id.btn_buy_po, R.id.btn_user_bank_cards4C, R.id.btn_user_po_list4C, R.id.btn_user_po_info4C,
             R.id.btn_fund_po_list4C, R.id.btn_fund_po_info4C, R.id.btn_single_redemption, R.id.btn_estimateBuyFundFee,
             R.id.btn_article_details, R.id.btn_video_details, R.id.btn_call_camera, R.id.btn_record_growth,
-            R.id.btn_generate_album, R.id.btn_wish_home_page,
+            R.id.btn_generate_album, R.id.btn_edu_scene, R.id.btn_wish_home_page,
             R.id.btn_create_post, R.id.btn_create_comment, R.id.btn_create_thumb, R.id.btn_create_collection,
-            R.id.btn_create_report, R.id.btn_read_post, R.id.btn_Post_info, R.id.btn_Post_list, R.id.btn_Comment_list})
+            R.id.btn_create_report, R.id.btn_read_post, R.id.btn_Post_info, R.id.btn_Post_list, R.id.btn_Comment_list,
+            R.id.btn_WishLists, R.id.btn_CreateUserWish, R.id.btn_GetWishListTypes, R.id.btn_DeleteUserWish, R.id.btn_WithdrawAssetFromWishlist})
     public void onClick(View view) {
         String realName = "张三";
         String identityNo = "110101190001012837"; // 110101190001012837
         String paymentType = "bank:003";
         String paymentNo = "6222023803013297864";
-        String phone = "18512123013"; // 18721081671
+        String phone = "18817618813"; // 18721081671、18512123013、18817618813
         String password = "123456";
         String vCode = "0453";
         String poCode = "ZH000484";
@@ -149,8 +173,8 @@ public class TestNetApiActivity extends ZRActivityBase {
                         ZRSharePreferenceKeeper.keepStringValue(mContext, ZRConstant.KEY_SID, login.sid);
                         ZRSharePreferenceKeeper.keepStringValue(mContext, ZRConstant.KEY_RID, login.rid);
                         showToast(login.msg);
-//                        Intent intent = new Intent(mContext, ZRActivityMain.class);
-//                        mContext.startActivity(intent);
+                        //                        Intent intent = new Intent(mContext, ZRActivityMain.class);
+                        //                        mContext.startActivity(intent);
                     }
 
                     @Override
@@ -207,12 +231,12 @@ public class TestNetApiActivity extends ZRActivityBase {
                     @Override
                     public void onSuccess(SetTransPwd setTransPwd) {
                         showToast(setTransPwd.msg);
-                            }
+                    }
 
                     @Override
                     public void onError(String code, String msg) {
                         showToast(msg);
-                        }
+                    }
                 });
                 break;
             case R.id.btn_estimateBuyFundFee: // 估算申购费用
@@ -339,6 +363,9 @@ public class TestNetApiActivity extends ZRActivityBase {
                 break;
             case R.id.btn_generate_album: // 成长相册
                 openImageSelector();
+                break;
+            case R.id.btn_edu_scene: // 教育场景
+                startActivity(new Intent(this, ZRActivityEduScene.class));
                 break;
             case R.id.btn_wish_home_page: // 心愿首页
                 startActivity(new Intent(this, ZRActivityWishHomePage.class));
@@ -469,7 +496,179 @@ public class TestNetApiActivity extends ZRActivityBase {
                     }
                 });
                 break;
+            case R.id.btn_WishLists: // 获取心愿列表
+                Call<GetUserWishLists4C> userWishLists4CCallbackByPost = ZRNetManager.getInstance().getUserWishLists4CCallbackByPost();
+                userWishLists4CCallbackByPost.enqueue(new ResponseCallBack<GetUserWishLists4C>(GetUserWishLists4C.class) {
+                    @Override
+                    public void onSuccess(GetUserWishLists4C getUserWishLists4C) {
+                        showToast(getUserWishLists4C.toString());
+                    }
+
+                    @Override
+                    public void onError(String code, String msg) {
+                        showToast(msg);
+                    }
+                });
+                break;
+            case R.id.btn_CreateUserWish: // 创建用户心愿
+                Call<CreateUserWishList4C> createUserWishList = ZRNetManager.getInstance().createUserWishList4CCallbackByPost(1, "篮球", "12", String.valueOf(ZRUtils.getCurrentLongTime()));
+                createUserWishList.enqueue(new ResponseCallBack<CreateUserWishList4C>(CreateUserWishList4C.class) {
+                    @Override
+                    public void onSuccess(CreateUserWishList4C createUserWishList4C) {
+                        showToast(createUserWishList4C.toString());
+                    }
+
+                    @Override
+                    public void onError(String code, String msg) {
+                        showToast(msg);
+                    }
+                });
+                break;
+            case R.id.btn_GetWishListTypes: // 获取心愿类型列表
+                Call<GetWishListTypes4C> wishListTypes4CCallbackByPost = ZRNetManager.getInstance().getWishListTypes4CCallbackByPost();
+                wishListTypes4CCallbackByPost.enqueue(new ResponseCallBack<GetWishListTypes4C>(GetWishListTypes4C.class) {
+                    @Override
+                    public void onSuccess(GetWishListTypes4C getWishListTypes4C) {
+                        showToast(getWishListTypes4C.toString());
+                    }
+
+                    @Override
+                    public void onError(String code, String msg) {
+                        showToast(msg);
+                    }
+                });
+                break;
+            case R.id.btn_DeleteUserWish: // 删除用户心愿
+                Call<DeleteUserWishList4C> deleteUserWishList4CCallbackByPost = ZRNetManager.getInstance().deleteUserWishList4CCallbackByPost(1);
+                deleteUserWishList4CCallbackByPost.enqueue(new ResponseCallBack<DeleteUserWishList4C>(DeleteUserWishList4C.class) {
+                    @Override
+                    public void onSuccess(DeleteUserWishList4C deleteUserWishList4C) {
+                        showToast(deleteUserWishList4C.toString());
+                    }
+
+                    @Override
+                    public void onError(String code, String msg) {
+                        showToast(msg);
+                    }
+                });
+                break;
+            case R.id.btn_WithdrawAssetFromWishlist: // 取回心愿资金
+                Call<WithdrawAssetFromWishlist4C> withdrawAssetFromWishlist4CCallbackByPost = ZRNetManager.getInstance().withdrawAssetFromWishlist4CCallbackByPost(poCode, 1, "篮球");
+                withdrawAssetFromWishlist4CCallbackByPost.enqueue(new ResponseCallBack<WithdrawAssetFromWishlist4C>(WithdrawAssetFromWishlist4C.class) {
+                    @Override
+                    public void onSuccess(WithdrawAssetFromWishlist4C withdrawAssetFromWishlist4C) {
+                        showToast(withdrawAssetFromWishlist4C.toString());
+                    }
+
+                    @Override
+                    public void onError(String code, String msg) {
+                        showToast(msg);
+                    }
+                });
+                break;
         }
+    }
+
+    /**
+     * 从相册获取返回
+     *
+     * @param path
+     */
+    @Override
+    protected void onGalleryComplete(String path) {
+        super.onGalleryComplete(path);
+        uploadImage(path);
+    }
+
+    /**
+     * 上传图片
+     *
+     * @param path
+     */
+    private void uploadImage(String path) {
+        String descriptionString = "hello, this is description speaking";
+
+        File file = new File(path);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file); // multipart/form-data // image/*
+        Map<String, RequestBody> params = new HashMap<>();
+        params.put("sid", toRequestBody(ZRDeviceInfo.getSid()));
+        params.put("deviceid", toRequestBody(ZRDeviceInfo.getDeviceID()));
+        params.put("rid", toRequestBody(ZRDeviceInfo.getRid()));
+        params.put("pathKey", toRequestBody("Upload_File_EDU"));
+        params.put("file\"; filename=\"image.png\"" + file.getName(), requestBody); // uploadImages
+        /*Call<ResponseBody> call = ZRRetrofit.getFileUploadApiInstance().uploadAvatar(
+                "http://172.16.101.52:9007/uploadFile"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+                , "Upload_File_EDU"
+                , file.getName()
+                , requestBody);*/
+        Call<ResponseBody> call = ZRRetrofit.getFileUploadApiInstance().uploadAvatar(
+                "http://172.16.101.201:9006/uploadFile"
+                , params);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    Log.v("Upload", response.message());
+                    Log.i("Upload", response.toString());
+                    Log.i("Upload", response.body().string());
+                    Log.v("Upload", "success");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e("Upload", t.toString());
+            }
+        });
+        /*call.enqueue(new ResponseCallBack<ResponseBody>(ResponseBody.class) {
+            @Override
+            public void onSuccess(ResponseBody responseBody) {
+                try {
+                    Log.v("Upload", responseBody.string());
+                    Log.v("Upload", "success");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(String code, String msg) {
+                Log.e("Upload", msg);
+            }
+        });*/
+        /*call.enqueue(new ResponseCallBack<String>(String.class) {
+            @Override
+            public void onSuccess(String s) {
+                Log.v("Upload", s);
+                Log.v("Upload", "success");
+            }
+
+            @Override
+            public void onError(String code, String msg) {
+                Log.e("Upload", msg);
+            }
+        });*/
+        /*call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                Log.v("Upload", response.message());
+                Log.v("Upload", "success");
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.e("Upload", t.toString());
+            }
+        });*/
+    }
+
+    public RequestBody toRequestBody(String value) {
+        return RequestBody.create(MediaType.parse("text/plain"), value);
     }
 
     static class RecordGrowthDialog extends Dialog {
@@ -483,20 +682,13 @@ public class TestNetApiActivity extends ZRActivityBase {
         @Bind(R.id.edt_description)
         EditText edtDescription;
 
-        @Bind(R.id.ll_save_money)
-        LinearLayout llShowSaveMoney;
-
-        @Bind(R.id.edt_money)
-        EditText edtMoney;
-
-        @Bind(R.id.btn_save_money)
-        Button btnsavemoney;
+        @Bind(R.id.tv_money)
+        TextView tvMoney;
 
         @Bind(R.id.btn_complete)
         Button btnComplete;
 
         private Context mContext;
-        private boolean isShowSaveMoney = false;
 
         public RecordGrowthDialog(Context context) {
             super(context);
@@ -544,44 +736,27 @@ public class TestNetApiActivity extends ZRActivityBase {
                     btnComplete.setEnabled(!TextUtils.isEmpty(description));
                 }
             });
-
-            edtMoney.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    String money = s.toString();
-                    btnsavemoney.setEnabled(!TextUtils.isEmpty(money));
-                }
-            });
         }
 
-        @OnClick({R.id.img_cancle, R.id.ll_show_save_money, R.id.btn_save_money, R.id.btn_complete})
+        @OnClick({R.id.img_cancle, R.id.ll_show_save_money, R.id.btn_complete})
         public void onClick(View view) {
+            Intent intent = new Intent();
             switch (view.getId()) {
                 case R.id.img_cancle: // 关闭
                     dismiss();
                     break;
-                case R.id.ll_show_save_money:
-                    if (isShowSaveMoney) {
-                        llShowSaveMoney.setVisibility(View.GONE);
-                        isShowSaveMoney = false;
-                    } else {
-                        llShowSaveMoney.setVisibility(View.VISIBLE);
-                        isShowSaveMoney = true;
-                    }
-                    break;
-                case R.id.btn_save_money: // 走基金申购流程
+                case R.id.ll_show_save_money: // 走基金申购流程
+                    // 世界申购
+                    intent.setClass(getContext(), ZRActivityMultiFundApplyPurchase.class);
+                    Bundle bundle = new Bundle();
+                    GetFundPoList4C.FundPoList pro = new GetFundPoList4C().new FundPoList();
+                    pro.poBase = new GetFundPoList4C().new PoBase();
+                    bundle.putSerializable("GetFundPoList4C.FundPoList", pro);
+                    intent.putExtras(bundle);
+                    getContext().startActivity(intent);
                     break;
                 case R.id.btn_complete: // 保存图片到服务端
+                    Toast.makeText(getContext(), "Coding中", Toast.LENGTH_SHORT).show();
                     break;
             }
         }
@@ -589,9 +764,22 @@ public class TestNetApiActivity extends ZRActivityBase {
 
     private ArrayList<String> mSelectPath = new ArrayList<String>();
     private void openImageSelector() {
+        // 外部图片资源
+        ArrayList<String> externalList = new ArrayList<>();
+        externalList.add("http://scimg.jb51.net/allimg/160813/103-160Q3143110P5.jpg");
+        externalList.add("http://scimg.jb51.net/allimg/160815/103-160Q509544OC.jpg");
+        externalList.add("http://img2.imgtn.bdimg.com/it/u=1509312158,1202655144&fm=21&gp=0.jpg");
+        externalList.add("http://pic24.nipic.com/20121029/5056611_120019351000_2.jpg");
+        externalList.add("http://www.pptbz.com/pptpic/uploadfiles_6909/201202/2012022917310499.jpg");
+        externalList.add("http://pic14.nipic.com/20110610/7181928_110502231129_2.jpg");
+        externalList.add("http://img.taopic.com/uploads/allimg/120423/107913-12042323220753.jpg");
+        externalList.add("http://pic51.nipic.com/file/20141016/24066_130156779281_2.jpg");
+        externalList.add("http://www.xxjxsj.cn/article/uploadpic/2012-4/201241221251481736.jpg");
+        externalList.add("http://pic4.nipic.com/20090910/2302530_144753008092_2.jpg");
+        externalList.add("http://img102.mypsd.com.cn/20120929/1/Mypsd_13953_201209291653040031B.jpg");
         Intent intent = new Intent();
         int selectedMode = ZRActivityGenerateAlbum.MODE_MULTI;
-        int maxNum = 10; // 最大可选择图片的数量
+        int maxNum = externalList.size(); // 最大可选择图片的数量
         intent.setClass(mContext, ZRActivityGenerateAlbum.class);
         // 是否显示拍摄图片
         intent.putExtra(
@@ -610,22 +798,9 @@ public class TestNetApiActivity extends ZRActivityBase {
                     ZRActivityGenerateAlbum.EXTRA_DEFAULT_SELECTED_LIST,
                     mSelectPath);
         }
-        // 外部图片资源
-        ArrayList<String> externalList = new ArrayList<>();
-        externalList.add("http://scimg.jb51.net/allimg/160813/103-160Q3143110P5.jpg");
-        externalList.add("http://scimg.jb51.net/allimg/160815/103-160Q509544OC.jpg");
-        externalList.add("http://img2.imgtn.bdimg.com/it/u=1509312158,1202655144&fm=21&gp=0.jpg");
-        externalList.add("http://pic24.nipic.com/20121029/5056611_120019351000_2.jpg");
-        externalList.add("http://www.pptbz.com/pptpic/uploadfiles_6909/201202/2012022917310499.jpg");
-        externalList.add("http://pic14.nipic.com/20110610/7181928_110502231129_2.jpg");
-        externalList.add("http://img.taopic.com/uploads/allimg/120423/107913-12042323220753.jpg");
-        externalList.add("http://pic51.nipic.com/file/20141016/24066_130156779281_2.jpg");
-        externalList.add("http://www.xxjxsj.cn/article/uploadpic/2012-4/201241221251481736.jpg");
-        externalList.add("http://pic4.nipic.com/20090910/2302530_144753008092_2.jpg");
-        externalList.add("http://img102.mypsd.com.cn/20120929/1/Mypsd_13953_201209291653040031B.jpg");
-        intent.putExtra(
-                ZRActivityGenerateAlbum.EXTRA_EXTERNAL_LIST,
-                externalList);
+//        intent.putExtra(
+//                ZRActivityGenerateAlbum.EXTRA_EXTERNAL_LIST,
+//                externalList);
         startActivityForResult(intent,
                 ZRConstant.ACTIVITY_REQUEST_TAKE_PICTURE);
     }

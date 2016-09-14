@@ -1,43 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:layout_height="match_parent">
+    android:id="@+id/rl_scene_photo_cell"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-<include
-    android:id="@+id/rl_scene_photo1"
-    layout="@layout/view_group_up_record"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentLeft="true"
-    android:layout_marginLeft="52dp" />
+    <include
+        android:id="@+id/rl_scene_photo1"
+        layout="@layout/view_group_up_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="52dp" />
 
-<include
-    android:id="@+id/rl_scene_photo2"
-    layout="@layout/view_group_up_record"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentRight="true"
-    android:layout_marginRight="20dp"
-    android:layout_marginTop="90dp" />
+    <include
+        android:id="@+id/rl_scene_photo2"
+        layout="@layout/view_group_up_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="90dp" />
 
-<include
-    android:id="@+id/rl_scene_photo3"
-    layout="@layout/view_group_up_record"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentLeft="true"
-    android:layout_below="@id/rl_scene_photo1"
-    android:layout_marginLeft="30dp"
-    android:layout_marginTop="60dp" />
+    <include
+        android:id="@+id/rl_scene_photo3"
+        layout="@layout/view_group_up_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/rl_scene_photo1"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="60dp" />
 
-<include
-    android:id="@+id/rl_add_scene_photo4"
-    layout="@layout/view_group_up_record"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentRight="true"
-    android:layout_below="@id/rl_scene_photo2"
-    android:layout_marginRight="40dp"
-    android:layout_marginTop="50dp" />
+    <include
+        android:id="@+id/rl_add_scene_photo4"
+        layout="@layout/view_group_up_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/rl_scene_photo2"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="50dp" />
 
 </RelativeLayout>

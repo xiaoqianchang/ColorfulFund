@@ -10,13 +10,13 @@ import android.widget.ImageButton;
 import com.jakewharton.rxbinding.view.RxView;
 import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.base.ZRActivityBase;
+import com.zritc.colorfulfund.data.model.wish.WishCategory;
 import com.zritc.colorfulfund.iView.ICreateWishView;
 import com.zritc.colorfulfund.presenter.CreateWishPresenter;
 import com.zritc.colorfulfund.ui.ZRGridView;
 import com.zritc.colorfulfund.ui.adapter.ZRCommonAdapter;
 import com.zritc.colorfulfund.ui.adapter.ZRViewHolder;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -33,6 +33,8 @@ import butterknife.OnClick;
  */
 public class ZRActivityCreateWish extends ZRActivityBase<CreateWishPresenter> implements ICreateWishView {
 
+    private static final int REQUEST_CODE_CREATEWISH = 0x411;
+
     @Bind(R.id.imgBtn_back)
     ImageButton imgBtnBack;
 
@@ -43,7 +45,7 @@ public class ZRActivityCreateWish extends ZRActivityBase<CreateWishPresenter> im
     Button btnNext;
 
     private CreateWishPresenter presenter;
-    private List<CreateWish> datas = new ArrayList<>();
+    private List<WishCategory> datas = new ArrayList<>();
     private CreateWishAdapter adapter;
 
     @Override
@@ -63,7 +65,6 @@ public class ZRActivityCreateWish extends ZRActivityBase<CreateWishPresenter> im
                 .subscribe(aVoid -> {
                     finish();
                 });
-        initData();
         adapter = new CreateWishAdapter(this, datas, R.layout.gv_create_wish_item);
         gvCreateWish.setAdapter(adapter);
 
@@ -71,32 +72,16 @@ public class ZRActivityCreateWish extends ZRActivityBase<CreateWishPresenter> im
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(mContext, ZRActivityWishSettingOne.class);
-                if (position == datas.size() - 1) {
-                    // 自定义
-                } else {
-                    intent.putExtra("wish", datas.get(position));
-                }
-                startActivity(intent);
+                intent.putExtra("wish", datas.get(position));
+                startActivityForResult(intent, REQUEST_CODE_CREATEWISH);
             }
         });
-    }
-
-    private void initData() {
-        datas.add(new CreateWish(R.mipmap.packet, "包包"));
-        datas.add(new CreateWish(R.mipmap.car, "汽车"));
-        datas.add(new CreateWish(R.mipmap.watch, "手表"));
-        datas.add(new CreateWish(R.mipmap.phone, "手机"));
-        datas.add(new CreateWish(R.mipmap.travel, "旅游"));
-        datas.add(new CreateWish(R.mipmap.custom, "自定义"));
+        presenter.doGetWishListTypes();
     }
 
     @OnClick({R.id.btn_next})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_next:
-                // 进入心愿设置
-                startActivity(new Intent(this, ZRActivityWishSettingOne.class));
-                break;
         }
     }
 
@@ -112,7 +97,9 @@ public class ZRActivityCreateWish extends ZRActivityBase<CreateWishPresenter> im
 
     @Override
     public void onSuccess(Object object) {
-
+        datas.clear();
+        datas.addAll(presenter.categoryList);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -120,42 +107,29 @@ public class ZRActivityCreateWish extends ZRActivityBase<CreateWishPresenter> im
 
     }
 
-    class CreateWishAdapter extends ZRCommonAdapter<CreateWish> {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_CODE_CREATEWISH:
+                    setResult(RESULT_OK);
+                    finish();
+                    break;
+            }
+        }
+    }
 
-        public CreateWishAdapter(Context context, List<CreateWish> mDatas, int itemLayoutId) {
+    class CreateWishAdapter extends ZRCommonAdapter<WishCategory> {
+
+        public CreateWishAdapter(Context context, List<WishCategory> mDatas, int itemLayoutId) {
             super(context, mDatas, itemLayoutId);
         }
 
         @Override
-        public void convert(int position, ZRViewHolder helper, CreateWish item) {
-            helper.setImageResource(R.id.img_category_bg, item.getBgResId());
-            helper.setText(R.id.tv_category_name, item.getName());
-        }
-    }
-
-    static class CreateWish implements Serializable {
-        private int bgResId;
-        private String name;
-
-        public CreateWish(int bgResId, String name) {
-            this.bgResId = bgResId;
-            this.name = name;
-        }
-
-        public int getBgResId() {
-            return bgResId;
-        }
-
-        public void setBgResId(int bgResId) {
-            this.bgResId = bgResId;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
+        public void convert(int position, ZRViewHolder helper, WishCategory item) {
+            helper.setImageResource(R.id.img_category_bg, item.imgUrl);
+            helper.setText(R.id.tv_category_name, item.name);
         }
     }
 }

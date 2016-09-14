@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -17,7 +18,7 @@
         <TextView
             android:id="@+id/tv_tag"
             style="@style/ltgray_text_font_10_style"
-            android:text="Business"
+            tools:text="Business"
             android:background="@mipmap/purple_bg"
             android:padding="@dimen/padding_2"
             android:textColor="@color/white"/>
@@ -29,7 +30,8 @@
             android:gravity="left"
             android:lineSpacingExtra="1.5dp"
             android:lineSpacingMultiplier="1.1"
-            android:text="VR创业？想赚快钱的都散了吧"                                                            android:textColor="#2e2e2e"/>
+            tools:text="VR创业？想赚快钱的都散了吧"
+            android:textColor="#2e2e2e"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -45,7 +47,7 @@
                 android:gravity="bottom"
                 android:orientation="horizontal">
 
-            <com.zritc.colorfulfund.ui.ZRCircleImageView
+                <com.zritc.colorfulfund.ui.ZRCircleImageView
                     android:id="@+id/img_user"
                     android:layout_width="@dimen/height_44"
                     android:layout_height="@dimen/height_44"
@@ -69,7 +71,7 @@
                 android:layout_marginLeft="@dimen/padding_15"
                 android:layout_toRightOf="@id/ll_header"
                 android:gravity="center"
-                android:text="名字"
+                tools:text="名字"
                 android:maxLength="14"
                 android:textColor="#bdbdbd"
                 android:textSize="@dimen/font_size_11"/>
@@ -82,22 +84,23 @@
                 android:layout_centerVertical="true"
                 android:singleLine="true"
                 android:ellipsize="end"
-                android:text="07月15日"                                                                                android:textColor="#bdbdbd"
+                tools:text="07月15日"
+                android:textColor="#bdbdbd"
                 android:textSize="@dimen/font_size_11"/>
         </RelativeLayout>
     </LinearLayout>
-                        <RelativeLayout
+
+    <RelativeLayout
         android:id="@+id/ll_article"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true">
 
-    <WebView
-        android:id="@+id/wv_webView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-/>
-        </RelativeLayout>
+        <WebView
+            android:id="@+id/wv_webView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
 
     <!-- 点赞、转发 -->
     <LinearLayout
@@ -109,7 +112,7 @@
 
         <!-- 收藏 -->
         <ImageView
-            android:id="@+id/img_collect"
+            android:id="@+id/img_collect_inner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="50dp"
@@ -129,13 +132,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_20"
-        android:layout_marginBottom="@dimen/padding_20"
+        android:paddingBottom="49dp"
         android:paddingLeft="@dimen/padding_30"
         android:paddingRight="@dimen/padding_30"
         android:background="@color/white"
         android:horizontalSpacing="@dimen/padding_10"
         android:numColumns="2"
         android:stretchMode="columnWidth"
-    android:listSelector="@color/transparent"
+        android:listSelector="@color/transparent"
         android:verticalSpacing="@dimen/padding_20" />
 </LinearLayout>

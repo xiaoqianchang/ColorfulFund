@@ -1,8 +1,9 @@
-package com.zritc.colorfulfund.activity;
+package com.zritc.colorfulfund.activity.fortunegroup;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.zritc.colorfulfund.R;
+import com.zritc.colorfulfund.activity.ZRActivityShareEntry;
 import com.zritc.colorfulfund.activity.fortunegroup.ZRActivityFortuneGroupCommentList;
 import com.zritc.colorfulfund.base.ZRActivityBase;
 import com.zritc.colorfulfund.data.response.circle.CreateCollection;
@@ -115,7 +117,7 @@ public class ZRActivityVideoDetails extends ZRActivityBase<VideoDetailsPresenter
     private HotVideoAdapter adapter;
     private List<GetPostInfo4C.ReferList> referList;
     private String mVideoUrl = "";
-    private String postId = "1";
+    private String postId = "";
     private boolean isThumb; // 该用户是否点过赞
     private boolean isCollection; // 该用户是否收藏过
 
@@ -130,16 +132,25 @@ public class ZRActivityVideoDetails extends ZRActivityBase<VideoDetailsPresenter
         presenter.init();
     }
 
+    private void getExtraData() {
+        Bundle bundle = getIntent().getExtras();
+        postId = bundle.getString("postId");
+    }
+
     @Override
     public void initView() {
+        getExtraData();
+
         imgVideoBg.setBackgroundResource(R.mipmap.bg_red);
         referList = new ArrayList<>();
         initData();
         presenter.doGetPostInfo(postId);
-        adapter = new HotVideoAdapter(this, referList, R.layout.lv_video_detail_item);
-        mHotVideo.setAdapter(adapter);
         mHotVideo.setOnItemClickListener((parent, view, position, id) -> {
             mVideoUrl = referList.get(position).content;
+            if (!ZRUtils.isUrl(mVideoUrl)) {
+                showToast("不是正确的播放地址");
+                return;
+            }
             play();
         });
 
@@ -221,7 +232,7 @@ public class ZRActivityVideoDetails extends ZRActivityBase<VideoDetailsPresenter
                 mLoadView.setVisibility(View.GONE);
             }
         });
-        mVideoView.setOnJjOpenFailedListener(new OnJjOnOpenFailedListener(){
+        mVideoView.setOnJjOpenFailedListener(new OnJjOnOpenFailedListener() {
 
             @Override
             public boolean onJjOpenFailed(int arg0, int arg1) {
@@ -245,16 +256,20 @@ public class ZRActivityVideoDetails extends ZRActivityBase<VideoDetailsPresenter
         Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.img_play:
+                if (!ZRUtils.isUrl(mVideoUrl)) {
+                    showToast("不是正确的播放地址");
+                    return;
+                }
                 play();
                 break;
             case R.id.img_back: // 返回
                 finish();
                 break;
             case R.id.img_collect: // 收藏
-                showToast("攻城狮正在Coding...");
+                presenter.doCollection(postId);
                 break;
             case R.id.img_praise: // 赞
-                showToast("攻城狮正在Coding...");
+                presenter.doThumb(postId);
                 break;
             case R.id.img_share: // 分享
                 // 分享弹出
@@ -270,6 +285,7 @@ public class ZRActivityVideoDetails extends ZRActivityBase<VideoDetailsPresenter
                 break;
             case R.id.img_comment: // 评论
                 intent.setClass(this, ZRActivityFortuneGroupCommentList.class);
+                intent.putExtra("postId", postId);
                 startActivity(intent);
                 break;
         }
@@ -317,10 +333,18 @@ public class ZRActivityVideoDetails extends ZRActivityBase<VideoDetailsPresenter
             if (null != result) {
                 refreshContentView(result);
             }
+            collectionStatusChanged();
+            praiseStatusChanged();
         }else if (object instanceof CreateCollection) {
             // 收藏返回
+            CreateCollection createCollection = (CreateCollection) object;
+            isCollection = createCollection.collectionStatus;
+            collectionStatusChanged();
         } else if (object instanceof CreateThumb) {
             // 点赞
+            CreateThumb createThumb = (CreateThumb) object;
+            isThumb = createThumb.trhumStatus;
+            praiseStatusChanged();
         }
     }
 
@@ -350,7 +374,22 @@ public class ZRActivityVideoDetails extends ZRActivityBase<VideoDetailsPresenter
         isThumb = result.thumbStatus;
         isCollection = result.collectionStatus;
         referList = result.referList;
-        adapter.notifyDataSetChanged();
+        adapter = new HotVideoAdapter(this, referList, R.layout.lv_video_detail_item);
+        mHotVideo.setAdapter(adapter);
+    }
+
+    /**
+     * 收藏状态变化
+     */
+    private void collectionStatusChanged() {
+        imgCollect.setImageResource(isCollection ? R.mipmap.icon_collection_selected : R.mipmap.icon_collection_normal);
+    }
+
+    /**
+     * 点赞状态变化
+     */
+    private void praiseStatusChanged() {
+        imgPraise.setImageResource(isThumb ? R.mipmap.icon_praise_selected : R.mipmap.icon_praise_normal);
     }
 
     @Override

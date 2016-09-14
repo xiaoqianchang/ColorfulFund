@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * Net Response Bean 获取帖子列表
- *
+ * <p>
  * package: 						com.zrt.dc.controllers.circle
  * svcName(服务名): 					GetPostList4C
  * svcCaption( 服务中文名，可用于注释): 	获取帖子列表
@@ -49,10 +49,7 @@ public class GetPostList4C implements Serializable {
 	 */
 	public String optype = "";
 
-	/**
-	 * 
-	 */
-	public List<PostList> postList;
+    public PostListPerPage postListPerPage;
     
 	/**
      * postList
@@ -118,7 +115,7 @@ public class GetPostList4C implements Serializable {
 		
 		@Override
 		public String toString() {
-			return "PostList{" +
+            return "PostList4C{" +
 					"articleId='" + articleId + '\'' +
 					", coverImgURL='" + coverImgURL + '\'' +
 					", tagList=" + tagList +
@@ -134,6 +131,7 @@ public class GetPostList4C implements Serializable {
 					'}';
 		}
     }
+
 	/**
      * tagList
      */
@@ -163,6 +161,31 @@ public class GetPostList4C implements Serializable {
 					'}';
 		}
     }
+
+    /**
+     * postListPerPage
+     */
+    public class PostListPerPage implements Serializable {
+
+        /**
+         * 当前是第几页
+         */
+        public long pageindex;
+
+        /**
+         *
+         */
+        public List<PostList> postList;
+
+        @Override
+        public String toString() {
+            return "PostListPerPage{" +
+                    "pageindex=" + pageindex +
+                    ", postList=" + postList +
+                    '}';
+        }
+    }
+
 	/**
      * authorInfo
      */
@@ -201,7 +224,7 @@ public class GetPostList4C implements Serializable {
 				", code='" + code + '\'' +
 				", msg='" + msg + '\'' +
 				", optype='" + optype + '\'' +
-				", postList=" + postList +
+                ", postListPerPage=" + postListPerPage +
 				'}';
 	}
     
@@ -231,11 +254,22 @@ public class GetPostList4C implements Serializable {
 	    		Log.d("GetPostList4C", "has no mapping for key " + "optype" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
 			this.optype = jsonObject.optString("optype");
-	    	if (jsonObject.isNull("postList")) {
+        if (jsonObject.isNull("postListPerPage")) {
+            Log.d("GetPostList4C", "has no mapping for key " + "postListPerPage" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
+        }
+
+        JSONObject jsonObjectPostListPerPage = jsonObject.optJSONObject("postListPerPage");
+        PostListPerPage postListPerPage = new PostListPerPage();
+
+        if (jsonObjectPostListPerPage.isNull("pageindex")) {
+            Log.d("GetPostList4C", "has no mapping for key " + "pageindex" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
+        }
+        postListPerPage.pageindex = jsonObjectPostListPerPage.optLong("pageindex");
+        if (jsonObjectPostListPerPage.isNull("postList")) {
 	    		Log.d("GetPostList4C", "has no mapping for key " + "postList" + " on " + new Throwable().getStackTrace()[0].getClassName() + ", line number " + new Throwable().getStackTrace()[0].getLineNumber());
 	    	}
-			JSONArray postListArray = jsonObject.optJSONArray("postList");
-			this.postList = new ArrayList<>();
+        JSONArray postListArray = jsonObjectPostListPerPage.optJSONArray("postList");
+        postListPerPage.postList = new ArrayList<>();
 			
 			if (null != postListArray && postListArray.length() > 0) {
 				for(int postListi = 0; postListi < postListArray.length(); postListi++) {
@@ -332,11 +366,14 @@ public class GetPostList4C implements Serializable {
 	    		
 	    		postList.authorInfo = authorInfo;
 					
-					this.postList.add(postList);
+                postListPerPage.postList.add(postList);
 				}
 			}
 			
     	
+        this.postListPerPage = postListPerPage;
+
     	return this;
     }
 }
+

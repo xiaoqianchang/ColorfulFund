@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
@@ -26,8 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:visibility="gone">
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/img_category_icon"
@@ -49,6 +49,7 @@
             android:id="@+id/edt_edit_wish"
             android:layout_width="@dimen/width_320"
             android:layout_height="@dimen/padding_60"
+            android:layout_marginTop="@dimen/padding_20"
             android:paddingLeft="@dimen/padding_54"
             android:background="@drawable/bg_edittext_gray"
             android:hint="输入你的心愿"
@@ -60,18 +61,20 @@
             android:id="@+id/target_money"
             android:layout_width="@dimen/height_280"
             android:layout_height="@dimen/height_280"
-            android:layout_marginTop="@dimen/padding_30"/>
+            android:layout_marginTop="@dimen/padding_30"
+            app:type="targetMoney"/>
 
         <com.zritc.colorfulfund.widget.DraggableCircleView
             android:id="@+id/reach_date"
             android:layout_width="@dimen/height_280"
             android:layout_height="@dimen/height_280"
-            android:layout_marginTop="@dimen/padding_70"/>
+            android:layout_marginTop="@dimen/padding_50"
+            app:type="targetDate"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_70"
+            android:layout_marginTop="@dimen/padding_50"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -81,17 +84,20 @@
                 android:src="@mipmap/icon_star"/>
 
             <TextView
+                android:id="@+id/text_each_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/padding_12"
-                android:text="建议每月定投3,000元"/>
+                android:text="建议每月定投0元"/>
         </LinearLayout>
 
+        <!--
+            android:layout_width="@dimen/padding_106" -->
         <Button
             android:id="@+id/btn_next"
             android:layout_width="@dimen/width_324"
             android:layout_height="@dimen/height_92"
             android:background="@mipmap/bg_red_next"
-            android:layout_marginTop="@dimen/padding_106"/>
+            android:layout_marginTop="@dimen/padding_20"/>
     </LinearLayout>
 </ScrollView>

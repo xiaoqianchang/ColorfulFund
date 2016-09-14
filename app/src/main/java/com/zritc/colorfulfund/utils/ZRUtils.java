@@ -4,12 +4,9 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.text.TextUtils;
 
@@ -32,8 +29,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Normal utils used for application.
@@ -193,10 +188,8 @@ public class ZRUtils {
     }
 
     /**
-     * @param time
-	 *            {Aug 28, 2014 9:36:37 AM}
-	 * @param formart
-	 *            {yyyy-MM-dd HH:mm:ss}
+     * @param time   {Aug 28, 2014 9:36:37 AM}
+     * @param format {yyyy-MM-dd HH:mm:ss}
      * @return
      */
     public static String formatDate2(String time, String format) {
@@ -263,6 +256,28 @@ public class ZRUtils {
             e.printStackTrace();
         }
         return "";
+    }
+
+    /**
+     * 计算两个日期相差几年
+     *
+     * @param fromDate {20050531}
+     * @param toDate {20070101}
+     * @return {2}
+     */
+    public static int[] getDateLength(String fromDate, String toDate) {
+        Calendar c1 = getCal(fromDate);
+        Calendar c2 = getCal(toDate);
+        int[] p1 = {c1.get(Calendar.YEAR), c1.get(Calendar.MONTH), c1.get(Calendar.DAY_OF_MONTH)};
+        int[] p2 = {c2.get(Calendar.YEAR), c2.get(Calendar.MONTH), c2.get(Calendar.DAY_OF_MONTH)};
+        return new int[]{p2[0] - p1[0]};
+    }
+
+    public static Calendar getCal(String date) {
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+        cal.set(Integer.parseInt(date.substring(0, 4)), Integer.parseInt(date.substring(4, 6)) - 1, Integer.parseInt(date.substring(6, 8)));
+        return cal;
     }
 
     /**
@@ -493,16 +508,14 @@ public class ZRUtils {
             if (isChinese) {
                 format = "今天 hh:mm";
             }
-        }
-        else if (isYesterday(messageTime)) {
+        } else if (isYesterday(messageTime)) {
             if (isChinese) {
                 format = "昨天 HH:mm";
             } else {
                 format = "MM-dd HH:mm";
             }
 
-        }
-        else {
+        } else {
             if (isChinese) {
                 format = "yyyy-MM-dd";
             } else {
@@ -538,16 +551,14 @@ public class ZRUtils {
 			if (isChinese) {
 				format = "今天 hh:mm";
 			}
-		}
-		else if (isYesterday(messageTime)) {
+        } else if (isYesterday(messageTime)) {
 			if (isChinese) {
 				format = "昨天 HH:mm";
 			} else {
 				format = "MM-dd HH:mm";
 			}
 
-		}
-		else {
+        } else {
 			if (isChinese) {
 				format = "MM-dd HH:mm";
 			} else {
@@ -583,16 +594,14 @@ public class ZRUtils {
 			if (isChinese) {
 				format = "今天 hh:mm " + str;
 			}
-		}
-		else if (isYesterday(messageTime)) {
+        } else if (isYesterday(messageTime)) {
 			if (isChinese) {
 				format = "昨天 HH:mm " + str;
 			} else {
 				format = "MM-dd HH:mm";
 			}
 
-		}
-		else {
+        } else {
 			if (isChinese) {
 				format = "yyyy-MM-dd " + str;
 			} else {
@@ -748,6 +757,7 @@ public class ZRUtils {
 
     /**
 	 * 由毫秒得到分钟数
+     *
 	 * @param milliseconds
 	 * @return
 	 */
@@ -777,6 +787,7 @@ public class ZRUtils {
     /***
      * format card number
      * 6226 **** **** 8888
+     *
      * @param str
      * @return
      */
@@ -1046,5 +1057,35 @@ public class ZRUtils {
         ActivityManager activityManager=(ActivityManager) ZRApplication.applicationContext.getSystemService(Context.ACTIVITY_SERVICE);
         String runningActivity=activityManager.getRunningTasks(1).get(0).topActivity.getClassName();
         return runningActivity;
+    }
+
+    /**
+     * 获取当前时间的年
+     *
+     * @return
+     */
+    public static int getCurrentYear() {
+        Calendar now = Calendar.getInstance();
+        return now.get(Calendar.YEAR);
+    }
+
+    /**
+     * 获取当前时间的月
+     *
+     * @return
+     */
+    public static int getCurrentMonth() {
+        Calendar now = Calendar.getInstance();
+        return now.get(Calendar.MONTH) + 1;
+    }
+
+    /**
+     * 获取当前时间的月
+     *
+     * @return
+     */
+    public static int getCurrentDay() {
+        Calendar now = Calendar.getInstance();
+        return now.get(Calendar.DAY_OF_MONTH);
     }
 }

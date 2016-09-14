@@ -2,6 +2,9 @@ package com.zritc.colorfulfund.activity.scene;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,17 +14,23 @@ import android.view.animation.AnticipateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.activity.ZRActivityGenerateAlbum;
-import com.zritc.colorfulfund.activity.ZRActivityToolBar;
-import com.zritc.colorfulfund.adapter.ZRGroupUpSceneAdapter;
+import com.zritc.colorfulfund.activity.fund.ZRActivityMyFundGroupDetail;
+import com.zritc.colorfulfund.base.ZRActivityBase;
+import com.zritc.colorfulfund.data.model.edu.GrowingRecord;
+import com.zritc.colorfulfund.data.model.edu.UserPoAssetInfo;
+import com.zritc.colorfulfund.data.model.file.UploadFile;
+import com.zritc.colorfulfund.http.FileUploadManager;
+import com.zritc.colorfulfund.http.ResponseCallBack;
+import com.zritc.colorfulfund.http.ZRRetrofit;
 import com.zritc.colorfulfund.iView.IEduSceneView;
 import com.zritc.colorfulfund.presenter.EduScenePresenter;
 import com.zritc.colorfulfund.ui.ZRListView;
 import com.zritc.colorfulfund.ui.adapter.ZRCommonAdapter;
 import com.zritc.colorfulfund.ui.adapter.ZRViewHolder;
-import com.zritc.colorfulfund.ui.adapter.abslistview.MultiItemTypeSupport;
 import com.zritc.colorfulfund.ui.pull2refresh.ZRPullToRefreshBase;
 import com.zritc.colorfulfund.ui.pull2refresh.ZRPullToRefreshListView;
 import com.zritc.colorfulfund.utils.ZRConstant;
@@ -34,11 +43,18 @@ import com.zritc.colorfulfund.view.animation.InOutAnimation;
 import com.zritc.colorfulfund.view.animation.InOutImageButton;
 import com.zritc.colorfulfund.widget.RecordGrowthDialog;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * ZRActivityEduScene 教育场景
@@ -48,23 +64,46 @@ import butterknife.OnClick;
  * @createDate 2016-08-31
  * @lastUpdate 2016-08-31
  */
-public class ZRActivityEduScene extends ZRActivityToolBar<EduScenePresenter> implements IEduSceneView {
+public class ZRActivityEduScene extends ZRActivityBase<EduScenePresenter> implements IEduSceneView {
 
     @Bind(R.id.btn_left_back)
     ImageButton btnLeftBack;
 
     @Bind(R.id.pull_to_refresh_list_view)
     ZRPullToRefreshListView pullToRefreshListView;
+
+    private View topView;
+    private TextView textTargetAmount;
+    private TextView textTotalProfit;
+    private TextView textRemainAmount;
+    private View eduSceneInfo;
+    private View addSceneFirstPhoto;
+
     private ZRListView listView;
-    private ZRGroupUpSceneAdapter adapter;
-    private ZRCommonAdapter<EduScene> adapter1;
+    private ZRCommonAdapter<List<GrowingRecord>> adapter;
 
     private EduScenePresenter eduScenePresenter;
 
-    private List<EduScene> datas = new ArrayList<>();
+    private List<List<GrowingRecord>> datas = new ArrayList<>();
     private int pageIndex = 0;
     private boolean hasMoreData = false;
+    private String poCode = "";
+    private String sceneId; // 场景ID
 
+    /**
+     * 目标资产
+     */
+    public String targetAmount = "";
+
+    /**
+     * 当前收益
+     */
+    public String totalProfit = "";
+
+    /**
+     * 距离目标金额
+     */
+    public String remainAmount = "";
 
     private boolean areButtonsShowing;
     private ViewGroup composerButtonsWrapper;
@@ -73,24 +112,11 @@ public class ZRActivityEduScene extends ZRActivityToolBar<EduScenePresenter> imp
     private Animation rotateStoryAddButtonIn;
     private Animation rotateStoryAddButtonOut;
 
-    @OnClick({R.id.btn_left_back, R.id.btn_open_photo_picker, R.id.btn_growth_album, R.id.btn_record_growth, R.id.btn_save_money})
+    @OnClick({R.id.btn_left_back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_left_back:
                 onBackPressed();
-                break;
-            case R.id.btn_open_photo_picker:
-                openPhotoPicker(this);
-                break;
-            case R.id.btn_growth_album:
-                openImageSelector();
-                break;
-            case R.id.btn_record_growth:
-                RecordGrowthDialog recordGrowthDialog = new RecordGrowthDialog(this);
-                recordGrowthDialog.show();
-                break;
-            case R.id.btn_save_money:
-                startActivity(new Intent(this, ZRActivityTargetSetting.class));
                 break;
         }
     }
@@ -109,7 +135,7 @@ public class ZRActivityEduScene extends ZRActivityToolBar<EduScenePresenter> imp
                 ZRPullToRefreshBase<ZRListView> refreshView) {
             // 刷新的时候清空列表重新获取第一页数据
             pageIndex = 0;
-
+            eduScenePresenter.getGrowingRecordList4C();
         }
 
         /**
@@ -122,7 +148,7 @@ public class ZRActivityEduScene extends ZRActivityToolBar<EduScenePresenter> imp
                 ZRPullToRefreshBase<ZRListView> refreshView) {
             if (hasMoreData) {
                 pageIndex--;
-
+                eduScenePresenter.getGrowingRecordList4C();
             }
         }
     };
@@ -136,53 +162,73 @@ public class ZRActivityEduScene extends ZRActivityToolBar<EduScenePresenter> imp
     protected void initPresenter() {
         eduScenePresenter = new EduScenePresenter(this, this);
         eduScenePresenter.init();
+        eduScenePresenter.getUserPoAssetInfo4C(poCode);
     }
 
-    private View topView;
+    private void getExtraData() {
+        Bundle bundle = getIntent().getExtras();
+        if (null != bundle) {
+            poCode = bundle.getString("poCode");
+        }
+    }
 
     @Override
     public void initView() {
-        showToolBar(View.GONE);
-        // TestDatas start
-        datas.add(new EduScene("http://b.hiphotos.baidu.com/baike/whfpf%3D268%2C152%2C50/sign=eb739058fad3572c66b7cf9cec2e5111/50da81cb39dbb6fdb3c422970124ab18962b37e0.jpg", "16/01/20", "¥5000", "1岁时的样子"));
-        datas.add(new EduScene("http://b.hiphotos.baidu.com/baike/whfpf%3D268%2C152%2C50/sign=eb739058fad3572c66b7cf9cec2e5111/50da81cb39dbb6fdb3c422970124ab18962b37e0.jpg", "15/02/11", "¥3000", "半岁时的样子"));
-        datas.add(new EduScene("http://b.hiphotos.baidu.com/baike/whfpf%3D268%2C152%2C50/sign=eb739058fad3572c66b7cf9cec2e5111/50da81cb39dbb6fdb3c422970124ab18962b37e0.jpg", "16/01/20", "¥5000", "1岁时的样子"));
-        datas.add(new EduScene("http://b.hiphotos.baidu.com/baike/whfpf%3D268%2C152%2C50/sign=eb739058fad3572c66b7cf9cec2e5111/50da81cb39dbb6fdb3c422970124ab18962b37e0.jpg", "15/02/11", "¥3000", "半岁时的样子"));
-        // TestDatas end
+
+        getExtraData();
 
         pullToRefreshListView.setPullLoadEnabled(false);
         pullToRefreshListView.setScrollLoadEnabled(true);
 
         listView = pullToRefreshListView.getRefreshableView();
-//      listView.setAdapter(adapter = new ZRGroupUpSceneAdapter(this, datas, multiItemTypeSupport));
-        listView.setAdapter(adapter1 = new ZRCommonAdapter<EduScene>(this, datas, R.layout.cell_group_up_scene_item) {
+        listView.setAdapter(adapter = new ZRCommonAdapter<List<GrowingRecord>>(this, datas, R.layout.cell_group_up_scene_item) {
             @Override
-            public void convert(int position, ZRViewHolder helper, EduScene item) {
-
+            public void convert(int position, ZRViewHolder holder, List<GrowingRecord> item) {
+                for (int i = 0; i < ((ViewGroup) holder.getView(R.id.rl_scene_photo_cell)).getChildCount(); i++) {
+                    View cell = ((ViewGroup) holder.getView(R.id.rl_scene_photo_cell)).getChildAt(i);
+                    if (i < item.size()) {
+                        cell.setVisibility(View.VISIBLE);
+                        ((TextView) cell.findViewById(R.id.text_title)).setText(item.get(i).growingDesc);
+                        ((TextView) cell.findViewById(R.id.text_money)).setText(item.get(i).investmentAmount);
+                        ((TextView) cell.findViewById(R.id.text_date)).setText(ZRUtils.formatTime(item.get(i).targetDate, "yy/MM/dd"));
+                    } else {
+                        cell.setVisibility(View.GONE);
+                    }
+                }
             }
         });
 
         listView.setVerticalScrollBarEnabled(false);
         listView.setDivider(null);
         listView.setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> {
-            Intent intent = new Intent();
-//            if (TextUtils.isEmpty(datas.get(position).getDuring())) {
-//                intent.setClass(getActivity(), ZRActivityArticleDetails.class);
-//            } else {
-//                intent.setClass(getActivity(), ZRActivityVideoDetails.class);
-//            }
-//            startActivity(intent);
+
         });
         pullToRefreshListView.setOnRefreshListener(onRefreshListener);
 
         topView = LayoutInflater.from(mContext).inflate(
                 R.layout.view_scene_fund_info_header, null);
+        textTargetAmount = (TextView) topView.findViewById(R.id.text_total_amount);
+        textTotalProfit = (TextView) topView.findViewById(R.id.text_current_profit);
+        textRemainAmount = (TextView) topView.findViewById(R.id.text_target_amount);
+
+        addSceneFirstPhoto = topView.findViewById(R.id.rl_add_scene_first_photo);
+        addSceneFirstPhoto.setOnClickListener(v -> {
+            openPhotoPicker(this);
+        });
+
+        eduSceneInfo = topView.findViewById(R.id.rl_edu_info);
+        eduSceneInfo.setOnClickListener(v ->
+                {
+                    Intent intent = new Intent();
+                    intent.setClass(ZRActivityEduScene.this, ZRActivityMyFundGroupDetail.class);
+                    intent.putExtra("poCode", poCode);
+                    startActivity(intent);
+                }
+        );
 
         // 初次进界面给与初始刷新时间，并自动触发下拉刷新请求
         setLastUpdateTime();
-
-        // Test code
-        onLoadComplete();
+        pullToRefreshListView.doPullRefreshing(true, 1000);
 
         composerButtonsWrapper = (ViewGroup) findViewById(R.id.composer_buttons_wrapper);
         composerButtonsShowHideButton = findViewById(R.id.composer_buttons_show_hide_button);
@@ -196,24 +242,23 @@ public class ZRActivityEduScene extends ZRActivityToolBar<EduScenePresenter> imp
                 toggleComposerButtons()
         );
         for (int i = 0; i < composerButtonsWrapper.getChildCount(); i++) {
-            composerButtonsWrapper.getChildAt(i).setOnClickListener(
-                    new ComposerLauncher(null, new Runnable() {
-
-                        @Override
-                        public void run() {
-                            new Thread(new Runnable() {
-
-                                @Override
-                                public void run() {
-                                    try {
-                                        Thread.sleep(400);
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                    }
-                                    reshowComposer();
-                                }
-                            }).start();
+            View view = composerButtonsWrapper.getChildAt(i);
+            view.setOnClickListener(
+                    new ComposerLauncher(null, () -> {
+                        switch (view.getId()) {
+                            case R.id.composer_button_store_money:
+                                startActivity(new Intent(this, ZRActivityTargetSetting.class));
+                                break;
+                            case R.id.composer_button_groupup:
+                                openImageSelector();
+                                break;
+                            case R.id.composer_button_photos:
+//                                RecordGrowthDialog recordGrowthDialog = new RecordGrowthDialog(this);
+//                                recordGrowthDialog.show();
+                                openPhotoPicker(mContext);
+                                break;
                         }
+                        reshowComposer();
                     }));
         }
         composerButtonsShowHideButton
@@ -312,56 +357,16 @@ public class ZRActivityEduScene extends ZRActivityToolBar<EduScenePresenter> imp
     }
 
     /**
-     * 对个item类型
-     */
-    MultiItemTypeSupport multiItemTypeSupport = new MultiItemTypeSupport() {
-
-        @Override
-        public int getLayoutId(int position, Object o) {
-            if (position == 0) {
-                return R.layout.cell_group_up_scene_item1;
-            } else if (position == 1) {
-                return R.layout.cell_group_up_scene_item2;
-            } else if (position == 2) {
-                return R.layout.cell_group_up_scene_item3;
-            } else {
-                return R.layout.cell_group_up_scene_item4;
-            }
-        }
-
-        @Override
-        public int getViewTypeCount() {
-            return 4;
-        }
-
-        @Override
-        public int getItemViewType(int position, Object o) {
-            if (position == 0) {
-                return 0;
-            } else if (position == 1) {
-                return 1;
-            } else if (position == 2) {
-                return 2;
-            } else {
-                return 3;
-            }
-        }
-    };
-
-    /**
      * 刷新控件
      */
     private void onLoadComplete() {
-//        if (pageIndex == 0)
-//            datas.clear();
         if (pageIndex == 0) {
             if (listView.getHeaderViewsCount() > 0) {
                 listView.removeHeaderView(topView);
             }
             listView.addHeaderView(topView);
         }
-//        adapter1.notifyDataSetChanged();
-        adapter1.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
         pullToRefreshListView.onPullUpRefreshComplete();
         pullToRefreshListView.onPullDownRefreshComplete();
         pullToRefreshListView.setHasMoreData(hasMoreData);
@@ -375,17 +380,47 @@ public class ZRActivityEduScene extends ZRActivityToolBar<EduScenePresenter> imp
 
     @Override
     public void showProgress(CharSequence message) {
-
+        showLoadingDialog(message);
     }
 
     @Override
     public void hideProgress() {
-
+        hideLoadingDialog();
     }
 
     @Override
     public void onSuccess(Object object) {
-
+        if (object instanceof GrowingRecord) {
+            if (pageIndex == 0)
+                datas.clear();
+            GrowingRecord growingRecord = (GrowingRecord) object;
+            datas.addAll(growingRecord.growingRecordLists);
+            if (datas.size() == 1) {
+                GrowingRecord x = growingRecord.growingRecordLists.get(0).get(0);
+                if (TextUtils.isEmpty(x.growingDesc) && x.targetDate == 0 && x.investmentAmount.equals("0")) {
+                    datas.clear();
+                }
+            }
+            addSceneFirstPhoto.setVisibility(datas.size() == 0 ? View.VISIBLE : View.GONE);
+            hasMoreData = false;
+            onLoadComplete();
+        } else if (object instanceof UserPoAssetInfo) {
+            UserPoAssetInfo userPoAssetInfo = ((UserPoAssetInfo) object);
+            targetAmount = userPoAssetInfo.targetAmount;
+            totalProfit = userPoAssetInfo.totalProfit;
+            String totalAmount = userPoAssetInfo.totalAmount;
+            sceneId = String.valueOf(userPoAssetInfo.sceneId);
+            remainAmount = String.valueOf(Double.parseDouble(totalAmount) - Double.parseDouble(totalProfit));
+            textTargetAmount.setText(targetAmount);
+            textTotalProfit.setText(totalProfit);
+            textRemainAmount.setText(remainAmount);
+        } else if (object instanceof UploadFile) {
+            RecordGrowthDialog recordGrowthDialog = new RecordGrowthDialog(this);
+            recordGrowthDialog.setImgAvatar(((UploadFile) object).filePath);
+            recordGrowthDialog.setPoCode(poCode); // poCode
+            recordGrowthDialog.setSceneId(sceneId);
+            recordGrowthDialog.show();
+        }
     }
 
     @Override
@@ -393,42 +428,47 @@ public class ZRActivityEduScene extends ZRActivityToolBar<EduScenePresenter> imp
 
     }
 
-    public class EduScene {
-        private String title;
-        private String money;
-        private String date;
-        private String album;
-        private List<EduScene> datas = new ArrayList<>();
+    /**
+     * 从相册获取返回
+     *
+     * @param path
+     */
+    @Override
+    protected void onGalleryComplete(String path) {
+        super.onGalleryComplete(path);
+        eduScenePresenter.uploadImage(path);
+    }
 
-        public EduScene(String album, String date, String money, String title) {
-            this.album = album;
-            this.date = date;
-            this.money = money;
-            this.title = title;
-        }
-
-        public String getAlbum() {
-            return album;
-        }
-
-        public String getDate() {
-            return date;
-        }
-
-        public String getMoney() {
-            return money;
-        }
-
-        public String getTitle() {
-            return title;
-        }
+    /**
+     * 从拍照获取返回
+     *
+     * @param captureFile
+     */
+    @Override
+    protected void onCaptureComplete(File captureFile) {
+        super.onCaptureComplete(captureFile);
+        eduScenePresenter.uploadFile(captureFile);
     }
 
     private ArrayList<String> mSelectPath = new ArrayList<String>();
+
     private void openImageSelector() {
+        // 外部图片资源
+        ArrayList<String> externalList = new ArrayList<>();
+        externalList.add("http://scimg.jb51.net/allimg/160813/103-160Q3143110P5.jpg");
+        externalList.add("http://scimg.jb51.net/allimg/160815/103-160Q509544OC.jpg");
+        externalList.add("http://img2.imgtn.bdimg.com/it/u=1509312158,1202655144&fm=21&gp=0.jpg");
+        externalList.add("http://pic24.nipic.com/20121029/5056611_120019351000_2.jpg");
+        externalList.add("http://www.pptbz.com/pptpic/uploadfiles_6909/201202/2012022917310499.jpg");
+        externalList.add("http://pic14.nipic.com/20110610/7181928_110502231129_2.jpg");
+        externalList.add("http://img.taopic.com/uploads/allimg/120423/107913-12042323220753.jpg");
+        externalList.add("http://pic51.nipic.com/file/20141016/24066_130156779281_2.jpg");
+        externalList.add("http://www.xxjxsj.cn/article/uploadpic/2012-4/201241221251481736.jpg");
+        externalList.add("http://pic4.nipic.com/20090910/2302530_144753008092_2.jpg");
+        externalList.add("http://img102.mypsd.com.cn/20120929/1/Mypsd_13953_201209291653040031B.jpg");
         Intent intent = new Intent();
         int selectedMode = ZRActivityGenerateAlbum.MODE_MULTI;
-        int maxNum = 10; // 最大可选择图片的数量
+        int maxNum = externalList.size(); // 最大可选择图片的数量
         intent.setClass(mContext, ZRActivityGenerateAlbum.class);
         // 是否显示拍摄图片
         intent.putExtra(
@@ -447,27 +487,14 @@ public class ZRActivityEduScene extends ZRActivityToolBar<EduScenePresenter> imp
                     ZRActivityGenerateAlbum.EXTRA_DEFAULT_SELECTED_LIST,
                     mSelectPath);
         }
-        // 外部图片资源
-        ArrayList<String> externalList = new ArrayList<>();
-        externalList.add("http://scimg.jb51.net/allimg/160813/103-160Q3143110P5.jpg");
-        externalList.add("http://scimg.jb51.net/allimg/160815/103-160Q509544OC.jpg");
-        externalList.add("http://img2.imgtn.bdimg.com/it/u=1509312158,1202655144&fm=21&gp=0.jpg");
-        externalList.add("http://pic24.nipic.com/20121029/5056611_120019351000_2.jpg");
-        externalList.add("http://www.pptbz.com/pptpic/uploadfiles_6909/201202/2012022917310499.jpg");
-        externalList.add("http://pic14.nipic.com/20110610/7181928_110502231129_2.jpg");
-        externalList.add("http://img.taopic.com/uploads/allimg/120423/107913-12042323220753.jpg");
-        externalList.add("http://pic51.nipic.com/file/20141016/24066_130156779281_2.jpg");
-        externalList.add("http://www.xxjxsj.cn/article/uploadpic/2012-4/201241221251481736.jpg");
-        externalList.add("http://pic4.nipic.com/20090910/2302530_144753008092_2.jpg");
-        externalList.add("http://img102.mypsd.com.cn/20120929/1/Mypsd_13953_201209291653040031B.jpg");
-        intent.putExtra(
-                ZRActivityGenerateAlbum.EXTRA_EXTERNAL_LIST,
-                externalList);
+        //        intent.putExtra(
+        //                ZRActivityGenerateAlbum.EXTRA_EXTERNAL_LIST,
+        //                externalList);
         startActivityForResult(intent,
                 ZRConstant.ACTIVITY_REQUEST_TAKE_PICTURE);
     }
 
-    @Override
+    /*@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
@@ -478,6 +505,6 @@ public class ZRActivityEduScene extends ZRActivityToolBar<EduScenePresenter> imp
                     break;
             }
         }
-    }
+    }*/
 
 }

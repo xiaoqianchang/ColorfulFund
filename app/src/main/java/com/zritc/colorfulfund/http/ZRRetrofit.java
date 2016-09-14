@@ -16,6 +16,7 @@ import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * 网络请求对象
@@ -32,6 +33,8 @@ public class ZRRetrofit {
     private static OkHttpClient.Builder okHttpBuilder;
     private static OkHttpClient client;
     private static Gson gson;
+
+    private static FileUploadApi mFileUploadApi; // 文件上传
 
     private ZRRetrofit() {
 
@@ -109,4 +112,27 @@ public class ZRRetrofit {
         }
     }
 
+    /**
+     * FileUpoad NetApi instance
+     *
+     * @return
+     */
+    public static FileUploadApi getFileUploadApiInstance() {
+        return getFileUploadApiInstance(ZRAppConfig.SERVER_URL_INIT_1);
+    }
+
+    public static FileUploadApi getFileUploadApiInstance(String serverUrl) {
+        synchronized (monitor) {
+            if (null == mFileUploadApi) {
+                Retrofit retrofit = builder
+                        .client(client)
+                        .baseUrl(serverUrl + "/")
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                        .build();
+                mFileUploadApi = retrofit.create(FileUploadApi.class);
+            }
+            return mFileUploadApi;
+        }
+    }
 }

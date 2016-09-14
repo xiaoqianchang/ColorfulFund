@@ -1,14 +1,15 @@
 package com.zritc.colorfulfund.activity.fortunegroup;
 
 import android.app.Dialog;
-import android.content.Context;
+import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.activity.ZRActivityToolBar;
+import com.zritc.colorfulfund.data.response.circle.CreateComment;
+import com.zritc.colorfulfund.data.response.circle.GetCommentList4C;
 import com.zritc.colorfulfund.iView.IFortuneGroupCommentListView;
 import com.zritc.colorfulfund.presenter.FortuneGroupCommentListPresenter;
 import com.zritc.colorfulfund.ui.ZRListView;
@@ -16,8 +17,8 @@ import com.zritc.colorfulfund.ui.adapter.ZRCommonAdapter;
 import com.zritc.colorfulfund.ui.adapter.ZRViewHolder;
 import com.zritc.colorfulfund.ui.pull2refresh.ZRPullToRefreshBase;
 import com.zritc.colorfulfund.ui.pull2refresh.ZRPullToRefreshListView;
-import com.zritc.colorfulfund.utils.ZRPopupUtil;
 import com.zritc.colorfulfund.utils.ZRUtils;
+import com.zritc.colorfulfund.widget.FortuneGroupCommentDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,30 +45,21 @@ public class ZRActivityFortuneGroupCommentList extends ZRActivityToolBar<Fortune
     private ZRListView listView;
     private Dialog dialog;
 
-    private ZRCommonAdapter<FortuneGroupCommentList> adapter;
+    private ZRCommonAdapter<GetCommentList4C.CommentList> adapter;
 
     private FortuneGroupCommentListPresenter fortuneGroupCommentListPresenter;
-    private List<FortuneGroupCommentList> datas = new ArrayList<>();
+    private List<GetCommentList4C.CommentList> datas = new ArrayList<>();
     private int pageIndex = 0;
     private boolean hasMoreData = false;
+    private String postId;
 
     @OnClick({R.id.view_comment})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.view_comment:
                 // 评论弹出
-                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View v = inflater.inflate(R.layout.view_sendcomment_pop, null, false);
-                dialog = ZRPopupUtil.makePopup(ZRActivityFortuneGroupCommentList.this, v);
+                dialog = new FortuneGroupCommentDialog(this, fortuneGroupCommentListPresenter, postId);
                 dialog.show();
-
-                EditText edtComment = (EditText) v.findViewById(R.id.edt_comment);
-                v.findViewById(R.id.btn_back).setOnClickListener(_v -> dialog.cancel());
-                v.findViewById(R.id.btn_ok).setOnClickListener(_v -> {
-                    if (!TextUtils.isEmpty(edtComment.getText().toString()))
-                        fortuneGroupCommentListPresenter.sendCommentMessage(edtComment.getText().toString());
-                });
-
                 break;
         }
     }
@@ -86,7 +78,7 @@ public class ZRActivityFortuneGroupCommentList extends ZRActivityToolBar<Fortune
                 ZRPullToRefreshBase<ZRListView> refreshView) {
             // 刷新的时候清空列表重新获取第一页数据
             pageIndex = 0;
-
+            fortuneGroupCommentListPresenter.commentList4C(postId);
         }
 
         /**
@@ -99,7 +91,7 @@ public class ZRActivityFortuneGroupCommentList extends ZRActivityToolBar<Fortune
                 ZRPullToRefreshBase<ZRListView> refreshView) {
             if (hasMoreData) {
                 pageIndex--;
-
+                fortuneGroupCommentListPresenter.commentList4C(postId);
             }
         }
     };
@@ -113,6 +105,12 @@ public class ZRActivityFortuneGroupCommentList extends ZRActivityToolBar<Fortune
     protected void initPresenter() {
         fortuneGroupCommentListPresenter = new FortuneGroupCommentListPresenter(this, this);
         fortuneGroupCommentListPresenter.init();
+
+    }
+
+    private void getExtraData() {
+        Bundle bundle = getIntent().getExtras();
+        postId = bundle.getString("postId");
     }
 
     @Override
@@ -120,24 +118,27 @@ public class ZRActivityFortuneGroupCommentList extends ZRActivityToolBar<Fortune
 
         setTitleText("评论");
 
-        // TestDatas start
-        datas.add(new FortuneGroupCommentList("老虎财经", "http://b.hiphotos.baidu.com/baike/whfpf%3D268%2C152%2C50/sign=eb739058fad3572c66b7cf9cec2e5111/50da81cb39dbb6fdb3c422970124ab18962b37e0.jpg", "潘基文：多投资少女，因为他们可能拥有改变整个国家的力量。", "35分钟前"));
-        datas.add(new FortuneGroupCommentList("alko", "http://b.hiphotos.baidu.com/baike/whfpf%3D268%2C152%2C50/sign=eb739058fad3572c66b7cf9cec2e5111/50da81cb39dbb6fdb3c422970124ab18962b37e0.jpg", "Pokmon go的版权在哪个公司？", "35分钟前"));
-        // TestDatas end
+        getExtraData();
 
         pullToRefreshListView.setPullLoadEnabled(false);
         pullToRefreshListView.setScrollLoadEnabled(true);
 
         listView = pullToRefreshListView.getRefreshableView();
-        listView.setAdapter(adapter = new ZRCommonAdapter<FortuneGroupCommentList>(
+        listView.setAdapter(adapter = new ZRCommonAdapter<GetCommentList4C.CommentList>(
                 mContext, datas, R.layout.cell_fortune_group_comment_list_item) {
             @Override
             public void convert(int position, ZRViewHolder holder,
-                                final FortuneGroupCommentList item) {
-                holder.setText(R.id.text_user, item.getAuthor());
-                holder.setText(R.id.text_time, item.getPublishTime());
-                holder.setText(R.id.text_comments, item.getContent());
-                holder.setImageByUrl(R.id.img_user, item.getAuthorImage());
+                                final GetCommentList4C.CommentList item) {
+                holder.setText(R.id.text_user, item.commentInfo.authorInfo.nickName);
+                holder.setText(R.id.text_time, ZRUtils.calTimePast(ZRUtils.formatTime(item.commentInfo.postTime, ZRUtils.TIME_FORMAT2)));
+                holder.setText(R.id.text_comments, item.commentInfo.content);
+                if (TextUtils.isEmpty(item.commentInfo.authorInfo.photoURL))
+                    ((ImageView) holder.getView(R.id.img_user)).setImageResource(R.mipmap.icon_header);
+                else
+                    holder.setImageByUrl(R.id.img_user, item.commentInfo.authorInfo.photoURL, R.mipmap.icon_header);
+                holder.getView(R.id.text_110).setOnClickListener(v -> {
+                    fortuneGroupCommentListPresenter.report(item.commentInfo.commentId + "");
+                });
             }
 
         });
@@ -146,9 +147,7 @@ public class ZRActivityFortuneGroupCommentList extends ZRActivityToolBar<Fortune
 
         // 初次进界面给与初始刷新时间，并自动触发下拉刷新请求
         setLastUpdateTime();
-
-        // test line
-        onLoadComplete();
+        pullToRefreshListView.doPullRefreshing(true, 1000);
     }
 
     /**
@@ -170,78 +169,41 @@ public class ZRActivityFortuneGroupCommentList extends ZRActivityToolBar<Fortune
 
     @Override
     public void showProgress(CharSequence message) {
-
+        showLoadingDialog(message);
     }
 
     @Override
     public void hideProgress() {
-
+        hideLoadingDialog();
     }
 
     @Override
     public void onSuccess(Object object) {
-
+        if (object instanceof GetCommentList4C) {
+            GetCommentList4C getCommentList4C = (GetCommentList4C) object;
+            if (pageIndex == 0)
+                datas.clear();
+            if (datas.size() == 1) {
+                if (datas.get(0).commentInfo.commentId == 0) {
+                    datas.clear();
+                }
+            }
+            datas.addAll(getCommentList4C.commentList);
+            hasMoreData = datas.size() != adapter.getCount();
+            onLoadComplete();
+        } else if (object instanceof CreateComment) {
+            dialog.cancel();
+            showToast("评论成功！");
+            pullToRefreshListView.doPullRefreshing(true, 1000);
+        } else {
+            dialog.cancel();
+            showToast("举报成功！");
+        }
     }
 
     @Override
     public void onError(String msg) {
-
-    }
-
-    public class FortuneGroupCommentList {
-        private String author;
-        private String publishTime;
-        private String authorImage;
-        private String content;
-
-        private List<FortuneGroupCommentList> datas = new ArrayList<>();
-
-        public FortuneGroupCommentList(String author, String authorImage, String content, String publishTime) {
-            this.author = author;
-            this.authorImage = authorImage;
-            this.content = content;
-            this.publishTime = publishTime;
-        }
-
-        public String getAuthor() {
-            return author;
-        }
-
-        public void setAuthor(String author) {
-            this.author = author;
-        }
-
-        public String getAuthorImage() {
-            return authorImage;
-        }
-
-        public void setAuthorImage(String authorImage) {
-            this.authorImage = authorImage;
-        }
-
-        public String getContent() {
-            return content;
-        }
-
-        public void setContent(String content) {
-            this.content = content;
-        }
-
-        public List<FortuneGroupCommentList> getDatas() {
-            return datas;
-        }
-
-        public void setDatas(List<FortuneGroupCommentList> datas) {
-            this.datas = datas;
-        }
-
-        public String getPublishTime() {
-            return publishTime;
-        }
-
-        public void setPublishTime(String publishTime) {
-            this.publishTime = publishTime;
-        }
+        onLoadComplete();
     }
 
 }

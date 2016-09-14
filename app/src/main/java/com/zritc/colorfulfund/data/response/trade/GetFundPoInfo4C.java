@@ -78,7 +78,7 @@ public class GetFundPoInfo4C implements Serializable {
 
 		@Override
 		public String toString() {
-			return "PoFundList{" +
+			return "PoFund{" +
 					"fundCode='" + fundCode + '\'' +
 					", fundName='" + fundName + '\'' +
 					", poPercentage='" + poPercentage + '\'' +

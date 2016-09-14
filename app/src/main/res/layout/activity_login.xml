@@ -6,116 +6,117 @@
     android:scrollbars="none"
     android:fillViewport="true"
     android:fitsSystemWindows="true"
-    android:clipToPadding="true"            android:background="@mipmap/bg_edu_scene">
+    android:clipToPadding="true"
+    android:background="@mipmap/bg_edu_scene">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/img_back"
-        android:layout_width="@dimen/width_44"
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="@dimen/width_44"
             android:layout_height="@dimen/height_44"
             android:layout_marginTop="@dimen/padding_36"
-        android:layout_marginLeft="@dimen/padding_50"
-        android:background="@mipmap/close"/>
+            android:layout_marginLeft="@dimen/padding_50"
+            android:background="@mipmap/close"/>
 
-    <ImageView
-        android:id="@+id/img_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/img_back"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/height_100"
-        android:src="@mipmap/logo"
-        android:contentDescription="@null" />
+        <ImageView
+            android:id="@+id/img_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/img_back"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/height_100"
+            android:src="@mipmap/logo"
+            android:contentDescription="@null" />
 
-    <TextView
-        android:id="@+id/tv_logo_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/img_logo"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/padding_36"
-        android:text="登录"
-        android:textColor="#50385b"
+        <TextView
+            android:id="@+id/tv_logo_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/img_logo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/padding_36"
+            android:text="登录"
+            android:textColor="#50385b"
             android:textSize="@dimen/font_size_24"
-        android:textStyle="bold"/>
+            android:textStyle="bold"/>
 
-    <EditText
-        android:id="@+id/edt_user_name"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_88"
-        android:layout_below="@id/tv_logo_name"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/padding_100"
+        <EditText
+            android:id="@+id/edt_user_name"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_88"
+            android:layout_below="@id/tv_logo_name"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/padding_100"
             android:layout_marginLeft="@dimen/padding_91"
             android:layout_marginRight="@dimen/padding_91"
             android:paddingLeft="@dimen/padding_50"
-        android:background="@drawable/login_bg_edt"
-        android:hint="@string/user_name_hint"
-        android:inputType="phone"
-        android:maxLength="11"
-        android:textColor="#50385b"
-        android:textColorHint="@color/color_hint"
-        android:textSize="@dimen/font_size_17" />
+            android:background="@drawable/login_bg_edt"
+            android:hint="@string/user_name_hint"
+            android:inputType="phone"
+            android:maxLength="11"
+            android:textColor="#50385b"
+            android:textColorHint="@color/color_hint"
+            android:textSize="@dimen/font_size_17" />
 
-    <EditText
-        android:id="@+id/edt_user_pass"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_88"
-        android:layout_below="@id/edt_user_name"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/padding_36"
+        <EditText
+            android:id="@+id/edt_user_pass"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_88"
+            android:layout_below="@id/edt_user_name"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/padding_36"
             android:layout_marginLeft="@dimen/padding_91"
-        android:layout_marginRight="@dimen/padding_91"
+            android:layout_marginRight="@dimen/padding_91"
             android:paddingLeft="@dimen/padding_50"
             android:background="@drawable/login_bg_edt"
-        android:hint="@string/user_password_hint"
-        android:inputType="textPassword"
-        android:maxLength="20"
-        android:textColor="#50385b"
-        android:textColorHint="@color/color_hint"
-        android:textSize="@dimen/font_size_17" />
+            android:hint="@string/user_password_hint"
+            android:inputType="textPassword"
+            android:maxLength="20"
+            android:textColor="#50385b"
+            android:textColorHint="@color/color_hint"
+            android:textSize="@dimen/font_size_17" />
 
-    <TextView
-        android:id="@+id/tv_wechat_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/edt_user_pass"
-        android:drawableLeft="@mipmap/weixin_icon"
-        android:drawablePadding="10dp"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:layout_marginTop="@dimen/height_80"
-        android:text="微信登录"
-        android:textColor="#54cb00"
-        android:textSize="@dimen/font_size_16"/>
+        <TextView
+            android:id="@+id/tv_wechat_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/edt_user_pass"
+            android:drawableLeft="@mipmap/weixin_icon"
+            android:drawablePadding="10dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/height_80"
+            android:text="微信登录"
+            android:textColor="#54cb00"
+            android:textSize="@dimen/font_size_16"/>
 
-    <Button
-        android:id="@+id/btn_user_login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_wechat_login"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/height_80"
+        <Button
+            android:id="@+id/btn_user_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_wechat_login"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/height_80"
             android:layout_marginLeft="@dimen/padding_91"
             android:layout_marginRight="@dimen/padding_91"
             android:background="@drawable/login_btn_selector"
-        android:enabled="false"
-        android:text="立即登录"
-        android:textColor="@drawable/login_text_selector"
-        android:textSize="@dimen/font_size_17"/>
+            android:enabled="false"
+            android:text="立即登录"
+            android:textColor="@drawable/login_text_selector"
+            android:textSize="@dimen/font_size_17"/>
 
-    <TextView
-        android:id="@+id/tv_register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btn_user_login"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/padding_40"
-        android:text="注册"
-        android:textSize="@dimen/font_size_17"
+        <TextView
+            android:id="@+id/tv_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_user_login"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/padding_40"
+            android:text="注册"
+            android:textSize="@dimen/font_size_17"
             android:textStyle="bold"/>
     </RelativeLayout>
 </ScrollView>

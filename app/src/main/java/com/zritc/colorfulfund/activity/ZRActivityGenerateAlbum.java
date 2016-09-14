@@ -5,18 +5,22 @@ import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.base.ZRActivityBase;
+import com.zritc.colorfulfund.data.response.edu.GetGrowingPicList4C;
 import com.zritc.colorfulfund.iView.IGenerateAlbumView;
 import com.zritc.colorfulfund.presenter.GenerateAlbumPresenter;
 import com.zritc.colorfulfund.utils.ZRResourceManager;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -55,8 +59,11 @@ public class ZRActivityGenerateAlbum extends ZRActivityToolBar<GenerateAlbumPres
     @Bind(R.id.btn_generate_preview)
     Button btnGeneratePreview;
 
+    @Bind(R.id.ll_album_bg)
+    LinearLayout llAlbumBg;
+
     // 外部数据源
-    private ArrayList<String> externalList = new ArrayList<String>();
+    private List<String> externalList = new ArrayList<String>();
     private ArrayList<String> resultList = new ArrayList<String>();
     private TextView mTextNext;
     private int mDefaultCount; // 默认最大可选择图片的数量
@@ -78,20 +85,7 @@ public class ZRActivityGenerateAlbum extends ZRActivityToolBar<GenerateAlbumPres
     @Override
     public void initView() {
         setTitleText("相片选择");
-        setTitleBarRightImageAndListener(0, "全选", v -> {
-//            multiImageSelector.setSelectAll();
-//            resultList.clear();
-//            resultList.addAll(externalList);
-//            multiImageSelector.setDesireImageCount();
-            /*if (resultList != null && resultList.size() > 0) {
-                // 返回已选择的图片数据
-                Intent data = new Intent();
-                data.putStringArrayListExtra(EXTRA_RESULT, resultList);
-                setResult(RESULT_OK, data);
-                finish();
-            }*/
-        });
-        mNavRightText.setTextColor(getResources().getColor(R.color.album_select_all_normal));
+        presenter.doGrowingPicList();
 
         Intent intent = getIntent();
         mDefaultCount = intent.getIntExtra(EXTRA_SELECT_COUNT, 9);
@@ -101,9 +95,9 @@ public class ZRActivityGenerateAlbum extends ZRActivityToolBar<GenerateAlbumPres
             resultList = intent
                     .getStringArrayListExtra(EXTRA_DEFAULT_SELECTED_LIST);
         }
-        if (intent.hasExtra(EXTRA_EXTERNAL_LIST)) {
-            externalList = intent.getStringArrayListExtra(EXTRA_EXTERNAL_LIST);
-        }
+//        if (intent.hasExtra(EXTRA_EXTERNAL_LIST)) {
+//            externalList = intent.getStringArrayListExtra(EXTRA_EXTERNAL_LIST);
+//        }
 
         Bundle bundle = new Bundle();
         bundle.putInt(ZRFragmentMultiImageSelector.EXTRA_SELECT_COUNT,
@@ -114,9 +108,9 @@ public class ZRActivityGenerateAlbum extends ZRActivityToolBar<GenerateAlbumPres
                 ZRFragmentMultiImageSelector.EXTRA_DEFAULT_SELECTED_LIST,
                 resultList);
         bundle.putBoolean(ZRFragmentMultiImageSelector.EXTRA_DATA_FROM_MOBILE, false);
-        bundle.putStringArrayList(
-                ZRFragmentMultiImageSelector.EXTRA_EXTERNAL_LIST,
-                externalList);
+//        bundle.putStringArrayList(
+//                ZRFragmentMultiImageSelector.EXTRA_EXTERNAL_LIST,
+//                externalList);
 
         getSupportFragmentManager()
                 .beginTransaction()
@@ -124,6 +118,23 @@ public class ZRActivityGenerateAlbum extends ZRActivityToolBar<GenerateAlbumPres
                         multiImageSelector = (ZRFragmentMultiImageSelector) Fragment.instantiate(this,
                                 ZRFragmentMultiImageSelector.class.getName(),
                                 bundle)).commit();
+
+        if (externalList.size() > 0) {
+            setTitleBarRightImageAndListener(0, "全选", v -> {
+                multiImageSelector.setSelectAll();
+                /*if (resultList != null && resultList.size() > 0) {
+                    // 返回已选择的图片数据
+                    Intent data = new Intent();
+                    data.putStringArrayListExtra(EXTRA_RESULT, resultList);
+                    setResult(RESULT_OK, data);
+                    finish();
+                }*/
+            });
+            mNavRightText.setTextColor(getResources().getColor(R.color.album_select_all_normal));
+            llAlbumBg.setVisibility(View.GONE);
+        } else {
+            llAlbumBg.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -156,12 +167,17 @@ public class ZRActivityGenerateAlbum extends ZRActivityToolBar<GenerateAlbumPres
 
     @Override
     public void onSuccess(Object object) {
-
+        if (object instanceof GenerateAlbumPresenter) {
+            presenter = (GenerateAlbumPresenter) object;
+            // 相片列表
+            externalList = presenter.photoUrls;
+            multiImageSelector.setExternalList(externalList);
+        }
     }
 
     @Override
     public void onError(String msg) {
-
+        showToast(msg);
     }
 
     private void updateDoneText() {
@@ -175,6 +191,7 @@ public class ZRActivityGenerateAlbum extends ZRActivityToolBar<GenerateAlbumPres
             mNavRightText.setTextColor(getResources().getColor(R.color.album_select_all_normal));
             mNavRightText.setEnabled(true);
         }
+        Log.e("xc", "---" + resultList.size());
     }
 
     @Override

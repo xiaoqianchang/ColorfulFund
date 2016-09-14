@@ -59,5 +59,6 @@
         android:background="@mipmap/bg_next"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/padding_60"/>
+        android:layout_marginBottom="@dimen/padding_60"
+        android:visibility="gone"/>
 </RelativeLayout>

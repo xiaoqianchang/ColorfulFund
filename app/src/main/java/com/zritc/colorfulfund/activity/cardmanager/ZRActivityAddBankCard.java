@@ -183,19 +183,6 @@ public class ZRActivityAddBankCard extends ZRActivityToolBar<AddCardPresenter> i
                     showProgress("处理中...");
                     prepareBindPayment();
                 });
-
-        // Test begin
-//        edtUserName.setValue("顾飞");
-//        edtICCard.setValue("320322198909270084");
-//        edtBankCard.setValue("6217230200004388585");
-//        edtMobile.setValue("18117463859");
-//        btnNext.setEnabled(true);
-
-//        realName = edtUserName.getValue().toString();
-//        identityNo = edtICCard.getValue().toString();
-//        paymentNo = edtBankCard.getValue().toString();
-//        phone = edtMobile.getValue().toString();
-        // test end
     }
 
     private void prepareBindPayment() {

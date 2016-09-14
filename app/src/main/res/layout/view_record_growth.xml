@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false">
@@ -43,6 +44,7 @@
             android:layout_height="@dimen/width_280"
             android:layout_centerHorizontal="true"
             android:src="@mipmap/ic_img_profile_bg"/>
+
     </RelativeLayout>
 
     <LinearLayout
@@ -61,16 +63,17 @@
             android:layout_height="150dp"
             android:gravity="start"
             android:padding="15dp"
-            android:hint="说说这张照片背后的故事"
-            android:textColor="#222"
-            android:textSize="@dimen/font_size_14"
-            android:background="@drawable/bg_edittext_white"/>
+                android:hint="说说这张照片背后的故事"
+                android:textColor="#222"
+                android:textSize="@dimen/font_size_14"
+                android:background="@drawable/bg_edittext_white"/>
 
         <LinearLayout
             android:id="@+id/ll_show_save_money"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_88"
             android:gravity="center_vertical"
+            android:background="@drawable/bg_cell_selector"
             android:orientation="horizontal">
 
             <TextView
@@ -84,43 +87,18 @@
                 android:textSize="@dimen/font_size_14"/>
 
             <TextView
+                android:id="@+id/tv_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2,000元"
+                tools:text="2,000元"
                 android:textColor="#222"
-                android:textSize="@dimen/font_size_14"
-                android:visibility="gone"/>
+                android:textSize="@dimen/font_size_14"/>
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_arrow_right_dark"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_save_money"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_88"
-            android:layout_margin="10dp"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-            <EditText
-                android:id="@+id/edt_money"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/bg_edittext_white"
-                android:hint="输入存钱金额"
-                android:gravity="center"/>
-
-            <Button
-                android:id="@+id/btn_save_money"
-                style="@style/blue_button_style"
-                android:layout_width="100dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/padding_120"
-                android:text="存钱"/>
+                android:src="@mipmap/ic_arrow_right_dark"
+                android:visibility="gone"/>
         </LinearLayout>
 
         <include layout="@layout/view_line"/>

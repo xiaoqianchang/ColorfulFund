@@ -46,14 +46,14 @@
     <string name="default_json">{\"rid\": \"0\",\"sid\": \"0\",\"code\": \"1000\",\"msg\": \"%s\",\"optype\": \"File\",\"result\": {\"pageindex\": 1,\"totalcount\": 0,\"list\": []}}</string>
     <string name="toast_opensoon">攻城狮正在努力Coding中</string>
     <string name="toast_unsupport_emoj">不支持表情输入</string>
-                                        <!-- commom ui -->
+                                            <!-- commom ui -->
     <string name="btn_giveup">放弃</string>
     <string name="btn_back">返回</string>
     <string name="btn_search">搜索</string>
     <string name="btn_del">删除</string>
 
     <!-- guide ui -->
-                                        <!-- login ui -->
+                                            <!-- login ui -->
     <string name="user_name_hint">请输入手机号</string>
     <string name="user_password_hint">请输入密码</string>
     <string name="user_auth_code_hint">验证码</string>

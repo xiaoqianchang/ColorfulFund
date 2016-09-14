@@ -13,6 +13,8 @@ import com.zritc.colorfulfund.data.response.edu.CreateGrowingRecord;
 import com.zritc.colorfulfund.data.response.edu.CreateUserInvestmentPlan4Edu;
 import com.zritc.colorfulfund.data.response.edu.GetGrowingPicList4C;
 import com.zritc.colorfulfund.data.response.edu.GetGrowingRecordList4C;
+import com.zritc.colorfulfund.data.response.edu.GetPoChangeHistory4C;
+import com.zritc.colorfulfund.data.response.edu.GetUserPoAssetInfo4C;
 import com.zritc.colorfulfund.data.response.trade.AdjustPo;
 import com.zritc.colorfulfund.data.response.trade.BindPayment;
 import com.zritc.colorfulfund.data.response.trade.BuyPo;
@@ -30,6 +32,11 @@ import com.zritc.colorfulfund.data.response.user.PrepareRegisterAcc;
 import com.zritc.colorfulfund.data.response.user.RegisterAcc;
 import com.zritc.colorfulfund.data.response.user.SetTransPwd;
 import com.zritc.colorfulfund.data.response.user.ValidateVCode;
+import com.zritc.colorfulfund.data.response.wish.CreateUserWishList4C;
+import com.zritc.colorfulfund.data.response.wish.DeleteUserWishList4C;
+import com.zritc.colorfulfund.data.response.wish.GetUserWishLists4C;
+import com.zritc.colorfulfund.data.response.wish.GetWishListTypes4C;
+import com.zritc.colorfulfund.data.response.wish.WithdrawAssetFromWishlist4C;
 import com.zritc.colorfulfund.utils.ZRDeviceInfo;
 
 import retrofit2.Call;
@@ -37,6 +44,8 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 import retrofit2.http.Url;
+
+//import com.zritc.colorfulfund.data.response.edu.GetUserPoAssetInfo4C;
 
 /**
  * Net api
@@ -379,7 +388,83 @@ public final class ZRNetManager {
                 , @Field("deviceid") String deviceid
                 , @Field("rid") String rid
         );
+
+        @FormUrlEncoded
+        @POST
+        Call<GetPoChangeHistory4C> getPoChangeHistory4CCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+                , @Field("poCode") String poCode
+        );
+
+        @FormUrlEncoded
+        @POST
+        Call<GetUserPoAssetInfo4C> getUserPoAssetInfo4CCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+                , @Field("poCode") String poCode
+        );
+
         /********************************Edu end**************************************************/
+
+        /********************************wish start***********************************************/
+        @FormUrlEncoded
+        @POST
+        Call<CreateUserWishList4C> createUserWishList4CCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+                , @Field("typeId") long typeId
+                , @Field("name") String name
+                , @Field("targetAmount") String targetAmount
+                , @Field("targetDate") String targetDate
+        );
+
+        @FormUrlEncoded
+        @POST
+        Call<DeleteUserWishList4C> deleteUserWishList4CCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+                , @Field("wishListId") long wishListId
+        );
+
+        @FormUrlEncoded
+        @POST
+        Call<GetUserWishLists4C> getUserWishLists4CCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+        );
+
+        @FormUrlEncoded
+        @POST
+        Call<GetWishListTypes4C> getWishListTypes4CCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+        );
+
+        @FormUrlEncoded
+        @POST
+        Call<WithdrawAssetFromWishlist4C> withdrawAssetFromWishlist4CCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+                , @Field("poCode") String poCode
+                , @Field("wishListId") long wishListId
+                , @Field("wishName") String wishName
+        );
+        /********************************wish end*************************************************/
     }
 
     private static ZRNetManager netManager;
@@ -402,6 +487,7 @@ public final class ZRNetManager {
         return api.loginCallbackByPost(
                 "http://172.16.101.201:9006/user/login"
                 , ZRDeviceInfo.getSid()
+//                , "31343773334E37383513132F38343945F35039636C56330A353021D3964864392BD34362333423D3936637622DD3434438386746137E38323533131F2B77695623105F386C43039A3137313392D862306B1332D23436634322D638323D1382D465653746633E61303513636F3534"
                 , ZRDeviceInfo.getServerDeviceId()
                 , ZRDeviceInfo.getRid()
                 , loginName
@@ -692,7 +778,7 @@ public final class ZRNetManager {
     /********************************Edu start**************************************************/
     public Call<CreateGrowingRecord> createGrowingRecordCallbackByPost(String planId, String photo, String investAmount, String description) {
         return api.createGrowingRecordCallbackByPost(
-                "http://172.16.101.202/play/tradeedu/createGrowingRecord"
+                "http://172.16.101.201:9006/tradeedu/createGrowingRecord"
                 , ZRDeviceInfo.getSid()
                 , ZRDeviceInfo.getServerDeviceId()
                 , ZRDeviceInfo.getRid()
@@ -705,7 +791,7 @@ public final class ZRNetManager {
 
     public Call<CreateUserInvestmentPlan4Edu> createUserInvestmentPlan4EduCallbackByPost(String poCode, String targetDate, String targetAmount, String initialAmount) {
         return api.createUserInvestmentPlan4EduCallbackByPost(
-                "http://172.16.101.202/play/tradeedu/createUserInvestmentPlan"
+                "http://172.16.101.52:9006/tradeedu/createUserInvestmentPlan"
                 , ZRDeviceInfo.getSid()
                 , ZRDeviceInfo.getServerDeviceId()
                 , ZRDeviceInfo.getRid()
@@ -733,6 +819,82 @@ public final class ZRNetManager {
                 , ZRDeviceInfo.getRid()
         );
     }
+
+    public Call<GetPoChangeHistory4C> getPoChangeHistory4CCallbackByPost(String poCode) {
+        return api.getPoChangeHistory4CCallbackByPost(
+                "http://172.16.101.201/trade/getPoChangeHistory4C"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+                , poCode
+        );
+    }
+
+    public Call<GetUserPoAssetInfo4C> getUserPoAssetInfo4CCallbackByPost(String poCode) {
+        return api.getUserPoAssetInfo4CCallbackByPost(
+                "http://172.16.101.202/play/trade/getUserPoAssetInfo4C"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+                , poCode
+        );
+    }
+
     /********************************Edu end****************************************************/
+
+    /********************************wish start***********************************************/
+    public Call<CreateUserWishList4C> createUserWishList4CCallbackByPost(long typeId, String name, String targetAmount, String targetDate) {
+        return api.createUserWishList4CCallbackByPost(
+                "http://172.16.101.201:9008/tradewish/createUserWishList"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+                , typeId
+                , name
+                , targetAmount
+                , targetDate
+        );
+    }
+
+    public Call<DeleteUserWishList4C> deleteUserWishList4CCallbackByPost(long wishListId) {
+        return api.deleteUserWishList4CCallbackByPost(
+                "http://172.16.101.201:9008/tradewish/deleteUserWishList"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+                , wishListId
+        );
+    }
+
+    public Call<GetUserWishLists4C> getUserWishLists4CCallbackByPost() {
+        return api.getUserWishLists4CCallbackByPost(
+                "http://172.16.101.202/play/tradewish/GetUserWishLists4C"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+        );
+    }
+
+    public Call<GetWishListTypes4C> getWishListTypes4CCallbackByPost() {
+        return api.getWishListTypes4CCallbackByPost(
+                "http://172.16.101.202/play/tradewish/GetWishListTypes4C"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+        );
+    }
+
+    public Call<WithdrawAssetFromWishlist4C> withdrawAssetFromWishlist4CCallbackByPost(String poCode, long wishListId, String wishName) {
+        return api.withdrawAssetFromWishlist4CCallbackByPost(
+                "http://172.16.101.201:9008/tradewish/withdrawAssetFromWishlist4C"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+                , poCode
+                , wishListId
+                , wishName
+        );
+    }
+    /********************************wish end*************************************************/
 
 }

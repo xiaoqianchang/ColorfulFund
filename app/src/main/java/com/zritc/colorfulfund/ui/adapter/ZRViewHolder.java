@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.zritc.colorfulfund.utils.ZRImageLoaderHelper;
 
 /**
  * ViewHolder
@@ -108,6 +109,7 @@ public class ZRViewHolder {
 
 	/**
 	 * 为ImageView设置图片
+     *
 	 * @param viewId
 	 * @param url
      * @return
@@ -117,6 +119,11 @@ public class ZRViewHolder {
 				.displayImage(url, (ImageView) getView(viewId));
 		return this;
 	}
+
+    public ZRViewHolder setImageByUrl(int viewId, String url, int defaultResId) {
+        ZRImageLoaderHelper.getInstance().loadImage(url, (ImageView) getView(viewId), defaultResId);
+        return this;
+    }
 
 	public ZRViewHolder setButtonBackground(int viewId, int resourceId) {
 		Button button = getView(viewId);

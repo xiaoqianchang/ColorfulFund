@@ -72,6 +72,8 @@ public class ZRFragmentMultiImageSelector extends Fragment {
 	// 请求加载系统照相机
 	private static final int REQUEST_CAMERA = 100;
 
+	// 初始化外部数据
+	private ArrayList<String> externalList = new ArrayList<String>();
 	// 结果数据
 	private ArrayList<String> resultList = new ArrayList<String>();
 	// 文件夹数据
@@ -149,7 +151,12 @@ public class ZRFragmentMultiImageSelector extends Fragment {
 		// 数据是否来自手机内存
 		isDataFromMobile = getArguments().getBoolean(EXTRA_DATA_FROM_MOBILE, true);
 		// 数据是否是外部数据
-		setExternalList(getArguments().getStringArrayList(EXTRA_EXTERNAL_LIST));
+		if (mode == MODE_MULTI) {
+			externalList = getArguments().getStringArrayList(EXTRA_EXTERNAL_LIST);
+			if (externalList != null && externalList.size() > 0) {
+				setExternalList(externalList); // 外部数据
+			}
+		}
 		mImageAdapter.setDataFromMobile(isDataFromMobile);
 
 		mPopupAnchorView = view.findViewById(ZRResourceManager.getResourceID(
@@ -272,9 +279,9 @@ public class ZRFragmentMultiImageSelector extends Fragment {
 
 								if (index == 0) {
 									if (isDataFromMobile) {
-									getActivity().getSupportLoaderManager()
-											.restartLoader(LOADER_ALL, null,
-													mLoaderCallback);
+										getActivity().getSupportLoaderManager()
+												.restartLoader(LOADER_ALL, null,
+														mLoaderCallback);
 									}
 									mCategoryText.setText(ZRStrings.get(
 											getActivity(), "folder_all"));
@@ -328,9 +335,14 @@ public class ZRFragmentMultiImageSelector extends Fragment {
 		// 首次加载所有图片
 		// new LoadImageTask().execute();
 		if (isDataFromMobile) {
-		getActivity().getSupportLoaderManager().initLoader(LOADER_ALL, null,
-				mLoaderCallback);
-	}
+			getActivity().getSupportLoaderManager().initLoader(LOADER_ALL, null,
+					mLoaderCallback);
+		} else {
+			// 设定默认选择
+			if (resultList != null && resultList.size() > 0) {
+				mImageAdapter.setDefaultSelected(resultList);
+			}
+		}
 	}
 
 	@Override
@@ -568,7 +580,7 @@ public class ZRFragmentMultiImageSelector extends Fragment {
 	 *
 	 * @param externalList
      */
-	public void setExternalList(ArrayList<String> externalList) {
+	public void setExternalList(List<String> externalList) {
 		List<ZRPhotoImage> images = new ArrayList<>();
 		if (externalList != null && externalList.size() > 0) {
 			for (String imgPath : externalList) {
@@ -593,8 +605,14 @@ public class ZRFragmentMultiImageSelector extends Fragment {
 	 * 设置全选
 	 */
 	public void setSelectAll() {
-		if (mImageAdapter != null) {
-			mImageAdapter.setSelectAll();
+		for (int i = 0; i < externalList.size(); i++) {
+			if (!resultList.contains(externalList.get(i))) {
+				resultList.add(externalList.get(i));
+				if (mCallback != null) {
+					mCallback.onImageSelected(externalList.get(i));
+				}
+				mImageAdapter.select(new ZRPhotoImage(externalList.get(i)));
+			}
 		}
 	}
 

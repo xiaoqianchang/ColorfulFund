@@ -1,34 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="com.zritc.colorfulfund.activity.ZRActivityGenerateAlbum">
 
     <include layout="@layout/toolbar_layout"/>
 
-    <FrameLayout
-        android:id="@+id/image_grid"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#ffffff" />
-    
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_130"
-        android:background="@color/white">
+        android:layout_height="match_parent"
+        android:layout_below="@id/app_bar_layout"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btn_generate_preview"
-            style="@style/blue_button_style"
-            android:layout_width="@dimen/width_280"
-            android:layout_height="@dimen/height_75"
-            android:layout_marginTop="@dimen/padding_26"
-            android:layout_centerHorizontal="true"
-            android:text="生成预览"
+        <FrameLayout
+            android:id="@+id/image_grid"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#ffffff" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_130"
+            android:background="@color/white">
+
+            <Button
+                android:id="@+id/btn_generate_preview"
+                style="@style/blue_button_style"
+                android:layout_width="@dimen/width_280"
+                android:layout_height="@dimen/height_75"
+                android:layout_marginTop="@dimen/padding_26"
+                android:layout_centerHorizontal="true"
+                android:text="生成预览"
+                android:textSize="@dimen/font_size_17"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <!-- 没图片时的背景 -->
+    <LinearLayout
+        android:id="@+id/ll_album_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/app_bar_layout"
+        android:gravity="center"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="@dimen/width_120"
+            android:layout_height="@dimen/height_98"
+            android:src="@mipmap/bg_camera"
+            android:scaleType="centerCrop"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_70"
+            android:text="你还没有添加宝宝的成长相片哦~"
+            android:textColor="#666666"
             android:textSize="@dimen/font_size_17"/>
-    </RelativeLayout>
-</LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

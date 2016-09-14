@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 
 import com.zritc.colorfulfund.R;
-import com.zritc.colorfulfund.activity.ZRActivityArticleDetails;
-import com.zritc.colorfulfund.activity.ZRActivityVideoDetails;
+import com.zritc.colorfulfund.activity.fortunegroup.ZRActivityArticleDetails;
+import com.zritc.colorfulfund.activity.fortunegroup.ZRActivityVideoDetails;
 import com.zritc.colorfulfund.base.ZRFragmentBase;
+import com.zritc.colorfulfund.data.model.circle.PostList4C;
 import com.zritc.colorfulfund.iView.IFortuneGroupListView;
 import com.zritc.colorfulfund.presenter.FortuneGroupListPresenter;
 import com.zritc.colorfulfund.ui.ZRCircleImageView;
@@ -39,11 +41,12 @@ public class ZRFragmentFortuneGroupList extends ZRFragmentBase<FortuneGroupListP
 
     private ZRListView listView;
 
-    private ZRCommonAdapter<FortuneGroupList> adapter;
+    private ZRCommonAdapter<PostList4C> adapter;
 
     private FortuneGroupListPresenter groupListPresenter;
 
-    private List<FortuneGroupList> datas = new ArrayList<>();
+    private List<PostList4C> datas = new ArrayList<>();
+    private int boardId = 1;
     private int pageIndex = 0;
     private boolean hasMoreData = false;
 
@@ -61,7 +64,7 @@ public class ZRFragmentFortuneGroupList extends ZRFragmentBase<FortuneGroupListP
                 ZRPullToRefreshBase<ZRListView> refreshView) {
             // 刷新的时候清空列表重新获取第一页数据
             pageIndex = 0;
-
+            groupListPresenter.getPostList4C(boardId, pageIndex);
         }
 
         /**
@@ -74,7 +77,7 @@ public class ZRFragmentFortuneGroupList extends ZRFragmentBase<FortuneGroupListP
                 ZRPullToRefreshBase<ZRListView> refreshView) {
             if (hasMoreData) {
                 pageIndex--;
-
+                groupListPresenter.getPostList4C(boardId, pageIndex);
             }
         }
     };
@@ -92,30 +95,28 @@ public class ZRFragmentFortuneGroupList extends ZRFragmentBase<FortuneGroupListP
 
     @Override
     public void initView() {
-        // TestDatas start
-        datas.add(new FortuneGroupList("http://b.hiphotos.baidu.com/baike/whfpf%3D268%2C152%2C50/sign=eb739058fad3572c66b7cf9cec2e5111/50da81cb39dbb6fdb3c422970124ab18962b37e0.jpg", "老虎财经", "Businesss", "30", "05:03", "35分钟前", "http://img0.pcgames.com.cn/pcgames/1607/14/6239789_1.jpg", "潘基文：多投资少女，因为他们可能拥有改变整个国家的力量。", "0"));
-        datas.add(new FortuneGroupList("http://b.hiphotos.baidu.com/baike/whfpf%3D268%2C152%2C50/sign=eb739058fad3572c66b7cf9cec2e5111/50da81cb39dbb6fdb3c422970124ab18962b37e0.jpg", "alko", "投资学院", "134", "", "35分钟前", "http://img0.pcgames.com.cn/pcgames/1607/14/6239789_1.jpg", "Pokmon go的版权在哪个公司？", "1"));
-        // TestDatas end
 
         pullToRefreshListView.setPullLoadEnabled(false);
         pullToRefreshListView.setScrollLoadEnabled(true);
-
         listView = pullToRefreshListView.getRefreshableView();
-        listView.setAdapter(adapter = new ZRCommonAdapter<FortuneGroupList>(
+        listView.setAdapter(adapter = new ZRCommonAdapter<PostList4C>(
                 mContext, datas, R.layout.cell_fortune_group_list_item) {
             @Override
             public void convert(int position, ZRViewHolder holder,
-                                final FortuneGroupList item) {
-                holder.setText(R.id.text_title, item.getTitle());
-                holder.setText(R.id.text_channel, item.getChannel());
-                holder.setText(R.id.text_publisher, item.getAuthorName());
-                holder.setText(R.id.text_date, item.getPublishTime());
-                holder.setText(R.id.text_collection, item.getCollection());
-                holder.setText(R.id.text_during, item.getDuring());
+                                final PostList4C item) {
+                holder.setText(R.id.text_title, item.title);
+                holder.setText(R.id.text_channel, item.tagName);
+                holder.setText(R.id.text_publisher, item.nickName);
+                holder.setText(R.id.text_date, ZRUtils.calTimePast(ZRUtils.formatTime(item.postTime, ZRUtils.TIME_FORMAT2)));
+                holder.setText(R.id.text_collection, item.thumbNumber + "");
+                holder.setText(R.id.text_during, "");
                 ((ZRCircleImageView)holder.getView(R.id.img_album)).setRectAdius(16);
-                holder.setImageByUrl(R.id.img_album, item.getImage());
-                holder.setImageByUrl(R.id.img_user, item.getAuthorImage());
-                holder.getView(R.id.img_play).setVisibility(TextUtils.isEmpty(item.getDuring())?View.GONE:View.VISIBLE);
+                holder.setImageByUrl(R.id.img_album, item.coverImgURL);
+                if (TextUtils.isEmpty(item.photoURL))
+                    ((ImageView) holder.getView(R.id.img_user)).setImageResource(R.mipmap.icon_header);
+                else
+                    holder.setImageByUrl(R.id.img_user, item.photoURL, R.mipmap.icon_header);
+                holder.getView(R.id.img_play).setVisibility(item.articleType.equals("1") ? View.GONE : View.VISIBLE);
             }
 
         });
@@ -123,20 +124,21 @@ public class ZRFragmentFortuneGroupList extends ZRFragmentBase<FortuneGroupListP
 //        listView.setDivider(null);
         listView.setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> {
             Intent intent = new Intent();
-            if (TextUtils.isEmpty(datas.get(position).getDuring())) {
+            if (datas.get(position).articleType.equals("1")) {
                 intent.setClass(getActivity(), ZRActivityArticleDetails.class);
+                intent.putExtra("postId", datas.get(position).articleId);
             } else {
                 intent.setClass(getActivity(), ZRActivityVideoDetails.class);
+                intent.putExtra("postId", datas.get(position).articleId);
             }
+            intent.putExtra("postId",datas.get(position).articleId);
             startActivity(intent);
         });
         pullToRefreshListView.setOnRefreshListener(onRefreshListener);
 
         // 初次进界面给与初始刷新时间，并自动触发下拉刷新请求
         setLastUpdateTime();
-
-        // Test code
-        onLoadComplete();
+        pullToRefreshListView.doPullRefreshing(true, 1000);
     }
 
     /**
@@ -168,128 +170,18 @@ public class ZRFragmentFortuneGroupList extends ZRFragmentBase<FortuneGroupListP
 
     @Override
     public void onSuccess(Object object) {
-        hasMoreData = false;
+        if (object instanceof PostList4C) {
+            PostList4C postList4C = (PostList4C) object;
+            if (pageIndex == 0)
+                datas.clear();
+            datas.addAll(postList4C.postList);
+            hasMoreData = datas.size() != adapter.getCount();
         onLoadComplete();
+    }
     }
 
     @Override
     public void onError(String msg) {
         onLoadComplete();
-    }
-
-    public class FortuneGroupList {
-
-        private String id;
-        private String title;
-        private String image;
-        private String authorImage;
-        private String authorName;
-        private String publishTime;
-        private String collection;
-        private String type;
-        private String channel;
-        private String during;
-
-        public FortuneGroupList(String authorImage, String authorName, String channel, String collection, String during, String publishTime, String image, String title, String type) {
-            this.authorImage = authorImage;
-            this.authorName = authorName;
-            this.channel = channel;
-            this.collection = collection;
-            this.during = during;
-            this.publishTime = publishTime;
-            this.image = image;
-            this.title = title;
-            this.type = type;
-        }
-
-        private List<FortuneGroupList> datas = new ArrayList<>();
-
-        public List<FortuneGroupList> getDatas() {
-            return datas;
-        }
-
-        public void setDatas(List<FortuneGroupList> datas) {
-            this.datas = datas;
-        }
-
-        public String getAuthorImage() {
-            return authorImage;
-        }
-
-        public void setAuthorImage(String authorImage) {
-            this.authorImage = authorImage;
-        }
-
-        public String getAuthorName() {
-            return authorName;
-        }
-
-        public void setAuthorName(String authorName) {
-            this.authorName = authorName;
-        }
-
-        public String getCollection() {
-            return collection;
-        }
-
-        public void setCollection(String collection) {
-            this.collection = collection;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getImage() {
-            return image;
-        }
-
-        public void setImage(String image) {
-            this.image = image;
-        }
-
-        public String getPublishTime() {
-            return publishTime;
-        }
-
-        public void setPublishTime(String publishTime) {
-            this.publishTime = publishTime;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-
-        public String getChannel() {
-            return channel;
-        }
-
-        public void setChannel(String channel) {
-            this.channel = channel;
-        }
-
-        public String getDuring() {
-            return during;
-        }
-
-        public void setDuring(String during) {
-            this.during = during;
-        }
     }
 }

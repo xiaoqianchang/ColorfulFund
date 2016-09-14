@@ -62,109 +62,110 @@
         android:paddingTop="@dimen/padding_20"
         android:layout_below="@id/app_bar_layout">
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/wish_swipe_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none">
-
-        <ListView
-            android:id="@+id/wish_list_view"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/wish_swipe_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:cacheColorHint="#00000000"
-            android:divider="@null"
-            android:listSelector="#00000000"
-            android:scrollbarStyle="outsideOverlay"
-            android:scrollbars="none"/>
-    </android.support.v4.widget.SwipeRefreshLayout>
+            android:scrollbars="none">
 
-    <LinearLayout
-        android:id="@+id/ll_add_investment"
-        android:layout_width="@dimen/width_130"
-        android:layout_height="@dimen/height_130"
-        android:gravity="center"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/padding_30"
-        android:layout_marginTop="@dimen/padding_70"
-        android:background="@drawable/bg_gray_point"
-        android:orientation="vertical">
+            <ListView
+                android:id="@+id/wish_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:cacheColorHint="#00000000"
+                android:divider="@null"
+                android:listSelector="#00000000"
+                android:scrollbarStyle="outsideOverlay"
+                android:scrollbars="none"/>
+        </android.support.v4.widget.SwipeRefreshLayout>
 
-        <ImageView
+        <LinearLayout
+            android:id="@+id/ll_add_investment"
+            android:layout_width="@dimen/width_140"
+            android:layout_height="@dimen/width_140"
+            android:gravity="center"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/padding_30"
+            android:layout_marginTop="@dimen/padding_70"
+            android:background="@drawable/bg_gray_point"
+            android:orientation="vertical">
+
+            <ImageView
                 android:layout_width="@dimen/width_29"
                 android:layout_height="@dimen/width_29"
-                android:layout_marginTop="@dimen/padding_20"
+                android:layout_marginTop="@dimen/padding_15"
                 android:src="@mipmap/add_fund"/>
 
             <TextView
-            style="@style/ltblack_text_font_12_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_12"
-            android:text="加仓定投"
+                style="@style/ltblack_text_font_12_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_10"
+                android:text="加仓定投"
                 android:textColor="#50385b"
                 android:textSize="@dimen/font_size_10"/>
 
             <TextView
+                android:id="@+id/tv_investment_money"
                 style="@style/ltblack_text_font_12_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/height_5"
                 android:text="6000"
                 android:textColor="#50385b"
-            android:textSize="@dimen/font_size_10"/>
-    </LinearLayout>
+                android:textSize="@dimen/font_size_10"/>
+        </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/ll_look_position"
+        <LinearLayout
+            android:id="@+id/ll_look_position"
             android:layout_width="@dimen/width_120"
             android:layout_height="@dimen/height_120"
-        android:layout_marginBottom="@dimen/padding_178"
-        android:layout_marginLeft="@dimen/padding_30"
-        android:gravity="center_horizontal"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/bg_gray_point"
-        android:orientation="vertical">
+            android:layout_marginBottom="@dimen/padding_178"
+            android:layout_marginLeft="@dimen/padding_30"
+            android:gravity="center_horizontal"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/bg_gray_point"
+            android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="@dimen/width_36"
-            android:layout_height="@dimen/height_34"
-            android:layout_marginTop="@dimen/padding_24"
-            android:src="@mipmap/look_fund"/>
+            <ImageView
+                android:layout_width="@dimen/width_36"
+                android:layout_height="@dimen/height_34"
+                android:layout_marginTop="@dimen/padding_24"
+                android:src="@mipmap/look_fund"/>
 
-        <TextView
-            style="@style/ltblack_text_font_12_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_12"
+            <TextView
+                style="@style/ltblack_text_font_12_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_12"
+                android:text="查看仓位"
+                android:textColor="#50385b"
+                android:textSize="@dimen/font_size_10"/>
+        </LinearLayout>
 
-android:text="查看仓位"
-        android:textColor="#50385b"
-            android:textSize="@dimen/font_size_10"/>
-    </LinearLayout>
-
-    <!-- 没有心愿时的模板 -->
+        <!-- 没有心愿时的模板 -->
         <LinearLayout
-        android:id="@+id/ll_wish_tip"
+            android:id="@+id/ll_wish_tip"
             android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
-                <ImageView
-        android:layout_width="@dimen/width_110"
-        android:layout_height="@dimen/height_88"
-        android:src="@mipmap/wish_fund"/>
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_70"
+            <ImageView
+                android:layout_width="@dimen/width_110"
+                android:layout_height="@dimen/height_88"
+                android:src="@mipmap/wish_fund"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_70"
                 android:text="请点击 “+” 建立心愿哦~"
-            android:textColor="#40666a"
-            android:textSize="@dimen/font_size_14"/>
-    </LinearLayout>
+                android:textColor="#40666a"
+                android:textSize="@dimen/font_size_14"/>
+        </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>

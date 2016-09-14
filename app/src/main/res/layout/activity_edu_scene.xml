@@ -4,20 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/bg_edu_scene"
+    android:fitsSystemWindows="true"
     tools:context="com.zritc.colorfulfund.activity.scene.ZRActivityEduScene">
-
-    <include
-        android:id="@+id/app_bar_layout"
-        layout="@layout/toolbar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/app_bar_layout"
         android:paddingLeft="@dimen/padding_30"
         android:paddingRight="@dimen/padding_30">
+
+        <com.zritc.colorfulfund.ui.pull2refresh.ZRPullToRefreshListView
+            android:id="@+id/pull_to_refresh_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cacheColorHint="#00000000" />
 
         <ImageButton
             android:id="@+id/btn_left_back"
@@ -27,11 +27,6 @@
             android:layout_marginTop="@dimen/padding_30"
             android:background="@null"
             android:src="@mipmap/btn_left_back" />
-
-        <com.zritc.colorfulfund.ui.pull2refresh.ZRPullToRefreshListView
-            android:id="@+id/pull_to_refresh_list_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 
     </FrameLayout>
 
@@ -51,20 +46,19 @@
             android:clipChildren="false"
             android:clipToPadding="false">
 
-
             <com.zritc.colorfulfund.view.animation.InOutImageButton
-                android:id="@+id/composer_button_place"
+                android:id="@+id/composer_button_store_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="25dp"
                 android:layout_marginRight="130dp"
-                android:background="@mipmap/icon_menu_photos"
+                android:background="@mipmap/icon_menu_store_money"
                 android:visibility="gone" />
 
             <com.zritc.colorfulfund.view.animation.InOutImageButton
-                android:id="@+id/composer_button_people"
+                android:id="@+id/composer_button_groupup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -75,14 +69,14 @@
                 android:visibility="gone" />
 
             <com.zritc.colorfulfund.view.animation.InOutImageButton
-                android:id="@+id/composer_button_photo"
+                android:id="@+id/composer_button_photos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="138dp"
                 android:layout_marginRight="14dp"
-                android:background="@mipmap/icon_menu_store_money"
+                android:background="@mipmap/icon_menu_photos"
                 android:visibility="gone" />
 
         </com.zritc.colorfulfund.view.animation.InOutRelativeLayout>
@@ -102,41 +96,5 @@
                 android:src="@mipmap/icon_menu_scene_normal" />
         </com.zritc.colorfulfund.view.animation.InOutRelativeLayout>
     </RelativeLayout>
-
-    <Button
-        android:id="@+id/btn_growth_album"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="50dp"
-        android:text="成长相册"
-        android:textColor="@color/black"/>
-
-    <Button
-        android:id="@+id/btn_record_growth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@id/btn_growth_album"
-        android:text="记录成长"
-        android:textColor="@color/black"/>
-
-    <Button
-        android:id="@+id/btn_save_money"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@id/btn_save_money"
-        android:text="存钱"
-        android:textColor="@color/black"/>
-
-    <Button
-        android:id="@+id/btn_open_photo_picker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/btn_save_money"
-        android:text="打开相册"
-        android:textColor="@color/black"/>
 
 </RelativeLayout>

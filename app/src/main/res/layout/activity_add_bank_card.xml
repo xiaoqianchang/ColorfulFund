@@ -17,7 +17,8 @@
         android:layout_below="@id/app_bar_layout"
         android:orientation="vertical">
 
-        <include                                                                                                                                                                         layout="@layout/view_line"
+        <include
+            layout="@layout/view_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_30" />
@@ -78,8 +79,7 @@
                 android:layout_marginLeft="@dimen/padding_20"
                 android:background="@null"
                 android:textSize="@dimen/font_size_15" />
-
-</LinearLayout>
+        </LinearLayout>
 
         <include layout="@layout/view_tabline" />
 
@@ -112,7 +112,8 @@
 
         </LinearLayout>
 
-        <include                                                                                                                                                                                     android:id="@+id/id_tab_line"
+        <include
+            android:id="@+id/id_tab_line"
             layout="@layout/view_tabline"
             android:visibility="gone" />
 
@@ -143,12 +144,12 @@
                 android:layout_marginLeft="@dimen/padding_20"
                 android:textColor="@color/ltblack"
                 android:textSize="@dimen/font_size_15" />
-                                                                                                                                                </LinearLayout>
+
+        </LinearLayout>
 
         <include
-
-android:id="@+id/id_line"
-        layout="@layout/view_line" />
+            android:id="@+id/id_line"
+            layout="@layout/view_line" />
 
         <include
             layout="@layout/view_line"
@@ -192,9 +193,7 @@ android:id="@+id/id_line"
             android:id="@+id/id_btn_next"
             style="@style/blue_button_style"
             android:layout_marginTop="@dimen/padding_54"
-
-android:text="同意协议并绑定"
-/>
+            android:text="同意协议并绑定" />
 
         <TextView
             android:id="@+id/id_txt_trade_pro"
@@ -208,7 +207,7 @@ android:text="同意协议并绑定"
             android:textColor="@color/ltblue"
             android:textSize="@dimen/font_size_14" />
 
-        </LinearLayout>
+    </LinearLayout>
 
     <TextView
         style="@style/ltgray_text_font_12_style"

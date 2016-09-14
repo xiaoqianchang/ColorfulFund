@@ -2,6 +2,7 @@ package com.zritc.colorfulfund.widget;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -15,13 +16,25 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
 import com.zritc.colorfulfund.R;
+import com.zritc.colorfulfund.activity.fund.ZRActivityMultiFundApplyPurchase;
+import com.zritc.colorfulfund.activity.wish.ZRActivityWishHomePage;
+import com.zritc.colorfulfund.data.response.edu.CreateGrowingRecord;
+import com.zritc.colorfulfund.data.response.trade.GetFundPoList4C;
+import com.zritc.colorfulfund.http.ResponseCallBack;
+import com.zritc.colorfulfund.http.ZRNetManager;
 import com.zritc.colorfulfund.ui.ZRCircleImageView;
+import com.zritc.colorfulfund.utils.ZRConstant;
+import com.zritc.colorfulfund.utils.ZRUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
 
 /**
  * 记录成长
@@ -41,20 +54,17 @@ public class RecordGrowthDialog extends Dialog {
     @Bind(R.id.edt_description)
     EditText edtDescription;
 
-    @Bind(R.id.ll_save_money)
-    LinearLayout llShowSaveMoney;
-
-    @Bind(R.id.edt_money)
-    EditText edtMoney;
-
-    @Bind(R.id.btn_save_money)
-    Button btnsavemoney;
+    @Bind(R.id.tv_money)
+    TextView tvMoney;
 
     @Bind(R.id.btn_complete)
     Button btnComplete;
 
     private Context mContext;
-    private boolean isShowSaveMoney = false;
+    private String avatar;
+    private String poCode;
+    private String amount;
+    private String sceneId; // 场景ID
 
     public RecordGrowthDialog(Context context) {
         super(context);
@@ -83,7 +93,13 @@ public class RecordGrowthDialog extends Dialog {
         window.setBackgroundDrawableResource(R.color.transparent);
         window.setAttributes(windowparams);
 
-        imgAvatar.setImageResource(R.mipmap.ic_img_profile_bg);
+        amount = "2000";
+        tvMoney.setText(String.format("%s元", amount));
+        if (!TextUtils.isEmpty(avatar)) {
+            Picasso.with(mContext).load(avatar).placeholder(R.mipmap.icon_header).into(imgAvatar);
+        } else {
+            Picasso.with(mContext).load(R.mipmap.icon_header).into(imgAvatar);
+        }
 
         edtDescription.addTextChangedListener(new TextWatcher() {
             @Override
@@ -102,45 +118,62 @@ public class RecordGrowthDialog extends Dialog {
                 btnComplete.setEnabled(!TextUtils.isEmpty(description));
             }
         });
-
-        edtMoney.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                String money = s.toString();
-                btnsavemoney.setEnabled(!TextUtils.isEmpty(money));
-            }
-        });
     }
 
-    @OnClick({R.id.img_cancle, R.id.ll_show_save_money, R.id.btn_save_money, R.id.btn_complete})
+    @OnClick({R.id.img_cancle, R.id.ll_show_save_money, R.id.btn_complete})
     public void onClick(View view) {
+        Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.img_cancle: // 关闭
                 dismiss();
                 break;
-            case R.id.ll_show_save_money:
-                if (isShowSaveMoney) {
-                    llShowSaveMoney.setVisibility(View.GONE);
-                    isShowSaveMoney = false;
-                } else {
-                    llShowSaveMoney.setVisibility(View.VISIBLE);
-                    isShowSaveMoney = true;
-                }
-                break;
-            case R.id.btn_save_money: // 走基金申购流程
+            case R.id.ll_show_save_money: // 走基金申购流程
+                // 世界申购
+                intent.setClass(getContext(), ZRActivityMultiFundApplyPurchase.class);
+                Bundle bundle = new Bundle();
+//                GetFundPoList4C.FundPoList pro = new GetFundPoList4C().new FundPoList();
+//                pro.poBase = new GetFundPoList4C().new PoBase();
+//                bundle.putSerializable("GetFundPoList4C.FundPoList", pro);
+                bundle.putString(ZRConstant.INTENT_FROM_WHERE, RecordGrowthDialog.class.getName());
+                bundle.putString("poCode", "ZH000487"); // poCode
+                bundle.putString("money", amount);
+                intent.putExtras(bundle);
+                getContext().startActivity(intent);
                 break;
             case R.id.btn_complete: // 保存图片到服务端
+                // 创建成长记录
+                doCreateGrowingRecord("26", avatar, amount, edtDescription.getText().toString());
                 break;
         }
+            }
+
+    private void doCreateGrowingRecord(String planId, String photo, String investAmount, String description) {
+        Call<CreateGrowingRecord> createGrowingRecordCall = ZRNetManager.getInstance().createGrowingRecordCallbackByPost(planId, photo, investAmount, description);
+        createGrowingRecordCall.enqueue(new ResponseCallBack<CreateGrowingRecord>(CreateGrowingRecord.class) {
+            @Override
+            public void onSuccess(CreateGrowingRecord createGrowingRecord) {
+                dismiss();
+            }
+
+            @Override
+            public void onError(String code, String msg) {
+                Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void setImgAvatar(String imgUrl) { // 172.16.101.201:9006/
+        if (!ZRUtils.isUrl(imgUrl)) { // http://172.16.101.202/
+            imgUrl = "http://172.16.101.202/" + imgUrl;
+        }
+        this.avatar = imgUrl;
+                }
+
+    public void setPoCode(String poCode) {
+        this.poCode = poCode;
+        }
+
+    public void setSceneId(String sceneId) {
+        this.sceneId = sceneId;
     }
 }

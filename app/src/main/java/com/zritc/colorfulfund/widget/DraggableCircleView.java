@@ -2,7 +2,9 @@ package com.zritc.colorfulfund.widget;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.view.animation.AnticipateOvershootInterpolator;
 import android.view.animation.Interpolator;
 
+import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.utils.ZRUtils;
 
 import java.text.DecimalFormat;
@@ -35,33 +38,44 @@ public class DraggableCircleView extends View {
 
     private final String TAG = DraggableCircleView.class.getSimpleName();
 
+    /**
+     * 圆圈的类型，目标金额or达成日期
+     */
+    private int type;
+    private static final int TYPE_TARGETMONEY = 0;
+    private static final int TYPE_TARGETDATE = 1;
+
     // Default dimension in dp/pt
-    private static final float DEFAULT_GAP_BETWEEN_CIRCLE_AND_LINE = 5;
+    private static final float DEFAULT_GAP_BETWEEN_CIRCLE_AND_LINE = 0;
     private static final float DEFAULT_GAP_BETWEEN_NUMBER_AND_LINE = 5;
     private static final float DEFAULT_TICK_MARK_VALUE_SIZE = 10;
     private static final float DEFAULT_LINE_LENGTH = 14;
     private static final float DEFAULT_LONGER_LINE_LENGTH = 23;
-    private static final float DEFAULT_LINE_WIDTH = 0.5f;
-    private static final float DEFAULT_CIRCLE_BUTTON_RADIUS = 10;
+    private static final float DEFAULT_LINE_WIDTH = 1f;
+    private static final float DEFAULT_CIRCLE_BUTTON_RADIUS = 15;
     private static final float DEFAULT_CIRCLE_STROKE_WIDTH = 1;
-    private static final float DEFAULT_MIDDLE_VALUE_SIZE = 50;
-    private static final float DEFAULT_MIDDLE_TEXT_SIZE = 14;
+    private static final float DEFAULT_MIDDLE_VALUE_SIZE = 38;
+    private static final float DEFAULT_MIDDLE_TEXT_SIZE = 32;
     private static final float DEFAULT_GAP_BETWEEN_TIMER_NUMBER_AND_TEXT = 30;
 
     // Default color
-    private static final int DEFAULT_CIRCLE_COLOR = 0xFFE9E2D9;
+    private static final int DEFAULT_CIRCLE_COLOR = 0xFFE4358C;
+    private static final int DEFAULT_CIRCLE_RING_COLOR = 0xFFE4358C;
+    private static final int DEFAULT_INNER_CIRCLE_COLOR = Color.RED;
     private static final int DEFAULT_CIRCLE_BUTTON_COLOR = 0xFFFFFFFF;
     private static final int DEFAULT_LINE_COLOR = 0xFFE9E2D9;
     private static final int DEFAULT_HIGHLIGHT_LINE_COLOR = 0xFF68C5D7;
     private static final int DEFAULT_TICK_MARK_VALUE_COLOR = 0x99866A60;
-    private static final int DEFAULT_MIDDLE_VALUE_COLOR = 0xFFFA7777;
-    private static final int DEFAULT_MIDDLE_TEXT_COLOR = 0x99000000;
+    private static final int DEFAULT_MIDDLE_VALUE_COLOR = 0xFFE80F7B;
+    private static final int DEFAULT_MIDDLE_TEXT_COLOR = 0xFFE80F7B;
 
     private static final int DEFAULT_SMALL_TICK_MARK_NUM = 10;
     private static final int DEFAULT_BIG_TICK_MARK_NUM = 0;
 
     // Paint
     private Paint mCirclePaint;
+    private Paint mCircleRingPaint;
+    private Paint mInnerCirclePaint;
     private Paint mHighlightLinePaint;
     private Paint mLinePaint;
     private Paint mCircleButtonPaint;
@@ -71,6 +85,7 @@ public class DraggableCircleView extends View {
 
     // Dimension
     private float mGapBetweenCircleAndLine;
+    private float mGapBetweenInnerCircleAndLine;
     private float mGapBetweenNumberAndLine;
     private float mTickMarkValueSize;
     private float mLineLength;
@@ -78,12 +93,16 @@ public class DraggableCircleView extends View {
     private float mLineWidth;
     private float mCircleButtonRadius;
     private float mCircleStrokeWidth;
+    private float mCircleRingStrokeWidth;
+    private float mInnerCircleStrokeWidth;
     private float mMiddleValueSize;
     private float mMiddleTextSize;
     private float mGapBetweenTimerNumberAndText;
 
     // Color
     private int mCircleColor;
+    private int mCircleRingColor;
+    private int mInnerCircleColor;
     private int mCircleButtonColor;
     private int mLineColor;
     private int mHighlightLineColor;
@@ -94,12 +113,15 @@ public class DraggableCircleView extends View {
     // Parameters
     private float mCx;
     private float mCy;
-    private float mRadius;
+    private float mRadius; // 大圆半径
+    private float mInnerRadius; // 大圆内圆半径
     private float mCurrentRadian; // 当前弧度
     private float mPreRadian;
     private boolean mInCircleButton;
     private double mCurrentValue;
-    private String mHintText;
+    private String mMiddleText;
+    private String mMiddleValue;
+    private float mStartDegrees; // 起始角度
 
     // control
     private boolean mIsRepeatRound = true; //是否可重复旋转
@@ -127,6 +149,7 @@ public class DraggableCircleView extends View {
         Log.d(TAG, "initialize");
         // Set default dimension or read xml attributes
         mGapBetweenCircleAndLine = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_GAP_BETWEEN_CIRCLE_AND_LINE, getContext().getResources().getDisplayMetrics());
+        mGapBetweenInnerCircleAndLine = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_GAP_BETWEEN_CIRCLE_AND_LINE, getContext().getResources().getDisplayMetrics());
         mGapBetweenNumberAndLine = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_GAP_BETWEEN_NUMBER_AND_LINE, getContext().getResources().getDisplayMetrics());
         mTickMarkValueSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_TICK_MARK_VALUE_SIZE, getContext().getResources().getDisplayMetrics());
         mLineLength = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_LINE_LENGTH, getContext().getResources().getDisplayMetrics());
@@ -134,12 +157,16 @@ public class DraggableCircleView extends View {
         mLineWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_LINE_WIDTH, getContext().getResources().getDisplayMetrics());
         mCircleButtonRadius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_CIRCLE_BUTTON_RADIUS, getContext().getResources().getDisplayMetrics());
         mCircleStrokeWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_CIRCLE_STROKE_WIDTH, getContext().getResources().getDisplayMetrics());
+        mCircleRingStrokeWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_LINE_LENGTH, getContext().getResources().getDisplayMetrics());
+        mInnerCircleStrokeWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_CIRCLE_STROKE_WIDTH, getContext().getResources().getDisplayMetrics());
         mMiddleValueSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_MIDDLE_VALUE_SIZE, getContext().getResources().getDisplayMetrics());
         mMiddleTextSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_MIDDLE_TEXT_SIZE, getContext().getResources().getDisplayMetrics());
         mGapBetweenTimerNumberAndText = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_GAP_BETWEEN_TIMER_NUMBER_AND_TEXT, getContext().getResources().getDisplayMetrics());
 
         // Set default color or read xml attributes
         mCircleColor = DEFAULT_CIRCLE_COLOR;
+        mCircleRingColor = DEFAULT_CIRCLE_RING_COLOR;
+        mInnerCircleColor = DEFAULT_INNER_CIRCLE_COLOR;
         mCircleButtonColor = DEFAULT_CIRCLE_BUTTON_COLOR;
         mLineColor = DEFAULT_LINE_COLOR;
         mHighlightLineColor = DEFAULT_HIGHLIGHT_LINE_COLOR;
@@ -154,12 +181,20 @@ public class DraggableCircleView extends View {
         // Init paints
         initPaint();
 
-        mHintText = "\"第\" + mCurrentCircle + \"圈，每个刻度的间隔值是\" + getSmallTickMarkIntervalValue()";
+        mMiddleText = "show what";
+        mMiddleValue = "";
+
+        TypedArray a = getContext().obtainStyledAttributes(attrs,
+                R.styleable.DraggableCircleView);
+        type = a.getInt(R.styleable.DraggableCircleView_type, TYPE_TARGETMONEY);// 默认为目标金额
+        a.recycle();
     }
 
     private void initPaint() {
         // Init all paints
-        mCirclePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mCirclePaint = new Paint(Paint.ANTI_ALIAS_FLAG); // 消除锯齿
+        mCircleRingPaint = new Paint(Paint.ANTI_ALIAS_FLAG); // 消除锯齿
+        mInnerCirclePaint = new Paint(Paint.ANTI_ALIAS_FLAG); // 消除锯齿
         mCircleButtonPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mHighlightLinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mLinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -169,8 +204,18 @@ public class DraggableCircleView extends View {
 
         // CirclePaint
         mCirclePaint.setColor(mCircleColor);
-        mCirclePaint.setStyle(Paint.Style.STROKE);
+        mCirclePaint.setStyle(Paint.Style.STROKE); // 绘制空心圆
         mCirclePaint.setStrokeWidth(mCircleStrokeWidth);
+
+        // CircleRingPaint
+        mCircleRingPaint.setColor(mCircleRingColor);
+        mCircleRingPaint.setStyle(Paint.Style.STROKE); // 绘制空心圆
+        mCircleRingPaint.setStrokeWidth(mCircleRingStrokeWidth); // this.mRadius - mCircleStrokeWidth / 2 - (this.mInnerRadius + mInnerCircleStrokeWidth / 2)
+
+        // InnerCirclePaint
+        mInnerCirclePaint.setColor(mInnerCircleColor);
+        mInnerCirclePaint.setStyle(Paint.Style.STROKE); // 绘制空心圆
+        mInnerCirclePaint.setStrokeWidth(mInnerCircleStrokeWidth);
 
         // CircleButtonPaint
         mCircleButtonPaint.setColor(mCircleButtonColor);
@@ -214,10 +259,12 @@ public class DraggableCircleView extends View {
             this.mRadius = width / 2 - mCircleStrokeWidth / 2;
             Log.d(TAG, "No exceed");
         } else {
-            this.mRadius = width / 2 - (mCircleButtonRadius - mGapBetweenCircleAndLine - mLineLength / 2 -
-                    mCircleStrokeWidth / 2);
+            this.mRadius = width / 2 - (mCircleButtonRadius - mGapBetweenCircleAndLine - mGapBetweenInnerCircleAndLine - mLineLength / 2 -
+                    mCircleStrokeWidth / 2 - mInnerCircleStrokeWidth / 2);
             Log.d(TAG, "Exceed");
         }
+        float innerRadius = this.mRadius - mCircleStrokeWidth / 2 - mCircleRingStrokeWidth - mInnerCircleStrokeWidth / 2;
+        this.mInnerRadius = innerRadius >= 0 ? innerRadius : 0;
         setMeasuredDimension(width, height);
     }
 
@@ -232,6 +279,10 @@ public class DraggableCircleView extends View {
         Log.d(TAG, "onDraw");
         // Content
         canvas.drawCircle(mCx, mCy, mRadius, mCirclePaint);
+        // Draw ring
+        canvas.drawCircle(mCx, mCy, mInnerRadius + 1 + mCircleRingStrokeWidth / 2, mCircleRingPaint);
+        // Draw inner circle
+        canvas.drawCircle(mCx, mCy, mInnerRadius, mInnerCirclePaint);
         // Scale line
         int interevalNum = 1; // 两个大刻度间隔的小刻度数
         if (mBigTickMarkNum > 0) {
@@ -246,17 +297,17 @@ public class DraggableCircleView extends View {
         canvas.save();
         for (int i = 0; i < mSmallTickMarkNum; i++) {
             canvas.save();
-            canvas.rotate(360 / mSmallTickMarkNum * i, mCx, mCy);
-            if (mHasBigTickMark && i % interevalNum == 0) {
-                if (360 / mSmallTickMarkNum * i <= Math.toDegrees(mCurrentRadian)) {
+            canvas.rotate(360 / mSmallTickMarkNum * i + mStartDegrees, mCx, mCy);
+            if (mHasBigTickMark && i % interevalNum == 0) { // 长刻度线
+                if (360 / mSmallTickMarkNum * i + mStartDegrees <= Math.toDegrees(mCurrentRadian)) { // 小球之前高亮mHighlightLinePaint
                     canvas.drawLine(mCx, getMeasuredHeight() / 2 - mRadius + mCircleStrokeWidth / 2 + mGapBetweenCircleAndLine, mCx, getMeasuredHeight() / 2 - mRadius + mCircleStrokeWidth / 2 + mGapBetweenCircleAndLine +
                             mLongerLineLength, mHighlightLinePaint);
-                } else {
+                } else { // 小球之后正常mLinePaint
                     canvas.drawLine(mCx, getMeasuredHeight() / 2 - mRadius + mCircleStrokeWidth / 2 + mGapBetweenCircleAndLine, mCx, getMeasuredHeight() / 2 - mRadius + mCircleStrokeWidth / 2 + mGapBetweenCircleAndLine +
                             mLongerLineLength, mLinePaint);
                 }
-            } else {
-                if (360 / mSmallTickMarkNum * i <= Math.toDegrees(mCurrentRadian)) {
+            } else { // 短刻度线
+                if (360 / mSmallTickMarkNum * i + mStartDegrees <= Math.toDegrees(mCurrentRadian)) {
                     canvas.drawLine(mCx, getMeasuredHeight() / 2 - mRadius + mCircleStrokeWidth / 2 + mGapBetweenCircleAndLine, mCx, getMeasuredHeight() / 2 - mRadius + mCircleStrokeWidth / 2 + mGapBetweenCircleAndLine + mLineLength, mHighlightLinePaint);
                 } else {
                     canvas.drawLine(mCx, getMeasuredHeight() / 2 - mRadius + mCircleStrokeWidth / 2 + mGapBetweenCircleAndLine, mCx, getMeasuredHeight() / 2 - mRadius + mCircleStrokeWidth / 2 + mGapBetweenCircleAndLine + mLineLength, mLinePaint);
@@ -266,20 +317,40 @@ public class DraggableCircleView extends View {
         }
         canvas.restore();
         // Circle button
+        /**
+         * 要点：
+         * 1.画小圆其实是在原点画小圆，根据拖动的弧度动态旋转画布
+         * 2.canvas.save()和canvas.restore()必须要，不然画布旋转
+         */
         canvas.save();
-        canvas.rotate((float) Math.toDegrees(mCurrentRadian), mCx, mCy);
-        canvas.drawCircle(mCx, getMeasuredHeight() / 2 - mRadius + mCircleStrokeWidth / 2 + mGapBetweenCircleAndLine +
-                mLineLength / 2, mCircleButtonRadius, mCircleButtonPaint);
+        canvas.rotate((float) Math.toDegrees(mCurrentRadian) + mStartDegrees, mCx, mCy);
+        canvas.drawCircle(mCx, getMeasuredHeight() / 2 - mRadius + mCircleStrokeWidth / 2 + mCircleRingStrokeWidth / 2, mCircleButtonRadius, mCircleButtonPaint);
 //        Log.d(TAG, "mCircleButton mCx=" + mCx + ", mCy=" + (getMeasuredHeight() / 2 - mRadius + mCircleStrokeWidth / 2 + mGapBetweenCircleAndLine + mLineLength / 2));
         canvas.restore();
         // TimerNumber
         canvas.save();
-        canvas.drawText(String.valueOf(ZRUtils.getDecimalFormat(mCurrentValue / 10000)) + "万", mCx, mCy + getFontHeight(mMiddleValuePaint) / 2, mMiddleValuePaint);
+        canvas.drawText(mMiddleValue, mCx, mCy + TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getContext().getResources().getDisplayMetrics()) + getFontHeight(mMiddleValuePaint) / 2, mMiddleValuePaint);
         canvas.restore();
         // Timer Text
         canvas.save();
-        canvas.drawText(mHintText, mCx, mCy + getFontHeight(mMiddleValuePaint) / 2 + mGapBetweenTimerNumberAndText + getFontHeight(mMiddleTextPaint) / 2, mMiddleTextPaint);
+        canvas.drawText(mMiddleText, mCx, mCy - TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getContext().getResources().getDisplayMetrics()) - getFontHeight(mMiddleTextPaint) / 2, mMiddleTextPaint);
         canvas.restore();
+    }
+
+    /**
+     * 格式化双精度数据
+     *
+     * @param d
+     * @return
+     */
+    public static String getDecimalFormat(double d) {
+        try {
+            DecimalFormat _df = new DecimalFormat("######0.00");
+            return _df.format(d);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "0.00";
+        }
     }
 
     private float getFontHeight(Paint paint) {
@@ -302,10 +373,11 @@ public class DraggableCircleView extends View {
             case MotionEvent.ACTION_MOVE:
                 if (mInCircleButton && isEnabled()) {
                     float temp = getRadian(event.getX(), event.getY());
-                    if (mPreRadian > Math.toRadians(270) && temp < Math.toRadians(90)) {
+                    // 处理2 * Math.PI零界点
+                    if (mPreRadian > Math.toRadians(270) && temp < Math.toRadians(90)) { // 顺时针穿过零界点
                         mPreRadian -= 2 * Math.PI;
 //                        Log.i(TAG, "顺时针mPreRadian: " +mPreRadian);
-                    } else if (mPreRadian < Math.toRadians(90) && temp > Math.toRadians(270)) {
+                    } else if (mPreRadian < Math.toRadians(90) && temp > Math.toRadians(270)) { // 逆时针穿过零界点
                         mPreRadian = (float) (temp + (temp - 2 * Math.PI) - mPreRadian);
 //                        Log.i(TAG, "逆时针mPreRadian: " +mPreRadian);
                     }
@@ -322,8 +394,6 @@ public class DraggableCircleView extends View {
                             mCurrentRadian = 0;
                         }
                     }
-//                    if (mCircleTimerListener != null)
-//                        mCircleTimerListener.onTimerSetValueChange(getCurrentTime());
                     // 计算圈数
                     mCurrentCircle = getCurrentCircle(mCurrentRadian);
                     // 滚动计算当前金钱
@@ -345,14 +415,17 @@ public class DraggableCircleView extends View {
                         double tempMoney = mEachCircleTotal[mEachCircleTotal.length - 1] / (2 * Math.PI) * (mCurrentRadian - (2 * Math.PI) * mEachCircleTotal.length);
                         mCurrentValue = beforeSum + tempMoney;
                     }
+                    calculateMiddleValue();
+                    if (mOnDraggableCircleListener != null)
+                        mOnDraggableCircleListener.onDraggableCircleValueChange(type == TYPE_TARGETDATE ? (int) mCurrentValue : mCurrentValue);
                     invalidate();
                 }
                 break;
             case MotionEvent.ACTION_UP:
                 if (mInCircleButton && isEnabled()) {
                     mInCircleButton = false;
-//                    if (mCircleTimerListener != null)
-//                        mCircleTimerListener.onTimerSetValueChanged(getCurrentTime());
+                    if (mOnDraggableCircleListener != null)
+                        mOnDraggableCircleListener.onDraggableCircleValueChanged(type == TYPE_TARGETDATE ? (int) mCurrentValue : mCurrentValue);
                 }
                 // 判断标准，开启缓冲动画
                 /*if (mCurrentRadian - mPreRadian < Math.PI / 4) {
@@ -364,6 +437,27 @@ public class DraggableCircleView extends View {
                 break;
         }
         return true;
+    }
+
+    /**
+     * 计算中间显示的文本值
+     */
+    private void calculateMiddleValue() {
+        if (type == TYPE_TARGETMONEY) {
+            mMiddleValue = String.valueOf(getDecimalFormat(mCurrentValue)) + "元";
+        } else if (type == TYPE_TARGETDATE) {
+            // 初始值
+            mMiddleValue = String.valueOf(ZRUtils.getCurrentYear()) + "." + String.valueOf(ZRUtils.getCurrentMonth());
+            int years = (int) ((mCurrentValue + ZRUtils.getCurrentMonth()) / 12);
+            int months = (int) ((mCurrentValue + ZRUtils.getCurrentMonth()) % 12);
+            if (((int) mCurrentValue + ZRUtils.getCurrentMonth()) % 12 == 0) {
+                months = 12;
+                years = years - 1;
+
+            }
+            Log.i(TAG, "mCurrentValue=" + mCurrentValue + ", years=" + years + ", months=" + months);
+            mMiddleValue = String.valueOf(ZRUtils.getCurrentYear() + years) + "." + (months < 10 ? "0" + String.valueOf(months) : String.valueOf(months));
+        }
     }
 
     private double calculateValue(float currentRadian) {
@@ -479,6 +573,17 @@ public class DraggableCircleView extends View {
     public final class Builder {
 
         /**
+         * 设置初始化角度
+         *
+         * @param startDegrees
+         */
+        public Builder setStartDegrees(int startDegrees) {
+            mStartDegrees = startDegrees;
+            mCurrentRadian = (float) Math.toRadians(startDegrees);
+            return this;
+        }
+
+        /**
          * 设置小刻度总数(平均分为多少份)
          *
          * @param bigTickMarkNum
@@ -561,6 +666,36 @@ public class DraggableCircleView extends View {
          */
         public Builder setCircleColor(int circleColor) {
             mCircleColor = circleColor;
+            return this;
+        }
+
+        /**
+         * Set color for circleRing
+         *
+         * @param circleRingColor
+         */
+        public Builder setCircleRingColor(int circleRingColor) {
+            mCircleRingColor = circleRingColor;
+            return this;
+        }
+
+        /**
+         * Set color for circleRing
+         *
+         * @param circleRingStrokeWidth
+         */
+        public Builder setCircleRingStrokeWidth (int circleRingStrokeWidth) {
+            mCircleRingStrokeWidth = circleRingStrokeWidth;
+            return this;
+        }
+
+        /**
+         * Set color for innerCircle
+         *
+         * @param innerCircleColor
+         */
+        public Builder setInnerCircleColor(int innerCircleColor) {
+            mInnerCircleColor = innerCircleColor;
             return this;
         }
 
@@ -711,7 +846,6 @@ public class DraggableCircleView extends View {
          */
         public Builder setMiddleValueSize(float middleValueSize) {
             mMiddleValueSize = middleValueSize;
-//            mMiddleValueSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, middleValueSize, getContext().getResources().getDisplayMetrics());
             return this;
         }
 
@@ -722,22 +856,68 @@ public class DraggableCircleView extends View {
          */
         public Builder setMiddleTextSize(float middleTextSize) {
             mMiddleTextSize = middleTextSize;
-//            mMiddleTextSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, middleTextSize, getContext().getResources().getDisplayMetrics());
             return this;
         }
 
         /**
-         * Set dimension for middleTextSize
+         * Set String for middleText
          *
-         * @param hintText
+         * @param middleText
          */
-        public Builder setMiddleHintText(String hintText) {
-            mHintText = hintText;
+        public Builder setMiddleText(String middleText) {
+            mMiddleText = middleText;
+            return this;
+        }
+
+        /**
+         * Set String for middleValueSize
+         *
+         * @param middleValue
+         */
+        public Builder setMiddleValue(String middleValue) {
+            mMiddleValue = middleValue;
             return this;
         }
 
         public void build() {
             initPaint();
         }
+    }
+
+    /**
+     * Get String for middleValue
+     *
+     * @param middleValue
+     */
+    public String getMiddleValue() {
+        return mMiddleValue;
+    }
+
+    private OnDraggableCircleListener mOnDraggableCircleListener;
+
+    /**
+     * set timer listener
+     *
+     * @param mOnDraggableCircleListener
+     */
+    public void setDraggableCircleListener(OnDraggableCircleListener mOnDraggableCircleListener) {
+        this.mOnDraggableCircleListener = mOnDraggableCircleListener;
+    }
+
+    public interface OnDraggableCircleListener {
+
+        /**
+         * launch timer set value chang event
+         *
+         * @param currentValue
+         */
+        void onDraggableCircleValueChange(double currentValue);
+
+        /**
+         * launch circle value changed event
+         *
+         * @param currentValue
+         */
+        void onDraggableCircleValueChanged(double currentValue);
     }
 }

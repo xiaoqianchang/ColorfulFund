@@ -7,7 +7,7 @@
     android:background="@color/app_bg"
     android:fitsSystemWindows="true"
     android:clipToPadding="true"
-    tools:context="com.zritc.colorfulfund.activity.ZRActivityVideoDetails">
+    tools:context=".activity.fortunegroup.ZRActivityVideoDetails">
 
     <LinearLayout
         android:id="@+id/sc_scrollView"

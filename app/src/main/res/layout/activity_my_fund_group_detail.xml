@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg_edu_scene"
+    android:fitsSystemWindows="true"
+    android:paddingBottom="@dimen/padding_54"
+    tools:context="com.zritc.colorfulfund.activity.fund.ZRActivityFundGroupDetail">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/bg_half_circle">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/padding_30"
+            android:paddingRight="@dimen/padding_30">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:id="@+id/btn_left_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:background="@null"
+                    android:paddingTop="@dimen/padding_20"
+                    android:src="@mipmap/btn_left_back" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_30"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@mipmap/icon_edu_fund" />
+
+                    <TextView
+                        android:id="@+id/text_fund_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/padding_28"
+                        android:text="宝宝基金"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/font_size_15" />
+
+                    <TextView
+                        android:id="@+id/text_fund_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/padding_5"
+                        android:text="(基金类型)"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/font_size_12" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/padding_10"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/text_fund_first"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="基金总值："
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/font_size_15" />
+
+                        <TextView
+                            android:id="@+id/text_fund_month"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="¥0.00"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/font_size_15" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_30"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@mipmap/img_v_line" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/padding_20"
+                    android:layout_marginRight="@dimen/padding_20"
+                    android:text="2016年第N次甄选组合"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_size_14" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@mipmap/img_v_line" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_20"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center_horizontal|left"
+                    android:text="基金名称"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_size_14"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:text="占比"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_size_14"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center_horizontal|right"
+                    android:text="单支金额"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_size_14"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <com.zritc.colorfulfund.ui.ZRListView
+                android:id="@+id/list_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_10"
+                android:background="@mipmap/img_v_line" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/padding_20"
+                android:text="免责申明：历史成绩只代表过往成绩"
+                android:textColor="#f9f9f9"
+                android:textSize="@dimen/font_size_11" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_20"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/icon_rate_finish_time" />
+
+                    <TextView
+                        android:id="@+id/text_fund_year"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/padding_10"
+                        android:text="8年"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/font_size_13"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/padding_5"
+                        android:text="完成时间"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/font_size_11" />
+
+                    <TextView
+                        android:id="@+id/text_fund_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/padding_5"
+                        android:text="2016/02"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/font_size_11" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/icon_year_rate" />
+
+                    <TextView
+                        android:id="@+id/text_fund_year_rate_return"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/padding_10"
+                        android:text="10-30%"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/font_size_11" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/padding_5"
+                        android:text="预计年化收益"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/font_size_11" />
+
+                    <TextView
+                        android:id="@+id/text_fund_rate_return"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/padding_10"
+                        android:text="30%"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/font_size_11" />
+
+                    <TextView
+                        android:id="@+id/text_fund_max_return"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/padding_5"
+                        android:text="最大回报"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/font_size_11" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/btn_store_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/padding_20"
+                android:background="@mipmap/btn_store_money" />
+
+            <ImageView
+                android:id="@+id/btn_back_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/padding_20"
+                android:background="@mipmap/btn_back_money" />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

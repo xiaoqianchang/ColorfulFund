@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.activity.ZRActivityToolBar;
 import com.zritc.colorfulfund.activity.cardmanager.ZRActivityCardManage;
+import com.zritc.colorfulfund.activity.wish.ZRActivityWishHomePage;
 import com.zritc.colorfulfund.data.response.trade.BuyPo;
 import com.zritc.colorfulfund.data.response.trade.EstimateBuyFundFee;
 import com.zritc.colorfulfund.data.response.trade.GetFundPoInfo4C;
@@ -27,6 +28,7 @@ import com.zritc.colorfulfund.ui.adapter.ZRCommonAdapter;
 import com.zritc.colorfulfund.ui.adapter.ZRViewHolder;
 import com.zritc.colorfulfund.utils.ZRConstant;
 import com.zritc.colorfulfund.utils.ZRImageLoaderHelper;
+import com.zritc.colorfulfund.widget.RecordGrowthDialog;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -85,6 +87,7 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
     private GetFundPoList4C.FundPoList fundPoList;
     private GetFundPoInfo4C.UserPaymentInfo userPaymentInfo;
     private String amount;//申购总金额
+    private String poCode;
 
     @OnClick({R.id.id_rl_add_bank, R.id.id_rl_bank_of_card, R.id.id_btn_next})
     public void onClick(View view) {
@@ -105,7 +108,7 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
                     if (TextUtils.isEmpty(userPaymentId) && null != bankCardList) {
                         userPaymentId = bankCardList.paymentBankInfo.userPaymentId;
                     }
-                    multiFundApplyPurchasePresenter.buyPo(fundPoList.poBase.poCode, amount, userPaymentId);
+                    multiFundApplyPurchasePresenter.buyPo(poCode, amount, userPaymentId);
                 }
                 break;
         }
@@ -156,15 +159,15 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
                     } else if (input.scale() > 2) {
                         tempS = input.setScale(2, RoundingMode.FLOOR)
                                 .toString();
-                }
+                    }
                     if (!tempS.equals(s.toString())) {
                         edtBuyMoney.setValue(tempS);
                         edtBuyMoney.setSelection(tempS.length());
-            }
-            }
-                amount = s.toString();
+                    }
                 }
+                amount = s.toString();
             }
+        }
 
     };
 
@@ -173,11 +176,11 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
         boolean enable2 = !TextUtils.isEmpty(textBankName.getText().toString());
         boolean enable = enable1 && enable2;
         btnNext.setEnabled(enable);
-        }
+    }
 
     private void doEstimateBuyFundFee() {
         if (!TextUtils.isEmpty(amount))
-            multiFundApplyPurchasePresenter.doEstimateBuyFundFee("2", fundPoList.poBase.poCode, amount);
+            multiFundApplyPurchasePresenter.doEstimateBuyFundFee("2", poCode, amount);
     }
 
     @Override
@@ -194,7 +197,16 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
 
     private void getExtraData() {
         Bundle bundle = getIntent().getExtras();
-        fundPoList = (GetFundPoList4C.FundPoList) bundle.getSerializable("GetFundPoList4C.FundPoList");
+        if (null != bundle) {
+            fundPoList = (GetFundPoList4C.FundPoList) bundle.getSerializable("GetFundPoList4C.FundPoList");
+            if (null != fundPoList) {
+                poCode = fundPoList.poBase.poCode;
+            } else if (ZRActivityWishHomePage.class.getName().equals(bundle.getString(ZRConstant.INTENT_FROM_WHERE))
+                    || RecordGrowthDialog.class.getName().equals(bundle.getString(ZRConstant.INTENT_FROM_WHERE))) {
+                poCode = bundle.getString("poCode");
+                amount = bundle.getString("money");
+            }
+        }
     }
 
     @Override
@@ -216,7 +228,7 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
         edtBuyMoney.addTextChangedListener(watcher);
         listView.setListViewHeightBasedOnChildren(listView);
 
-        multiFundApplyPurchasePresenter.fundPoInfo4C(fundPoList.poBase.poCode);
+        multiFundApplyPurchasePresenter.fundPoInfo4C(poCode);
     }
 
     /**
@@ -281,6 +293,10 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
                 rlAddBank.setVisibility(View.VISIBLE);
                 rlBankCard.setVisibility(View.GONE);
                 btnNext.setEnabled(false);
+            }
+            // 由心愿列表加仓定投过来的amount
+            if (!TextUtils.isEmpty(amount)) {
+                edtBuyMoney.setValue(amount);
             }
         } else if (object instanceof BuyPo) {
             // 组合申购

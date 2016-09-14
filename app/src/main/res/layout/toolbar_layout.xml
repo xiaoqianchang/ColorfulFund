@@ -54,7 +54,8 @@
             android:minWidth="50dp"
             android:text="下一步"
             android:textColor="#666666"
-            android:textSize="@dimen/font_size_16"                        android:visibility="gone"/>
+            android:textSize="@dimen/font_size_16"
+            android:visibility="gone"/>
 
         <!-- 其它可选按钮 -->
         <TextView
@@ -67,7 +68,7 @@
             android:text="other"
             android:textColor="@color/ltblack"
             android:textSize="14sp"
-            android:visibility="gone" />
+            android:visibility="gone"/>
 
     </android.support.v7.widget.Toolbar>
 

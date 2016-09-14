@@ -256,4 +256,7 @@ public class ZRConstant {
 	public static final int ACTIVITY_REQUEST_SELECT_PIC_KITKAT = 113;
 	public static final int ACTIVITY_REQUEST_CROP = 114;
 
+	// Intent 跳转key
+	public static final String INTENT_FROM_WHERE = "INTENT_FROM_WHERE";
+
 }
