@@ -717,7 +717,9 @@ public class TestNetApiActivity extends ZRActivityBase {
             window.setBackgroundDrawableResource(R.color.transparent);
             window.setAttributes(windowparams);
 
-            imgAvatar.setImageResource(R.mipmap.ic_img_profile_bg);
+//            imgAvatar.setImageResource(R.mipmap.ic_img_profile_bg);
+//            imgAvatar.setImageResource(R.mipmap.icon_weixin);
+            imgAvatar.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
             edtDescription.addTextChangedListener(new TextWatcher() {
                 @Override

@@ -19,6 +19,8 @@ import android.widget.ImageView;
 
 /**
  * 圆形or圆角ImageView
+ * 注意：
+ * scaleType无效
  * <p>
  * Created by Chang.Xiao on 2016/4/9.
  *
@@ -95,7 +97,10 @@ public class CircleImageView extends ImageView {
          * 如果类型是圆形，则强制改变view的宽高一致，以小值为准
          */
         if (type == TYPE_CIRCLE) {
-            mWidth = Math.min(getMeasuredWidth(), getMeasuredHeight());
+            int width = MeasureSpec.getSize(widthMeasureSpec);
+            int height = MeasureSpec.getSize(heightMeasureSpec);
+//            mWidth = Math.min(getMeasuredWidth(), getMeasuredHeight());
+            mWidth = Math.min(width, height);
             mRadius = mWidth / 2;
             setMeasuredDimension(mWidth, mWidth);
         }
