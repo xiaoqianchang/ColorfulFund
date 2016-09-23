@@ -47,6 +47,7 @@ public class TimeLineMarker extends View {
         int w = mMarkerSize + getPaddingLeft() + getPaddingRight();
         int h = mMarkerSize + getPaddingTop() + getPaddingBottom();
 
+
         int widthSize = resolveSizeAndState(w, widthMeasureSpec, 0);
         int heightSize = resolveSizeAndState(h, heightMeasureSpec, 0);
         // 设置最终的测量结果

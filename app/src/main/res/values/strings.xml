@@ -133,4 +133,6 @@
     <string name="btn_photo_album">从手机相册读取</string>
     <string name="btn_photo_graph">拍照</string>
 
+    <string name="risk_evaluation_guide">为切实保障您的权益，我们将通过5道\n题，以了解阁下您的\n-投资需要\n-投资目标\n-风险承受能力\n以便我们的专属理财顾问能为您制造贴\n身的理财计划。\n\n\n您的回答对我们来说很重要。</string>
+
 </resources>

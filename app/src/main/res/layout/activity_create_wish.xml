@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_80"
             android:layout_gravity="center_horizontal"
-            android:src="@mipmap/wish_fund"/>
+            android:src="@mipmap/wish_fund_white"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -41,11 +41,11 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_marginTop="@dimen/padding_120"
-            android:layout_marginLeft="@dimen/padding_80"
-            android:layout_marginRight="@dimen/padding_80"
+            android:layout_marginLeft="@dimen/padding_60"
+            android:layout_marginRight="@dimen/padding_60"
             android:gravity="center"
             android:scrollbars="none"
-            android:horizontalSpacing="@dimen/padding_91"
+            android:horizontalSpacing="@dimen/padding_50"
             android:verticalSpacing="@dimen/padding_70"
             android:numColumns="3">
 

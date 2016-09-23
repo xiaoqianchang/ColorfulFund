@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.jakewharton.rxbinding.view.RxView;
 import com.zritc.colorfulfund.R;
+import com.zritc.colorfulfund.activity.ZRActivityPullToRefreshWebView;
 import com.zritc.colorfulfund.activity.ZRActivityToolBar;
 import com.zritc.colorfulfund.data.response.trade.BindPayment;
 import com.zritc.colorfulfund.data.response.trade.PrepareBindPayment;
@@ -40,6 +41,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * ZRActivityAddBankCard 绑定银行卡
@@ -129,7 +131,9 @@ public class ZRActivityAddBankCard extends ZRActivityToolBar<AddCardPresenter> i
             }
 
             // 获取支付类型
-            paymentType = bankInfo.getPaymentType(txtCardInfo.getText().toString());
+            if (null != bankInfo) {
+                paymentType = bankInfo.getPaymentType(txtCardInfo.getText().toString());
+            }
             if (TextUtils.isEmpty(realName))
                 edtUserName.setError(Html.fromHtml("<font color=#ffffff>真实姓名不能为空</font>"));
             if (!edtICCard.isValidate())
@@ -253,6 +257,16 @@ public class ZRActivityAddBankCard extends ZRActivityToolBar<AddCardPresenter> i
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @OnClick({R.id.id_txt_trade_pro})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.id_txt_trade_pro:
+                Intent intent = new Intent(this, ZRActivityPullToRefreshWebView.class);
+                startActivity(intent);
+                break;
+        }
     }
 
     @Override

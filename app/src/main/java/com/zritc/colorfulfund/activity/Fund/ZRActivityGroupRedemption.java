@@ -22,6 +22,7 @@ import com.zritc.colorfulfund.ui.adapter.abslistview.CommonAdapter;
 import com.zritc.colorfulfund.ui.adapter.abslistview.ViewHolder;
 import com.zritc.colorfulfund.utils.StringUtils;
 import com.zritc.colorfulfund.utils.ZRDateUtils;
+import com.zritc.colorfulfund.utils.ZRUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -97,6 +98,7 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
         }
         userFundListPerBank = new ArrayList<>();
         productGroup.setDivider(null);
+        productGroup.setMaxHeight(100);
         productGroup.setListViewHeightBasedOnChildren(productGroup);
         tvTodayRedeem.setText("0");
         // 获取数据
@@ -127,13 +129,13 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
                 // 判断输入的金额是否大于持有的份额
                 if (!TextUtils.isEmpty(s.toString().trim())) {
                     if (!isAllRedemption) {
-                    if (Double.parseDouble(s.toString().trim()) > Double.parseDouble(tvTodayRedeem.getText().toString())) {
-                        showToast("您输入的份额大于可赎回份额。");
-                        // 不可点击
-                        btnRedemptionGroup.setEnabled(false);
-                    } else {
-                        btnRedemptionGroup.setEnabled(true);
-                    }
+                        if (Double.parseDouble(s.toString().trim()) > Double.parseDouble(tvTodayRedeem.getText().toString())) {
+                            showToast("您输入的份额大于可赎回份额。");
+                            // 不可点击
+                            btnRedemptionGroup.setEnabled(false);
+                        } else {
+                            btnRedemptionGroup.setEnabled(true);
+                        }
                     } else {
                         // 设置输入框不可编辑
                         edtMoney.setEnabled(false);
@@ -141,8 +143,8 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
                     }
                     if (StringUtils.isZero(s.toString().trim())) {
                         btnRedemptionGroup.setEnabled(false);
-                }
-                edtMoney.setSelection(s.length());
+                    }
+                    edtMoney.setSelection(s.length());
                 } else {
                     btnRedemptionGroup.setEnabled(false);
                 }
@@ -214,19 +216,22 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
                 isAllRedemption = false;
             }
 
-        // 算总金额
+            // 算总金额
             for (int i = 0; i < userFundListPerBank.size(); i++) {
                 totalMoney += userFundListPerBank.get(i).poFundAssetInfo.totalAmount;
-        }
+            }
 
-        // 算产品所占比例
+            // 算产品所占比例
             for (int j = 0; j < userFundListPerBank.size(); j++) {
                 if (!StringUtils.isZero(totalMoney))
                     userFundListPerBank.get(j).fundInfo.poPercentage = userFundListPerBank.get(j).poFundAssetInfo.totalAmount / totalMoney;
+                if (Double.isNaN(userFundListPerBank.get(j).fundInfo.poPercentage))
+                    userFundListPerBank.get(j).fundInfo.poPercentage = 0;
             }
             // 数据赋值
-//            myAdapter.notifyDataSetChanged();
-            edtMoney.setText(StringUtils.getMoneyByFormat(String.valueOf(totalMoney)));
+            //            myAdapter.notifyDataSetChanged();
+
+            edtMoney.setText(ZRUtils.getDecimalFormat(totalMoney));
         }
     }
 
@@ -270,7 +275,6 @@ public class ZRActivityGroupRedemption extends ZRActivityToolBar<GroupRedemption
         if (object instanceof GetUserPoInfo4C) {
             // 获取我要赎回基金的详情
             initData((GetUserPoInfo4C) object);
-            btnRedemptionGroup.setEnabled(true);
         }else if (object instanceof RedeemPo) {
             // 组合赎回
             // 计算预计到账日

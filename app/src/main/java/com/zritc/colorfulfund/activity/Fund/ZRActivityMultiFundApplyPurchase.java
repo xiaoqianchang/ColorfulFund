@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.activity.ZRActivityToolBar;
 import com.zritc.colorfulfund.activity.cardmanager.ZRActivityCardManage;
-import com.zritc.colorfulfund.activity.wish.ZRActivityWishHomePage;
 import com.zritc.colorfulfund.data.response.trade.BuyPo;
 import com.zritc.colorfulfund.data.response.trade.EstimateBuyFundFee;
 import com.zritc.colorfulfund.data.response.trade.GetFundPoInfo4C;
@@ -28,7 +27,6 @@ import com.zritc.colorfulfund.ui.adapter.ZRCommonAdapter;
 import com.zritc.colorfulfund.ui.adapter.ZRViewHolder;
 import com.zritc.colorfulfund.utils.ZRConstant;
 import com.zritc.colorfulfund.utils.ZRImageLoaderHelper;
-import com.zritc.colorfulfund.widget.RecordGrowthDialog;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -201,8 +199,8 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
             fundPoList = (GetFundPoList4C.FundPoList) bundle.getSerializable("GetFundPoList4C.FundPoList");
             if (null != fundPoList) {
                 poCode = fundPoList.poBase.poCode;
-            } else if (ZRActivityWishHomePage.class.getName().equals(bundle.getString(ZRConstant.INTENT_FROM_WHERE))
-                    || RecordGrowthDialog.class.getName().equals(bundle.getString(ZRConstant.INTENT_FROM_WHERE))) {
+            }
+            if (TextUtils.isEmpty(poCode)) {
                 poCode = bundle.getString("poCode");
                 amount = bundle.getString("money");
             }
@@ -222,6 +220,7 @@ public class ZRActivityMultiFundApplyPurchase extends ZRActivityToolBar<MultiFun
             }
         };
         listView.setDivider(null);
+        listView.setMaxHeight(100);
         edtBuyMoney.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         edtBuyMoney.setBackgroundDrawable(null);
         edtBuyMoney.setHint("最小购买金额100.00元");

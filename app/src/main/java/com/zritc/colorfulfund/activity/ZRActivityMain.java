@@ -2,6 +2,7 @@ package com.zritc.colorfulfund.activity;
 
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
@@ -12,8 +13,10 @@ import android.view.KeyEvent;
 import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.common.ZRAppActivityManager;
 import com.zritc.colorfulfund.data.ZRDataEngine;
+import com.zritc.colorfulfund.fragment.ZRFragmentFortuneGroupList;
+import com.zritc.colorfulfund.fragment.ZRFragmentFundManager;
 import com.zritc.colorfulfund.fragment.ZRFragmentMain;
-import com.zritc.colorfulfund.fragment.fortunegroup.ZRFragmentFortuneGroupList;
+import com.zritc.colorfulfund.fragment.ZRFragmentMine;
 import com.zritc.colorfulfund.iView.IMainView;
 import com.zritc.colorfulfund.presenter.MainPresenter;
 import com.zritc.colorfulfund.receiver.JPushMessageReceiver;
@@ -32,7 +35,7 @@ import com.zritc.colorfulfund.view.ZRTabWidget.OnTabSelectedListener;
  * @lastUpdate 2015-06-24
  */
 public class ZRActivityMain extends ZRActivityToolBar<MainPresenter> implements IMainView,
-        OnTabSelectedListener {
+        OnTabSelectedListener, ZRFragmentFundManager.OnFragmentInteractionListener {
 
     private static final int DIALOG_ACTION_FORCE_UPDATE = 1;
     private static final int DOUBLE_CLICK_DURATION = 1000;
@@ -46,10 +49,10 @@ public class ZRActivityMain extends ZRActivityToolBar<MainPresenter> implements 
     private JPushMessageReceiver mMessageReceiver;
 
     private ZRTabWidget mTabWidget;
-    private ZRFragmentMain mFragment1;
-    private ZRFragmentMain mFragment2;
+    private ZRFragmentMain mainFragment;
+    private ZRFragmentFundManager fundManagerFragment;
     private ZRFragmentFortuneGroupList fortuneGroupListFragment;
-    private ZRFragmentMain mFragment4;
+    private ZRFragmentMine mineFragment;
     private int mFragmentIndex = 0;
     private FragmentManager mFragmentManager;
 
@@ -130,7 +133,7 @@ public class ZRActivityMain extends ZRActivityToolBar<MainPresenter> implements 
     protected void onDestroy() {
         ZRLog.e("android main page onDestroy");
         unregisterReceiver(mMessageReceiver);
-       super.onDestroy();
+        super.onDestroy();
     }
 
     @Override
@@ -140,38 +143,38 @@ public class ZRActivityMain extends ZRActivityToolBar<MainPresenter> implements 
         switch (index) {
             case 0:
                 setTitleText("多彩基金");
-                if (null == mFragment1) {
-                    mFragment1 = new ZRFragmentMain();
-                    transaction.add(R.id.center_layout, mFragment1);
+                if (null == mainFragment) {
+                    mainFragment = new ZRFragmentMain();
+                    transaction.add(R.id.center_layout, mainFragment);
                 } else {
-                    transaction.show(mFragment1);
+                    transaction.show(mainFragment);
                 }
                 break;
             case 1:
-                setTitleText("投资管家");
-                if (null == mFragment2) {
-                    mFragment2 = new ZRFragmentMain();
-                    transaction.add(R.id.center_layout, mFragment2);
+                setTitleText("基金管家");
+                if (null == fundManagerFragment) {
+                    fundManagerFragment = ZRFragmentFundManager.newInstance("");
+                    transaction.add(R.id.center_layout, fundManagerFragment);
                 } else {
-                    transaction.show(mFragment2);
+                    transaction.show(fundManagerFragment);
                 }
                 break;
             case 2:
                 setTitleText("财富圈");
                 if (null == fortuneGroupListFragment) {
-                    fortuneGroupListFragment = new ZRFragmentFortuneGroupList();
+                    fortuneGroupListFragment = ZRFragmentFortuneGroupList.newInstance("");
                     transaction.add(R.id.center_layout, fortuneGroupListFragment);
                 } else {
                     transaction.show(fortuneGroupListFragment);
                 }
                 break;
             case 3:
-                setTitleText("其他");
-                if (null == mFragment4) {
-                    mFragment4 = new ZRFragmentMain();
-                    transaction.add(R.id.center_layout, mFragment4);
+                setTitleText("我的");
+                if (null == mineFragment) {
+                    mineFragment = new ZRFragmentMine();
+                    transaction.add(R.id.center_layout, mineFragment);
                 } else {
-                    transaction.show(mFragment4);
+                    transaction.show(mineFragment);
                 }
                 break;
             default:
@@ -182,17 +185,17 @@ public class ZRActivityMain extends ZRActivityToolBar<MainPresenter> implements 
     }
 
     private void hideFragments(FragmentTransaction transaction) {
-        if (null != mFragment1) {
-            transaction.hide(mFragment1);
+        if (null != mainFragment) {
+            transaction.hide(mainFragment);
         }
-        if (null != mFragment2) {
-            transaction.hide(mFragment2);
+        if (null != fundManagerFragment) {
+            transaction.hide(fundManagerFragment);
         }
         if (null != fortuneGroupListFragment) {
             transaction.hide(fortuneGroupListFragment);
         }
-        if (null != mFragment4) {
-            transaction.hide(mFragment4);
+        if (null != mineFragment) {
+            transaction.hide(mineFragment);
         }
     }
 
@@ -257,4 +260,8 @@ public class ZRActivityMain extends ZRActivityToolBar<MainPresenter> implements 
 
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }

@@ -15,10 +15,12 @@ import com.zritc.colorfulfund.base.ZRActivityBase;
 import com.zritc.colorfulfund.data.response.user.Login;
 import com.zritc.colorfulfund.iView.ILoginView;
 import com.zritc.colorfulfund.presenter.LoginPresenter;
+import com.zritc.colorfulfund.utils.StringUtils;
 import com.zritc.colorfulfund.utils.ZRConstant;
 import com.zritc.colorfulfund.utils.ZRNetUtils;
 import com.zritc.colorfulfund.utils.ZRSharePreferenceKeeper;
 import com.zritc.colorfulfund.utils.ZRToastFactory;
+import com.zritc.colorfulfund.utils.ZRUtils;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -112,11 +114,18 @@ public class ZRActivityLogin extends ZRActivityBase<LoginPresenter> implements I
         userNmae = edtUserName.getText().toString().trim();
         userPass = edtUserPass.getText().toString().trim();
         if (TextUtils.isEmpty(userNmae) || userNmae.length() != 11) {
-            ZRToastFactory.getToast(this, "手机号不合法").show();
+            showToast("请您输入11位的手机号码");
+            return false;
+        }
+        if (!StringUtils.isMobileNum2(userNmae)) {
+            showToast("您输入的不是手机号码");
             return false;
         }
         if (TextUtils.isEmpty(userPass)) {
-            ZRToastFactory.getToast(this, "请输入密码").show();
+            showToast("请输入密码");
+            return false;
+        } else if (userPass.length() < 6) {
+            showToast("密码至少为6位");
             return false;
         }
         return true;
@@ -135,6 +144,7 @@ public class ZRActivityLogin extends ZRActivityBase<LoginPresenter> implements I
         ZRSharePreferenceKeeper.keepStringValue(this, ZRConstant.KEY_PASSWORD, edtUserPass.getText().toString().trim());
         ZRSharePreferenceKeeper.keepStringValue(this, ZRConstant.KEY_SID, login.sid);
         ZRSharePreferenceKeeper.keepStringValue(this, ZRConstant.KEY_RID, login.rid);
+        ZRSharePreferenceKeeper.keepBooleanValue(this, ZRConstant.KEY_AUTO_LOGIN, true);
 
         Intent intent = new Intent(mContext, ZRActivityMain.class);
         mContext.startActivity(intent);

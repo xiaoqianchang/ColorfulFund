@@ -304,11 +304,107 @@
             android:textColor="@android:color/black"/>
 
         <Button
-            android:id="@+id/btn_WithdrawAssetFromWishlist"
+            android:id="@+id/btn_GetSurveyList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="取回心愿资金"
+            android:text="风险等级评测信息列表"
+            android:textColor="@android:color/black"/>
+
+        <Button
+            android:id="@+id/btn_EvaluateUserRiskLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="评估用户风险等级"
+            android:textColor="@android:color/black"/>
+
+        <Button
+            android:id="@+id/btn_PrepareChangeTransPwd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="修改交易密码前，对用户身份进行验证"
+            android:textColor="@android:color/black"/>
+
+        <Button
+            android:id="@+id/btn_ChangeTransPwd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="修改交易密码"
+            android:textColor="@android:color/black"/>
+
+        <Button
+            android:id="@+id/btn_ResetLoginPwd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="重置登录密码"
+            android:textColor="@android:color/black"/>
+
+        <Button
+            android:id="@+id/btn_GetLoginPwdVcode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="重置登录密码验证码"
+            android:textColor="@android:color/black"/>
+
+        <Button
+            android:id="@+id/btn_Logoff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="用户退出"
+            android:textColor="@android:color/black"/>
+
+        <Button
+            android:id="@+id/btn_UpdateUserInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="更新用户信息"
+            android:textColor="@android:color/black"/>
+
+        <Button
+            android:id="@+id/btn_GetUserInfo4C"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="获取用户信息"
+            android:textColor="@android:color/black"/>
+
+        <Button
+            android:id="@+id/btn_GetUserCollectionList4C"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="获取用户收藏列表"
+            android:textColor="@android:color/black"/>
+
+        <Button
+            android:id="@+id/btn_GetUserMainPageInfo4C"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="获取我的主页信息"
+            android:textColor="@android:color/black"/>
+
+        <Button
+            android:id="@+id/btn_GetUserTradeHistory4C"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="获取用户组合交易历史记录"
+            android:textColor="@android:color/black"/>
+
+        <Button
+            android:id="@+id/btn_CreateShareAlbum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="创建分享相册"
             android:textColor="@android:color/black"/>
 
 </LinearLayout>

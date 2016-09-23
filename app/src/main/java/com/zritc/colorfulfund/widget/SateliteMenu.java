@@ -137,7 +137,7 @@ public class SateliteMenu extends ViewGroup implements View.OnClickListener {
         layoutMenuButton();
 
         int count = getChildCount();
-        double angle = 90.0f / (count - 2);
+        double angle = 90.0f / (count - 1);
         View child;
         int w, h;
         for (int i = 1; i < count; i++) {
@@ -242,12 +242,12 @@ public class SateliteMenu extends ViewGroup implements View.OnClickListener {
                 yflag = -1;
             }
 
-            double angle = 90 / (count - 2);
+            double angle = 90 / (count - 1);
             /*
              一个圆的弧度是2π,角度是360°   π/2即90度的弧度
              */
-            int oppositeLen = (int) (mRadius * Math.sin(Math.PI / 2 / (count - 2) * (i - 1))); //对边 横向
-            int adjacentLen = (int) (mRadius * Math.cos(Math.PI / 2 / (count - 2) * (i - 1))); //邻边 纵向
+            int oppositeLen = (int) (mRadius * Math.sin(Math.PI / 2 / (count - 1) * (i - 1))); //对边 横向
+            int adjacentLen = (int) (mRadius * Math.cos(Math.PI / 2 / (count - 1) * (i - 1))); //邻边 纵向
 
             int stopx = xflag * oppositeLen;
             int stopy = yflag * adjacentLen;

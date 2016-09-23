@@ -242,7 +242,7 @@ public class ZRUtils {
      * yyyy-mm-dd hh:mm
      *
      * @param date
-     * @return
+     * @return yyyy年mm月dd日 hh:mm
      */
     public final static String formatMyDate(String date) {
         try {
@@ -259,10 +259,28 @@ public class ZRUtils {
     }
 
     /**
+     * yyyymmdd
+     *
+     * @param date
+     * @return yyyy/mm/dd
+     */
+    public final static String formatMyDate2(String date) {
+        try {
+            String yy = date.substring(0, 4);
+            String mm = date.substring(4, 6);
+            String dd = date.substring(6, 8);
+            return yy + "/" + mm + "/" + dd;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    /**
      * 计算两个日期相差几年
      *
      * @param fromDate {20050531}
-     * @param toDate {20070101}
+     * @param toDate   {20070101}
      * @return {2}
      */
     public static int[] getDateLength(String fromDate, String toDate) {
@@ -531,90 +549,141 @@ public class ZRUtils {
     }
 
     /**
-	 * MM-dd HH:mm
-	 *
-	 * @param messageDate
-	 * @return
-	 */
-	public static String getTimestampStringForMonth(Date messageDate) {
+     * MM-dd HH:mm
+     *
+     * @param messageDate
+     * @return
+     */
+    public static String getTimestampStringForMonth(Date messageDate) {
 
-		boolean isChinese = true;
-		String format = null;
-		long messageTime = messageDate.getTime();
-		if (isSameDay(messageTime)) { // 今天
-			Calendar calendar = GregorianCalendar.getInstance();
-			calendar.setTime(messageDate);
-			int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        boolean isChinese = true;
+        String format = null;
+        long messageTime = messageDate.getTime();
+        if (isSameDay(messageTime)) { // 今天
+            Calendar calendar = GregorianCalendar.getInstance();
+            calendar.setTime(messageDate);
+            int hour = calendar.get(Calendar.HOUR_OF_DAY);
 
-			format = "HH:mm";
+            format = "HH:mm";
 
-			if (isChinese) {
-				format = "今天 hh:mm";
-			}
+            if (isChinese) {
+                format = "今天 hh:mm";
+            }
         } else if (isYesterday(messageTime)) {
-			if (isChinese) {
-				format = "昨天 HH:mm";
-			} else {
-				format = "MM-dd HH:mm";
-			}
+            if (isChinese) {
+                format = "昨天 HH:mm";
+            } else {
+                format = "MM-dd HH:mm";
+            }
 
         } else {
-			if (isChinese) {
-				format = "MM-dd HH:mm";
-			} else {
-				format = "yyyy-MM-dd HH:mm";
-			}
-		}
+            if (isChinese) {
+                format = "MM-dd HH:mm";
+            } else {
+                format = "yyyy-MM-dd HH:mm";
+            }
+        }
 
-		if (isChinese) {
-			return new SimpleDateFormat(format, Locale.CHINA).format(messageDate);
-		} else {
-			return new SimpleDateFormat(format, Locale.US).format(messageDate);
-		}
-	}
+        if (isChinese) {
+            return new SimpleDateFormat(format, Locale.CHINA).format(messageDate);
+        } else {
+            return new SimpleDateFormat(format, Locale.US).format(messageDate);
+        }
+    }
 
-	/**
-	 * MM-dd HH:mm
-	 *
-	 * @param messageDate
-	 * @return
-	 */
-	public static String getTimestampStringForDetail(Date messageDate, String str) {
+    /**
+     * MM-dd HH:mm
+     *
+     * @param messageDate
+     * @return
+     */
+    public static String getTimestampStringForDetail(Date messageDate, String str) {
 
-		boolean isChinese = true;
-		String format = null;
-		long messageTime = messageDate.getTime();
-		if (isSameDay(messageTime)) { // 今天
-			Calendar calendar = GregorianCalendar.getInstance();
-			calendar.setTime(messageDate);
-			int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        boolean isChinese = true;
+        String format = null;
+        long messageTime = messageDate.getTime();
+        if (isSameDay(messageTime)) { // 今天
+            Calendar calendar = GregorianCalendar.getInstance();
+            calendar.setTime(messageDate);
+            int hour = calendar.get(Calendar.HOUR_OF_DAY);
 
-			format = "HH:mm";
+            format = "HH:mm";
 
-			if (isChinese) {
-				format = "今天 hh:mm " + str;
-			}
+            if (isChinese) {
+                format = "今天 hh:mm " + str;
+            }
         } else if (isYesterday(messageTime)) {
-			if (isChinese) {
-				format = "昨天 HH:mm " + str;
-			} else {
-				format = "MM-dd HH:mm";
-			}
+            if (isChinese) {
+                format = "昨天 HH:mm " + str;
+            } else {
+                format = "MM-dd HH:mm";
+            }
 
         } else {
-			if (isChinese) {
-				format = "yyyy-MM-dd " + str;
-			} else {
-				format = "yyyy-MM-dd HH:mm";
-			}
-		}
+            if (isChinese) {
+                format = "yyyy-MM-dd " + str;
+            } else {
+                format = "yyyy-MM-dd HH:mm";
+            }
+        }
 
-		if (isChinese) {
-			return new SimpleDateFormat(format, Locale.CHINA).format(messageDate);
-		} else {
-			return new SimpleDateFormat(format, Locale.US).format(messageDate);
-		}
-	}
+        if (isChinese) {
+            return new SimpleDateFormat(format, Locale.CHINA).format(messageDate);
+        } else {
+            return new SimpleDateFormat(format, Locale.US).format(messageDate);
+        }
+    }
+
+    /**
+     * 返回分段的时间
+     *
+     * @param messageTime
+     * @return array{"今天","14:10"}
+     */
+    public static String[] getTimestampStringArray(long messageTime) {
+
+        boolean isChinese = true;
+        String format = null;
+        Date messageDate = new Date(messageTime);;
+        if (isSameDay(messageTime)) { // 今天
+            Calendar calendar = GregorianCalendar.getInstance();
+            calendar.setTime(messageDate);
+            int hour = calendar.get(Calendar.HOUR_OF_DAY);
+
+            format = "HH:mm";
+
+            if (isChinese) {
+                format = "今天 hh:mm";
+            } else {
+                format = "Today hh:mm";
+            }
+        } else if (isYesterday(messageTime)) {
+            if (isChinese) {
+                format = "昨天 HH:mm";
+            } else {
+                format = "Yesterday HH:mm";
+            }
+        } else {
+            if (isChinese) {
+                format = "MM-dd HH:mm";
+            } else {
+                format = "MM-dd HH:mm";
+            }
+        }
+
+        String tempDate = "";
+
+        if (isChinese) {
+            tempDate = new SimpleDateFormat(format, Locale.CHINA).format(messageDate);
+        } else {
+            tempDate = new SimpleDateFormat(format, Locale.US).format(messageDate);
+        }
+
+        String[] date = new String[2];
+        date[0] = tempDate.substring(0, tempDate.indexOf(" "));
+        date[1] = tempDate.substring(tempDate.indexOf(" "), tempDate.length());
+        return date;
+    }
 
     /**
      * 计算时间差
@@ -756,19 +825,19 @@ public class ZRUtils {
     }
 
     /**
-	 * 由毫秒得到分钟数
+     * 由毫秒得到分钟数
      *
-	 * @param milliseconds
-	 * @return
-	 */
-	public static int getMinutesByMilliseconds(long milliseconds) {
-		int minutes = 0;
-		int totalSeconds = (int) (milliseconds / 1000);
-		minutes = totalSeconds / 60;
-		return minutes;
-	}
+     * @param milliseconds
+     * @return
+     */
+    public static int getMinutesByMilliseconds(long milliseconds) {
+        int minutes = 0;
+        int totalSeconds = (int) (milliseconds / 1000);
+        minutes = totalSeconds / 60;
+        return minutes;
+    }
 
-	/**
+    /**
      * 格式化双精度数据
      *
      * @param d
@@ -914,39 +983,39 @@ public class ZRUtils {
         return builder.toString();
     }
 
-	public static String getImgUrl(String oriUrl, String folder) {
-		int index = -1;
-		if (TextUtils.isEmpty(oriUrl) || TextUtils.isEmpty(folder)
-				|| -1 == (index = oriUrl.lastIndexOf("/"))) {
-			return oriUrl;
-		}
-		return oriUrl.substring(0, index) + "/" + folder
-				+ oriUrl.substring(index);
-	}
+    public static String getImgUrl(String oriUrl, String folder) {
+        int index = -1;
+        if (TextUtils.isEmpty(oriUrl) || TextUtils.isEmpty(folder)
+                || -1 == (index = oriUrl.lastIndexOf("/"))) {
+            return oriUrl;
+        }
+        return oriUrl.substring(0, index) + "/" + folder
+                + oriUrl.substring(index);
+    }
 
-	public static boolean isAppInstalled(Context context, String packageName) {
-		try {
-			context.getPackageManager().getPackageInfo(packageName,
-					PackageManager.GET_ACTIVITIES);
-			return true;
-		} catch (NameNotFoundException e) {
-			return false;
-		}
-	}
+    public static boolean isAppInstalled(Context context, String packageName) {
+        try {
+            context.getPackageManager().getPackageInfo(packageName,
+                    PackageManager.GET_ACTIVITIES);
+            return true;
+        } catch (NameNotFoundException e) {
+            return false;
+        }
+    }
 
-	public static Bitmap getScaledBitmap(Bitmap src, int width, int height) {
-		if (null == src) {
-			return null;
-		}
-		if (width == src.getWidth() && height == src.getHeight()) {
-			return src;
-		}
-		Bitmap result = Bitmap.createScaledBitmap(src, width, height, true);
-		if (result != src) {
-			src.recycle();
-		}
-		return result;
-	}
+    public static Bitmap getScaledBitmap(Bitmap src, int width, int height) {
+        if (null == src) {
+            return null;
+        }
+        if (width == src.getWidth() && height == src.getHeight()) {
+            return src;
+        }
+        Bitmap result = Bitmap.createScaledBitmap(src, width, height, true);
+        if (result != src) {
+            src.recycle();
+        }
+        return result;
+    }
 
     /**
      * 是否有可用网络
@@ -1053,9 +1122,9 @@ public class ZRUtils {
         return s;
     }
 
-    public static String getRunningActivityName(){
-        ActivityManager activityManager=(ActivityManager) ZRApplication.applicationContext.getSystemService(Context.ACTIVITY_SERVICE);
-        String runningActivity=activityManager.getRunningTasks(1).get(0).topActivity.getClassName();
+    public static String getRunningActivityName() {
+        ActivityManager activityManager = (ActivityManager) ZRApplication.applicationContext.getSystemService(Context.ACTIVITY_SERVICE);
+        String runningActivity = activityManager.getRunningTasks(1).get(0).topActivity.getClassName();
         return runningActivity;
     }
 
@@ -1084,8 +1153,12 @@ public class ZRUtils {
      *
      * @return
      */
-    public static int getCurrentDay() {
+    public static String getCurrentDay() {
         Calendar now = Calendar.getInstance();
-        return now.get(Calendar.DAY_OF_MONTH);
+        int day = now.get(Calendar.DAY_OF_MONTH);
+        if (day < 10) {
+            return "0" + day;
+        }
+        return String.valueOf(day);
     }
 }

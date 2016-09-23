@@ -30,6 +30,13 @@
 
     </FrameLayout>
 
+    <View
+        android:id="@+id/view_shaow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/shadow_gray2"
+        android:visibility="gone" />
+
     <RelativeLayout
         android:id="@+id/composer"
         android:layout_width="wrap_content"
@@ -52,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginBottom="25dp"
+                android:layout_marginBottom="14dp"
                 android:layout_marginRight="130dp"
                 android:background="@mipmap/icon_menu_store_money"
                 android:visibility="gone" />
@@ -63,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginBottom="104dp"
+                android:layout_marginBottom="98dp"
                 android:layout_marginRight="99dp"
                 android:background="@mipmap/icon_menu_groupup"
                 android:visibility="gone" />

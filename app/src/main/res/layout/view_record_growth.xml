@@ -43,7 +43,7 @@
             android:layout_width="@dimen/width_280"
             android:layout_height="@dimen/width_280"
             android:layout_centerHorizontal="true"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@mipmap/ic_img_profile_bg"/>
 
     </RelativeLayout>
 

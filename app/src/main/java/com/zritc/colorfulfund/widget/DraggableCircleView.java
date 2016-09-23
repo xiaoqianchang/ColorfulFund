@@ -22,8 +22,8 @@ import java.text.DecimalFormat;
 
 /**
  * 可绕圆圈轨迹拖拽的view
- * <p/>
- *
+ * <p>
+ * <p>
  * * API：
  * 1.setSmallTickMarkNum();设置小刻度线的数量，默认10条
  * 2.setBigTickMarkNum();设置大刻度线的数量，默认0条
@@ -118,7 +118,7 @@ public class DraggableCircleView extends View {
     private float mCurrentRadian; // 当前弧度
     private float mPreRadian;
     private boolean mInCircleButton;
-    private double mCurrentValue;
+    private double mCurrentValue; // 当前代表的值
     private String mMiddleText;
     private String mMiddleValue;
     private float mStartDegrees; // 起始角度
@@ -128,7 +128,7 @@ public class DraggableCircleView extends View {
     private int mSmallTickMarkNum; // 一圈小刻度线数
     private int mBigTickMarkNum; // 一圈大刻度线数
     private boolean mHasBigTickMark; // 是否有大刻度线
-    private double[] mEachCircleTotal = new double[] {10, 20}; // 每圈的总金额，初始化数组大小自少为1
+    private double[] mEachCircleTotal = new double[]{10, 20}; // 每圈的总金额，初始化数组大小自少为1
     private int mCurrentCircle = 0; // 当前是第几圈，从0开始计
 
     public DraggableCircleView(Context context) {
@@ -325,7 +325,7 @@ public class DraggableCircleView extends View {
         canvas.save();
         canvas.rotate((float) Math.toDegrees(mCurrentRadian) + mStartDegrees, mCx, mCy);
         canvas.drawCircle(mCx, getMeasuredHeight() / 2 - mRadius + mCircleStrokeWidth / 2 + mCircleRingStrokeWidth / 2, mCircleButtonRadius, mCircleButtonPaint);
-//        Log.d(TAG, "mCircleButton mCx=" + mCx + ", mCy=" + (getMeasuredHeight() / 2 - mRadius + mCircleStrokeWidth / 2 + mGapBetweenCircleAndLine + mLineLength / 2));
+        //        Log.d(TAG, "mCircleButton mCx=" + mCx + ", mCy=" + (getMeasuredHeight() / 2 - mRadius + mCircleStrokeWidth / 2 + mGapBetweenCircleAndLine + mLineLength / 2));
         canvas.restore();
         // TimerNumber
         canvas.save();
@@ -376,10 +376,10 @@ public class DraggableCircleView extends View {
                     // 处理2 * Math.PI零界点
                     if (mPreRadian > Math.toRadians(270) && temp < Math.toRadians(90)) { // 顺时针穿过零界点
                         mPreRadian -= 2 * Math.PI;
-//                        Log.i(TAG, "顺时针mPreRadian: " +mPreRadian);
+                        //                        Log.i(TAG, "顺时针mPreRadian: " +mPreRadian);
                     } else if (mPreRadian < Math.toRadians(90) && temp > Math.toRadians(270)) { // 逆时针穿过零界点
                         mPreRadian = (float) (temp + (temp - 2 * Math.PI) - mPreRadian);
-//                        Log.i(TAG, "逆时针mPreRadian: " +mPreRadian);
+                        //                        Log.i(TAG, "逆时针mPreRadian: " +mPreRadian);
                     }
                     mCurrentRadian += (temp - mPreRadian);
                     mPreRadian = temp;
@@ -397,11 +397,11 @@ public class DraggableCircleView extends View {
                     // 计算圈数
                     mCurrentCircle = getCurrentCircle(mCurrentRadian);
                     // 滚动计算当前金钱
-//                    Log.i(TAG, "当前第"+ mCurrentCircle +"圈");
+                    //                    Log.i(TAG, "当前第"+ mCurrentCircle +"圈");
                     double beforeSum = 0;
                     if (mCurrentCircle == 0) {
                         mCurrentValue = mEachCircleTotal[mCurrentCircle] / (2 * Math.PI) * mCurrentRadian;
-                    } else if (mCurrentCircle > 0 && mCurrentCircle < mEachCircleTotal.length)  {
+                    } else if (mCurrentCircle > 0 && mCurrentCircle < mEachCircleTotal.length) {
                         for (int cur = 0; cur < mCurrentCircle; cur++) {
                             beforeSum += mEachCircleTotal[cur];
                         }
@@ -481,7 +481,7 @@ public class DraggableCircleView extends View {
                 value += mEachCircleTotal[i] * (currentRadian - leftSection);
                 return value;
             }
-            i = ++ i;
+            i = ++i;
         }
     }
 
@@ -538,7 +538,7 @@ public class DraggableCircleView extends View {
             if (currentRadian >= leftSection && currentRadian < rightSection) {
                 return i;
             }
-            i = ++ i;
+            i = ++i;
         }
     }
 
@@ -568,7 +568,9 @@ public class DraggableCircleView extends View {
         return new Builder();
     }
 
-    /**************************************public api***********************************************/
+    /**************************************
+     * public api
+     ***********************************************/
 
     public final class Builder {
 
@@ -615,7 +617,7 @@ public class DraggableCircleView extends View {
 
         /**
          * 控件显示的起始值
-         *
+         * <p>
          * 规则：
          * 1.设定值在给定的每圈数组和之内则正常计算位置；
          * 2.设定值超过给定的每圈数组和则按照数组最后的间隔值累加并计算返回位置；
@@ -628,7 +630,7 @@ public class DraggableCircleView extends View {
             // 当前初始化值所对应的弧度值
             int leftSection = 0; // 左区间(闭区间)
             int rightSection = 0; // 右区间(开区间)
-            for (int i = 0; i < mEachCircleTotal.length; i ++) {
+            for (int i = 0; i < mEachCircleTotal.length; i++) {
                 if (i > 0) {
                     leftSection += mEachCircleTotal[i - 1];
                 }
@@ -642,7 +644,7 @@ public class DraggableCircleView extends View {
             // 当前大小超过给定没圈值得总和
             while (true) {
                 Log.i(TAG, "mCurrentCircle=" + mCurrentCircle);
-                mCurrentCircle ++;
+                mCurrentCircle++;
                 leftSection += mEachCircleTotal[mEachCircleTotal.length - 1];
                 rightSection += mEachCircleTotal[mEachCircleTotal.length - 1];
                 if (currentValue >= leftSection && currentValue < rightSection) {
@@ -684,7 +686,7 @@ public class DraggableCircleView extends View {
          *
          * @param circleRingStrokeWidth
          */
-        public Builder setCircleRingStrokeWidth (int circleRingStrokeWidth) {
+        public Builder setCircleRingStrokeWidth(int circleRingStrokeWidth) {
             mCircleRingStrokeWidth = circleRingStrokeWidth;
             return this;
         }
@@ -886,8 +888,6 @@ public class DraggableCircleView extends View {
 
     /**
      * Get String for middleValue
-     *
-     * @param middleValue
      */
     public String getMiddleValue() {
         return mMiddleValue;

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:android_custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="@dimen/padding_16"
+        android:layout_height="@dimen/padding_16"
+        android:background="@drawable/bg_wish_point"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_12"
+        android:layout_marginBottom="@dimen/padding_12"
+        android:text="未开始计划"
+        android:textColor="#40666a"
+        android:textSize="@dimen/font_size_13"/>
+
+    <TextView
+        android:layout_width="@dimen/height_4"
+        android:layout_height="@dimen/padding_22"
+        android:background="#40666a"/>
+
+    <com.zritc.colorfulfund.widget.SateliteMenu
+        android:id="@+id/sateliteMenu"
+        android:layout_width="@dimen/width_260"
+        android:layout_height="@dimen/width_260"
+        android:layout_marginTop="@dimen/padding_12"
+        android:layout_marginBottom="@dimen/padding_12"
+        android_custom:position="right_top"
+        android_custom:radius="100dp">
+
+        <!--菜单主按钮-->
+        <LinearLayout
+            android:id="@+id/ll_saving_money"
+            android:layout_width="@dimen/width_260"
+            android:layout_height="@dimen/width_260"
+            android:layout_marginTop="@dimen/padding_12"
+            android:layout_marginBottom="@dimen/padding_12"
+            android:gravity="center"
+            android:background="@mipmap/bg_blue_wish"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/height_38"
+                android:layout_height="@dimen/height_38"
+                android:src="@mipmap/charge_1_complete"/>
+
+            <TextView
+                android:id="@+id/tv_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_10"
+                android:text="未开始"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_11"/>
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_14"
+                android:text="塞班岛豪华邮轮游"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_12"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_20"
+                android:text="目标金额"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_10"/>
+
+            <TextView
+                android:id="@+id/tv_target_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_5"
+                android:text="3.5万"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_12"/>
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/delete"
+            android:tag="1" />
+    </com.zritc.colorfulfund.widget.SateliteMenu>
+
+    <TextView
+        android:id="@+id/tv_end_marker"
+        android:layout_width="@dimen/height_4"
+        android:layout_height="@dimen/padding_22"
+        android:background="#40666a"/>
+</LinearLayout>

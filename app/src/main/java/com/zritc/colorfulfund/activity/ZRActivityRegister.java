@@ -16,6 +16,7 @@ import com.zritc.colorfulfund.base.ZRActivityBase;
 import com.zritc.colorfulfund.data.response.user.Login;
 import com.zritc.colorfulfund.iView.IRegisterView;
 import com.zritc.colorfulfund.presenter.RegisterPresenter;
+import com.zritc.colorfulfund.utils.StringUtils;
 import com.zritc.colorfulfund.utils.ZRConstant;
 import com.zritc.colorfulfund.utils.ZRNetUtils;
 import com.zritc.colorfulfund.utils.ZRSharePreferenceKeeper;
@@ -99,8 +100,8 @@ public class ZRActivityRegister extends ZRActivityBase<RegisterPresenter> implem
                 break;
             case R.id.tv_send_auth_code:
                 if (doPhoneValid()) {
-                registerPresenter.sendAuthCode(phone);
-                startTimeCount();
+                    registerPresenter.sendAuthCode(phone);
+                    startTimeCount();
                 }
                 break;
             case R.id.btn_register:
@@ -133,6 +134,10 @@ public class ZRActivityRegister extends ZRActivityBase<RegisterPresenter> implem
                 return false;
             }
         }
+        if (!StringUtils.isMobileNum2(account)) {
+            showToast("您输入的不是手机号码");
+            return false;
+        }
         return true;
     }
 
@@ -142,7 +147,14 @@ public class ZRActivityRegister extends ZRActivityBase<RegisterPresenter> implem
         }
         String password = mEdtUserPass.getText().toString();
         if (TextUtils.isEmpty(password)) {
-            ZRToastFactory.getToast(this, "请输入密码").show();
+            showToast("请输入密码");
+            return false;
+        } else if (password.length() < 6) {
+            showToast("密码至少为6位");
+            return false;
+        }
+        if (TextUtils.isEmpty(mEdtAuthCode.getText().toString())) {
+            showToast("请输入验证码");
             return false;
         }
         return true;
@@ -205,6 +217,7 @@ public class ZRActivityRegister extends ZRActivityBase<RegisterPresenter> implem
         ZRSharePreferenceKeeper.keepStringValue(this, ZRConstant.KEY_PASSWORD, mEdtUserPass.getText().toString().trim());
         ZRSharePreferenceKeeper.keepStringValue(this, ZRConstant.KEY_SID, login.sid);
         ZRSharePreferenceKeeper.keepStringValue(this, ZRConstant.KEY_RID, login.rid);
+        ZRSharePreferenceKeeper.keepBooleanValue(this, ZRConstant.KEY_AUTO_LOGIN, true);
 
         Intent intent = new Intent(mContext, ZRActivityMain.class);
         mContext.startActivity(intent);

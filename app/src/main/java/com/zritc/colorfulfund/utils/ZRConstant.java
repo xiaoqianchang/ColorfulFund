@@ -259,4 +259,8 @@ public class ZRConstant {
 	// Intent 跳转key
 	public static final String INTENT_FROM_WHERE = "INTENT_FROM_WHERE";
 
+	/**
+	 * 第一次进入心愿
+	 */
+	public static final String FIRST_TIME_USE_WISH = "first_time_use_wish";
 }

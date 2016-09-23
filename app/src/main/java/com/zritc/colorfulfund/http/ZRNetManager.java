@@ -15,6 +15,10 @@ import com.zritc.colorfulfund.data.response.edu.GetGrowingPicList4C;
 import com.zritc.colorfulfund.data.response.edu.GetGrowingRecordList4C;
 import com.zritc.colorfulfund.data.response.edu.GetPoChangeHistory4C;
 import com.zritc.colorfulfund.data.response.edu.GetUserPoAssetInfo4C;
+import com.zritc.colorfulfund.data.response.mine.EvaluateUserRiskLevel;
+import com.zritc.colorfulfund.data.response.mine.GetSurveyList4C;
+import com.zritc.colorfulfund.data.response.mine.GetUserMainPageInfo4C;
+import com.zritc.colorfulfund.data.response.mine.GetUserTradeHistory4C;
 import com.zritc.colorfulfund.data.response.trade.AdjustPo;
 import com.zritc.colorfulfund.data.response.trade.BindPayment;
 import com.zritc.colorfulfund.data.response.trade.BuyPo;
@@ -27,16 +31,24 @@ import com.zritc.colorfulfund.data.response.trade.GetUserPoList4C;
 import com.zritc.colorfulfund.data.response.trade.PrepareBindPayment;
 import com.zritc.colorfulfund.data.response.trade.RedeemPo;
 import com.zritc.colorfulfund.data.response.trade.UnbindPayment;
+import com.zritc.colorfulfund.data.response.user.ChangeTransPwd;
+import com.zritc.colorfulfund.data.response.user.CreateShareAlbum;
+import com.zritc.colorfulfund.data.response.user.GetLoginPwdVcode;
+import com.zritc.colorfulfund.data.response.user.GetUserCollectionList4C;
+import com.zritc.colorfulfund.data.response.user.GetUserInfo4C;
 import com.zritc.colorfulfund.data.response.user.Login;
+import com.zritc.colorfulfund.data.response.user.Logoff;
+import com.zritc.colorfulfund.data.response.user.PrepareChangeTransPwd;
 import com.zritc.colorfulfund.data.response.user.PrepareRegisterAcc;
 import com.zritc.colorfulfund.data.response.user.RegisterAcc;
+import com.zritc.colorfulfund.data.response.user.ResetLoginPwd;
 import com.zritc.colorfulfund.data.response.user.SetTransPwd;
+import com.zritc.colorfulfund.data.response.user.UpdateUserInfo;
 import com.zritc.colorfulfund.data.response.user.ValidateVCode;
 import com.zritc.colorfulfund.data.response.wish.CreateUserWishList4C;
 import com.zritc.colorfulfund.data.response.wish.DeleteUserWishList4C;
 import com.zritc.colorfulfund.data.response.wish.GetUserWishLists4C;
 import com.zritc.colorfulfund.data.response.wish.GetWishListTypes4C;
-import com.zritc.colorfulfund.data.response.wish.WithdrawAssetFromWishlist4C;
 import com.zritc.colorfulfund.utils.ZRDeviceInfo;
 
 import retrofit2.Call;
@@ -452,19 +464,143 @@ public final class ZRNetManager {
                 , @Field("deviceid") String deviceid
                 , @Field("rid") String rid
         );
+        /********************************wish end*************************************************/
 
+        /********************************mine start***********************************************/
         @FormUrlEncoded
         @POST
-        Call<WithdrawAssetFromWishlist4C> withdrawAssetFromWishlist4CCallbackByPost(
+        Call<GetSurveyList4C> getSurveyList4CCallbackByPost(
                 @Url String url
                 , @Field("sid") String sid
                 , @Field("deviceid") String deviceid
                 , @Field("rid") String rid
-                , @Field("poCode") String poCode
-                , @Field("wishListId") long wishListId
-                , @Field("wishName") String wishName
         );
-        /********************************wish end*************************************************/
+
+        @FormUrlEncoded
+        @POST
+        Call<EvaluateUserRiskLevel> evaluateUserRiskLevelCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+                , @Field("answerId") String answerId
+        );
+
+        @FormUrlEncoded
+        @POST
+        Call<ChangeTransPwd> changeTransPwdCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+                , @Field("phone") String phone
+                , @Field("vCode") String vCode
+                , @Field("password") String password
+        );
+
+        @FormUrlEncoded
+        @POST
+        Call<GetUserMainPageInfo4C> getUserMainPageInfo4CCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+        );
+
+        @FormUrlEncoded
+        @POST
+        Call<GetUserTradeHistory4C> getUserTradeHistory4CCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+        );
+
+        @FormUrlEncoded
+        @POST
+        Call<CreateShareAlbum> createShareAlbumCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+                , @Field("photoUrls") String photoUrls
+        );
+
+        @FormUrlEncoded
+        @POST
+        Call<GetLoginPwdVcode> getLoginPwdVcodeCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+                , @Field("phone") String phone
+        );
+
+        @FormUrlEncoded
+        @POST
+        Call<GetUserCollectionList4C> getUserCollectionList4CCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+                , @Field("fileName") String fileName
+        );
+
+        @FormUrlEncoded
+        @POST
+        Call<GetUserInfo4C> getUserInfo4CCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+                , @Field("userId") String userId
+        );
+
+        @FormUrlEncoded
+        @POST
+        Call<Logoff> logoffCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+        );
+
+        @FormUrlEncoded
+        @POST
+        Call<PrepareChangeTransPwd> prepareChangeTransPwdCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+                , @Field("bankCardNo") String bankCardNo
+                , @Field("identityNo") String identityNo
+                , @Field("name") String name
+                , @Field("phone") String phone
+        );
+
+        @FormUrlEncoded
+        @POST
+        Call<ResetLoginPwd> resetLoginPwdCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+                , @Field("phone") String phone
+                , @Field("vCode") String vCode
+                , @Field("password") String password
+        );
+
+        @FormUrlEncoded
+        @POST
+        Call<UpdateUserInfo> updateUserInfoCallbackByPost(
+                @Url String url
+                , @Field("sid") String sid
+                , @Field("deviceid") String deviceid
+                , @Field("rid") String rid
+                , @Field("nickname") String nickname
+                , @Field("photoUrl") String photoUrl
+        );
+        /********************************mine end*************************************************/
     }
 
     private static ZRNetManager netManager;
@@ -791,7 +927,7 @@ public final class ZRNetManager {
 
     public Call<CreateUserInvestmentPlan4Edu> createUserInvestmentPlan4EduCallbackByPost(String poCode, String targetDate, String targetAmount, String initialAmount) {
         return api.createUserInvestmentPlan4EduCallbackByPost(
-                "http://172.16.101.52:9006/tradeedu/createUserInvestmentPlan"
+                "http://172.16.101.201:9007/tradeedu/createUserInvestmentPlan"
                 , ZRDeviceInfo.getSid()
                 , ZRDeviceInfo.getServerDeviceId()
                 , ZRDeviceInfo.getRid()
@@ -822,7 +958,7 @@ public final class ZRNetManager {
 
     public Call<GetPoChangeHistory4C> getPoChangeHistory4CCallbackByPost(String poCode) {
         return api.getPoChangeHistory4CCallbackByPost(
-                "http://172.16.101.201/trade/getPoChangeHistory4C"
+                "http://172.16.101.202/play/trade/getPoChangeHistory4C"
                 , ZRDeviceInfo.getSid()
                 , ZRDeviceInfo.getServerDeviceId()
                 , ZRDeviceInfo.getRid()
@@ -883,18 +1019,142 @@ public final class ZRNetManager {
                 , ZRDeviceInfo.getRid()
         );
     }
+    /********************************wish end*************************************************/
 
-    public Call<WithdrawAssetFromWishlist4C> withdrawAssetFromWishlist4CCallbackByPost(String poCode, long wishListId, String wishName) {
-        return api.withdrawAssetFromWishlist4CCallbackByPost(
-                "http://172.16.101.201:9008/tradewish/withdrawAssetFromWishlist4C"
+    /********************************mine start***********************************************/
+    public Call<GetSurveyList4C> getSurveyList4CCallbackByPost() {
+        return api.getSurveyList4CCallbackByPost(
+                "http://172.16.101.202/play/trade/GetSurveyList4C"
                 , ZRDeviceInfo.getSid()
                 , ZRDeviceInfo.getServerDeviceId()
                 , ZRDeviceInfo.getRid()
-                , poCode
-                , wishListId
-                , wishName
         );
     }
-    /********************************wish end*************************************************/
+
+    public Call<EvaluateUserRiskLevel> evaluateUserRiskLevelCallbackByPost(String answerId) {
+        return api.evaluateUserRiskLevelCallbackByPost(
+                "http://172.16.101.201:9006/trade/evaluateUserRiskLevel"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+                , answerId
+        );
+    }
+
+    public Call<ChangeTransPwd> changeTransPwdCallbackByPost(String phone, String vCode, String password) {
+        return api.changeTransPwdCallbackByPost(
+                "http://172.16.101.201:9006/user/changeTransPwd"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+                , phone
+                , vCode
+                , password
+        );
+    }
+
+    public Call<GetUserMainPageInfo4C> getUserMainPageInfo4CCallbackByPost() {
+        return api.getUserMainPageInfo4CCallbackByPost(
+                "http://172.16.101.202/play/trade/GetUserMainPageInfo4C"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+        );
+    }
+
+    public Call<GetUserTradeHistory4C> getUserTradeHistory4CCallbackByPost() {
+        return api.getUserTradeHistory4CCallbackByPost(
+                "http://172.16.101.202/play/trade/GetUserTradeHistory4C"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+        );
+    }
+
+    public Call<CreateShareAlbum> createShareAlbumCallbackByPost(String photoUrls) {
+        return api.createShareAlbumCallbackByPost(
+                "http://172.16.101.201:9006/user/createShareAlbum"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+                , photoUrls
+        );
+    }
+
+    public Call<GetLoginPwdVcode> getLoginPwdVcodeCallbackByPost(String phone) {
+        return api.getLoginPwdVcodeCallbackByPost(
+                "http://172.16.101.201:9006/user/getLoginPwdVcode"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+                , phone
+        );
+    }
+
+    public Call<GetUserCollectionList4C> getUserCollectionList4CCallbackByPost(String fileName) {
+        return api.getUserCollectionList4CCallbackByPost(
+                "http://172.16.101.202/play/user/getUserCollectionList4C"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+                , fileName
+        );
+    }
+
+    public Call<GetUserInfo4C> getUserInfo4CCallbackByPost(String userId) {
+        return api.getUserInfo4CCallbackByPost(
+                "http://172.16.101.202/play/user/getUserInfo4C"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+                , userId
+        );
+    }
+
+    public Call<Logoff> logoffCallbackByPost() {
+        return api.logoffCallbackByPost(
+                "http://172.16.101.201:9006/user/logoff"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+        );
+    }
+
+    public Call<PrepareChangeTransPwd> prepareChangeTransPwdCallbackByPost(String bankCardNo, String identityNo, String name, String phone) {
+        return api.prepareChangeTransPwdCallbackByPost(
+                "http://172.16.101.201:9006/user/prepareChangeTransPwd"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+                , bankCardNo
+                , identityNo
+                , name
+                , phone
+        );
+    }
+
+    public Call<ResetLoginPwd> resetLoginPwdCallbackByPost(String phone, String vCode, String password) {
+        return api.resetLoginPwdCallbackByPost(
+                "http://172.16.101.201:9006/user/resetLoginPwd"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+                , phone
+                , vCode
+                , password
+        );
+    }
+
+    public Call<UpdateUserInfo> updateUserInfoCallbackByPost(String nickname, String photoUrl) {
+        return api.updateUserInfoCallbackByPost(
+                "http://172.16.101.201:9006/user/updateUserInfo"
+                , ZRDeviceInfo.getSid()
+                , ZRDeviceInfo.getServerDeviceId()
+                , ZRDeviceInfo.getRid()
+                , nickname
+                , photoUrl
+        );
+    }
+    /********************************mine end*************************************************/
 
 }

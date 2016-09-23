@@ -24,17 +24,25 @@ import retrofit2.Call;
 public class CreateWishPresenter extends BasePresenter<ICreateWishView> {
 
     private List<Integer> imgUrls = new ArrayList<>();
+    public List<Integer> imgToSettingUrls = new ArrayList<>();
     public List<WishCategory> categoryList;
 
     public CreateWishPresenter(Context context, ICreateWishView iView) {
         super(context, iView);
-        imgUrls.add(R.mipmap.packet);
-        imgUrls.add(R.mipmap.car);
-        imgUrls.add(R.mipmap.watch);
-        imgUrls.add(R.mipmap.phone);
-        imgUrls.add(R.mipmap.travel);
-        imgUrls.add(R.mipmap.custom);
+        imgUrls.add(R.mipmap.packet_white);
+        imgUrls.add(R.mipmap.car_white);
+        imgUrls.add(R.mipmap.watch_white);
+        imgUrls.add(R.mipmap.phone_white);
+        imgUrls.add(R.mipmap.travel_white);
+        imgUrls.add(R.mipmap.custom_white);
         categoryList = new ArrayList<>();
+
+        imgToSettingUrls.add(R.mipmap.packet);
+        imgToSettingUrls.add(R.mipmap.car);
+        imgToSettingUrls.add(R.mipmap.watch);
+        imgToSettingUrls.add(R.mipmap.phone);
+        imgToSettingUrls.add(R.mipmap.travel);
+        imgToSettingUrls.add(R.mipmap.custom);
     }
 
     @Override

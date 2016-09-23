@@ -15,8 +15,10 @@ import com.zritc.colorfulfund.activity.fund.ZRActivityMultiFundApplyPurchase;
 import com.zritc.colorfulfund.activity.fund.ZRActivitySingleRedemption;
 import com.zritc.colorfulfund.activity.scene.ZRActivityEduScene;
 import com.zritc.colorfulfund.activity.scene.ZRActivityTargetSetting;
+import com.zritc.colorfulfund.activity.wish.ZRActivityWishGuide;
 import com.zritc.colorfulfund.activity.wish.ZRActivityWishHomePage;
 import com.zritc.colorfulfund.base.ZRFragmentBase;
+import com.zritc.colorfulfund.data.ZRUserInfo;
 import com.zritc.colorfulfund.data.response.trade.GetFundPoList4C;
 import com.zritc.colorfulfund.iView.IFundProListView;
 import com.zritc.colorfulfund.presenter.FundProListPresenter;
@@ -39,6 +41,15 @@ public class ZRFragmentMain extends ZRFragmentBase implements IFundProListView {
 
     private FundProListPresenter fundProListPresenter;
 
+    private String poCode = "ZH000484";
+    private boolean isFirstBuy;
+    private boolean isWishFirstBuy;
+
+    @Override
+    protected void getExtraArguments() {
+
+    }
+
     @Override
     protected int getContentViewId() {
         return R.layout.fragment_main;
@@ -49,9 +60,34 @@ public class ZRFragmentMain extends ZRFragmentBase implements IFundProListView {
         fundProListPresenter = new FundProListPresenter(getActivity(), this);
         fundProListPresenter.init();
         fundProListPresenter.fundPoList4C();
+
+        ZRUserInfo.getInstance().getEduUserPoAssetInfo(new ZRUserInfo.UserInfoCallBack() {
+            @Override
+            public void onUserInfo(Object object) {
+                // 资产配置中没有配置信息，说明是第一次购买，进入目标设定界面，否则进入资产配置信息界面
+                isFirstBuy = ZRUserInfo.getInstance().isEduFirstBuy();
+            }
+
+            @Override
+            public void onUserInfoError(String message) {
+
+            }
+        });
+
+        ZRUserInfo.getInstance().getWishUserPoAssetInfo(new ZRUserInfo.UserInfoCallBack() {
+            @Override
+            public void onUserInfo(Object object) {
+                isWishFirstBuy = ZRUserInfo.getInstance().isWishFirstBuy();
+            }
+
+            @Override
+            public void onUserInfoError(String message) {
+
+            }
+        });
     }
 
-    @OnClick({R.id.btn_card, R.id.btn_single_redemption, R.id.btn_user_po_list4C, R.id.btn_education, R.id.btn_target_set, R.id.btn_wish})
+    @OnClick({R.id.btn_card, R.id.btn_single_redemption, R.id.btn_user_po_list4C, R.id.btn_education, R.id.btn_wish})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_card:
@@ -68,22 +104,36 @@ public class ZRFragmentMain extends ZRFragmentBase implements IFundProListView {
                 startActivity(intent);
                 break;
             case R.id.btn_education: // 教育场景
-                startActivity(new Intent(getActivity(), ZRActivityEduScene.class));
-                break;
-            case R.id.btn_target_set: // 目标设定
-                Intent intent2 = new Intent();
-                intent2.setClass(getActivity(), ZRActivityTargetSetting.class);
-                intent2.putExtra("poCode", "ZH000484");
-                startActivity(intent2);
+                if (isFirstBuy) {
+                    Intent intent2 = new Intent();
+                    intent2.setClass(getActivity(), ZRActivityTargetSetting.class);
+                    intent2.putExtra("poCode", "ZH000484");
+                    startActivity(intent2);
+                } else {
+                    Intent intent3 = new Intent();
+                    intent3.setClass(getActivity(), ZRActivityEduScene.class);
+                    intent3.putExtra("poCode", "ZH000484");
+                    startActivity(intent3);
+                }
                 break;
             case R.id.btn_wish: // 心愿场景
-                startActivity(new Intent(getActivity(), ZRActivityWishHomePage.class));
+                if (isWishFirstBuy) {
+                    Intent intent2 = new Intent();
+                    intent2.setClass(getActivity(), ZRActivityWishGuide.class);
+                    intent2.putExtra("poCode", "ZH000484");
+                    startActivity(intent2);
+                } else {
+                    Intent intent3 = new Intent();
+                    intent3.setClass(getActivity(), ZRActivityWishHomePage.class);
+                    intent3.putExtra("poCode", "ZH000484");
+                    startActivity(intent3);
+                }
                 break;
         }
     }
 
     @Override
-    public void initView(){
+    public void initView() {
 
     }
 

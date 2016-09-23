@@ -18,6 +18,17 @@ public class UserPoAssetInfo implements Serializable {
      */
     public String riskLevel = "";
 
+    public String getRiskLevel() {
+        if (riskLevel.equals("0"))
+            return "未评估过";
+        else if (riskLevel.equals("1"))
+            return "保守型";
+        else if (riskLevel.equals("2"))
+            return "稳健型";
+        else
+            return "进取型";
+    }
+
     /**
      * 初始投资
      */
@@ -31,7 +42,7 @@ public class UserPoAssetInfo implements Serializable {
     /**
      * 目标完成预期时间
      */
-    public long targetDate;
+    public String targetDate;
 
     /**
      * 目标资产

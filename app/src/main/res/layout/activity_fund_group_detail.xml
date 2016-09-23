@@ -60,25 +60,53 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/font_size_12" />
 
-                <TextView
-                    android:id="@+id/text_fund_first"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/padding_10"
-                    android:text="初始投资：¥0.00"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/font_size_15" />
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/text_fund_month"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="初始投资："
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/font_size_15" />
+
+                    <TextView
+                        android:id="@+id/text_fund_first"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="¥0.00"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/font_size_20" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/padding_10"
-                    android:text="每月追加：¥0.00"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/font_size_15" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="每月追加："
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/font_size_15" />
+
+                    <TextView
+                        android:id="@+id/text_fund_month"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="¥0.00"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/font_size_20" />
+
+                </LinearLayout>
             </LinearLayout>
 
         </RelativeLayout>
@@ -241,8 +269,8 @@
             android:id="@+id/btn_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_20"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/padding_20"
             android:background="@mipmap/btn_buy_action" />
 
     </LinearLayout>

@@ -1,0 +1,63 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f1f0f7"
+    tools:context=".fragment.ZRFragmentFundManager">
+
+    <RelativeLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_88"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/padding_54"
+        android:paddingRight="@dimen/padding_54">
+
+        <LinearLayout
+            android:id="@+id/ll_tab_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_84"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tab_combination_analysis"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="组合分析"
+                android:textColor="#e5864b" />
+
+            <TextView
+                android:id="@+id/tab_fund_news"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="管家动态"
+                android:textColor="#5b4e74" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/view_tab_line"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_alignParentBottom="true"
+            android:background="#e5864b" />
+    </RelativeLayout>
+
+    <!--<include-->
+    <!--android:id="@+id/view_line"-->
+    <!--layout="@layout/view_line"-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_below="@id/tabs" />-->
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tabs"
+        android:background="#f1f0f7" />
+
+</RelativeLayout>

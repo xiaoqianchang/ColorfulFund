@@ -7,7 +7,8 @@ package com.zritc.colorfulfund.data.model.edu;
 import java.io.Serializable;
 
 /**
- * poFundList
+ * PoFund
+ * 基金信息
  */
 public class PoFund implements Serializable {
 

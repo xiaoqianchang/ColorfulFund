@@ -78,10 +78,6 @@ public class RecordGrowthDialog extends Dialog {
         setContentView(R.layout.view_record_growth);
         ButterKnife.bind(this);
 
-        // 创建一个头像
-        ZRCircleImageView avatarmageView = new ZRCircleImageView(mContext);
-        avatarmageView.setImageResource(R.mipmap.icon_user);
-
         Window window = getWindow();
         window.setGravity(Gravity.BOTTOM);
         window.getDecorView().setPadding(0, 0, 0 ,0);
@@ -93,6 +89,7 @@ public class RecordGrowthDialog extends Dialog {
         window.setBackgroundDrawableResource(R.color.transparent);
         window.setAttributes(windowparams);
 
+        imgAvatar.setScaleType(ImageView.ScaleType.CENTER_CROP);
         amount = "2000";
         tvMoney.setText(String.format("%s元", amount));
         if (!TextUtils.isEmpty(avatar)) {
@@ -145,7 +142,7 @@ public class RecordGrowthDialog extends Dialog {
                 doCreateGrowingRecord("26", avatar, amount, edtDescription.getText().toString());
                 break;
         }
-            }
+    }
 
     private void doCreateGrowingRecord(String planId, String photo, String investAmount, String description) {
         Call<CreateGrowingRecord> createGrowingRecordCall = ZRNetManager.getInstance().createGrowingRecordCallbackByPost(planId, photo, investAmount, description);
@@ -167,11 +164,11 @@ public class RecordGrowthDialog extends Dialog {
             imgUrl = "http://172.16.101.202/" + imgUrl;
         }
         this.avatar = imgUrl;
-                }
+    }
 
     public void setPoCode(String poCode) {
         this.poCode = poCode;
-        }
+    }
 
     public void setSceneId(String sceneId) {
         this.sceneId = sceneId;

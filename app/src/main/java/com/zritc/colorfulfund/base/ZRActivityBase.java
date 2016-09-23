@@ -49,6 +49,12 @@ import butterknife.ButterKnife;
 public abstract class ZRActivityBase<T extends BasePresenter> extends AppCompatActivity {
 
     protected final String TAG = this.getClass().getSimpleName();
+
+    protected static final int ACTIVITY_TYPE_NORMAL = 0;
+    protected static final int ACTIVITY_TYPE_LOGIN = 1;
+    protected static final int ACTIVITY_TYPE_SHARE = 2;
+    protected static final int ACTIVITY_TYPE_NO_DISPATCH_TOUCH = 3;
+
     protected T mPresenter;
     protected Context mContext;
     protected Activity mActivity;
@@ -132,12 +138,18 @@ public abstract class ZRActivityBase<T extends BasePresenter> extends AppCompatA
         ZRToastFactory.cancelToast();
     }
 
+    protected int getActivityType() {
+        return ACTIVITY_TYPE_NORMAL;
+    }
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-            View v = getCurrentFocus();
-            if (isShouldHideKeyboard(v, ev)) {
-                hideSoftInput(v.getWindowToken());
+        if (getActivityType() != ACTIVITY_TYPE_NO_DISPATCH_TOUCH) {
+            if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+                View v = getCurrentFocus();
+                if (isShouldHideKeyboard(v, ev)) {
+                    hideSoftInput(v.getWindowToken());
+                }
             }
         }
         return super.dispatchTouchEvent(ev);

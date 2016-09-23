@@ -45,13 +45,6 @@ public class ZRFragmentImageDetail extends ZRFragmentBase {
 	}
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		mImageUrl = getArguments() != null ? getArguments().getString("url")
-				: null;
-	}
-
-	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		ImageLoader.getInstance().displayImage(mImageUrl, mImageView,
@@ -97,6 +90,12 @@ public class ZRFragmentImageDetail extends ZRFragmentBase {
 	}
 
 	@Override
+	protected void getExtraArguments() {
+		mImageUrl = getArguments() != null ? getArguments().getString("url")
+				: null;
+	}
+
+	@Override
 	protected int getContentViewId() {
 		return R.layout.cell_pager_image_item;
 	}
@@ -107,7 +106,7 @@ public class ZRFragmentImageDetail extends ZRFragmentBase {
 
 		mAttacher.setOnPhotoTapListener(new OnPhotoTapListener() {
 
-	@Override
+			@Override
 			public void onPhotoTap(View arg0, float arg1, float arg2) {
 				getActivity().finish();
 			}

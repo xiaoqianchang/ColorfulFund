@@ -54,19 +54,19 @@
 
             <com.zritc.colorfulfund.widget.DraggableCircleView
                 android:id="@+id/circle_target_money"
-                app:type="targetMoney"
                 android:layout_width="170dp"
                 android:layout_height="170dp"
                 android:layout_alignParentLeft="true"
-                android:layout_marginTop="@dimen/padding_30" />
+                android:layout_marginTop="@dimen/padding_30"
+                app:type="targetMoney" />
 
             <com.zritc.colorfulfund.widget.DraggableCircleView
                 android:id="@+id/circle_target_date"
-                app:type="targetDate"
                 android:layout_width="170dp"
                 android:layout_height="170dp"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="90dp" />
+                android:layout_marginTop="90dp"
+                app:type="targetDate" />
 
             <RelativeLayout
                 android:layout_width="185dp"
@@ -76,7 +76,7 @@
                 android:layout_marginBottom="@dimen/padding_10"
                 android:layout_marginLeft="@dimen/padding_54"
                 android:layout_marginTop="@dimen/padding_70"
-                android:background="@drawable/bg_scene_shape">
+                android:background="@mipmap/bg_blue_wish">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -88,7 +88,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawablePadding="@dimen/padding_30"
-                        android:drawableTop="@mipmap/icon_edu_hat"
+                        android:drawableTop="@mipmap/icon_money"
                         android:text="首笔投资金额"
                         android:textColor="@color/white"
                         android:textSize="@dimen/font_size_15" />
@@ -97,8 +97,8 @@
                         android:layout_width="@dimen/width_210"
                         android:layout_height="@dimen/height_60"
                         android:layout_marginTop="@dimen/padding_30"
-                        android:alpha="0.6"
-                        android:background="@drawable/bg_edittext_gray">
+                        android:background="@mipmap/bg_rmb"
+                        android:paddingRight="@dimen/padding_44">
 
                         <EditText
                             android:id="@+id/edit_money"
@@ -107,11 +107,9 @@
                             android:background="@null"
                             android:ellipsize="end"
                             android:gravity="center|right"
-                            android:hint="元"
                             android:paddingRight="@dimen/padding_10"
                             android:singleLine="true"
-                            android:textColor="@color/gray"
-                            android:textColorHint="@color/gray"
+                            android:textColor="@color/white"
                             android:textSize="@dimen/font_size_15" />
                     </RelativeLayout>
 
@@ -148,6 +146,6 @@
             android:layout_height="@dimen/height_92"
             android:layout_marginBottom="@dimen/padding_20"
             android:layout_marginTop="@dimen/padding_30"
-            android:background="@mipmap/bg_red_next" />
+            android:background="@mipmap/btn_next_green" />
     </LinearLayout>
 </ScrollView>

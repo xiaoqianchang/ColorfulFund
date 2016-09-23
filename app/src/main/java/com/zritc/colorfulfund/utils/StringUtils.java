@@ -6,6 +6,8 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 字符串处理工具类
@@ -24,12 +26,12 @@ public class StringUtils {
      */
     public static String getMoneyByFormat(String money) {
         try {
-        if (TextUtils.isEmpty(money)) {
+            if (TextUtils.isEmpty(money)) {
                 money = "0.00";
-        }
-        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.CHINA);
-        money = numberFormat.format(new Double(money));
-        return money.substring(1);
+            }
+            NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.CHINA);
+            money = numberFormat.format(new Double(money));
+            return money.substring(1);
         } catch (Exception e) {
             e.printStackTrace();
             return "0.00";
@@ -79,5 +81,12 @@ public class StringUtils {
             return true;
         }
         return false;
+    }
+
+    public static boolean isMobileNum2(String num) {
+        String str = "^((13[0-9])|(15[0-9])|(18[0-9])|(145)|(147))\\d{8}$";
+        Pattern p = Pattern.compile(str);
+        Matcher m = p.matcher(num);
+        return m.matches();
     }
 }

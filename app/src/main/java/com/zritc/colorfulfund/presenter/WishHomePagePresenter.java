@@ -6,6 +6,7 @@ import com.zritc.colorfulfund.data.model.wish.Wish;
 import com.zritc.colorfulfund.data.model.wish.WishPoBase;
 import com.zritc.colorfulfund.data.response.wish.DeleteUserWishList4C;
 import com.zritc.colorfulfund.data.response.wish.GetUserWishLists4C;
+import com.zritc.colorfulfund.data.response.wish.WithdrawAssetFromWishlist4C;
 import com.zritc.colorfulfund.http.ResponseCallBack;
 import com.zritc.colorfulfund.http.ZRNetManager;
 import com.zritc.colorfulfund.iView.IWishHomePageView;

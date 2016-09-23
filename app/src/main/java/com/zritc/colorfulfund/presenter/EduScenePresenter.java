@@ -2,11 +2,10 @@ package com.zritc.colorfulfund.presenter;
 
 import android.content.Context;
 
+import com.zritc.colorfulfund.data.ZRUserInfo;
 import com.zritc.colorfulfund.data.model.edu.GrowingRecord;
-import com.zritc.colorfulfund.data.model.edu.UserPoAssetInfo;
 import com.zritc.colorfulfund.data.model.file.UploadFile;
 import com.zritc.colorfulfund.data.response.edu.GetGrowingRecordList4C;
-import com.zritc.colorfulfund.data.response.edu.GetUserPoAssetInfo4C;
 import com.zritc.colorfulfund.http.FileUploadManager;
 import com.zritc.colorfulfund.http.ResponseCallBack;
 import com.zritc.colorfulfund.http.ZRNetManager;
@@ -37,21 +36,16 @@ public class EduScenePresenter extends BasePresenter<IEduSceneView> {
         mSubscription.unsubscribe();
     }
 
-    public void getUserPoAssetInfo4C(String poCode) {
-        Call<GetUserPoAssetInfo4C> getUserPoAssetInfo4CCall = ZRNetManager.getInstance().getUserPoAssetInfo4CCallbackByPost(poCode);
-        getUserPoAssetInfo4CCall.enqueue(new ResponseCallBack<GetUserPoAssetInfo4C>(GetUserPoAssetInfo4C.class) {
+    public void getUserPoAssetInfo4C() {
+        ZRUserInfo.getInstance().getEduUserPoAssetInfo(new ZRUserInfo.UserInfoCallBack() {
             @Override
-            public void onSuccess(GetUserPoAssetInfo4C getUserPoAssetInfo4C) {
-                UserPoAssetInfo userPoAssetInfo = new UserPoAssetInfo();
-                userPoAssetInfo.targetAmount = getUserPoAssetInfo4C.userPoInvestInfo.userInitPoAssetInfo.targetAmount;
-                userPoAssetInfo.totalAmount = getUserPoAssetInfo4C.userPoInvestInfo.userPoAsset.totalAmount;
-                userPoAssetInfo.totalProfit = getUserPoAssetInfo4C.userPoInvestInfo.userPoAsset.totalProfit;
-                iView.onSuccess(userPoAssetInfo);
+            public void onUserInfo(Object object) {
+                iView.onSuccess(object);
             }
 
             @Override
-            public void onError(String code, String msg) {
-                iView.onError(msg);
+            public void onUserInfoError(String message) {
+                iView.onError(message);
             }
         });
     }
@@ -134,6 +128,7 @@ public class EduScenePresenter extends BasePresenter<IEduSceneView> {
 
             @Override
             public void onError(String code, String msg) {
+                iView.hideProgress();
                 iView.onError(msg);
             }
         });

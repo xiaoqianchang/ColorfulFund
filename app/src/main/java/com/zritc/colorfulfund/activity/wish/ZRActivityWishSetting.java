@@ -2,7 +2,10 @@ package com.zritc.colorfulfund.activity.wish;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,16 +20,22 @@ import com.zritc.colorfulfund.R;
 import com.zritc.colorfulfund.activity.fund.ZRActivityFundGroupDetail;
 import com.zritc.colorfulfund.base.ZRActivityBase;
 import com.zritc.colorfulfund.data.model.edu.UserPoAssetInfo;
+import com.zritc.colorfulfund.data.model.mine.PersonalInfo;
 import com.zritc.colorfulfund.data.model.wish.WishCategory;
+import com.zritc.colorfulfund.data.model.wish.WishPoBase;
 import com.zritc.colorfulfund.data.response.edu.CreateUserInvestmentPlan4Edu;
 import com.zritc.colorfulfund.data.response.wish.CreateUserWishList4C;
 import com.zritc.colorfulfund.iView.IWishSettingView;
 import com.zritc.colorfulfund.presenter.CreateWishPresenter;
 import com.zritc.colorfulfund.presenter.WishSettingPresenter;
+import com.zritc.colorfulfund.utils.StringUtils;
 import com.zritc.colorfulfund.utils.ZRUtils;
 import com.zritc.colorfulfund.widget.DraggableCircleView;
+import com.zritc.colorfulfund.widget.ForbidInputEmojiEditText;
 
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.Bind;
 
@@ -52,7 +61,7 @@ public class ZRActivityWishSetting extends ZRActivityBase<WishSettingPresenter> 
     TextView tvCategoryName;
 
     @Bind(R.id.edt_edit_wish)
-    EditText edtEditWish;
+    ForbidInputEmojiEditText edtEditWish;
 
     @Bind(R.id.target_money)
     DraggableCircleView mTargetMoney;
@@ -68,13 +77,14 @@ public class ZRActivityWishSetting extends ZRActivityBase<WishSettingPresenter> 
 
     private WishSettingPresenter presenter;
     private WishCategory wish;
-    private String poCode = "487";
-    private int targetDate = 1; // 定投期数年(公式中为n次方)
-    private double targetAmount = 10000; // 预期收益元
+    private String poCode; //  = "487"
+    private int targetDate = 0; // 定投期数年(公式中为n次方)
+    private double targetAmount = 0; // 预期收益元
     private double initialAmount = 0;//首付款元
     private double eachMoney = 0;//每年定投金额元
     private double x = 0;// 收益率
     private int typeId; // 类型ID
+    public WishPoBase wishPoBase;
 
     @Override
     protected int getContentViewId() {
@@ -89,17 +99,7 @@ public class ZRActivityWishSetting extends ZRActivityBase<WishSettingPresenter> 
         presenter.getUserPoAssetInfo4C(poCode);
     }
 
-    @Override
-    public void initView() {
-        RxView.clicks(imgBtnBack).throttleFirst(1, TimeUnit.SECONDS)
-                .subscribe(aVoid -> {
-                    finish();
-                });
-        RxView.clicks(btnNext).throttleFirst(1, TimeUnit.SECONDS)
-                .subscribe(aVoid -> {
-                    presenter.doCreateUserWish(typeId, edtEditWish.getText().toString(), String.valueOf(targetAmount), /**String.valueOf(targetDate)*/
-                            /*mReachDate.getMiddleValue().split(".")[0] + mReachDate.getMiddleValue().split(".")[1] + "." + ZRUtils.getCurrentDay()*/"20171122");
-                });
+    private void getExtraData() {
         Intent intent = getIntent();
         if (null != intent) {
             wish = (WishCategory) intent.getSerializableExtra("wish");
@@ -109,6 +109,30 @@ public class ZRActivityWishSetting extends ZRActivityBase<WishSettingPresenter> 
                     wish = null;
             }
         }
+        Bundle bundle = intent.getExtras();
+        if (null != bundle) {
+            wishPoBase = (WishPoBase) bundle.getSerializable("wishPoBase");
+            if (null != wishPoBase) {
+                poCode = wishPoBase.poCode;
+            }
+        }
+    }
+
+    @Override
+    public void initView() {
+        getExtraData();
+        RxView.clicks(imgBtnBack).throttleFirst(1, TimeUnit.SECONDS)
+                .subscribe(aVoid -> {
+                    finish();
+                });
+        RxView.clicks(btnNext).throttleFirst(1, TimeUnit.SECONDS)
+                .subscribe(aVoid -> {
+                    // 验证输入的信息
+                    if (doValidate()) {
+                        presenter.doCreateUserWish(typeId, edtEditWish.getText().toString(), String.valueOf(targetAmount), /**String.valueOf(targetDate)*/
+                            mReachDate.getMiddleValue().split("\\.")[0] + mReachDate.getMiddleValue().split("\\.")[1] + ZRUtils.getCurrentDay());
+                    }
+                });
         if (null != wish) {
             llWishSettingTitle.setVisibility(View.VISIBLE);
 //            edtEditWish.setVisibility(View.GONE);
@@ -172,11 +196,25 @@ public class ZRActivityWishSetting extends ZRActivityBase<WishSettingPresenter> 
             @Override
             public void onDraggableCircleValueChanged(double currentValue) {
                 targetDate = (int) currentValue;
-                if (0 == targetDate)
-                    targetDate = 1;
                 cal();
             }
         });
+    }
+
+    private boolean doValidate() {
+        if (TextUtils.isEmpty(edtEditWish.getText().toString().trim())) {
+            showToast("请输入您的心愿");
+            return false;
+        }
+        if (StringUtils.isZero(targetAmount)) {
+            showToast("请设置目标金额");
+            return false;
+        }
+        if (targetDate == 0) {
+            showToast("请设置达成日期");
+            return false;
+        }
+        return true;
     }
 
     private void cal() {

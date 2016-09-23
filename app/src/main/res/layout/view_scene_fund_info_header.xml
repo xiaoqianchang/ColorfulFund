@@ -8,10 +8,10 @@
         android:id="@+id/rl_edu_info"
         android:layout_width="223dp"
         android:layout_height="223dp"
-        android:layout_marginBottom="@dimen/padding_30"
         android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/padding_30"
         android:layout_marginTop="@dimen/padding_30"
-        android:background="@drawable/bg_scene_shape">
+        android:background="@mipmap/bg_blue_wish">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -78,16 +78,22 @@
                     android:layout_height="wrap_content"
                     android:text="距离目标还有"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/font_size_12" />
+                    android:textSize="@dimen/font_size_11" />
 
                 <TextView
                     android:id="@+id/text_target_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="¥0万"
+                    android:text="¥0"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/font_size_16" />
+                    android:textSize="@dimen/font_size_18" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="万"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_size_11" />
             </LinearLayout>
 
         </LinearLayout>
@@ -97,8 +103,8 @@
         android:id="@+id/rl_add_scene_first_photo"
         android:layout_width="127dp"
         android:layout_height="127dp"
-        android:visibility="gone"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone">
 
         <com.zritc.colorfulfund.ui.ZRCircleImageView
             android:layout_width="match_parent"

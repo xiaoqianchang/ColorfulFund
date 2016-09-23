@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+              android:gravity="center_horizontal"
+    android:background="@color/app_bg">
+
+    <include layout="@layout/toolbar_layout"/>
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:gravity="center"
+        android:background="@drawable/bg_white_point"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="您当前的风险等级是"/>
+
+        <TextView
+            android:id="@+id/tv_risk_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            tools:text="平衡型"
+            android:textColor="@color/black"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/tv_risk_level_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="可以购买保守型、平衡型的基金"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_again_evaluation"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:background="@drawable/bg_white_point"
+        android:text="重新评测"
+        android:textColor="@color/black"/>
+</LinearLayout>

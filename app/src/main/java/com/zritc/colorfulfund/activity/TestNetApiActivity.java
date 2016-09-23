@@ -38,6 +38,10 @@ import com.zritc.colorfulfund.data.response.circle.CreatePost;
 import com.zritc.colorfulfund.data.response.circle.CreateReport;
 import com.zritc.colorfulfund.data.response.circle.CreateThumb;
 import com.zritc.colorfulfund.data.response.circle.ReadPost;
+import com.zritc.colorfulfund.data.response.mine.EvaluateUserRiskLevel;
+import com.zritc.colorfulfund.data.response.mine.GetSurveyList4C;
+import com.zritc.colorfulfund.data.response.mine.GetUserMainPageInfo4C;
+import com.zritc.colorfulfund.data.response.mine.GetUserTradeHistory4C;
 import com.zritc.colorfulfund.data.response.trade.BindPayment;
 import com.zritc.colorfulfund.data.response.trade.BuyPo;
 import com.zritc.colorfulfund.data.response.trade.EstimateBuyFundFee;
@@ -47,15 +51,23 @@ import com.zritc.colorfulfund.data.response.trade.GetUserBankCards4C;
 import com.zritc.colorfulfund.data.response.trade.GetUserPoInfo4C;
 import com.zritc.colorfulfund.data.response.trade.PrepareBindPayment;
 import com.zritc.colorfulfund.data.response.trade.UnbindPayment;
+import com.zritc.colorfulfund.data.response.user.ChangeTransPwd;
+import com.zritc.colorfulfund.data.response.user.CreateShareAlbum;
+import com.zritc.colorfulfund.data.response.user.GetLoginPwdVcode;
+import com.zritc.colorfulfund.data.response.user.GetUserCollectionList4C;
+import com.zritc.colorfulfund.data.response.user.GetUserInfo4C;
 import com.zritc.colorfulfund.data.response.user.Login;
+import com.zritc.colorfulfund.data.response.user.Logoff;
+import com.zritc.colorfulfund.data.response.user.PrepareChangeTransPwd;
 import com.zritc.colorfulfund.data.response.user.PrepareRegisterAcc;
 import com.zritc.colorfulfund.data.response.user.RegisterAcc;
+import com.zritc.colorfulfund.data.response.user.ResetLoginPwd;
 import com.zritc.colorfulfund.data.response.user.SetTransPwd;
+import com.zritc.colorfulfund.data.response.user.UpdateUserInfo;
 import com.zritc.colorfulfund.data.response.wish.CreateUserWishList4C;
 import com.zritc.colorfulfund.data.response.wish.DeleteUserWishList4C;
 import com.zritc.colorfulfund.data.response.wish.GetUserWishLists4C;
 import com.zritc.colorfulfund.data.response.wish.GetWishListTypes4C;
-import com.zritc.colorfulfund.data.response.wish.WithdrawAssetFromWishlist4C;
 import com.zritc.colorfulfund.http.ResponseCallBack;
 import com.zritc.colorfulfund.http.ZRNetManager;
 import com.zritc.colorfulfund.http.ZRRetrofit;
@@ -76,7 +88,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -122,13 +133,17 @@ public class TestNetApiActivity extends ZRActivityBase {
             R.id.btn_generate_album, R.id.btn_edu_scene, R.id.btn_wish_home_page,
             R.id.btn_create_post, R.id.btn_create_comment, R.id.btn_create_thumb, R.id.btn_create_collection,
             R.id.btn_create_report, R.id.btn_read_post, R.id.btn_Post_info, R.id.btn_Post_list, R.id.btn_Comment_list,
-            R.id.btn_WishLists, R.id.btn_CreateUserWish, R.id.btn_GetWishListTypes, R.id.btn_DeleteUserWish, R.id.btn_WithdrawAssetFromWishlist})
+            R.id.btn_WishLists, R.id.btn_CreateUserWish, R.id.btn_GetWishListTypes, R.id.btn_DeleteUserWish,
+            R.id.btn_GetSurveyList, R.id.btn_EvaluateUserRiskLevel,
+            R.id.btn_PrepareChangeTransPwd, R.id.btn_ChangeTransPwd, R.id.btn_ResetLoginPwd, R.id.btn_GetLoginPwdVcode,
+            R.id.btn_Logoff, R.id.btn_UpdateUserInfo, R.id.btn_GetUserInfo4C, R.id.btn_GetUserCollectionList4C, R.id.btn_GetUserMainPageInfo4C, R.id.btn_GetUserTradeHistory4C,
+            R.id.btn_CreateShareAlbum})
     public void onClick(View view) {
         String realName = "张三";
         String identityNo = "110101190001012837"; // 110101190001012837
         String paymentType = "bank:003";
         String paymentNo = "6222023803013297864";
-        String phone = "18817618813"; // 18721081671、18512123013、18817618813
+        String phone = "13564228527"; // 18721081671、18512123013、18817618813
         String password = "123456";
         String vCode = "0453";
         String poCode = "ZH000484";
@@ -552,17 +567,185 @@ public class TestNetApiActivity extends ZRActivityBase {
                     }
                 });
                 break;
-            case R.id.btn_WithdrawAssetFromWishlist: // 取回心愿资金
-                Call<WithdrawAssetFromWishlist4C> withdrawAssetFromWishlist4CCallbackByPost = ZRNetManager.getInstance().withdrawAssetFromWishlist4CCallbackByPost(poCode, 1, "篮球");
-                withdrawAssetFromWishlist4CCallbackByPost.enqueue(new ResponseCallBack<WithdrawAssetFromWishlist4C>(WithdrawAssetFromWishlist4C.class) {
+            case R.id.btn_GetSurveyList: // 获取风险等级评测信息列表
+                Call<GetSurveyList4C> getSurveyList4CCall = ZRNetManager.getInstance().getSurveyList4CCallbackByPost();
+                getSurveyList4CCall.enqueue(new ResponseCallBack<GetSurveyList4C>(GetSurveyList4C.class) {
                     @Override
-                    public void onSuccess(WithdrawAssetFromWishlist4C withdrawAssetFromWishlist4C) {
-                        showToast(withdrawAssetFromWishlist4C.toString());
+                    public void onSuccess(GetSurveyList4C getSurveyList4C) {
+                        showToast(getSurveyList4C.toString());
                     }
 
                     @Override
                     public void onError(String code, String msg) {
                         showToast(msg);
+                    }
+                });
+                break;
+            case R.id.btn_EvaluateUserRiskLevel: // 评估用户风险等级
+                Call<EvaluateUserRiskLevel> evaluateUserRiskLevelCall = ZRNetManager.getInstance().evaluateUserRiskLevelCallbackByPost("1");
+                evaluateUserRiskLevelCall.enqueue(new ResponseCallBack<EvaluateUserRiskLevel>(EvaluateUserRiskLevel.class) {
+                    @Override
+                    public void onSuccess(EvaluateUserRiskLevel evaluateUserRiskLevel) {
+                        showToast(evaluateUserRiskLevel.toString());
+                    }
+
+                    @Override
+                    public void onError(String code, String msg) {
+                        showToast(msg);
+                    }
+                });
+                break;
+            case R.id.btn_PrepareChangeTransPwd: // 修改交易密码前，对用户身份进行验证
+                Call<PrepareChangeTransPwd> prepareChangeTransPwdCall = ZRNetManager.getInstance().prepareChangeTransPwdCallbackByPost("", identityNo, "", phone);
+                prepareChangeTransPwdCall.enqueue(new ResponseCallBack<PrepareChangeTransPwd>(PrepareChangeTransPwd.class) {
+                    @Override
+                    public void onSuccess(PrepareChangeTransPwd prepareChangeTransPwd) {
+
+                    }
+
+                    @Override
+                    public void onError(String code, String msg) {
+
+                    }
+                });
+                break;
+            case R.id.btn_ChangeTransPwd: // 修改交易密码
+                Call<ChangeTransPwd> changeTransPwdCall = ZRNetManager.getInstance().changeTransPwdCallbackByPost(phone, vCode, password);
+                changeTransPwdCall.enqueue(new ResponseCallBack<ChangeTransPwd>(ChangeTransPwd.class) {
+                    @Override
+                    public void onSuccess(ChangeTransPwd changeTransPwd) {
+
+                    }
+
+                    @Override
+                    public void onError(String code, String msg) {
+
+                    }
+                });
+                break;
+            case R.id.btn_ResetLoginPwd: // 重置登录密码
+                Call<ResetLoginPwd> resetLoginPwdCall = ZRNetManager.getInstance().resetLoginPwdCallbackByPost(phone, vCode, password);
+                resetLoginPwdCall.enqueue(new ResponseCallBack<ResetLoginPwd>(ResetLoginPwd.class) {
+                    @Override
+                    public void onSuccess(ResetLoginPwd resetLoginPwd) {
+
+                    }
+
+                    @Override
+                    public void onError(String code, String msg) {
+
+                    }
+                });
+                break;
+            case R.id.btn_GetLoginPwdVcode: // 重置登录密码验证码
+                Call<GetLoginPwdVcode> getLoginPwdVcodeCall = ZRNetManager.getInstance().getLoginPwdVcodeCallbackByPost(phone);
+                getLoginPwdVcodeCall.enqueue(new ResponseCallBack<GetLoginPwdVcode>(GetLoginPwdVcode.class) {
+                    @Override
+                    public void onSuccess(GetLoginPwdVcode getLoginPwdVcode) {
+
+                    }
+
+                    @Override
+                    public void onError(String code, String msg) {
+
+                    }
+                });
+                break;
+            case R.id.btn_Logoff: // 用户退出
+                Call<Logoff> logoffCall = ZRNetManager.getInstance().logoffCallbackByPost();
+                logoffCall.enqueue(new ResponseCallBack<Logoff>(Logoff.class) {
+                    @Override
+                    public void onSuccess(Logoff logoff) {
+
+                    }
+
+                    @Override
+                    public void onError(String code, String msg) {
+
+                    }
+                });
+                break;
+            case R.id.btn_UpdateUserInfo: // 更新用户信息
+                Call<UpdateUserInfo> updateUserInfoCall = ZRNetManager.getInstance().updateUserInfoCallbackByPost("", "");
+                updateUserInfoCall.enqueue(new ResponseCallBack<UpdateUserInfo>(UpdateUserInfo.class) {
+                    @Override
+                    public void onSuccess(UpdateUserInfo updateUserInfo) {
+
+                    }
+
+                    @Override
+                    public void onError(String code, String msg) {
+
+                    }
+                });
+                break;
+            case R.id.btn_GetUserInfo4C: // 获取用户信息
+                Call<GetUserInfo4C> getUserInfo4CCall = ZRNetManager.getInstance().getUserInfo4CCallbackByPost("");
+                getUserInfo4CCall.enqueue(new ResponseCallBack<GetUserInfo4C>(GetUserInfo4C.class) {
+                    @Override
+                    public void onSuccess(GetUserInfo4C getUserInfo4C) {
+
+                    }
+
+                    @Override
+                    public void onError(String code, String msg) {
+
+                    }
+                });
+                break;
+            case R.id.btn_GetUserCollectionList4C: // 获取用户收藏列表
+                Call<GetUserCollectionList4C> getUserCollectionList4CCall = ZRNetManager.getInstance().getUserCollectionList4CCallbackByPost("1");
+                getUserCollectionList4CCall.enqueue(new ResponseCallBack<GetUserCollectionList4C>(GetUserCollectionList4C.class) {
+                    @Override
+                    public void onSuccess(GetUserCollectionList4C getUserCollectionList4C) {
+
+                    }
+
+                    @Override
+                    public void onError(String code, String msg) {
+
+                    }
+                });
+                break;
+            case R.id.btn_GetUserMainPageInfo4C: // 获取我的主页信息
+                Call<GetUserMainPageInfo4C> getUserMainPageInfo4CCall = ZRNetManager.getInstance().getUserMainPageInfo4CCallbackByPost();
+                getUserMainPageInfo4CCall.enqueue(new ResponseCallBack<GetUserMainPageInfo4C>(GetUserMainPageInfo4C.class) {
+                    @Override
+                    public void onSuccess(GetUserMainPageInfo4C getUserMainPageInfo4C) {
+
+                    }
+
+                    @Override
+                    public void onError(String code, String msg) {
+
+                    }
+                });
+                break;
+            case R.id.btn_GetUserTradeHistory4C: // 获取用户组合交易历史记录
+                Call<GetUserTradeHistory4C> getUserTradeHistory4CCall = ZRNetManager.getInstance().getUserTradeHistory4CCallbackByPost();
+                getUserTradeHistory4CCall.enqueue(new ResponseCallBack<GetUserTradeHistory4C>(GetUserTradeHistory4C.class) {
+                    @Override
+                    public void onSuccess(GetUserTradeHistory4C getUserTradeHistory4C) {
+
+                    }
+
+                    @Override
+                    public void onError(String code, String msg) {
+
+                    }
+                });
+                break;
+            case R.id.btn_CreateShareAlbum: // 创建分享相册
+                Call<CreateShareAlbum> createShareAlbumCall = ZRNetManager.getInstance().createShareAlbumCallbackByPost("");
+                createShareAlbumCall.enqueue(new ResponseCallBack<CreateShareAlbum>(CreateShareAlbum.class) {
+                    @Override
+                    public void onSuccess(CreateShareAlbum createShareAlbum) {
+
+                    }
+
+                    @Override
+                    public void onError(String code, String msg) {
+
                     }
                 });
                 break;
@@ -717,9 +900,7 @@ public class TestNetApiActivity extends ZRActivityBase {
             window.setBackgroundDrawableResource(R.color.transparent);
             window.setAttributes(windowparams);
 
-//            imgAvatar.setImageResource(R.mipmap.ic_img_profile_bg);
-//            imgAvatar.setImageResource(R.mipmap.icon_weixin);
-            imgAvatar.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imgAvatar.setImageResource(R.mipmap.ic_img_profile_bg);
 
             edtDescription.addTextChangedListener(new TextWatcher() {
                 @Override

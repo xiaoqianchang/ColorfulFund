@@ -82,6 +82,9 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
     @Bind(R.id.img_collect)
     ImageView imgCollect; // 收藏
 
+    @Bind(R.id.img_collect_inner)
+    ImageView imgInnerCollect; // 收藏
+
     @Bind(R.id.img_share)
     ImageView imgShare; // 分享
 
@@ -122,7 +125,9 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
 
     private void getExtraData() {
         Bundle bundle = getIntent().getExtras();
-        postId = bundle.getString("postId");
+        if (null != bundle) {
+            postId = bundle.getString("postId");
+        }
     }
 
     @Override
@@ -287,6 +292,7 @@ public class ZRActivityArticleDetails extends ZRActivityToolBar<ArticleDetailsPr
      */
     private void collectionStatusChanged() {
         imgCollect.setImageResource(isCollection ? R.mipmap.icon_collection_selected : R.mipmap.icon_collection_normal);
+        imgInnerCollect.setImageResource(isCollection ? R.mipmap.icon_collection_selected : R.mipmap.icon_collection_normal);
     }
 
     /**

@@ -45,14 +45,6 @@
             android:textColor="@android:color/black"/>
 
         <Button
-            android:id="@+id/btn_target_set"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="目标设定"
-            android:textColor="@android:color/black"/>
-
-        <Button
             android:id="@+id/btn_wish"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

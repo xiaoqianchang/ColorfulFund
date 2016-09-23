@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,7 @@ import android.view.animation.AnticipateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zritc.colorfulfund.R;
@@ -23,9 +23,6 @@ import com.zritc.colorfulfund.base.ZRActivityBase;
 import com.zritc.colorfulfund.data.model.edu.GrowingRecord;
 import com.zritc.colorfulfund.data.model.edu.UserPoAssetInfo;
 import com.zritc.colorfulfund.data.model.file.UploadFile;
-import com.zritc.colorfulfund.http.FileUploadManager;
-import com.zritc.colorfulfund.http.ResponseCallBack;
-import com.zritc.colorfulfund.http.ZRRetrofit;
 import com.zritc.colorfulfund.iView.IEduSceneView;
 import com.zritc.colorfulfund.presenter.EduScenePresenter;
 import com.zritc.colorfulfund.ui.ZRListView;
@@ -49,12 +46,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 
 /**
  * ZRActivityEduScene 教育场景
@@ -72,8 +63,23 @@ public class ZRActivityEduScene extends ZRActivityBase<EduScenePresenter> implem
     @Bind(R.id.pull_to_refresh_list_view)
     ZRPullToRefreshListView pullToRefreshListView;
 
+    @Bind(R.id.view_shaow)
+    View viewShaow;
+
+    @Bind(R.id.composer_buttons_wrapper)
+    ViewGroup composerButtonsWrapper;
+
+    @Bind(R.id.composer_buttons_show_hide_button)
+    View composerButtonsShowHideButton;
+
+    @Bind(R.id.composer_buttons_show_hide_button_icon)
+    ImageView composerButtonsShowHideButtonIcon;
+
+    private Animation rotateStoryAddButtonIn;
+    private Animation rotateStoryAddButtonOut;
+
     private View topView;
-    private TextView textTargetAmount;
+    private TextView textTotalAmount;
     private TextView textTotalProfit;
     private TextView textRemainAmount;
     private View eduSceneInfo;
@@ -103,20 +109,18 @@ public class ZRActivityEduScene extends ZRActivityBase<EduScenePresenter> implem
     /**
      * 距离目标金额
      */
-    public String remainAmount = "";
+    public double remainAmount;
 
     private boolean areButtonsShowing;
-    private ViewGroup composerButtonsWrapper;
-    private View composerButtonsShowHideButtonIcon;
-    private View composerButtonsShowHideButton;
-    private Animation rotateStoryAddButtonIn;
-    private Animation rotateStoryAddButtonOut;
 
-    @OnClick({R.id.btn_left_back})
+    @OnClick({R.id.btn_left_back, R.id.view_shaow})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_left_back:
                 onBackPressed();
+                break;
+            case R.id.view_shaow:
+                toggleComposerButtons();
                 break;
         }
     }
@@ -147,7 +151,7 @@ public class ZRActivityEduScene extends ZRActivityBase<EduScenePresenter> implem
         public void onPullUpToRefresh(
                 ZRPullToRefreshBase<ZRListView> refreshView) {
             if (hasMoreData) {
-                pageIndex--;
+                pageIndex++;
                 eduScenePresenter.getGrowingRecordList4C();
             }
         }
@@ -162,7 +166,7 @@ public class ZRActivityEduScene extends ZRActivityBase<EduScenePresenter> implem
     protected void initPresenter() {
         eduScenePresenter = new EduScenePresenter(this, this);
         eduScenePresenter.init();
-        eduScenePresenter.getUserPoAssetInfo4C(poCode);
+        eduScenePresenter.getUserPoAssetInfo4C();
     }
 
     private void getExtraData() {
@@ -207,7 +211,7 @@ public class ZRActivityEduScene extends ZRActivityBase<EduScenePresenter> implem
 
         topView = LayoutInflater.from(mContext).inflate(
                 R.layout.view_scene_fund_info_header, null);
-        textTargetAmount = (TextView) topView.findViewById(R.id.text_total_amount);
+        textTotalAmount = (TextView) topView.findViewById(R.id.text_total_amount);
         textTotalProfit = (TextView) topView.findViewById(R.id.text_current_profit);
         textRemainAmount = (TextView) topView.findViewById(R.id.text_target_amount);
 
@@ -230,19 +234,17 @@ public class ZRActivityEduScene extends ZRActivityBase<EduScenePresenter> implem
         setLastUpdateTime();
         pullToRefreshListView.doPullRefreshing(true, 1000);
 
-        composerButtonsWrapper = (ViewGroup) findViewById(R.id.composer_buttons_wrapper);
-        composerButtonsShowHideButton = findViewById(R.id.composer_buttons_show_hide_button);
-        composerButtonsShowHideButtonIcon = findViewById(R.id.composer_buttons_show_hide_button_icon);
         rotateStoryAddButtonIn = AnimationUtils.loadAnimation(this,
                 R.anim.rotate_story_add_button_in);
         rotateStoryAddButtonOut = AnimationUtils.loadAnimation(this,
                 R.anim.rotate_story_add_button_out);
-        //
+        // 点击右下角菜单
         composerButtonsShowHideButton.setOnClickListener(v ->
                 toggleComposerButtons()
         );
+
         for (int i = 0; i < composerButtonsWrapper.getChildCount(); i++) {
-            View view = composerButtonsWrapper.getChildAt(i);
+            InOutImageButton view = (InOutImageButton)composerButtonsWrapper.getChildAt(i);
             view.setOnClickListener(
                     new ComposerLauncher(null, () -> {
                         switch (view.getId()) {
@@ -263,6 +265,7 @@ public class ZRActivityEduScene extends ZRActivityBase<EduScenePresenter> implem
         }
         composerButtonsShowHideButton
                 .startAnimation(new ComposerButtonGrowAnimationIn(200));
+
     }
 
     private void reshowComposer() {
@@ -275,16 +278,22 @@ public class ZRActivityEduScene extends ZRActivityBase<EduScenePresenter> implem
         if (!areButtonsShowing) {
             ComposerButtonAnimation.startAnimations(
                     this.composerButtonsWrapper, InOutAnimation.Direction.IN);
+            this.composerButtonsShowHideButtonIcon.setImageResource(R.mipmap.icon_menu_scene);
             this.composerButtonsShowHideButtonIcon
                     .startAnimation(this.rotateStoryAddButtonIn);
+            viewShaow.setVisibility(View.VISIBLE);
         } else {
             ComposerButtonAnimation.startAnimations(
                     this.composerButtonsWrapper, InOutAnimation.Direction.OUT);
+            this.composerButtonsShowHideButtonIcon.setImageResource(R.mipmap.icon_menu_scene_normal);
             this.composerButtonsShowHideButtonIcon
                     .startAnimation(this.rotateStoryAddButtonOut);
+            viewShaow.setVisibility(View.GONE);
         }
         areButtonsShowing = !areButtonsShowing;
     }
+
+
 
     private class ComposerLauncher implements View.OnClickListener {
 
@@ -351,7 +360,7 @@ public class ZRActivityEduScene extends ZRActivityBase<EduScenePresenter> implem
                 button.setAnimation(shrinkOut2);
             else {
                 // 被点击按钮放大消失
-                button.startAnimation(growOut);
+//                button.startAnimation(growOut);
             }
         }
     }
@@ -397,7 +406,7 @@ public class ZRActivityEduScene extends ZRActivityBase<EduScenePresenter> implem
             datas.addAll(growingRecord.growingRecordLists);
             if (datas.size() == 1) {
                 GrowingRecord x = growingRecord.growingRecordLists.get(0).get(0);
-                if (TextUtils.isEmpty(x.growingDesc) && x.targetDate == 0 && x.investmentAmount.equals("0")) {
+                if (TextUtils.isEmpty(x.growingDesc) && x.targetDate == 0 && x.investmentAmount.equals("")) {
                     datas.clear();
                 }
             }
@@ -406,14 +415,14 @@ public class ZRActivityEduScene extends ZRActivityBase<EduScenePresenter> implem
             onLoadComplete();
         } else if (object instanceof UserPoAssetInfo) {
             UserPoAssetInfo userPoAssetInfo = ((UserPoAssetInfo) object);
-            targetAmount = userPoAssetInfo.targetAmount;
-            totalProfit = userPoAssetInfo.totalProfit;
-            String totalAmount = userPoAssetInfo.totalAmount;
+            targetAmount = userPoAssetInfo.targetAmount;//目标资产
+            totalProfit = userPoAssetInfo.totalProfit;//当前收益
+            String totalAmount = userPoAssetInfo.totalAmount;//当前资产
             sceneId = String.valueOf(userPoAssetInfo.sceneId);
-            remainAmount = String.valueOf(Double.parseDouble(totalAmount) - Double.parseDouble(totalProfit));
-            textTargetAmount.setText(targetAmount);
-            textTotalProfit.setText(totalProfit);
-            textRemainAmount.setText(remainAmount);
+            remainAmount = Double.parseDouble(TextUtils.isEmpty(targetAmount) ? "0" : targetAmount) - Double.parseDouble(TextUtils.isEmpty(totalAmount) ? "0" : totalAmount);
+            textTotalAmount.setText(ZRUtils.getDecimalFormat(Double.parseDouble(TextUtils.isEmpty(totalAmount) ? "0" : totalAmount) / 10000) + "万元");
+            textTotalProfit.setText("¥" + totalProfit + "元");
+            textRemainAmount.setText("¥" + ZRUtils.getDecimalFormat(remainAmount / 10000));
         } else if (object instanceof UploadFile) {
             RecordGrowthDialog recordGrowthDialog = new RecordGrowthDialog(this);
             recordGrowthDialog.setImgAvatar(((UploadFile) object).filePath);
@@ -436,7 +445,9 @@ public class ZRActivityEduScene extends ZRActivityBase<EduScenePresenter> implem
     @Override
     protected void onGalleryComplete(String path) {
         super.onGalleryComplete(path);
-        eduScenePresenter.uploadImage(path);
+        if (!TextUtils.isEmpty(path)) {
+            eduScenePresenter.uploadImage(path);
+        }
     }
 
     /**
@@ -447,7 +458,9 @@ public class ZRActivityEduScene extends ZRActivityBase<EduScenePresenter> implem
     @Override
     protected void onCaptureComplete(File captureFile) {
         super.onCaptureComplete(captureFile);
-        eduScenePresenter.uploadFile(captureFile);
+        if (null != captureFile) {
+            eduScenePresenter.uploadFile(captureFile);
+        }
     }
 
     private ArrayList<String> mSelectPath = new ArrayList<String>();

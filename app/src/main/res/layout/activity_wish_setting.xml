@@ -45,7 +45,7 @@
                 android:textSize="@dimen/font_size_18"/>
         </LinearLayout>
         
-        <EditText
+        <com.zritc.colorfulfund.widget.ForbidInputEmojiEditText
             android:id="@+id/edt_edit_wish"
             android:layout_width="@dimen/width_320"
             android:layout_height="@dimen/padding_60"
@@ -55,7 +55,8 @@
             android:hint="输入你的心愿"
             android:singleLine="true"
             android:ellipsize="start"
-            android:textColor="#40666a"/>
+            android:textColor="#40666a"
+            app:maxLenth="16"/>
 
         <com.zritc.colorfulfund.widget.DraggableCircleView
             android:id="@+id/target_money"

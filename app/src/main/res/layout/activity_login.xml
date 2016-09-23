@@ -38,10 +38,9 @@
             android:layout_below="@id/img_logo"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/padding_36"
-            android:text="登录"
+            android:text="登  录"
             android:textColor="#50385b"
-            android:textSize="@dimen/font_size_24"
-            android:textStyle="bold"/>
+            android:textSize="@dimen/font_size_24"/>
 
         <EditText
             android:id="@+id/edt_user_name"
@@ -59,7 +58,7 @@
             android:maxLength="11"
             android:textColor="#50385b"
             android:textColorHint="@color/color_hint"
-            android:textSize="@dimen/font_size_17" />
+            android:textSize="@dimen/font_size_15" />
 
         <EditText
             android:id="@+id/edt_user_pass"
@@ -74,10 +73,10 @@
             android:background="@drawable/login_bg_edt"
             android:hint="@string/user_password_hint"
             android:inputType="textPassword"
-            android:maxLength="20"
+            android:maxLength="12"
             android:textColor="#50385b"
             android:textColorHint="@color/color_hint"
-            android:textSize="@dimen/font_size_17" />
+            android:textSize="@dimen/font_size_15" />
 
         <TextView
             android:id="@+id/tv_wechat_login"
@@ -85,13 +84,13 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/edt_user_pass"
             android:drawableLeft="@mipmap/weixin_icon"
-            android:drawablePadding="10dp"
+            android:drawablePadding="@dimen/padding_12"
             android:layout_centerHorizontal="true"
             android:gravity="center"
             android:layout_marginTop="@dimen/height_80"
             android:text="微信登录"
             android:textColor="#54cb00"
-            android:textSize="@dimen/font_size_16"/>
+            android:textSize="@dimen/font_size_14"/>
 
         <Button
             android:id="@+id/btn_user_login"
@@ -116,7 +115,6 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/padding_40"
             android:text="注册"
-            android:textSize="@dimen/font_size_17"
-            android:textStyle="bold"/>
+            android:textSize="@dimen/font_size_17"/>
     </RelativeLayout>
 </ScrollView>

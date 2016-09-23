@@ -45,42 +45,13 @@ public class ZRListView extends ListView {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (mMaxHeight > -1) {
-            heightMeasureSpec = MeasureSpec.makeMeasureSpec(mMaxHeight,
+//            heightMeasureSpec = MeasureSpec.makeMeasureSpec(mMaxHeight,
+//                    MeasureSpec.AT_MOST);
+            heightMeasureSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2,
                     MeasureSpec.AT_MOST);
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
-
-    // 滑动距离及坐标
-    private float xDistance, yDistance, xLast, yLast;
-
-    // @Override
-    // public boolean onInterceptTouchEvent(MotionEvent ev) {
-    // switch (ev.getAction()) {
-    // case MotionEvent.ACTION_DOWN:
-    // xDistance = yDistance = 0f;
-    // xLast = ev.getX();
-    // yLast = ev.getY();
-    // break;
-    // case MotionEvent.ACTION_CANCEL:
-    // break;
-    // case MotionEvent.ACTION_MOVE:
-    // final float curX = ev.getX();
-    // final float curY = ev.getY();
-    //
-    // xDistance += Math.abs(curX - xLast);
-    // yDistance += Math.abs(curY - yLast);
-    // xLast = curX;
-    // yLast = curY;
-    //
-    // if (xDistance - yDistance < 0) {
-    // Log.d(">>>>>>>>>><<<<<<", (xDistance - yDistance) + "");
-    // return true;
-    // }
-    // }
-    //
-    // return super.onInterceptTouchEvent(ev);
-    // }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {

@@ -2,6 +2,7 @@ package com.zritc.colorfulfund.activity.wish;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -71,8 +72,13 @@ public class ZRActivityCreateWish extends ZRActivityBase<CreateWishPresenter> im
         gvCreateWish.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(mContext, ZRActivityWishSettingOne.class);
+                Intent intent = new Intent(mContext, ZRActivityWishSetting.class);
+                datas.get(position).imgUrl = presenter.imgToSettingUrls.get(position);
                 intent.putExtra("wish", datas.get(position));
+                Bundle bundle = getIntent().getExtras();
+                if (null != bundle) {
+                    intent.putExtras(bundle);
+                }
                 startActivityForResult(intent, REQUEST_CODE_CREATEWISH);
             }
         });

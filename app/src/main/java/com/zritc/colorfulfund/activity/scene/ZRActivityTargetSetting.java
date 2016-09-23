@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -97,7 +98,9 @@ public class ZRActivityTargetSetting extends ZRActivityBase<TargetSettingPresent
 
         RxView.clicks(btnNext).throttleFirst(1, TimeUnit.SECONDS)
                 .subscribe(aVoid -> {
-                    targetSettingPresenter.createUserInvestmentPlan4Edu(poCode, String.valueOf(targetDate), String.valueOf(targetAmount), String.valueOf(initialAmount));
+                    String middleValue = circleTargetDate.getMiddleValue().replace(".", "");
+                    middleValue += ZRUtils.getCurrentDay();
+                    targetSettingPresenter.createUserInvestmentPlan4Edu(poCode, middleValue, String.valueOf(targetAmount), String.valueOf(initialAmount));
                 });
 
         circleTargetMoney.newBuilder()
@@ -186,6 +189,8 @@ public class ZRActivityTargetSetting extends ZRActivityBase<TargetSettingPresent
                 cal();
             }
         });
+
+        editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
     }
 
     private void cal() {
@@ -221,6 +226,7 @@ public class ZRActivityTargetSetting extends ZRActivityBase<TargetSettingPresent
                 x = Double.valueOf(userPoAssetInfo.expectedYearlyRoe);
         } else if (object instanceof CreateUserInvestmentPlan4Edu) {
             Intent intent = new Intent();
+            intent.putExtra("poCode", "ZH000484");
             intent.setClass(this, ZRActivityFundGroupDetail.class);
             startActivityForResult(intent, REQUEST_CODE_TARGET_SET);
         }
